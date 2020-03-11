@@ -1,0 +1,56 @@
+function [bodySegMass] = calcBodySegMass(kgMass)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Calculates totalMass of each body segment based on users totalMass
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Upper torso segMass by totalMass of body
+bodySegMass.headMass = 0.0810*kgMass;
+shoulderMass = 0.0158*kgMass;
+bodySegMass.shoulderMass = shoulderMass;
+
+%trunkMass calculation
+chestMass = 0.2160*kgMass; %thoraxMass
+bodySegMass.thoraxMass = chestMass;
+abdomenMass = 0.1390*kgMass;
+bodySegMass.abdomenMass = abdomenMass;
+hipMass = 0.1420*kgMass; %pelvisMass
+bodySegMass.pelvisMass = hipMass; %pelvisMass
+trunkMass = 0.4970*kgMass;
+bodySegMass.trunkMass = trunkMass;
+
+if trunkMass ~= chestMass+abdomenMass+hipMass
+    warning('TrunkMass needs rechecking!');
+end
+
+assert(trunkMass == chestMass+abdomenMass+hipMass, 'TrunkMass needs rechecking!')
+
+%% Upper extremity segMass by total Mass of body
+handMass = 0.0060*kgMass;
+bodySegMass.handMass = handMass;
+forearmMass = 0.0160*kgMass;
+bodySegMass.forearmMass = forearmMass;
+upperArmMass = 0.0280*kgMass;
+bodySegMass.upperArmMass = upperArmMass;
+upperExtremityMass = 0.0500*kgMass;
+bodySegMass.upperExtremityMass = upperExtremityMass;
+
+if upperExtremityMass ~= handMass+forearmMass+upperArmMass
+    disp('UpperExtremityMass needs rechecking!');
+end
+
+%% Lower extremity segMass by total Mass of body
+footMass = 0.0145;
+bodySegMass.footMass = footMass;
+legMass = 0.0465;
+bodySegMass.legMass = legMass;
+thighMass = 0.1000;
+bodySegMass.thighMass = thighMass;
+lowerExtremityMass = 0.1610;
+bodySegMass.lowerExtremityMass = lowerExtremityMass;
+
+if lowerExtremityMass ~= footMass+legMass+thighMass
+    disp('LowerExtremityMass needs rechecking!');
+end
+
+end
+
