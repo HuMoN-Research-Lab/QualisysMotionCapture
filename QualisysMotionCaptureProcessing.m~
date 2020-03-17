@@ -62,13 +62,15 @@ kgMass = lbs2kg(lbsWeight);
 [comXYZ] = calcCOM(segCenters,bodySegMass); %markerLabels)
 
 %% bodySegAngle function 
-% WORK NEEDS TO BE DONE
 %Function outputs respective angle between body seg in 2D
-%[bodySegAngleStruct] = bodySegAngle(segCenters);
+[bodySegAngleStruct] = bodySegAngle(segCenters);
 % [thetaL21,thetaR21,thetaL43,thetaR43,thetaLKnee,thetaRKnee]...
 %     = bodySegAngle(LThighXYZ,RThighXYZ,LLegXYZ,RLegXYZ...
 %     LFootXYZ,RFootXYZ);
 
+
+% %BOOKMARK FOR CODE
+x = 1;
 %% Acquire force data for each force plate with butterworth filter
 % %currently unoperational due to clipping of data
 
@@ -129,11 +131,10 @@ end
 %hipIDs were acquired using the markerLabels
 
 %Velocity of hips
-%CODE CURRENTLY CAUSING AN ERROR
-%hipsVel =  [0 0 0; diff(segCenters.hipsCenter_mar_dim_frame)];
+hipsVel =  [0 0 0; diff(segCenters.hipsXYZ)];
 
 %calculates acceleration of hips
-%hipsAcc = [0 0 0; diff(hipsVel)];
+hipsAcc = [0 0 0; diff(hipsVel)];
 
 
 %% Motion capture data plot
@@ -152,7 +153,7 @@ for fr = 1:10:numFrames
     numRows = 2;
     numCols = 3;
     
-    subplot(numRows, numCols, 1:3)
+    %subplot(numRows, numCols, 1:3)
     
     %column 1(x), 2(y), 3(z)
     plot3(marker_mar_dim_frame(:, 1, fr),...
@@ -172,42 +173,42 @@ for fr = 1:10:numFrames
 %         marker_mar_dim_frame(thighIDs, 3, fr),'mo','MarkerFaceColor','m','MarkerSize',3)
 %     
     %% COM for the all body components in 3D
-%     %Head Markers
-%     plot3(segCenters.headXYZ(fr,1), segCenters.headXYZ(fr,2), segCenters.headXYZ(fr,3),'p','DisplayName','HeadXYZ')%'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     
-%     %Shoulder Markers
-%     plot3(segCenters.LShoulderXYZ(fr,1), segCenters.LShoulderXYZ(fr,2), segCenters.LShoulderXYZ(fr,3),'p','DisplayName','LShoulder')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)    
-%     plot3(segCenters.RShoulderXYZ(fr,1), segCenters.RShoulderXYZ(fr,2), segCenters.RShoulderXYZ(fr,3),'p','DisplayName','RShoulder')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     
-%     %Arm Markers
-%     plot3(segCenters.LUpperArmXYZ(fr,1), segCenters.LUpperArmXYZ(fr,2), segCenters.LUpperArmXYZ(fr,3),'p','DisplayName','LUpperArm') %,'kp','MarkerFaceColor','m', 'MarkerSize',12)    
-%     plot3(segCenters.RUpperArmXYZ(fr,1), segCenters.RUpperArmXYZ(fr,2), segCenters.RUpperArmXYZ(fr,3),'p','DisplayName','RUpperArm')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     
-%     %Forearm Markers
-%     plot3(segCenters.LForearmXYZ(fr,1), segCenters.LForearmXYZ(fr,2), segCenters.LForearmXYZ(fr,3),'p','DisplayName','LForearm')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     plot3(segCenters.RForearmXYZ(fr,1), segCenters.RForearmXYZ(fr,2), segCenters.RForearmXYZ(fr,3),'p','DisplayName','RForearm')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-% 
-%     %Hand Markers
-%     plot3(segCenters.LHandXYZ(fr,1), segCenters.LHandXYZ(fr,2), segCenters.LHandXYZ(fr,3),'p','DisplayName','LHand')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     plot3(segCenters.RHandXYZ(fr,1), segCenters.RHandXYZ(fr,2), segCenters.RHandXYZ(fr,3),'p','DisplayName','RHand')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     
-%     %Hip Markers
-%     plot3(segCenters.hipsXYZ(fr,1), segCenters.hipsXYZ(fr,2), segCenters.hipsXYZ(fr,3),'p','DisplayName','Hips')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     
-%     %Thigh Markers
-%     plot3(segCenters.LThighXYZ(fr,1), segCenters.LThighXYZ(fr,2), segCenters.LThighXYZ(fr,3),'p','DisplayName','LThigh')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     plot3(segCenters.RThighXYZ(fr,1), segCenters.RThighXYZ(fr,2), segCenters.RThighXYZ(fr,3),'p','DisplayName','RThigh')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-% 
-%     %Leg Markers
-%     plot3(segCenters.LLegXYZ(fr,1), segCenters.LLegXYZ(fr,2), segCenters.LLegXYZ(fr,3),'p','DisplayName','LLeg')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     plot3(segCenters.RLegXYZ(fr,1), segCenters.RLegXYZ(fr,2), segCenters.RLegXYZ(fr,3),'p','DisplayName','RLeg')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     
-%     %Foot Markers
-%     plot3(segCenters.LFootXYZ(fr,1), segCenters.LFootXYZ(fr,2), segCenters.LFootXYZ(fr,3),'p','DisplayName','LFoot')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)   
-%     plot3(segCenters.RFootXYZ(fr,1), segCenters.RFootXYZ(fr,2), segCenters.RFootXYZ(fr,3),'p','DisplayName','RFoot')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     
+    %Head Markers
+    plot3(segCenters.headXYZ(fr,1), segCenters.headXYZ(fr,2), segCenters.headXYZ(fr,3),'p','DisplayName','HeadXYZ')%'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    
+    %Shoulder Markers
+    plot3(segCenters.LShoulderXYZ(fr,1), segCenters.LShoulderXYZ(fr,2), segCenters.LShoulderXYZ(fr,3),'p','DisplayName','LShoulder')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)    
+    plot3(segCenters.RShoulderXYZ(fr,1), segCenters.RShoulderXYZ(fr,2), segCenters.RShoulderXYZ(fr,3),'p','DisplayName','RShoulder')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    
+    %Arm Markers
+    plot3(segCenters.LUpperArmXYZ(fr,1), segCenters.LUpperArmXYZ(fr,2), segCenters.LUpperArmXYZ(fr,3),'p','DisplayName','LUpperArm') %,'kp','MarkerFaceColor','m', 'MarkerSize',12)    
+    plot3(segCenters.RUpperArmXYZ(fr,1), segCenters.RUpperArmXYZ(fr,2), segCenters.RUpperArmXYZ(fr,3),'p','DisplayName','RUpperArm')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    
+    %Forearm Markers
+    plot3(segCenters.LForearmXYZ(fr,1), segCenters.LForearmXYZ(fr,2), segCenters.LForearmXYZ(fr,3),'p','DisplayName','LForearm')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    plot3(segCenters.RForearmXYZ(fr,1), segCenters.RForearmXYZ(fr,2), segCenters.RForearmXYZ(fr,3),'p','DisplayName','RForearm')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+
+    %Hand Markers
+    plot3(segCenters.LHandXYZ(fr,1), segCenters.LHandXYZ(fr,2), segCenters.LHandXYZ(fr,3),'p','DisplayName','LHand')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    plot3(segCenters.RHandXYZ(fr,1), segCenters.RHandXYZ(fr,2), segCenters.RHandXYZ(fr,3),'p','DisplayName','RHand')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    
+    %Hip Markers
+    plot3(segCenters.hipsXYZ(fr,1), segCenters.hipsXYZ(fr,2), segCenters.hipsXYZ(fr,3),'p','DisplayName','Hips')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    
+    %Thigh Markers
+    plot3(segCenters.LThighXYZ(fr,1), segCenters.LThighXYZ(fr,2), segCenters.LThighXYZ(fr,3),'p','DisplayName','LThigh')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    plot3(segCenters.RThighXYZ(fr,1), segCenters.RThighXYZ(fr,2), segCenters.RThighXYZ(fr,3),'p','DisplayName','RThigh')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+
+    %Leg Markers
+    plot3(segCenters.LLegXYZ(fr,1), segCenters.LLegXYZ(fr,2), segCenters.LLegXYZ(fr,3),'p','DisplayName','LLeg')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    plot3(segCenters.RLegXYZ(fr,1), segCenters.RLegXYZ(fr,2), segCenters.RLegXYZ(fr,3),'p','DisplayName','RLeg')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    
+    %Foot Markers
+    plot3(segCenters.LFootXYZ(fr,1), segCenters.LFootXYZ(fr,2), segCenters.LFootXYZ(fr,3),'p','DisplayName','LFoot')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)   
+    plot3(segCenters.RFootXYZ(fr,1), segCenters.RFootXYZ(fr,2), segCenters.RFootXYZ(fr,3),'p','DisplayName','RFoot')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    
     %Total Body Markers
-    plot3(comXYZ.totalCOMXYZ(fr,1), comXYZ.totalCOMXYZ(fr,2), comXYZ.totalCOMXYZ(fr,3),'ro','DisplayName','TotalXYZ')%'kp','MarkerFaceColor','ro', 'MarkerSize',12)
+    plot3(segCenters.totalXYZ(fr,1), segCenters.totalXYZ(fr,2), segCenters.totalXYZ(fr,3),'ro','DisplayName','TotalXYZ')%'kp','MarkerFaceColor','ro', 'MarkerSize',12)
     
 %     velScale = 10;
 %     %quiver - for components x,y,z of the hip, the velocity vector arrows

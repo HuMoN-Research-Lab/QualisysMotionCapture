@@ -1,4 +1,4 @@
-function [segCenters] = calcSegXYZ(marker_mar_dim_frame, markerLabels)
+function [segCenters] = calcSegCenters(marker_mar_dim_frame) %markerLabels)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %SegXYZPosition function outputs XYZ position for body segments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -8,26 +8,17 @@ function [segCenters] = calcSegXYZ(marker_mar_dim_frame, markerLabels)
 
 % if markerLabels{1} == ('HeadL');
 %     headL = data.
+%Start of segXYZ struct
 
-% headL_xyz = squeeze(markers_fr_mar_dim(:,~cellfun(@isempty, strfind(markerLabels,'HeadL')),:));
-% headTop_xyz = squeeze(markers_fr_mar_dim(:,~cellfun(@isempty, strfind(markerLabels,'HeadTop')),:));
-% headR_xyz = squeeze(markers_fr_mar_dim(:,~cellfun(@isempty, strfind(markerLabels,'HeadR')),:));
-% headFront_xyz = squeeze(markers_fr_mar_dim(:,~cellfun(@isempty, strfind(markerLabels,'HeadFront')),:));
-
-
+segCenters= [];
 
 headA = 1;
 headB = 4;
 headIDs = headA:headB;
 
-%headXYZ acquisition
-headXYZ =  squeeze(marker_mar_dim_frame(headIDs, 1:3, :));
-%segWeight2bodyWeight = bodySegWeight.handWeight * headXYZ;
+%headCenters acquisition
+segCenters.headCenters_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(headIDs, 1:3, :)));
 
-
-%Start of segXYZ struct
-segCOMs= [];
-segCenters.headXYZ = headXYZ;
 
 %% XYZ shoulder positions
 %LShoulder initial position
@@ -35,18 +26,16 @@ LShoulderA = 5;
 LShoulderB = 6;
 LShoulderIDs = LShoulderA:LShoulderB;
 
-%LShoulderXYZ calculation
-LShoulderXYZ =  marker_mar_dim_frame(LShoulderIDs, 1:3, :);
-segCenters.LShoulder_mar_dim_frame = LShoulderXYZ;
+%LShoulderCenter calculation
+segCenters.LShoulderCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(LShoulderIDs, 1:3, :)));
 
 %RShoulder initial position
 RShoulderA = 12;
 RShoulderB = 13;
 RShoulderIDs = RShoulderA:RShoulderB;
 
-%RShoulderXYZ calculation
-RShoulderXYZ =  squeeze(XYZ(marker_mar_dim_frame(RShoulderIDs, 1:3, :),1))';
-segCenters.RShoulderXYZ = RShoulderXYZ;
+%RShoulderCenter calculation
+segCenters.RShoulderCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(RShoulderIDs, 1:3, :)));
 
 %% XYZ chest positions
 %Chest initial conditions
@@ -55,9 +44,8 @@ chestB = 21;
 chestC = 22;
 chestIDs = [chestA chestB chestC];
 
-%LArmXYZ calculation
-chestXYZ =  squeeze(XYZ(marker_mar_dim_frame(chestIDs, 1:3, :),1))';
-segCenters.chestXYZ = chestXYZ; 
+%ChestCenter calculation
+segCenters.chestCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(chestIDs, 1:3, :)));
 
 %% XYZ upper arm positions
 %LArm initial conditions
@@ -66,8 +54,7 @@ LUpperArmB = 8;
 LUpperArmIDs = LUpperArmA:LUpperArmB;
 
 %LArmXYZ calculation
-LUpperArmXYZ =  squeeze(XYZ(marker_mar_dim_frame(LUpperArmIDs, 1:3, :),1))';
-segCenters.LUpperArmXYZ = LUpperArmXYZ; 
+segCenters.LUpperArmCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(LUpperArmIDs, 1:3, :)));
 
 %RArm initial conditions
 RUpperArmA = 14;
@@ -75,8 +62,7 @@ RUpperArmB = 15;
 RUpperArmIDs = RUpperArmA:RUpperArmB;
 
 %RArmXYZ calculation
-RUpperArmXYZ =  squeeze(XYZ(marker_mar_dim_frame(RUpperArmIDs, 1:3, :),1))';
-segCenters.RUpperArmXYZ = RUpperArmXYZ;
+segCenters.RUpperArmCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(RUpperArmIDs, 1:3, :)));
 
 %% XYZ forearm positions
 %LForearm initial conditions
@@ -85,8 +71,7 @@ LForearmB = 10;
 LForearmIDs = LForearmA:LForearmB;
 
 %LForearmXYZ calculation
-LForearmXYZ =  squeeze(XYZ(marker_mar_dim_frame(LForearmIDs, 1:3, :),1))';
-segCenters.LForearmXYZ = LForearmXYZ;
+segCenters.LForearmCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(LForearmIDs, 1:3, :)));
 
 %RForearm initial conditions
 RForearmA = 15;
@@ -94,8 +79,7 @@ RForearmB = 17;
 RForearmIDs = RForearmA:RForearmB;
 
 %RForearmXYZ calculation
-RForearmXYZ =  squeeze(XYZ(marker_mar_dim_frame(RForearmIDs, 1:3, :),1))';
-segCenters.RForearmXYZ = RForearmXYZ;
+segCenters.RForearmCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(RForearmIDs, 1:3, :)));
 
 %% XYZ hand positions
 %LHand initial conditions
@@ -104,8 +88,7 @@ LHandB = 11;
 LHandIDs = LHandA:LHandB;
 
 %LHandXYZ calculation
-LHandXYZ =  squeeze(XYZ(marker_mar_dim_frame(LHandIDs, 1:3, :),1))';
-segCenters.LHandXYZ = LHandXYZ;
+segCenters.LHandCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(LHandIDs, 1:3, :)));
 
 %RHand initial conditions
 RHandA = 16;
@@ -113,8 +96,7 @@ RHandB = 18;
 RHandIDs = RHandA:RHandB;
 
 %RHandXYZ calculation
-RHandXYZ =  squeeze(XYZ(marker_mar_dim_frame(RHandIDs, 1:3, :),1))';
-segCenters.RHandXYZ = RHandXYZ;
+segCenters.RHandCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(RHandIDs, 1:3, :)));
 
 %% XYZ hip positions
 %hip initial conditions
@@ -123,8 +105,7 @@ hipB = 26;
 hipsIDs = hipA:hipB;
 
 %hipsXYZ calculation
-hipsXYZ =  squeeze(XYZ(marker_mar_dim_frame(hipsIDs, 1:3, :),1))';
-segCenters.hipsXYZ = hipsXYZ;
+segCenters.hipsCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(hipsIDs, 1:3, :)));
 
 %% XYZ thigh calculations 
 %LThigh initial conditions
@@ -133,8 +114,8 @@ LThighB = 28;
 LThighIDs = [LThighA LThighB];
 
 %LThighXYZ calculation
-LThighXYZ =  squeeze(XYZ(marker_mar_dim_frame(LThighIDs, 1:3, :),1))';
-segCenters.LThighXYZ = LThighXYZ;
+segCenters.LThighCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(LThighIDs, 1:3, :)));
+
 
 %RThigh initial conditions
 RThighA = 35;
@@ -142,8 +123,7 @@ RThighB = 36;
 RThighIDs = [RThighA RThighB];
 
 %RThighXYZ calculation
-RThighXYZ =  squeeze(XYZ(marker_mar_dim_frame(RThighIDs, 1:3, :),1))';
-segCenters.RThighXYZ = RThighXYZ;
+segCenters.RThighCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(RThighIDs, 1:3, :)));
 
 %% XYZ leg calculations
 %LLeg initial conditions
@@ -152,8 +132,7 @@ LLegB = 30;
 LLegIDs = [LLegA LLegB];
 
 %LLegXYZ calculations
-LLegXYZ =  squeeze(XYZ(marker_mar_dim_frame(LLegIDs, 1:3, :),1))';
-segCenters.LLegXYZ = LLegXYZ;
+segCenters.LLegCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(LLegIDs, 1:3, :)));
 
 %RLeg initial conditions
 RLegA = 36;
@@ -161,8 +140,7 @@ RLegB = 38;
 RLegIDs = [RLegA RLegB];
 
 %RLegXYZ calculations
-RLegXYZ =  squeeze(XYZ(marker_mar_dim_frame(RLegIDs, 1:3, :),1))';
-segCenters.RLegXYZ = RLegXYZ;
+segCenters.RLegCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(RLegIDs, 1:3, :)));
 
 %% XYZ foot calculations
 %LFoot initial conditions
@@ -171,8 +149,7 @@ LFootB = 34;
 LFootIDs = LFootA:LFootB;
 
 %LFootXYZ calculation
-LFootXYZ =  squeeze(XYZ(marker_mar_dim_frame(LFootIDs, 1:3, :),1))';
-segCenters.LFootXYZ = LFootXYZ;
+segCenters.LFootCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(LFootIDs, 1:3, :)));
 
 %RFoot initial conditions
 RFootA = 38;
@@ -180,8 +157,7 @@ RFootB = 42;
 RFootIDs = RFootA:RFootB;
 
 %RFootXYZ calculation
-RFootXYZ =  squeeze(XYZ(marker_mar_dim_frame(RFootIDs, 1:3, :),1))';
-segCenters.RFootXYZ = RFootXYZ;
+segCenters.RFootCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(RFootIDs, 1:3, :)));
 
 end
 

@@ -1,63 +1,59 @@
-function [comXYZ] = calcCOM(segXYZ,bodySegWeight) %markerLabels)
+function [comXYZ] = calcCOM(segCenters,bodySegMass) %markerLabels)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %SegXYZPosition function outputs XYZ position for body segments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Head Seg
-headCOM = bodySegWeight.headWeight .* segXYZ.headXYZ;
 comXYZ = [];
-comXYZ.headCOM = headCOM;
+comXYZ.headCOM = bodySegMass.headMass .* segCenters.headCenters_mar_dim_frame;
 
 %% Shoulder Seg
-LShoulderCOM = bodySegWeight.shoulderWeight .* segXYZ.LShoulderXYZ;
-comXYZ.LShoulderCOM = LShoulderCOM;
+comXYZ.LShoulderCOM = bodySegMass.shoulderMass .* segCenters.LShoulderCenter_mar_dim_frame;
 
-RShoulderCOM = bodySegWeight.shoulderWeight .* segXYZ.RShoulderXYZ;
-comXYZ.RShoulderCOM = RShoulderCOM;
+comXYZ.RShoulderCOM = bodySegMass.shoulderMass .* segCenters.RShoulderCenter_mar_dim_frame;
 
 %% Chest Seg
-chestCOM = bodySegWeight.chestWeight .* segXYZ.chestXYZ;
-comXYZ.chestCOM = chestCOM;
+comXYZ.chestCOM = bodySegMass.chestMass .* segCenters.chestCenter_mar_dim_frame;
 
 %% UpperArm Seg
-LUpperArmCOM = bodySegWeight.upperArmWeight .* segXYZ.LUpperArmXYZ;
-comXYZ.LUpperArmCOM = LUpperArmCOM;
+comXYZ.LUpperArmCOM = bodySegMass.upperArmMass .* segCenters.LUpperArmCenter_mar_dim_frame;
 
-RUpperArmCOM = bodySegWeight.upperArmWeight .* segXYZ.RUpperArmXYZ;
-comXYZ.RUpperArmCOM = RUpperArmCOM;
+comXYZ.RUpperArmCOM = bodySegMass.upperArmMass .* segCenters.RUpperArmCenter_mar_dim_frame;
 
 %% Forearm Seg
-LForearmCOM = bodySegWeight.forearmWeight .* segXYZ.LForearmXYZ;
-comXYZ.LForearmCOM = LForearmCOM;
+comXYZ.LForearmCOM = bodySegMass.forearmMass .* segCenters.LForearmCenter_mar_dim_frame;
 
-RForearmCOM = bodySegWeight.forearmWeight .* segXYZ.RForearmXYZ;
-comXYZ.RForearmCOM = RForearmCOM;
+comXYZ.RForearmCOM = bodySegMass.forearmMass .* segCenters.RForearmCenter_mar_dim_frame;
 
 %% Hand Seg
-LHandCOM = bodySegWeight.handWeight .* segXYZ.LHandXYZ;
-comXYZ.LHandCOM = LHandCOM;
+comXYZ.LHandCOM = bodySegMass.handMass .* segCenters.LHandCenter_mar_dim_frame;
 
-RHandCOM = bodySegWeight.handWeight .* segXYZ.RHandXYZ;
-comXYZ.RHandCOM = RHandCOM;
+comXYZ.RHandCOM = bodySegMass.handMass .* segCenters.RHandCenter_mar_dim_frame;
 
 %% Hip Seg
-hipCOM = bodySegWeight.hipWeight .* segXYZ.hipXYZ;
-comXYZ.hipCOM = hipCOM;
+comXYZ.hipsCOM = bodySegMass.hipMass .* segCenters.hipsCenter_mar_dim_frame;
 
 %% Thigh Seg
-LThighCOM = bodySegWeight.thighWeight .* segCOMs.LThighXYZ;
-comXYZ.LThighCOM = LThighCOM;
+comXYZ.LThighCOM = bodySegMass.thighMass .* segCenters.LThighCenter_mar_dim_frame;
 
-RThighCOM = bodySegWeight.thighWeight .* segXYZ.RThighXYZ;
-comXYZ.RThighCOM = RThighCOM;
+comXYZ.RThighCOM = bodySegMass.thighMass .* segCenters.RThighCenter_mar_dim_frame;
 
-%% Total XYZ for Body
-comTotalXYZ = (headXYZ + LShoulderXYZ + RShoulderXYZ + LUpperArmXYZ...
-    + RUpperArmXYZ + LForearmXYZ + RForearmXYZ + LHandXYZ +...
-    RHandXYZ + hipsXYZ + LThighXYZ + RThighXYZ +...
-    LLegXYZ + RLegXYZ + LFootXYZ + RFootXYZ)/16;
-% totalXYZ = + LFootXYZ + RFootXYZ;
-segXYZ.totalXYZ = comTotalXYZ;
+%% Leg Seg
+comXYZ.LLegCOM = bodySegMass.legMass .* segCenters.LLegCenter_mar_dim_frame;
 
+comXYZ.RLegCOM = bodySegMass.legMass .* segCenters.RLegCenter_mar_dim_frame;
 
+%% Foot Seg
+comXYZ.LFootCOM = bodySegMass.footMass .* segCenters.LFootCenter_mar_dim_frame;
+
+comXYZ.RFootCOM = bodySegMass.footMass .* segCenters.RFootCenter_mar_dim_frame;
+
+%% Total Center_mar_dim_frame for Body
+comXYZ.totalCOMXYZ = (comXYZ.headCOM + comXYZ.LShoulderCOM + comXYZ.RShoulderCOM...
+    + comXYZ.chestCOM + comXYZ.LUpperArmCOM + comXYZ.RUpperArmCOM...
+    + comXYZ.LForearmCOM + comXYZ.RForearmCOM + comXYZ.LHandCOM ...
+    + comXYZ.RHandCOM + comXYZ.hipsCOM + comXYZ.LThighCOM + comXYZ.RThighCOM...
+    + comXYZ.LLegCOM + comXYZ.RLegCOM + comXYZ.LFootCOM + comXYZ.RFootCOM);
+
+end
 
 

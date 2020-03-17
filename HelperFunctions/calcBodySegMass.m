@@ -4,53 +4,53 @@ function [bodySegMass] = calcBodySegMass(kgMass)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Upper torso segMass by totalMass of body
-bodySegMass.headMass = 0.0810*kgMass;
-shoulderMass = 0.0158*kgMass;
-bodySegMass.shoulderMass = shoulderMass;
+bodySegMass = [];
+bodySegMass.headMass =              0.0810*kgMass;
+bodySegMass.shoulderMass =          0.0158*kgMass;
 
 %trunkMass calculation
-chestMass = 0.2160*kgMass; %thoraxMass
-bodySegMass.thoraxMass = chestMass;
-abdomenMass = 0.1390*kgMass;
-bodySegMass.abdomenMass = abdomenMass;
-hipMass = 0.1420*kgMass; %pelvisMass
-bodySegMass.pelvisMass = hipMass; %pelvisMass
-trunkMass = 0.4970*kgMass;
-bodySegMass.trunkMass = trunkMass;
+bodySegMass.chestMass =             0.2160*kgMass; %thoraxMass
+bodySegMass.abdomenMass =           0.1390*kgMass;
+bodySegMass.hipMass =               0.1420*kgMass; %pelvisMass
+bodySegMass.trunkMass =             0.4970*kgMass;
 
-if trunkMass ~= chestMass+abdomenMass+hipMass
-    disp('TrunkMass needs rechecking!');
-end
+assert(bodySegMass.trunkMass == bodySegMass.chestMass...
+    + bodySegMass.abdomenMass + bodySegMass.hipMass, 'TrunkMass needs rechecking!')
 
-assert(trunkMass == chestMass+abdomenMass+hipMass, 'TrunkMass needs rechecking!')
+%%Old Code
+% if trunkMass ~= chestMass+abdomenMass+hipMass
+%     disp('TrunkMass needs rechecking!');
+% end
 
 %% Upper extremity segMass by total Mass of body
-handMass = 0.0060*kgMass;
-bodySegMass.handMass = handMass;
-forearmMass = 0.0160*kgMass;
-bodySegMass.forearmMass = forearmMass;
-upperArmMass = 0.0280*kgMass;
-bodySegMass.upperArmMass = upperArmMass;
-upperExtremityMass = 0.0500*kgMass;
-bodySegMass.upperExtremityMass = upperExtremityMass;
+bodySegMass.handMass =              0.0060*kgMass;
+bodySegMass.forearmMass =           0.0160*kgMass;
+bodySegMass.upperArmMass =          0.0280*kgMass;
+bodySegMass.upperExtremityMass =    0.0500*kgMass;
 
-if upperExtremityMass ~= handMass+forearmMass+upperArmMass
-    disp('UpperExtremityMass needs rechecking!');
-end
+assert(bodySegMass.upperExtremityMass == bodySegMass.handMass...
+    + bodySegMass.forearmMass + bodySegMass.upperArmMass, 'UpperExtremityMass needs rechecking!')
+
+%%Old Code
+% if upperExtremityMass ~= handMass+forearmMass+upperArmMass
+%     disp('UpperExtremityMass needs rechecking!');
+% end
+
 
 %% Lower extremity segMass by total Mass of body
-footMass = 0.0145;
-bodySegMass.footMass = footMass;
-legMass = 0.0465;
-bodySegMass.legMass = legMass;
-thighMass = 0.1000;
-bodySegMass.thighMass = thighMass;
-lowerExtremityMass = 0.1610;
-bodySegMass.lowerExtremityMass = lowerExtremityMass;
+bodySegMass.footMass =              0.0145*kgMass;
+bodySegMass.legMass =               0.0465*kgMass;
+bodySegMass.thighMass =             0.1000*kgMass;
+bodySegMass.lowerExtremityMass =    0.1610*kgMass;
 
-if lowerExtremityMass ~= footMass+legMass+thighMass
-    disp('LowerExtremityMass needs rechecking!');
-end
+% assert(bodySegMass.lowerExtremityMass == bodySegMass.footMass...
+%     + bodySegMass.legMass + bodySegMass.thighMass, 'LowerExtremityMass needs rechecking!')
+
+%%Old Code
+% if lowerExtremityMass ~= footMass+legMass+thighMass
+%     disp('LowerExtremityMass needs rechecking!');
+% end
+
 
 end
 
