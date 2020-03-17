@@ -34,7 +34,8 @@ marker_mar_dim_frame = marker_mar_dim_frameRAW;
 %% Initial conditions for test subject
 %bodyMass should be in kg and height in metric units (mm)
 %input test subjects height
-cmHeight = 177.8; %(cm)
+mmHeight = 1778; %(mm)
+
 lbsWeight = 160; %(lbs weight)
 
 %Initial condition functions draft
@@ -48,7 +49,7 @@ kgMass = lbs2kg(lbsWeight);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% bodySegLength function
 % Function outputs length for individual body segs
-[bodySegLength] = calcBodySegLength(cmHeight);
+[bodySegLength] = calcBodySegLength(mmHeight);
 
 %% bodySegMass function Calculation
 % Function outputs mass for individual body segs
@@ -56,10 +57,11 @@ kgMass = lbs2kg(lbsWeight);
 
 %% segXYZPosition function 
 % Function outputs XYZ position of x, y, z coordinates of body segs
-[segCenters] = calcSegCenters(marker_mar_dim_frame); %, markerLabels);
+[markerXYZ] = getMarker(marker_mar_dim_frame,markerLabels);
+[segCenter] = calcSegCenter(marker_mar_dim_frame,markerXYZ); %, markerLabels);
 
 %% COM of seg
-[comXYZ] = calcCOM(segCenters,bodySegMass); %markerLabels)
+[totalCOMXYZ] = calcCOM(segCenter,bodySegMass); %markerLabels)
 
 %% bodySegAngle function 
 % WORK NEEDS TO BE DONE
@@ -207,7 +209,7 @@ for fr = 1:10:numFrames
 %     plot3(segCenters.RFootXYZ(fr,1), segCenters.RFootXYZ(fr,2), segCenters.RFootXYZ(fr,3),'p','DisplayName','RFoot')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
 %     
     %Total Body Markers
-    plot3(comXYZ.totalCOMXYZ(fr,1), comXYZ.totalCOMXYZ(fr,2), comXYZ.totalCOMXYZ(fr,3),'ro','DisplayName','TotalXYZ')%'kp','MarkerFaceColor','ro', 'MarkerSize',12)
+    plot3(comXYZ.totalCOMXYZ(1,fr), comXYZ.totalCOMXYZ(2,fr), comXYZ.totalCOMXYZ(3,fr),'ro','DisplayName','TotalXYZ')%'kp','MarkerFaceColor','ro', 'MarkerSize',12)
     
 %     velScale = 10;
 %     %quiver - for components x,y,z of the hip, the velocity vector arrows

@@ -1,58 +1,52 @@
-function [comXYZ] = calcCOM(segCenters,bodySegMass) %markerLabels)
+function [totalCOMXYZ] = calcCOM(segCenter,bodySegMass) %markerLabels)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%SegXYZPosition function outputs XYZ position for body segments
+%calcCOM individual seg contribution to totalCOM
+%facilitates plotting totalCOMXYZ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Head Seg
-comXYZ = [];
-comXYZ.headCOM = bodySegMass.headMass .* segCenters.headCenters_mar_dim_frame;
+%% Remove struct
+headCOM =        bodySegMass.headMass .* segCenter.headCenters_mar_dim_frame;
 
 %% Shoulder Seg
-comXYZ.LShoulderCOM = bodySegMass.shoulderMass .* segCenters.LShoulderCenter_mar_dim_frame;
-
-comXYZ.RShoulderCOM = bodySegMass.shoulderMass .* segCenters.RShoulderCenter_mar_dim_frame;
+LShoulderCOM =   bodySegMass.shoulderMass .* segCenter.LShoulderCenter_mar_dim_frame;
+RShoulderCOM =   bodySegMass.shoulderMass .* segCenter.RShoulderCenter_mar_dim_frame;
 
 %% Chest Seg
-comXYZ.chestCOM = bodySegMass.chestMass .* segCenters.chestCenter_mar_dim_frame;
+chestCOM =       bodySegMass.chestMass .* segCenter.chestCenter_mar_dim_frame;
 
 %% UpperArm Seg
-comXYZ.LUpperArmCOM = bodySegMass.upperArmMass .* segCenters.LUpperArmCenter_mar_dim_frame;
-
-comXYZ.RUpperArmCOM = bodySegMass.upperArmMass .* segCenters.RUpperArmCenter_mar_dim_frame;
+LUpperArmCOM =   bodySegMass.upperArmMass .* segCenter.LUpperArmCenter_mar_dim_frame;
+RUpperArmCOM =   bodySegMass.upperArmMass .* segCenter.RUpperArmCenter_mar_dim_frame;
 
 %% Forearm Seg
-comXYZ.LForearmCOM = bodySegMass.forearmMass .* segCenters.LForearmCenter_mar_dim_frame;
-
-comXYZ.RForearmCOM = bodySegMass.forearmMass .* segCenters.RForearmCenter_mar_dim_frame;
+LForearmCOM =    bodySegMass.forearmMass .* segCenter.LForearmCenter_mar_dim_frame;
+RForearmCOM =    bodySegMass.forearmMass .* segCenter.RForearmCenter_mar_dim_frame;
 
 %% Hand Seg
-comXYZ.LHandCOM = bodySegMass.handMass .* segCenters.LHandCenter_mar_dim_frame;
-
-comXYZ.RHandCOM = bodySegMass.handMass .* segCenters.RHandCenter_mar_dim_frame;
+LHandCOM =       bodySegMass.handMass .* segCenter.LHandCenter_mar_dim_frame;
+RHandCOM =       bodySegMass.handMass .* segCenter.RHandCenter_mar_dim_frame;
 
 %% Hip Seg
-comXYZ.hipsCOM = bodySegMass.hipMass .* segCenters.hipsCenter_mar_dim_frame;
+hipsCOM =        bodySegMass.hipMass .* segCenter.hipsCenter_mar_dim_frame;
 
 %% Thigh Seg
-comXYZ.LThighCOM = bodySegMass.thighMass .* segCenters.LThighCenter_mar_dim_frame;
-
-comXYZ.RThighCOM = bodySegMass.thighMass .* segCenters.RThighCenter_mar_dim_frame;
+LThighCOM =      bodySegMass.thighMass .* segCenter.LThighCenter_mar_dim_frame;
+RThighCOM =      bodySegMass.thighMass .* segCenter.RThighCenter_mar_dim_frame;
 
 %% Leg Seg
-comXYZ.LLegCOM = bodySegMass.legMass .* segCenters.LLegCenter_mar_dim_frame;
-
-comXYZ.RLegCOM = bodySegMass.legMass .* segCenters.RLegCenter_mar_dim_frame;
+LLegCOM =        bodySegMass.legMass .* segCenter.LLegCenter_mar_dim_frame;
+RLegCOM =        bodySegMass.legMass .* segCenter.RLegCenter_mar_dim_frame;
 
 %% Foot Seg
-comXYZ.LFootCOM = bodySegMass.footMass .* segCenters.LFootCenter_mar_dim_frame;
-
-comXYZ.RFootCOM = bodySegMass.footMass .* segCenters.RFootCenter_mar_dim_frame;
+LFootCOM =       bodySegMass.footMass .* segCenter.LFootCenter_mar_dim_frame;
+RFootCOM =       bodySegMass.footMass .* segCenter.RFootCenter_mar_dim_frame;
 
 %% Total Center_mar_dim_frame for Body
-comXYZ.totalCOMXYZ = (comXYZ.headCOM + comXYZ.LShoulderCOM + comXYZ.RShoulderCOM...
-    + comXYZ.chestCOM + comXYZ.LUpperArmCOM + comXYZ.RUpperArmCOM...
-    + comXYZ.LForearmCOM + comXYZ.RForearmCOM + comXYZ.LHandCOM ...
-    + comXYZ.RHandCOM + comXYZ.hipsCOM + comXYZ.LThighCOM + comXYZ.RThighCOM...
-    + comXYZ.LLegCOM + comXYZ.RLegCOM + comXYZ.LFootCOM + comXYZ.RFootCOM);
+totalCOMXYZ = (headCOM + LShoulderCOM + RShoulderCOM...
+    + chestCOM + LUpperArmCOM + RUpperArmCOM...
+    + LForearmCOM + RForearmCOM + LHandCOM ...
+    + RHandCOM + hipsCOM + LThighCOM + RThighCOM...
+    + LLegCOM + RLegCOM + LFootCOM + RFootCOM)/ kgMass;
 
 end
 
