@@ -10,43 +10,30 @@ cd '/Users/MT/Documents/Github/MotionCapture_MATLABCode'
 addpath(genpath(cd))
 
 %% Load acquired motion capture data
+% Expects a .mat file in order for code to work
 fileName = '2020-02-04_JSM_Walking0001';
 %fileName = '2020-02-04_JSM_Slackline0006';
 
-%load file type of fileName and store into data variable
-data  = load([fileName '.mat']);
-
-
-%strrep replaces substring of fileName with consistent naming convention
-data = data.(['qtm_' strrep(fileName, '-', '_')]);
-
-%store force plate, frame number, and frame rate values into vars
-numForcePlates = length(data.Force);
-numFrames = data.Frames;
-framerate = data.FrameRate;
-
-%stores labeled trajectory data, marker labels, marker numbers into vars
-marker_mar_dim_frameRAW = data.Trajectories.Labeled.Data;
-markerLabels = data.Trajectories.Labeled.Labels;
-numMarkers = data.Trajectories.Labeled.Count;
-marker_mar_dim_frame = marker_mar_dim_frameRAW; 
+%Load file name and output various required variables
+[numForcePlates,numFrames,framerate,markerLabels,numMarkers,marker_mar_dim_frame] ... 
+    = loadMoCapData(fileName);
 
 %% Initial conditions for test subject
 %bodyMass should be in kg and height in metric units (mm)
-%input test subjects height
+%Initial conditions of test subject
+
+% %Expects a .xlsx file for code to work
+% userProfileDoc = 'userProfile';
+% userName = 'Jon Matthis';
+% [height,weight] = findUser(userProfileDoc,userName);
+
 mmHeight = 1778; %(mm)
+lbsWeight = 180; %(lbs weight)
 
-lbsWeight = 160; %(lbs weight)
-
-%Initial condition functions draft
+%% lbs2kg Function
+%Function converts from lbs2kg
 kgMass = lbs2kg(lbsWeight);
 
-%Modify
-% ftHeight = cm2ft(cmHeight);
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%FUNCTIONS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% bodySegLength function
 % Function outputs length for individual body segs
 [bodySegLength] = calcBodySegLength(mmHeight);
@@ -57,7 +44,7 @@ kgMass = lbs2kg(lbsWeight);
 
 %% segXYZPosition function 
 % Function outputs XYZ position of x, y, z coordinates of body segs
-[markerXYZ] = getMarker(marker_mar_dim_frame,markerLabels);
+[markerXYZ] = getMarker(marker_mar_dim_frame,markerLabels); %,markerID);
 [segCenter] = calcSegCenter(marker_mar_dim_frame,markerXYZ); %, markerLabels);
 
 %% COM of seg

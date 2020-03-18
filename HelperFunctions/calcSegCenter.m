@@ -6,18 +6,20 @@ function [segCenter,marTrajectory] = calcSegCenter(marker_mar_dim_frame) %marker
 %% XYZ head position
 %initial conditions for head position
 
-% if markerLabels{1} == ('HeadL');
-%     headL = data.
-%Start of segXYZ struct
-
 segCenter= [];
 marTrajectory = [];
+
+%Store markers data into marTrajectory for the head
 marTrajectory.HeadL = getMarker(marker_mar_dim_frame,markerLabels,'HeadL');
 marTrajectory.HeadTop = getMarker(marker_mar_dim_frame,markerLabels,'HeadTop');
 marTrajectory.HeadR = getMarker(marker_mar_dim_frame,markerLabels,'HeadR');
 marTrajectory.HeadFront = getMarker(marker_mar_dim_frame,markerLabels,'HeadFront');
-segCenter.headCenter_mar_dim_frame = squeeze(mean([marTrajectory.HeadL marTrajectory.HeadTop...
-    marTrajectory.HeadR marTrajectory.HeadFront]));
+
+% ACQUISITION OF SEG CENTER NOT READY YET
+%segCenter.headCenter_mar_dim_frame = squeeze(mean([marTrajectory.HeadL marTrajectory.HeadTop...
+%    marTrajectory.HeadR marTrajectory.HeadFront]));
+
+%Previous code that still works!
 headA = 1;
 headB = 4;
 headIDs = headA:headB;
@@ -27,6 +29,10 @@ segCenter.headCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(headIDs, 
 
 
 %% XYZ shoulder positions
+%Store markers data into marTrajectory for the LShoulder
+marTrajectory.LShoulderTop= getMarker(marker_mar_dim_frame,markerLabels,'LShoulderTop');
+marTrajectory.LShoulderBack= getMarker(marker_mar_dim_frame,markerLabels,'LShoulderBack');
+
 %LShoulder initial position
 LShoulderA = 5;
 LShoulderB = 6;
@@ -34,6 +40,10 @@ LShoulderIDs = LShoulderA:LShoulderB;
 
 %LShoulderCenter calculation
 segCenter.LShoulderCenter_mar_dim_frame = squeeze(mean(marker_mar_dim_frame(LShoulderIDs, 1:3, :)));
+
+%Store markers data into marTrajectory for the RShoulder
+marTrajectory.RShoulderTop= getMarker(marker_mar_dim_frame,markerLabels,'RShoulderTop');
+marTrajectory.RShoulderBack= getMarker(marker_mar_dim_frame,markerLabels,'RShoulderBack');
 
 %RShoulder initial position
 RShoulderA = 12;
