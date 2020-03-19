@@ -1,4 +1,4 @@
-function [segCenter,marTrajectory] = calcSegCenter(marker_mar_dim_frame) %markerLabels)
+function [segCenter,marTrajectory] = calcSegCenter(marker_mar_dim_frame,markerLabels) %markerLabels)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %SegXYZPosition function outputs XYZ position for body segments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -14,6 +14,39 @@ marTrajectory.HeadL = getMarker(marker_mar_dim_frame,markerLabels,'HeadL');
 marTrajectory.HeadTop = getMarker(marker_mar_dim_frame,markerLabels,'HeadTop');
 marTrajectory.HeadR = getMarker(marker_mar_dim_frame,markerLabels,'HeadR');
 marTrajectory.HeadFront = getMarker(marker_mar_dim_frame,markerLabels,'HeadFront');
+
+%x values located on corresponding row
+% marTrajectory.HeadCenter.x = marTrajectory.HeadL(1,:);
+% marTrajectory.HeadCenter.x(2,:) = marTrajectory.HeadTop(1,:);
+% marTrajectory.HeadCenter.x(3,:) = marTrajectory.HeadR(1,:);
+% marTrajectory.HeadCenter.x(4,:) = marTrajectory.HeadR(1,:);
+
+%x values located on corresponding column
+marTrajectory.HeadCenter.x(:,1) = marTrajectory.HeadL(1,:)';
+marTrajectory.HeadCenter.x(:,2) = marTrajectory.HeadTop(1,:)';
+marTrajectory.HeadCenter.x(:,3) = marTrajectory.HeadR(1,:)';
+marTrajectory.HeadCenter.x(:,4) = marTrajectory.HeadFront(1,:)';
+marTrajectory.HeadCenter.x = mean(marTrajectory.HeadCenter.x,2);
+
+%y values located on corresponding column
+marTrajectory.HeadCenter.y(:,1) = marTrajectory.HeadL(2,:)';
+marTrajectory.HeadCenter.y(:,2) = marTrajectory.HeadTop(2,:)';
+marTrajectory.HeadCenter.y(:,3) = marTrajectory.HeadR(2,:)';
+marTrajectory.HeadCenter.y(:,4) = marTrajectory.HeadFront(2,:)';
+marTrajectory.HeadCenter.y = mean(marTrajectory.HeadCenter.x,2);
+
+%z values located on corresponding column
+marTrajectory.HeadCenter.z(:,1) = marTrajectory.HeadL(3,:)';
+marTrajectory.HeadCenter.z(:,2) = marTrajectory.HeadTop(3,:)';
+marTrajectory.HeadCenter.z(:,3) = marTrajectory.HeadR(3,:)';
+marTrajectory.HeadCenter.z(:,4) = marTrajectory.HeadFront(3,:)';
+marTrajectory.HeadCenter.z = mean(marTrajectory.HeadCenter.x,3);
+
+%% Storage of all x,y,z values in HeadCenter variable 
+
+marTrajectory.HeadCenter = (marTrajectory.HeadCenter.x).';
+marTrajectory.HeadCenter(2,:) = (marTrajectory.HeadCenter.y).';
+marTrajectory.HeadCenter(3,:) = (marTrajectory.HeadCenter.z).';
 
 % ACQUISITION OF SEG CENTER NOT READY YET
 %segCenter.headCenter_mar_dim_frame = squeeze(mean([marTrajectory.HeadL marTrajectory.HeadTop...

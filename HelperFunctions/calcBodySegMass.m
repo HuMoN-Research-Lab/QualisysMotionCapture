@@ -1,4 +1,4 @@
-function [bodySegMass] = calcBodySegMass(kgMass)
+function [bodySegMass,segWeight] = calcBodySegMass(kgMass)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Calculates totalMass of each body segment based on users totalMass
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -6,16 +6,18 @@ function [bodySegMass] = calcBodySegMass(kgMass)
 %% Torso segMass by totalMass of body
 bodySegMass = [];
 segWeight = [];
-segWeight.headWeight =              0.0810;
-bodySegMass.headMass =              segWeight.headWeight*kgMass; %headMass and neckMass 
+
+%headMass calculation
+segWeight.headWeight =              0.0810; %headMass and neckMass 
+bodySegMass.headMass =              segWeight.headWeight*kgMass;
 
 %trunkMass calculation
-segWeight.chestWeight =             0.2160;
-bodySegMass.chestMass =             segWeight.chestWeight*kgMass; %thoraxMass
+segWeight.chestWeight =             0.2160; %thoraxMass
+bodySegMass.chestMass =             segWeight.chestWeight*kgMass; 
 segWeight.abdomenWeight =           0.1390;
 bodySegMass.abdomenMass =           segWeight.abdomenWeight*kgMass;
-segWeight.hipWeight =               0.1420;
-bodySegMass.hipMass =               segWeight.hipWeight*kgMass; %pelvisMass
+segWeight.hipWeight =               0.1420; %pelvisMass
+bodySegMass.hipMass =               segWeight.hipWeight*kgMass; 
 segWeight.trunkWeight =             0.4970;
 bodySegMass.trunkMass =             segWeight.trunkWeight*kgMass;
 

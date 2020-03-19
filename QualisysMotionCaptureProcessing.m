@@ -9,6 +9,7 @@ clearvars
 cd '/Users/MT/Documents/Github/MotionCapture_MATLABCode'
 addpath(genpath(cd))
 
+
 %% Load acquired motion capture data
 % Expects a .mat file in order for code to work
 fileName = '2020-02-04_JSM_Walking0001';
@@ -18,33 +19,31 @@ fileName = '2020-02-04_JSM_Walking0001';
 [numForcePlates,numFrames,framerate,markerLabels,numMarkers,marker_mar_dim_frame] ... 
     = loadMoCapData(fileName);
 
-%% Initial conditions for test subject
+%% findUser function
+%function locates relevant information based on user name
 %bodyMass should be in kg and height in metric units (mm)
-%Initial conditions of test subject
 
 % %Expects a .xlsx file for code to work
-% userProfileDoc = 'userProfile';
-% userName = 'Jon Matthis';
-% [height,weight] = findUser(userProfileDoc,userName);
-
-mmHeight = 1778; %(mm)
-lbsWeight = 180; %(lbs weight)
+userProfile = readtable('userProfile.xlsx','readrownames',true);
+[mmHeight,kgMass] = findUser(userProfile,'Jon Matthis');
 
 %% lbs2kg Function
 %Function converts from lbs2kg
-kgMass = lbs2kg(lbsWeight);
+%kgMass = lbs2kg(lbsWeight);
 
 %% bodySegLength function
 % Function outputs length for individual body segs
 [bodySegLength] = calcBodySegLength(mmHeight);
 
-%% bodySegMass function Calculation
+%% calcBodySegMass function
 % Function outputs mass for individual body segs
 [bodySegMass] = calcBodySegMass(kgMass);
 
+%% calcMarCenter function
+[segCenter] = calcMarCenter(marker_mar_dim_frame,markerLabels);
+
 %% segXYZPosition function 
 % Function outputs XYZ position of x, y, z coordinates of body segs
-[markerXYZ] = getMarker(marker_mar_dim_frame,markerLabels); %,markerID);
 [segCenter] = calcSegCenter(marker_mar_dim_frame,markerXYZ); %, markerLabels);
 
 %% COM of seg
