@@ -9,11 +9,10 @@ clearvars
 cd '/Users/MT/Documents/Github/MotionCapture_MATLABCode'
 addpath(genpath(cd))
 
-
 %% Load acquired motion capture data
 % Expects a .mat file in order for code to work
 fileName = '2020-02-04_JSM_Walking0001';
-%fileName = '2020-02-04_JSM_Slackline0006';
+% fileName = '2020-02-04_JSM_Slackline0006';
 
 %Load file name and output various required variables
 [numForcePlates,numFrames,framerate,markerLabels,numMarkers,marker_mar_dim_frame] ... 
@@ -37,17 +36,24 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 
 %% calcBodySegMass function
 % Function outputs mass for individual body segs
-[bodySegMass] = calcBodySegMass(kgMass);
+[bodySegMass,segWeight] = calcBodySegMass(kgMass);
 
 %% calcMarCenter function
+% Function outputs XYZ position of each marker
+%Review content again to make sure that segments are correctly chosen
 [segCenter] = calcMarCenter(marker_mar_dim_frame,markerLabels);
 
-%% segXYZPosition function 
+%% OLD CODE segXYZPosition function 
 % Function outputs XYZ position of x, y, z coordinates of body segs
-[segCenter] = calcSegCenter(marker_mar_dim_frame,markerXYZ); %, markerLabels);
+%[segCenter] = calcSegCenter(marker_mar_dim_frame,markerXYZ); %, markerLabels);
+
+%% calcSegCOM function
+% Function outputs totalCOM considering marker location 
+[bodySegWeight] = calcSegCOM(segCenter);
 
 %% COM of seg
-[totalCOMXYZ] = calcCOM(segCenter,bodySegMass); %markerLabels)
+%CURRENTLY OUT OF ORDER
+%[totalCOMXYZ,headCOM] = calcCOM(segCenter,bodySegMass,kgMass,segWeight); %markerLabels)
 
 %% bodySegAngle function 
 % WORK NEEDS TO BE DONE
@@ -96,22 +102,22 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 % end
 
 %% Plotting force plate data
-
-if numForcePlates > 0
-    figure(3626)
-    
-    for ff = 1:numForcePlates
-        subplot(2,3,ff)
-        plot(squeeze(cop_fp_dim_fr(ff,:,:)))
-    end
-    
-    figure(764)
-    
-    for ff = 1:numForcePlates
-        subplot(2,3,ff)
-        plot(squeeze(moment_fp_dim_fr(ff,:,:)))
-    end
-end
+% 
+% if numForcePlates > 0
+%     figure(3626)
+%     
+%     for ff = 1:numForcePlates
+%         subplot(2,3,ff)
+%         plot(squeeze(cop_fp_dim_fr(ff,:,:)))
+%     end
+%     
+%     figure(764)
+%     
+%     for ff = 1:numForcePlates
+%         subplot(2,3,ff)
+%         plot(squeeze(moment_fp_dim_fr(ff,:,:)))
+%     end
+% end
 
 %% Marker tracking hip data
 %hipIDs were acquired using the markerLabels
@@ -131,72 +137,112 @@ f = figure(40500);
 f.Units = 'normalized';
 f.Position = [-0.0042 0.4306 0.9401 0.4741];
 
+%Create video with frames
+stepA = VideoWriter('SeMoCap.mp4');
+open(stepA);
+
 %for frames 1:numFrames at interval of 10
 for fr = 1:10:numFrames
     %clears the current figures to avoid plotting data over each other
     clf
     
     %determines how many rows and columns a figure will have
-    numRows = 2;
-    numCols = 3;
-    
-    subplot(numRows, numCols, 1:3)
+%     numRows = 2;
+%     numCols = 3;
+%     
+%     subplot(numRows, numCols, 1:3)
     
     %column 1(x), 2(y), 3(z)
     plot3(marker_mar_dim_frame(:, 1, fr),...
         marker_mar_dim_frame(:, 2, fr),...
         marker_mar_dim_frame(:, 3, fr),'k.','MarkerFaceColor','k')
-    
-    %facilitates plotting hipIDs on top of points
+
     hold on
     
-%     %plots column 1(x), 2(y), 3(z) for the hipIDs
-%     plot3(marker_mar_dim_frame(hipIDs, 1, fr),...
-%         marker_mar_dim_frame(hipIDs, 2, fr),...
-%         marker_mar_dim_frame(hipIDs, 3, fr),'ro','MarkerFaceColor','r','MarkerSize',3)
+    %% Total Body COM in 3D
+    plot3(headCOM(1,fr),...
+        headCOM(2,fr),...
+        headCOM(3,fr),'p','DisplayName','HeadXYZ');
     
-%     plot3(marker_mar_dim_frame(thighIDs, 1, fr),...
-%         marker_mar_dim_frame(thighIDs, 2, fr),...
-%         marker_mar_dim_frame(thighIDs, 3, fr),'mo','MarkerFaceColor','m','MarkerSize',3)
+%     plot3(totalCOMXYZ(1,fr),...
+%         totalCOMXYZ(2,fr),...
+%         totalCOMXYZ(3,fr),'p','DisplayName','TotalXYZ');
 %     
-    %% COM for the all body components in 3D
-%     %Head Markers
-%     plot3(segCenters.headXYZ(fr,1), segCenters.headXYZ(fr,2), segCenters.headXYZ(fr,3),'p','DisplayName','HeadXYZ')%'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     
+    %% COM for the all body segments in 3D
+%     %Head and Neck Markers
+%     plot3(segCenter.headCenter_mar_dim_frame(1,fr),...
+%         segCenter.headCenter_mar_dim_frame(2,fr),...
+%         segCenter.headCenter_mar_dim_frame(3,fr),'p','DisplayName','HeadXYZ');
+%      
 %     %Shoulder Markers
-%     plot3(segCenters.LShoulderXYZ(fr,1), segCenters.LShoulderXYZ(fr,2), segCenters.LShoulderXYZ(fr,3),'p','DisplayName','LShoulder')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)    
-%     plot3(segCenters.RShoulderXYZ(fr,1), segCenters.RShoulderXYZ(fr,2), segCenters.RShoulderXYZ(fr,3),'p','DisplayName','RShoulder')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+%     plot3(segCenter.LShoulderCenter_mar_dim_frame(1,fr),...
+%         segCenter.LShoulderCenter_mar_dim_frame(2,fr),...
+%         segCenter.LShoulderCenter_mar_dim_frame(3,fr),'p','DisplayName','LShoulderXYZ'); %,'kp','MarkerFaceColor','m', 'MarkerSize',12)    
+%     plot3(segCenter.RShoulderCenter_mar_dim_frame(1,fr),...
+%         segCenter.RShoulderCenter_mar_dim_frame(2,fr),...
+%         segCenter.RShoulderCenter_mar_dim_frame(3,fr),'p','DisplayName','RShoulderXYZ');
+%     
+%     %Chest Markers
+%     plot3(segCenter.chestCenter_mar_dim_frame(1,fr),...
+%         segCenter.chestCenter_mar_dim_frame(2,fr),...
+%         segCenter.chestCenter_mar_dim_frame(3,fr),'p','DisplayName','ChestXYZ');
 %     
 %     %Arm Markers
-%     plot3(segCenters.LUpperArmXYZ(fr,1), segCenters.LUpperArmXYZ(fr,2), segCenters.LUpperArmXYZ(fr,3),'p','DisplayName','LUpperArm') %,'kp','MarkerFaceColor','m', 'MarkerSize',12)    
-%     plot3(segCenters.RUpperArmXYZ(fr,1), segCenters.RUpperArmXYZ(fr,2), segCenters.RUpperArmXYZ(fr,3),'p','DisplayName','RUpperArm')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     
+%     plot3(segCenter.LUpperArmCenter_mar_dim_frame(1,fr),...
+%         segCenter.LUpperArmCenter_mar_dim_frame(2,fr),...
+%         segCenter.LUpperArmCenter_mar_dim_frame(3,fr),'p','DisplayName','LUpperArmXYZ'); %,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+%     plot3(segCenter.RUpperArmCenter_mar_dim_frame(1,fr),...
+%         segCenter.RUpperArmCenter_mar_dim_frame(2,fr),...
+%         segCenter.RUpperArmCenter_mar_dim_frame(3,fr),'p','DisplayName','RUpperArmXYZ');
+%      
 %     %Forearm Markers
-%     plot3(segCenters.LForearmXYZ(fr,1), segCenters.LForearmXYZ(fr,2), segCenters.LForearmXYZ(fr,3),'p','DisplayName','LForearm')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     plot3(segCenters.RForearmXYZ(fr,1), segCenters.RForearmXYZ(fr,2), segCenters.RForearmXYZ(fr,3),'p','DisplayName','RForearm')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+%     plot3(segCenter.LForearmCenter_mar_dim_frame(1,fr),...
+%         segCenter.LForearmCenter_mar_dim_frame(2,fr),...
+%         segCenter.LForearmCenter_mar_dim_frame(3,fr),'p','DisplayName','LForearmXYZ'); %,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+%     plot3(segCenter.RForearmCenter_mar_dim_frame(1,fr),...
+%         segCenter.RForearmCenter_mar_dim_frame(2,fr),...
+%         segCenter.RForearmCenter_mar_dim_frame(3,fr),'p','DisplayName','RForearmXYZ');
 % 
 %     %Hand Markers
-%     plot3(segCenters.LHandXYZ(fr,1), segCenters.LHandXYZ(fr,2), segCenters.LHandXYZ(fr,3),'p','DisplayName','LHand')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     plot3(segCenters.RHandXYZ(fr,1), segCenters.RHandXYZ(fr,2), segCenters.RHandXYZ(fr,3),'p','DisplayName','RHand')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+%     plot3(segCenter.LHandCenter_mar_dim_frame(1,fr),...
+%         segCenter.LHandCenter_mar_dim_frame(2,fr),...
+%         segCenter.LHandCenter_mar_dim_frame(3,fr),'p','DisplayName','LHandXYZ'); %,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+%     plot3(segCenter.RHandCenter_mar_dim_frame(1,fr),...
+%         segCenter.RHandCenter_mar_dim_frame(2,fr),...
+%         segCenter.RHandCenter_mar_dim_frame(3,fr),'p','DisplayName','RHandXYZ');
 %     
 %     %Hip Markers
-%     plot3(segCenters.hipsXYZ(fr,1), segCenters.hipsXYZ(fr,2), segCenters.hipsXYZ(fr,3),'p','DisplayName','Hips')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+%     plot3(segCenter.hipCenter_mar_dim_frame(1,fr),...
+%         segCenter.hipCenter_mar_dim_frame(2,fr),...
+%         segCenter.hipCenter_mar_dim_frame(3,fr),'p','DisplayName','HipXYZ');
 %     
 %     %Thigh Markers
-%     plot3(segCenters.LThighXYZ(fr,1), segCenters.LThighXYZ(fr,2), segCenters.LThighXYZ(fr,3),'p','DisplayName','LThigh')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     plot3(segCenters.RThighXYZ(fr,1), segCenters.RThighXYZ(fr,2), segCenters.RThighXYZ(fr,3),'p','DisplayName','RThigh')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-% 
+%     plot3(segCenter.LThighCenter_mar_dim_frame(1,fr),...
+%         segCenter.LThighCenter_mar_dim_frame(2,fr),...
+%         segCenter.LThighCenter_mar_dim_frame(3,fr),'p','DisplayName','LThighXYZ');
+%     plot3(segCenter.RThighCenter_mar_dim_frame(1,fr),...
+%         segCenter.RThighCenter_mar_dim_frame(2,fr),...
+%         segCenter.RThighCenter_mar_dim_frame(3,fr),'p','DisplayName','RThighXYZ');
+%     
 %     %Leg Markers
-%     plot3(segCenters.LLegXYZ(fr,1), segCenters.LLegXYZ(fr,2), segCenters.LLegXYZ(fr,3),'p','DisplayName','LLeg')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     plot3(segCenters.RLegXYZ(fr,1), segCenters.RLegXYZ(fr,2), segCenters.RLegXYZ(fr,3),'p','DisplayName','RLeg')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
-%     
+%     plot3(segCenter.LLegCenter_mar_dim_frame(1,fr),...
+%         segCenter.LLegCenter_mar_dim_frame(2,fr),...
+%         segCenter.LLegCenter_mar_dim_frame(3,fr),'p','DisplayName','LLegXYZ');
+%     plot3(segCenter.RLegCenter_mar_dim_frame(1,fr),...
+%         segCenter.RLegCenter_mar_dim_frame(2,fr),...
+%         segCenter.RLegCenter_mar_dim_frame(3,fr),'p','DisplayName','RLegXYZ');
+%      
 %     %Foot Markers
-%     plot3(segCenters.LFootXYZ(fr,1), segCenters.LFootXYZ(fr,2), segCenters.LFootXYZ(fr,3),'p','DisplayName','LFoot')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)   
-%     plot3(segCenters.RFootXYZ(fr,1), segCenters.RFootXYZ(fr,2), segCenters.RFootXYZ(fr,3),'p','DisplayName','RFoot')%,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+%     plot3(segCenter.LFootCenter_mar_dim_frame(1,fr),...
+%         segCenter.LFootCenter_mar_dim_frame(2,fr),...
+%         segCenter.LFootCenter_mar_dim_frame(3,fr),'p','DisplayName','LFootXYZ');
+%     plot3(segCenter.RFootCenter_mar_dim_frame(1,fr),...
+%         segCenter.RFootCenter_mar_dim_frame(2,fr),...
+%         segCenter.RFootCenter_mar_dim_frame(3,fr),'p','DisplayName','RFootXYZ');
+         
+%     %Total Body Markers
+%     plot3(comXYZ.totalCOMXYZ(1,fr), comXYZ.totalCOMXYZ(2,fr), comXYZ.totalCOMXYZ(3,fr),'ro','DisplayName','TotalXYZ')%'kp','MarkerFaceColor','ro', 'MarkerSize',12)
 %     
-    %Total Body Markers
-    plot3(comXYZ.totalCOMXYZ(1,fr), comXYZ.totalCOMXYZ(2,fr), comXYZ.totalCOMXYZ(3,fr),'ro','DisplayName','TotalXYZ')%'kp','MarkerFaceColor','ro', 'MarkerSize',12)
-    
 %     velScale = 10;
 %     %quiver - for components x,y,z of the hip, the velocity vector arrows
 %     %in 3d are are plotted
@@ -213,8 +259,8 @@ for fr = 1:10:numFrames
     
     %optimal x y z graph limits 
     xlim([0 2e3])
-%    ylim([-5e3 10e3]) %full lab
-    ylim([1e3 3e3]) %smaller space
+    ylim([-5e3 10e3]) %full lab
+%    ylim([1e3 3e3]) %smaller space
     zlim([0 3e3])
     
     %unsure of what this section XYZs
@@ -223,7 +269,7 @@ for fr = 1:10:numFrames
     
     
     view(az,el)
-     
+    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% traces
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -264,6 +310,13 @@ for fr = 1:10:numFrames
 %     plot(fr,hipsAcc(fr,3), 'bo')
     %after each frames iteration the code will immediately draw the plot
     drawnow
+    
+%     %End of video acquisition code
+%     frame = getframe(gcf);
+%     writeVideo(stepA,frame);
+    
 end
+
+close(stepA)
 
 

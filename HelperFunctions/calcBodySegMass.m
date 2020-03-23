@@ -34,8 +34,7 @@ bodySegMass.upperArmMass =          segWeight.upperArmWeight*kgMass;
 segWeight.totalArmWeight =          0.0500;
 bodySegMass.totalArmMass =          segWeight.totalArmWeight*kgMass;
 
-%disregarded for calc 
-%bodySegMass.shoulderMass =          0.0158*kgMass;
+bodySegMass.shoulderMass =          0.0158*kgMass;
 
 assert(segWeight.totalArmWeight == segWeight.handWeight...
     + segWeight.forearmWeight + segWeight.upperArmWeight, 'Upper extremity needs rechecking!')

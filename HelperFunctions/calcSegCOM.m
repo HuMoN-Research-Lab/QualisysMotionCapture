@@ -1,4 +1,4 @@
-function [bodySegWeight] = calcSegCOM(mmHeight)
+function [bodySegWeight] = calcSegCOM(segCenter,numFrames);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %calcSegCOM by proximal or distal location of marker on the human anatomy
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -11,6 +11,16 @@ bodySegWeight.distalHeadCOM =                   0.000*mmHeight;
 
 assert(bodySegWeight.proximalHeadCOM + bodySegWeight.distalHeadCOM == 1.000,...
     'HeadCOM needs rechecking!')
+
+% if 1i = numFrames;
+%     segCenter.headCenter_mar_dim_frame
+    
+bodySegWeight.proximalShoulderCOM =             0.712*mmHeight;
+bodySegWeight.distalShoulderCOM =               0.288*mmHeight;
+
+assert(bodySegWeight.proximalShoulderCOM + bodySegWeight.distalShoulderCOM == 1.000,...
+    'ShoulderCOM needs rechecking!')
+
 
 bodySegWeight.proximalChestCOM =                0.820*mmHeight; %thorax
 bodySegWeight.distalChestCOM =                  0.180*mmHeight;
@@ -57,11 +67,7 @@ bodySegWeight.distalUpperArmCOM =               0.564*mmHeight;
 assert(bodySegWeight.proximalUpperArmCOM + bodySegWeight.distalUpperArmCOM == 1.000,...
     'UpperArmCOM needs rechecking!')
 
-bodySegWeight.proximalShoulderCOM =             0.712*mmHeight;
-bodySegWeight.distalShoulderCOM =               0.288*mmHeight;
 
-assert(bodySegWeight.proximalShoulderCOM + bodySegWeight.distalShoulderCOM == 1.000,...
-    'ShoulderCOM needs rechecking!')
 
 bodySegWeight.proximalTotalArmCOM =       0.470*mmHeight;
 bodySegWeight.distalTotalArmCOM =         0.530*mmHeight;
@@ -88,6 +94,9 @@ bodySegWeight.distalThighCOM =                  0.567*mmHeight;
 
 assert(bodySegWeight.proximalThighCOM + bodySegWeight.distalThighCOM == 1.000,...
     'ThighCOM needs rechecking!')
+
+
+
 
 bodySegWeight.proximalTotalLegCOM =       0.447*mmHeight;
 bodySegWeight.distalTotalLegCOM =         0.553*mmHeight;

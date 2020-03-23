@@ -1,11 +1,11 @@
-function [totalCOMXYZ] = calcCOM(segCenter,bodySegMass) %markerLabels)
+function [totalCOMXYZ,headCOM] = calcCOM(segCenter,bodySegMass,kgMass,segWeight) %markerLabels)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %calcCOM individual seg contribution to totalCOM
 %facilitates plotting totalCOMXYZ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Head Seg
-%% Remove struct
-headCOM =        bodySegMass.headMass .* segCenter.headCenters_mar_dim_frame;
+headCOM =        (segWeight.headWeight .* segCenter.headCenter_mar_dim_frame);
+%headCOM =        (bodySegMass.headMass .* segCenter.headCenter_mar_dim_frame);
 
 %% Shoulder Seg
 LShoulderCOM =   bodySegMass.shoulderMass .* segCenter.LShoulderCenter_mar_dim_frame;
@@ -27,7 +27,7 @@ LHandCOM =       bodySegMass.handMass .* segCenter.LHandCenter_mar_dim_frame;
 RHandCOM =       bodySegMass.handMass .* segCenter.RHandCenter_mar_dim_frame;
 
 %% Hip Seg
-hipsCOM =        bodySegMass.hipMass .* segCenter.hipsCenter_mar_dim_frame;
+hipsCOM =        bodySegMass.hipMass .* segCenter.hipCenter_mar_dim_frame;
 
 %% Thigh Seg
 LThighCOM =      bodySegMass.thighMass .* segCenter.LThighCenter_mar_dim_frame;
@@ -42,11 +42,11 @@ LFootCOM =       bodySegMass.footMass .* segCenter.LFootCenter_mar_dim_frame;
 RFootCOM =       bodySegMass.footMass .* segCenter.RFootCenter_mar_dim_frame;
 
 %% Total Center_mar_dim_frame for Body
-totalCOMXYZ = (headCOM + LShoulderCOM + RShoulderCOM...
+totalCOMXYZ = ((headCOM + LShoulderCOM + RShoulderCOM...
     + chestCOM + LUpperArmCOM + RUpperArmCOM...
     + LForearmCOM + RForearmCOM + LHandCOM ...
     + RHandCOM + hipsCOM + LThighCOM + RThighCOM...
-    + LLegCOM + RLegCOM + LFootCOM + RFootCOM)/ kgMass;
+    + LLegCOM + RLegCOM + LFootCOM + RFootCOM)/kgMass);
 
 end
 
