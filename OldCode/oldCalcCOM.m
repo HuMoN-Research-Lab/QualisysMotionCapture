@@ -1,4 +1,4 @@
-function [totalCOMXYZ,headCOM] = calcCOM(segCenter,bodySegMass,kgMass,segWeight) %markerLabels)
+function [totalCOMXYZ,headCOM] = oldCalcCOM(segCenter,bodySegMass,kgMass,segWeight) %markerLabels)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %calcCOM individual seg contribution to totalCOM
 %facilitates plotting totalCOMXYZ 

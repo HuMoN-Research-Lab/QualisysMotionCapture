@@ -21,8 +21,14 @@ fileName = '2020-02-04_JSM_Walking0001';
 %% findUser function
 %function locates relevant information based on user name
 %bodyMass should be in kg and height in metric units (mm)
+
+% %Expects a .xlsx file for code to work
 userProfile = readtable('userProfile.xlsx','readrownames',true);
 [mmHeight,kgMass] = findUser(userProfile,'Jon Matthis');
+
+%% lbs2kg Function
+%Function converts from lbs2kg
+%kgMass = lbs2kg(lbsWeight);
 
 %% bodySegLength function
 % Function outputs length for individual body segs
@@ -32,21 +38,100 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 % Function outputs mass for individual body segs
 [bodySegMass,propWeight] = calcBodySegMass(kgMass);
 
+%% calcMarCenter function
+% Function outputs XYZ position of each marker
+%Review content again to make sure that segments are correctly chosen
+[segCenter] = calcMarCenter(marker_mar_dim_frame,markerLabels);
+
+%% OLD CODE segXYZPosition function 
+% Function outputs XYZ position of x, y, z coordinates of body segs
+%[segCenter] = calcSegCenter(marker_mar_dim_frame,markerXYZ); %, markerLabels);
+
 %% calcSegCOM function
 % % Function outputs totalCOM considering marker location 
-[segCenter] = calcSegCOM(marker_mar_dim_frame,markerLabels);
+%[bodySegWeight] = calcSegCOM(mmHeight);
 
 %% COM of seg
-[totalCOMXYZ] = calcSegWeightCOM(segCenter,propWeight);
+[totalCOMXYZ] = oldCalcCOM(segCenter,propWeight);
 
-%% calcMarVel function
-% Function outputs relative velocity of each body seg
-% Currently not optimized yet for plotting purposes
-%[segCenterVel] = calcMarVel(segCenter);
+%% bodySegAngle function 
+% WORK NEEDS TO BE DONE
+%Function outputs respective angle between body seg in 2D
+%[bodySegAngleStruct] = bodySegAngle(segCenters);
+% [thetaL21,thetaR21,thetaL43,thetaR43,thetaLKnee,thetaRKnee]...
+%     = bodySegAngle(LThighXYZ,RThighXYZ,LLegXYZ,RLegXYZ...
+%     LFootXYZ,RFootXYZ);
+
+%% Acquire force data for each force plate with butterworth filter
+% %currently unoperational due to clipping of data
+
+%%order and cutoff relate to butterworth filter 
+% order = 4;
+% cutoff = 10;
+% for ff = 1:numForcePlates
+%
+%     %center of pressure data acquisition
+%     cop_fp_dim_fr(ff,:,:)= butterLowZero(order,cutoff,framerate,data.Force(ff).COP);
+%     
+%     %moment values generated from force plates
+%     moment_fp_dim_fr(ff,:,:)= butterLowZero(order,cutoff,framerate,data.Force(ff).Moment);
+%     
+%     %forces values generated from force plates
+%     force_fp_dim_fr(ff,:,:)= butterLowZero(order,cutoff,framerate,data.Force(ff).force);
+%     
+%     %location of force plates in space
+%     frLoc{ff} = data.Force(ff).ForcePlateLocation;
+% end
+
+%% Acquisition of trajectories data for each force plate 
+
+% potential solution for filling in gaps in gathered force plate values
+% 
+% for mm = 1:numMarkers
+% tic
+%     marker_mar_dim_frame(mm,1:3, :) = fillmissing(marker_mar_dim_frameRAW(mm,1:3, :),'linear');
+% toc
+% end
+% 
+% %butterworth filter marker data
+% 
+% for mm = 1:numMarkers
+% 
+%     marker_mar_dim_frame(mm,1:3, :) = butterLowZero(order, cutoff, framerate, marker_mar_dim_frame(mm,1:3, :));
+% end
+
+%% Plotting force plate data
+% 
+% if numForcePlates > 0
+%     figure(3626)
+%     
+%     for ff = 1:numForcePlates
+%         subplot(2,3,ff)
+%         plot(squeeze(cop_fp_dim_fr(ff,:,:)))
+%     end
+%     
+%     figure(764)
+%     
+%     for ff = 1:numForcePlates
+%         subplot(2,3,ff)
+%         plot(squeeze(moment_fp_dim_fr(ff,:,:)))
+%     end
+% end
+
+%% Marker tracking hip data
+%hipIDs were acquired using the markerLabels
+
+%Velocity of hips
+%CODE CURRENTLY CAUSING AN ERROR
+%hipsVel =  [0 0 0; diff(segCenters.hipsCenter_mar_dim_frame)];
+
+%calculates acceleration of hips
+%hipsAcc = [0 0 0; diff(hipsVel)];
+
 
 %% Motion capture data plot
 %Miscellaneous numbering of figures important for future reference
-f = figure(45000);
+f = figure(40500);
 %facilitates output of figures across multiple mediums
 f.Units = 'normalized';
 f.Position = [-0.0042 0.4306 0.9401 0.4741];
@@ -57,19 +142,27 @@ f.Position = [-0.0042 0.4306 0.9401 0.4741];
 
 %for frames 1:numFrames at interval of 10
 for fr = 1:10:numFrames
-    %Clear current frame
+    %clears the current figures to avoid plotting data over each other
     clf
-
-    %Plot all markers in x,y, and z
+    
+    %determines how many rows and columns a figure will have
+%     numRows = 2;
+%     numCols = 3;
+%     
+%     subplot(numRows, numCols, 1:3)
+    
+    %column 1(x), 2(y), 3(z)
     plot3(marker_mar_dim_frame(:, 1, fr),...
         marker_mar_dim_frame(:, 2, fr),...
         marker_mar_dim_frame(:, 3, fr),'k.','MarkerFaceColor','k')
-    
-    %Hold on for next set of plotting instructions
+
     hold on
     
     %% Total Body COM in 3D
-    %plot of total anatomical COM
+%     plot3(headCOM(1,fr),...
+%         headCOM(2,fr),...
+%         headCOM(3,fr),'p','DisplayName','HeadXYZ');
+    
     plot3(totalCOMXYZ(1,fr),...
         totalCOMXYZ(2,fr),...
         totalCOMXYZ(3,fr),'p','DisplayName','TotalXYZ');
@@ -144,12 +237,22 @@ for fr = 1:10:numFrames
 %         segCenter.LFootCenter_mar_dim_frame(3,fr),'p','DisplayName','LFootXYZ');
 %     plot3(segCenter.RFootCenter_mar_dim_frame(1,fr),...
 %         segCenter.RFootCenter_mar_dim_frame(2,fr),...
-%         segCenter.RFootCenter_mar_dim_frame(3,fr),'p','DisplayName','RFootXYZ');      
+%         segCenter.RFootCenter_mar_dim_frame(3,fr),'p','DisplayName','RFootXYZ');
+         
+%     %Total Body Markers
+%     plot3(comXYZ.totalCOMXYZ(1,fr), comXYZ.totalCOMXYZ(2,fr), comXYZ.totalCOMXYZ(3,fr),'ro','DisplayName','TotalXYZ')%'kp','MarkerFaceColor','ro', 'MarkerSize',12)
+%     
+%     velScale = 10;
+%     %quiver - for components x,y,z of the hip, the velocity vector arrows
+%     %in 3d are are plotted
+%     h_hipsVel = quiver3(segXYZ.hipsXYZ(fr,1), segXYZ.hipsXYZ(fr,2), segXYZ.hipsXYZ(fr,3), hipsVel(fr,1)*velScale, hipsVel(fr,2)*velScale, hipsVel(fr,3)*velScale);
+%     h_hipsVel.LineWidth = 3;
+%     h_hipsVel.Color = 'r';
+%     h_hipsVel.MaxHeadSize = 2;
     
-    %WORK IN PROGRESS
-    %[outputArg1,outputArg2] = plotMoCapTracer(segCenter)
-    %% Plotting parameters
+    hold on
     axis equal
+    
     grid on
     legend
     
@@ -162,18 +265,57 @@ for fr = 1:10:numFrames
     %unsure of what this section XYZs
     az = -84.362;
     el =  20.417;
+    
+    
     view(az,el)
     
-    %Draw plot after each frame iteration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% traces
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    %Plots hips position 
+%     subplot(numRows, numCols, 4)
+%     plot(segXYZ.hipsXYZ)
+%     hold on
+%     
+%     %Traces each x,y,z components with corresponding labels
+%     %calls out the x,y,z position of hipsXYZ vector with fr
+%     %structure plot(x,y,ID)
+%     plot(fr, segXYZ.hipsXYZ(fr,1), 'ko')
+%     plot(fr, segXYZ.hipsXYZ(fr,2), 'ro')
+%     plot(fr, segXYZ.hipsXYZ(fr,3), 'bo')
+%     
+%     %Equivalent to previous code except written concisely
+%     %plot([fr fr fr], hipsXYZ(fr,:), 'ko')    
+%     
+%     %Plots hips velocity
+%     subplot(numRows, numCols, 5)
+%     plot(hipsVel)
+%     hold on
+%     
+%     %Traces each x,y,z components with corresponding labels
+%     plot(fr,hipsVel(fr,1), 'ko')
+%     plot(fr,hipsVel(fr,2), 'ro')
+%     plot(fr,hipsVel(fr,3), 'bo')
+%     
+%     %Plots hips acceleration
+%     subplot(numRows, numCols, 6)
+%     plot(hipsAcc)
+%     hold on
+%     
+%     %Traces each x,y,z components with corresponding labels
+%     plot(fr,hipsAcc(fr,1), 'ko')
+%     plot(fr,hipsAcc(fr,2), 'ro')
+%     plot(fr,hipsAcc(fr,3), 'bo')
+    %after each frames iteration the code will immediately draw the plot
     drawnow
     
-%     %Middle of video acquisition code
+%     %End of video acquisition code
 %     frame = getframe(gcf);
 %     writeVideo(stepA,frame);
     
 end
 
-%End of video acquisition code
 % close(stepA)
 
 
