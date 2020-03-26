@@ -336,24 +336,24 @@ LThigh = getMarker(marker_mar_dim_frame,markerLabels,'LThigh');
 LKneeOut= getMarker(marker_mar_dim_frame,markerLabels,'LKneeOut');
 
 %x values located on corresponding column
-%LThighPosX(:,1) =                 WaistLFront(1,:)';
-LThighPosX(:,1) =                 WaistLBack(1,:)';
-LThighPosX(:,2) =                 LThigh(1,:)';
-LThighPosX(:,3) =                 LKneeOut(1,:)';
+LThighPosX(:,1) =                 WaistLFront(1,:)';
+LThighPosX(:,2) =                 WaistLBack(1,:)';
+LThighPosX(:,3) =                 LThigh(1,:)';
+LThighPosX(:,4) =                 LKneeOut(1,:)';
 LThighPosX =                      mean(LThighPosX,2);
 
 %y values located on corresponding column
-%LThighPosY(:,1) =                 WaistLFront(2,:)';
-LThighPosY(:,1) =                 WaistLBack(2,:)';
-LThighPosY(:,2) =                 LThigh(2,:)';
-LThighPosY(:,3) =                 LKneeOut(2,:)';
+LThighPosY(:,1) =                 WaistLFront(2,:)';
+LThighPosY(:,2) =                 WaistLBack(2,:)';
+LThighPosY(:,3) =                 LThigh(2,:)';
+LThighPosY(:,4) =                 LKneeOut(2,:)';
 LThighPosY =                      mean(LThighPosY,2);
 
 %z values located on corresponding column
-%LThighPosZ(:,1) =                 WaistLFront(3,:)';
-LThighPosZ(:,1) =                 WaistLBack(3,:)';
-LThighPosZ(:,2) =                 LThigh(3,:)';
-LThighPosZ(:,3) =                 LKneeOut(3,:)';
+LThighPosZ(:,1) =                 WaistLFront(3,:)';
+LThighPosZ(:,2) =                 WaistLBack(3,:)';
+LThighPosZ(:,3) =                 LThigh(3,:)';
+LThighPosZ(:,4) =                 LKneeOut(3,:)';
 LThighPosZ =                      mean(LThighPosZ,2);
 
 %Center location for the LThigh
@@ -369,24 +369,24 @@ RThigh = getMarker(marker_mar_dim_frame,markerLabels,'RThigh');
 RKneeOut= getMarker(marker_mar_dim_frame,markerLabels,'RKneeOut');
 
 %x values located on corresponding column
-%RThighPosX(:,1) =                 WaistRFront(1,:)';
-RThighPosX(:,1) =                 WaistRBack(1,:)';
-RThighPosX(:,2) =                 RThigh(1,:)';
-RThighPosX(:,3) =                 RKneeOut(1,:)';
+RThighPosX(:,1) =                 WaistRFront(1,:)';
+RThighPosX(:,2) =                 WaistRBack(1,:)';
+RThighPosX(:,3) =                 RThigh(1,:)';
+RThighPosX(:,4) =                 RKneeOut(1,:)';
 RThighPosX =                      mean(RThighPosX,2);
 
 %y values located on corresponding column
-%RThighPosY(:,1) =                 WaistRFront(2,:)';
-RThighPosY(:,1) =                 WaistRBack(2,:)';
-RThighPosY(:,2) =                 RThigh(2,:)';
-RThighPosY(:,3) =                 RKneeOut(2,:)';
+RThighPosY(:,1) =                 WaistRFront(2,:)';
+RThighPosY(:,2) =                 WaistRBack(2,:)';
+RThighPosY(:,3) =                 RThigh(2,:)';
+RThighPosY(:,4) =                 RKneeOut(2,:)';
 RThighPosY =                      mean(RThighPosY,2);
 
 %z values located on corresponding column
-%RThighPosZ(:,1) =                 WaistRFront(3,:)';
-RThighPosZ(:,1) =                 WaistRBack(3,:)';
-RThighPosZ(:,2) =                 RThigh(3,:)';
-RThighPosZ(:,3) =                 RKneeOut(3,:)';
+RThighPosZ(:,1) =                 WaistRFront(3,:)';
+RThighPosZ(:,2) =                 WaistRBack(3,:)';
+RThighPosZ(:,3) =                 RThigh(3,:)';
+RThighPosZ(:,4) =                 RKneeOut(3,:)';
 RThighPosZ =                      mean(RThighPosZ,2);
 
 %Center location for the RThigh

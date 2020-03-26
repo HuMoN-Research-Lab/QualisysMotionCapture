@@ -39,10 +39,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 %% COM of seg
 [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
 
-%% locEmptyCells function
-
-
-
+%% FindC
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
 % Currently not optimized yet for plotting purposes
