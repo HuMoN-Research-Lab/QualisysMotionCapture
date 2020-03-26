@@ -33,15 +33,16 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 [bodySegMass,segPropWeight] = calcBodySegMass(kgMass);
 
 %% calcSegCOM function
-% % Function outputs totalCOM considering marker location 
+% Function outputs totalCOM considering marker location 
 [segCenter] = calcSegCOM(marker_mar_dim_frame,markerLabels);
 
 %% COM of seg
 [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
 
-%% locEmptyCells function
-
-
+%% evalSegFrames function
+% Function outputs marker frames evaluation
+clc
+[segEval] = evalSegFrames(segCenter,totalCOMXYZ);
 
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
