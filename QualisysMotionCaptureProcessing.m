@@ -15,7 +15,7 @@ fileName = '2020-02-04_JSM_Walking0001';
 % fileName = '2020-02-04_JSM_Slackline0006';
 
 %Load file name and output various required variables
-[numForcePlates,numFrames,framerate,markerLabels,numMarkers,marker_mar_dim_frame] ... 
+[numFrames,framerate,markerLabels,numMarkers,marker_mar_dim_frame] ... 
     = loadMoCapData(fileName);
 
 %% findUser function
@@ -36,13 +36,19 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 % Function outputs totalCOM considering marker location 
 [segCenter] = calcSegCOM(marker_mar_dim_frame,markerLabels);
 
-%% COM of seg
+%% calcSegWeightCOM function
+% Function outputs totalCOM depending on seg weight
 [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
+
+%% locEmptySegFrames function
+% Function outputs marker frames evaluation
+clc
+[emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
 
 %% evalSegFrames function
 % Function outputs marker frames evaluation
 clc
-[segEval,emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ,numFrames);
+[segEvals,comparedFrames] = evalSegFrames(segCenter,totalCOMXYZ,numFrames);
 
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
