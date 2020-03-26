@@ -1,4 +1,4 @@
-function [segEval] = evalSegFrames(segCenter,totalCOMXYZ,numFrames)
+function [segEval,emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ,numFrames)
 %evalSegFrames find the location of the empty cells in a cell array
 
 %% headCenter cell array evals
@@ -87,7 +87,6 @@ if segEval.RThighCenter ~= 0
     disp('RThighCenter is missing data!');
 end
 
-
 %% LegCenter cell array evals
 [row,col] = find(isnan(segCenter.LLegCenter_mar_dim_frame));
 segEval.LLegCenter = [col];
@@ -131,12 +130,9 @@ end
 %     fprintf('headCenter is impacting TotalCOMXYZ results\n')
 % end
 
-for i:numFrames;
-    
-
-if segEval.totalCOMXYZ == segEval.chestCenter
-    fprintf('chestCenter is impacting TotalCOMXYZ results\n')
-end
+% % % if segEval.totalCOMXYZ == segEval.chestCenter
+% % %     fprintf('chestCenter is impacting TotalCOMXYZ results\n')
+% % % end
 
 
 % emptyCells = cellfun(@isempty,totalCOMXYZ);

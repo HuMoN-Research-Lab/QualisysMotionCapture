@@ -42,7 +42,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 %% evalSegFrames function
 % Function outputs marker frames evaluation
 clc
-[segEval] = evalSegFrames(segCenter,totalCOMXYZ);
+[segEval,emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ,numFrames);
 
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
