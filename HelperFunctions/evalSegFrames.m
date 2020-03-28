@@ -1,4 +1,4 @@
-function [segEvals,comparedFrames] = evalSegFrames(segCenter,totalCOMXYZ,numFrames)
+function [segEvals,impactedTotalCOM] = evalSegFrames(segCenter,totalCOMXYZ,numFrames)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %evalSegFrames evaluates which cells are impacting totalCOMXYZ
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,18 +58,25 @@ segEvals.RFoot = ismissing(segCenter.RFootCenter_mar_dim_frame);
 segEvals.totalCOMXYZ = ismissing(totalCOMXYZ);
 
 %% segEvals
-comparedFrames.chest = cell(1,numFrames);
+impactedTotalCOM.chest = cell(1,numFrames);
 
 for a = 1:numFrames
     if segEvals.totalCOMXYZ(a) == segEvals.chest(a)
-        currentFrame{a} = numFrames(a);
+        %if totalCOMXYZ is being impacted by chest
+        %Find cells that are the same and tell me
+        %Compare the frames and disregard other totalCOMXYZ frames that
+        %are not effected
+        %impactedTotalCOM.chest should give me the 
+        
+        impactedTotalCOM.chest = segEvals.chest(a);
+        %impactedTotalCOM.chest(1,a) = cell(segEvals.totalCOMXYZ(a) == segEvals.chest(a)); %numFrames(a);
         
         %output should tell me which frames are impacting results
         %fprintf('\nchestCenter is impacting TotalCOMXYZ frame\n Frame: %d\n',a);
        % headStorage(:) = a;
     end
     
-    comparedFrames.chest{a} = currentFrame;
+    %comparedFrames.chest{a} = currentFrame;
 end
 
 

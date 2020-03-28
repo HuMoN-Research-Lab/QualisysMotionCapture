@@ -48,7 +48,7 @@ clc
 %% evalSegFrames function
 % Function outputs marker frames evaluation
 clc
-[segEvals,comparedFrames] = evalSegFrames(segCenter,totalCOMXYZ,numFrames);
+[segEvals,impactedTotalCOM] = evalSegFrames(segCenter,totalCOMXYZ,numFrames);
 
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
