@@ -11,7 +11,8 @@ addpath(genpath(cd))
 
 %% Load acquired motion capture data
 % Expects a .mat file in order for code to work
-fileName = '2020-02-04_JSM_Walking0001';
+fileName = '2020-03-04_JSM_TPose';
+%fileName = '2020-02-04_JSM_Walking0001';
 % fileName = '2020-02-04_JSM_Slackline0006';
 
 %Load file name and output various required variables
@@ -32,6 +33,10 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 % Function outputs mass for individual body segs
 [bodySegMass,segPropWeight] = calcBodySegMass(kgMass);
 
+%% calcRadiusOfGyration function
+% Function outputs radius of gyration for body segs
+[radiusGyration,density] = calcRadiusOfGyration(bodySegMass);
+
 %% calcSegCOM function
 % Function outputs totalCOM considering marker location 
 [segCenter] = calcSegCOM(marker_mar_dim_frame,markerLabels);
@@ -44,11 +49,6 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 % Function outputs marker frames evaluation
 clc
 [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
-
-%% evalSegFrames function
-% Function outputs marker frames evaluation
-clc
-[segEvals,impactedTotalCOM] = evalSegFrames(segCenter,totalCOMXYZ,numFrames);
 
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
@@ -63,8 +63,8 @@ f.Units = 'normalized';
 f.Position = [-0.0042 0.4306 0.9401 0.4741];
 
 %Create video with frames
-stepA = VideoWriter('TotalCOM_MotionCapture.mp4');
-open(stepA);
+% stepA = VideoWriter('TotalCOM_MotionCapture.mp4');
+% open(stepA);
 
 %for frames 1:numFrames at interval of 10
 for fr = 1:10:numFrames
@@ -179,12 +179,12 @@ for fr = 1:10:numFrames
     drawnow
     
     %Middle of video acquisition code
-    frame = getframe(gcf);
-    writeVideo(stepA,frame);
+%     frame = getframe(gcf);
+%     writeVideo(stepA,frame);
     
 end
 
 %End of video acquisition code
-close(stepA)
+% close(stepA)
 
 

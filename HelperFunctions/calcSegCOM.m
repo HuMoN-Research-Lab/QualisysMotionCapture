@@ -1,8 +1,9 @@
 function [segCenter] = calcSegCOM(marker_mar_dim_frame,markerLabels) %,markerID)
-%calcMarCenter find the center position for each anatomical segment
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%calcSegCOM find the center position for each anatomical segment
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Head Markers
-%Store markers data into marTrajectory for the Head
+%Store markers data into segCenter for the Head
 %Includes: HeadL, HeadTop, HeadR, and HeadFront
 HeadL = getMarker(marker_mar_dim_frame,markerLabels,'HeadL');
 HeadTop = getMarker(marker_mar_dim_frame,markerLabels,'HeadTop');
@@ -399,23 +400,39 @@ segCenter.RThighCenter_mar_dim_frame(3,:) =     (RThighPosZ).';
 %Includes: LKneeOut, LShin, LAnkleOut
 LShin = getMarker(marker_mar_dim_frame,markerLabels,'LShin');
 LAnkleOut= getMarker(marker_mar_dim_frame,markerLabels,'LAnkleOut');
+LeftLegCluster1 = getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster1');
+LeftLegCluster2 = getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster2');
+LeftLegCluster3 = getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster3');
+LeftLegCluster4 = getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster4');
 
 %x values located on corresponding column
 LLegPosX(:,1) =                 LKneeOut(1,:)';
 LLegPosX(:,2) =                 LShin(1,:)';
 LLegPosX(:,3) =                 LAnkleOut(1,:)';
+LLegPosX(:,4) =                 LeftLegCluster1(1,:)';
+LLegPosX(:,5) =                 LeftLegCluster2(1,:)';
+LLegPosX(:,6) =                 LeftLegCluster3(1,:)';
+LLegPosX(:,7) =                 LeftLegCluster4(1,:)';
 LLegPosX =                      mean(LLegPosX,2);
 
 %y values located on corresponding column
 LLegPosY(:,1) =                 LKneeOut(2,:)';
 LLegPosY(:,2) =                 LShin(2,:)';
 LLegPosY(:,3) =                 LAnkleOut(2,:)';
+LLegPosY(:,4) =                 LeftLegCluster1(2,:)';
+LLegPosY(:,5) =                 LeftLegCluster2(2,:)';
+LLegPosY(:,6) =                 LeftLegCluster3(2,:)';
+LLegPosY(:,7) =                 LeftLegCluster4(2,:)';
 LLegPosY =                      mean(LLegPosY,2);
 
 %z values located on corresponding column
 LLegPosZ(:,1) =                 LKneeOut(3,:)';
 LLegPosZ(:,2) =                 LShin(3,:)';
 LLegPosZ(:,3) =                 LAnkleOut(3,:)';
+LLegPosZ(:,4) =                 LeftLegCluster1(3,:)';
+LLegPosZ(:,5) =                 LeftLegCluster2(3,:)';
+LLegPosZ(:,6) =                 LeftLegCluster3(3,:)';
+LLegPosZ(:,7) =                 LeftLegCluster4(3,:)';
 LLegPosZ =                      mean(LLegPosZ,2);
 
 %Center location for the LLeg
@@ -428,23 +445,39 @@ segCenter.LLegCenter_mar_dim_frame(3,:) =     (LLegPosZ).';
 %Includes: RKneeOut, RShin, RAnkleOut
 RShin = getMarker(marker_mar_dim_frame,markerLabels,'RShin');
 RAnkleOut= getMarker(marker_mar_dim_frame,markerLabels,'RAnkleOut');
+RightLegCluster1 = getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster1');
+RightLegCluster2 = getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster2');
+RightLegCluster3 = getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster3');
+RightLegCluster4 = getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster4');
 
 %x values located on corresponding column
 RLegPosX(:,1) =                 RKneeOut(1,:)';
 RLegPosX(:,2) =                 RShin(1,:)';
 RLegPosX(:,3) =                 RAnkleOut(1,:)';
+RLegPosX(:,4) =                 RightLegCluster1(1,:)';
+RLegPosX(:,5) =                 RightLegCluster2(1,:)';
+RLegPosX(:,6) =                 RightLegCluster3(1,:)';
+RLegPosX(:,7) =                 RightLegCluster4(1,:)';
 RLegPosX =                      mean(RLegPosX,2);
 
 %y values located on corresponding column
 RLegPosY(:,1) =                 RKneeOut(2,:)';
 RLegPosY(:,2) =                 RShin(2,:)';
 RLegPosY(:,3) =                 RAnkleOut(2,:)';
+RLegPosY(:,4) =                 RightLegCluster1(2,:)';
+RLegPosY(:,5) =                 RightLegCluster2(2,:)';
+RLegPosY(:,6) =                 RightLegCluster3(2,:)';
+RLegPosY(:,7) =                 RightLegCluster4(2,:)';
 RLegPosY =                      mean(RLegPosY,2);
 
 %z values located on corresponding column
 RLegPosZ(:,1) =                 RKneeOut(3,:)';
 RLegPosZ(:,2) =                 RShin(3,:)';
 RLegPosZ(:,3) =                 RAnkleOut(3,:)';
+RLegPosZ(:,4) =                 RightLegCluster1(3,:)';
+RLegPosZ(:,5) =                 RightLegCluster2(3,:)';
+RLegPosZ(:,6) =                 RightLegCluster3(3,:)';
+RLegPosZ(:,7) =                 RightLegCluster4(3,:)';
 RLegPosZ =                      mean(RLegPosZ,2);
 
 %Center location for the RLeg

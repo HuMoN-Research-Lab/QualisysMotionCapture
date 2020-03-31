@@ -14,7 +14,7 @@ data  = load([fileName '.mat']);
 data = data.(['qtm_' strrep(fileName, '-', '_')]);
 
 %store force plate, frame number, and frame rate values into vars
-numForcePlates = length(data.Force);
+%numForcePlates = length(data.Force);
 numFrames = data.Frames;
 framerate = data.FrameRate;
 

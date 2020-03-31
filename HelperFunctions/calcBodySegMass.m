@@ -2,11 +2,11 @@ function [bodySegMass,segPropWeight] = calcBodySegMass(kgMass)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Calculates totalMass of each body segment based on users overall kgMass
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% Torso segMass by totalMass of body
+%Establishing output parameters
 bodySegMass = [];
 segPropWeight = [];
 
+%% Torso segMass by totalMass of body
 %Head propWeight
 segPropWeight.headProp =             0.0810; %headMass and neckMass 
 bodySegMass.headMass =              segPropWeight.headProp*kgMass;
