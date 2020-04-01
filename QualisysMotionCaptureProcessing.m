@@ -35,7 +35,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 
 %% calcRadiusOfGyration function
 % Function outputs radius of gyration for body segs
-[radiusGyration,density] = calcRadiusOfGyration(bodySegMass);
+[momentInertia,density] = calcRadiusOfGyration(bodySegMass);
 
 %% calcSegCOM function
 % Function outputs totalCOM considering marker location 

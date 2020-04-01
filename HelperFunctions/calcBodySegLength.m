@@ -14,6 +14,9 @@ bodySegLength.shoulderTotalLength =       0.1295*mmHeight;
 %% Chest breadth
 bodySegLength.chestTotalWidth =           0.174*mmHeight; %thorax width
 
+%% Trunk breadth
+bodySegLength.trunkTotalLength =          0.288*mmHeight; %greater trochanter to glenohumeral joint
+
 %% UpperArm length
 bodySegLength.upperArmTotalLength =       0.186*mmHeight;
 

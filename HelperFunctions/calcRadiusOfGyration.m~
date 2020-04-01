@@ -3,8 +3,7 @@ function [momentInertia,density] = calcRadiusOfGyration(bodySegMass)
 %calcRadiusOfGyration function calculates radius of gyration
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Establishing output parameters
-%radiusGyration = [];
-momentInertia = [];
+radiusGyration = [];
 density = [];
 
 %% Head radius of gyration COG, proximal, distal
@@ -41,13 +40,13 @@ density.trunk =                     1.03;
 
 %% Head, arms, and trunk (HAT) radius of gyration COG, proximal, distal
 %Includes: Thorax, Abdomen, Pelvis, and Head
-HATCOG =                            0.903;
-HATProximal =                       1.456;
-HATDistal =                         0.00;
+HATCOG =                            0.496;
+HATProximal =                       0.798;
+HATDistal =                         0.621;
 
 %Unsure if needed
-% momentInertia.HATCOG = bodySegMass.HATMass...
-%     .* (bodySegLength.chestTotalWidth .* HATCOG)^2;
+% momentInertia.HATCOG = bodySegMass.trunkMass + bodySegMass.headMass...
+%     + bodySegMass.totalArmMass .* (bodySegLength.chestTotalWidth .* HATCOG)^2;
 
 %% UpperArm radius of gyration COG, proximal, distal and density
 upperArmCOG =                       0.322;
@@ -134,9 +133,8 @@ momentInertia.footProximal =        bodySegMass.footMass .* ...
                                     (bodySegLength.footTotalLength .* footProximal)^2;
 
 footDistal =                        0.690;
-momentInertia.footDistal =          bodySegMass.footMass .* ...
+momentInertia.footProximal =        bodySegMass.footMass .* ...
                                     (bodySegLength.footTotalLength .* footDistal)^2;
 
 density.foot =                      1.10;
 
-end
