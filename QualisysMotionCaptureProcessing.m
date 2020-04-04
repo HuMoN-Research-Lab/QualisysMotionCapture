@@ -6,7 +6,9 @@ close all
 clearvars
 
 %Locates github path and connects subfolders to code
-cd '/Users/MT/Documents/Github/MotionCapture_MATLABCode'
+cd '/Users/MT/Documents/Github/MotionCapture_MATLABCode';
+%cd '/Users/MT/Documents/Github/MotionCapture_MATLABCode/GaitExtractToolbox16/install'
+%cd '/Users/MT/Documents/Github/MotionCapture_MATLABCode/Data/c3d_matlab/C3D'
 addpath(genpath(cd))
 
 %% Load acquired motion capture data
@@ -14,6 +16,10 @@ addpath(genpath(cd))
 fileName = '2020-03-04_JSM_TPose';
 %fileName = '2020-02-04_JSM_Walking0001';
 % fileName = '2020-02-04_JSM_Slackline0006';
+c3dPath = '/Users/MT/Documents/Github/MotionCapture_MATLABCode/Data/C3Dfiles';
+firstTrial = 1;
+lastTrial  = 2;
+trialNumber = (firstTrial:lastTrial);
 
 %Load file name and output various required variables
 [numFrames,framerate,markerLabels,numMarkers,marker_mar_dim_frame] ... 
