@@ -9,19 +9,14 @@ close all
 
 addpath(genpath(cd)) %%add the current folder & subfolders to the path (so Matlab can see the BTK methods)
 
-
-%Load .m files
-
-
-
 recordVideo = true;
 
 
 
-for iter = 2%:3
+for iter = 1:3
     close all
     
-    cd('/Users/MT/Documents/GitHub/MotionCapture_MATLABCode/COMPhaseSpacePlanning');
+    cd('Documents/GitHub/MationCapture_MATLABCode/COMPhaseSpacePlanning');
     %     cd('C:\Users\jonma\Dropbox\ResearchProjects\COMPhaseSpacePlanning\sub01\c3d')
     
     switch iter
@@ -38,6 +33,7 @@ for iter = 2%:3
             condTitle = 'Limited Vision';
             fid = 'trial015.mat';
     end
+    
     
     
     % load trial data using btk's weirdo methods
@@ -104,7 +100,11 @@ for iter = 2%:3
     global di fr az el play
     
     if recordVideo
-        cd('/Users/MT/Documents/GitHub/MotionCapture_MATLABCode/COMPhaseSpacePlanning');
+        cd('Documents/GitHub/MationCapture_MATLABCode/COMPhaseSpacePlanning/videos');
+        switch getenv('computername')
+            case     'DESKTOP-06PJ7UD' %Matthis Office PC
+                cd('C:\Users\jonma\Dropbox\ResearchProjects\COMPhaseSpacePlanning\vids')
+        end
         
         
         videoFileName = condTitle;
@@ -134,7 +134,14 @@ for iter = 2%:3
     figure(1)
     f = gcf;
     f.Position = [1 5 1920 1100];
-   
+    
+    
+    
+    
+    
+    
+    
+    
     %     step_fr_ft_XYZ(step_fr_ft_XYZ(:,1) < startFrame, :) = [];
     
     stepFr = step_fr_ft_XYZ(:,1);
@@ -539,6 +546,7 @@ for iter = 2%:3
     
     
 end
+
 
 
 
