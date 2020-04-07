@@ -1,0 +1,43 @@
+# Taken from file 'cond4.conf'
+# Subject name is 'sub01'
+# Subject leg length is 872
+IP = 128.113.106.178
+component color intersected = "#00FF00"
+component color visible = blue
+component height = 70
+component hit limit = 400
+component size = 50
+end box location = 4600 -15
+experiment type = 1
+folder name = cond4
+graze radius = 300
+hide next on hit = false
+hide next targets = 0
+invisibility_radius_multiplier = 0.0
+leg length = 930
+noise brightness = 0 1.0
+reveal next on hit = true
+reveal next targets = 1
+start box location = -150 -15
+start delay = 1000ms
+start+end box color = 255 255 0
+start+end box size = 300
+trial time limit = 6s
+trial_runs = 12
+visibility_radius_multiplier = 0.0
+
+[Left Foot Accuracy]
+LTOE
+
+[Left Foot Collisions]
+LTOE
+LHEE
+
+[Right Foot Accuracy]
+RTOE
+
+[Right Foot Collisions]
+RTOE
+RHEE
+
+# Warning: unused key 'experiment type' with value '1'

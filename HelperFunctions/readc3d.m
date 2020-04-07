@@ -1,4 +1,4 @@
-function [Markers,AnalogSignals,ParameterGroup]=readc3d(c3dFileName)
+function [Markers,ParameterGroup]=readc3d(c3dFileName)
 % GetC3D:	Getting 3D coordinate/analog data from a C3D file 
 %
 % Input:	c3dFileName - file (including path) to be read
@@ -42,11 +42,11 @@ end
 
 fid=fopen(c3dFileName,'r','n'); % native format (PC-intel)
 
-if fid==-1
-    h=errordlg(['File: ',c3dFileName,' could not be opened'],'application error');
-    uiwait(h)
-    return
-end
+% if fid==-1
+%     h=errordlg(['File: ',c3dFileName,' could not be opened'],'application error');
+%     uiwait(h)
+%     return
+% end
 
 NrecordFirstParameterblock=fread(fid,1,'int8');     % Reading record number of parameter section
 key=fread(fid,1,'int8');                            % key = 80;

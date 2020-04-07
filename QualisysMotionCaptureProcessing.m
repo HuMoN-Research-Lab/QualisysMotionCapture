@@ -35,7 +35,7 @@ path.trialNumber = (path.firstTrial:path.lastTrial);
 %[c3dData_fr_mrk_dim framerate c3dMarkerLabels] = loadc3dData(path.c3dPath, path.trialNumber);
 c3dFileName = 'trial001.c3d';
 % [c3dData_fr_mrk_dim framerate c3dMarkerLabels] = loadc3dData(path.c3dPath, trialNumber);
-[Markers,AnalogSignals,ParameterGroup]=readc3d(c3dFileName);
+[Markers,ParameterGroup]=readc3d(c3dFileName);
 
 %% findUser function
 %function locates relevant information based on user name
