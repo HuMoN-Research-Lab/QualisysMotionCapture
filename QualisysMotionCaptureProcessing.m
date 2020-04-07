@@ -11,19 +11,31 @@ cd '/Users/MT/Documents/Github/MotionCapture_MATLABCode';
 %cd '/Users/MT/Documents/Github/MotionCapture_MATLABCode/Data/c3d_matlab/C3D'
 addpath(genpath(cd))
 
-%% Load acquired motion capture data
+%% Load acquired Qualisys MoCap Data
 % Expects a .mat file in order for code to work
-fileName = '2020-03-04_JSM_TPose';
+%fileName = '2020-03-04_JSM_TPose';
 %fileName = '2020-02-04_JSM_Walking0001';
 % fileName = '2020-02-04_JSM_Slackline0006';
-c3dPath = '/Users/MT/Documents/Github/MotionCapture_MATLABCode/Data/C3Dfiles';
-firstTrial = 1;
-lastTrial  = 2;
-trialNumber = (firstTrial:lastTrial);
+% [numFrames,framerate,markerLabels,numMarkers,marker_mar_dim_frame] ... 
+%     = loadMoCapData(fileName);
 
-%Load file name and output various required variables
-[numFrames,framerate,markerLabels,numMarkers,marker_mar_dim_frame] ... 
-    = loadMoCapData(fileName);
+
+%% Load c3d data
+clc
+
+basePath = '/Users/MT/Documents/Github/MotionCapture_MATLABCode';
+path.c3dPath = '/Users/MT/Documents/Github/MotionCapture_MATLABCode/Data/c3dfiles';
+cd(path.c3dPath);
+
+path.firstTrial =   1; %WTBD input('Enter first trial number: ');
+path.lastTrial  =   192; %WTBD input('Enter last trial number: ');
+path.trialNumber = (path.firstTrial:path.lastTrial);
+% trialsPerCond = 12;
+
+%[c3dData_fr_mrk_dim framerate c3dMarkerLabels] = loadc3dData(path.c3dPath, path.trialNumber);
+c3dFileName = 'trial001.c3d';
+% [c3dData_fr_mrk_dim framerate c3dMarkerLabels] = loadc3dData(path.c3dPath, trialNumber);
+[Markers,AnalogSignals,ParameterGroup]=readc3d(c3dFileName);
 
 %% findUser function
 %function locates relevant information based on user name

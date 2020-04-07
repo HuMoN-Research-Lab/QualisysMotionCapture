@@ -1,16 +1,24 @@
-function [c3dData_fr_mrk_dim framerate c3dMarkerNames] = loadc3dData(c3dPath, trialNumber)
+function [c3dData_fr_mrk_dim framerate c3dMarkerLabels] = loadc3dData(c3dPath, trialNumber)
 
+%c3dPath
+% a.basePath = '/Users/Sean/Dropbox/VisInvis';
+% cd(a.basePath);
+
+% a.c3dPath = strcat(a.basePath,'/Data/',a.subID,'/c3d');
 cd(c3dPath)
 
-if (trialNumber < 10)
-    c3dFileName = sprintf('Trial00%d.c3d',trialNumber);
-    
-elseif ((trialNumber >= 10) && (trialNumber < 100))
-    c3dFileName = sprintf('Trial0%d.c3d',trialNumber);
-    
-elseif trialNumber >= 100
-    c3dFileName = sprintf('Trial%d.c3d',trialNumber);
-end
+%% Trials defined
+c3dFileName = 'trial001.c3d';
+
+% if (trialNumber < 10)
+%     c3dFileName = sprintf('Trial00%d.c3d',trialNumber);
+%     
+% elseif ((trialNumber >= 10) & (trialNumber < 100))
+%     c3dFileName = sprintf('Trial0%d.c3d',trialNumber);
+%     
+% elseif trialNumber >= 100
+%     c3dFileName = sprintf('Trial%d.c3d',trialNumber);
+% end
 
 %% Load .c3d data
 t = mcread(c3dFileName);
