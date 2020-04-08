@@ -21,21 +21,21 @@ addpath(genpath(cd))
 
 
 %% Load c3d data
-clc
+% clc
 
-basePath = '/Users/MT/Documents/Github/MotionCapture_MATLABCode';
-path.c3dPath = '/Users/MT/Documents/Github/MotionCapture_MATLABCode/Data/c3dfiles';
-cd(path.c3dPath);
-
-path.firstTrial =   1; %WTBD input('Enter first trial number: ');
-path.lastTrial  =   192; %WTBD input('Enter last trial number: ');
-path.trialNumber = (path.firstTrial:path.lastTrial);
-% trialsPerCond = 12;
-
-%[c3dData_fr_mrk_dim framerate c3dMarkerLabels] = loadc3dData(path.c3dPath, path.trialNumber);
-c3dFileName = 'trial001.c3d';
-% [c3dData_fr_mrk_dim framerate c3dMarkerLabels] = loadc3dData(path.c3dPath, trialNumber);
-[Markers,ParameterGroup]=readc3d(c3dFileName);
+% basePath = '/Users/MT/Documents/Github/MotionCapture_MATLABCode';
+% % path.c3dPath = '/Users/MT/Documents/Github/MotionCapture_MATLABCode/Data/c3dfiles';
+% cd(path.c3dPath);
+% 
+% path.firstTrial =   1; %WTBD input('Enter first trial number: ');
+% path.lastTrial  =   192; %WTBD input('Enter last trial number: ');
+% path.trialNumber = (path.firstTrial:path.lastTrial);
+% % trialsPerCond = 12;
+% 
+% %[c3dData_fr_mrk_dim framerate c3dMarkerLabels] = loadc3dData(path.c3dPath, path.trialNumber);
+% c3dFileName = 'trial001.c3d';
+% % [c3dData_fr_mrk_dim framerate c3dMarkerLabels] = loadc3dData(path.c3dPath, trialNumber);
+% [Markers,ParameterGroup]=readc3d(c3dFileName);
 
 %% findUser function
 %function locates relevant information based on user name

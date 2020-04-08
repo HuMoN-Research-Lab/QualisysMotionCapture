@@ -1,9 +1,8 @@
 % function [ c3dData ] = loadC3dBtk( fid ) %uncomment to run this as a function
-
-
-%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Load a c3d file and put all the useful bits into a struct called "c3dData"
-%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 clear all
 close all
 
@@ -11,12 +10,10 @@ addpath(genpath(cd)) %%add the current folder & subfolders to the path (so Matla
 
 recordVideo = true;
 
-
-
 for iter = 1:3
     close all
     
-    cd('Documents/GitHub/MationCapture_MATLABCode/COMPhaseSpacePlanning');
+    cd('/Users/MT/Documents/GitHub/MotionCapture_MATLABCode/COMPhaseSpacePlanning');
     %     cd('C:\Users\jonma\Dropbox\ResearchProjects\COMPhaseSpacePlanning\sub01\c3d')
     
     switch iter
@@ -34,19 +31,19 @@ for iter = 1:3
             fid = 'trial015.mat';
     end
     
+    load(fid)
     
+%     % load trial data using btk's weirdo methods
+%     acq = btkReadAcquisition(fid);
+%     mar = btkGetMarkers(acq);
     
-    % load trial data using btk's weirdo methods
-    acq = btkReadAcquisition(fid);
-    mar = btkGetMarkers(acq);
-    
-    marNames = fieldnames(mar);
+%     marNames = fieldnames(mar);
     %setup for Butterworth Filter (4th order low pass with 7HZ cutoff)
     order = 4;
     cutoff = 7;
-    framerate = btkGetPointFrequency(acq);
+%     framerate = btkGetPointFrequency(acq);
     
-    %initialize the variable for the marker, so it can be built within a for-loop. It is a 3D matrix with the dimensions are (Frame#,MarkerNumer,Dimension(XYZ))
+    %initialize the variable for the marker, so it can be built within a for-loop. It is a 3D matrix with the dimensions are (Frame#,MarkerNum,Dimension(XYZ))
     % e.g. data_fr_mar_dim (10:15, 2, 1:2) returns X and Y data for marker#2 on Frames 10:15
     data_fr_mar_dim = [];
     
@@ -60,11 +57,11 @@ for iter = 1:3
         end
     end
     
-    master.data_fr_mar_dim = data_fr_mar_dim;
+    data.data_fr_mar_dim = data_fr_mar_dim;
     data.framerate = framerate;
     data.markerNames = marNames;
-    data.analogs = btkGetAnalogs(acq);
-    data.angles = btkGetAngles(acq);
+%     data.analogs = btkGetAnalogs(acq);
+%     data.angles = btkGetAngles(acq);
     
     
     % %%example of how to sloppily pull out the data from a particular marker
@@ -75,8 +72,6 @@ for iter = 1:3
     [allSteps, step_fr_ft_XYZ]= ZeniStepFinder_ccpVid(data_fr_mar_dim, marNames);
     
     %% Plot
-    
-    
     
     data_fr_mar_dim(:,strcmp(marNames,'RBAK'),:) = nan(size(squeeze(data_fr_mar_dim(:,strcmp(marNames,'RBAK'),:))));
     
@@ -100,11 +95,11 @@ for iter = 1:3
     global di fr az el play
     
     if recordVideo
-        cd('Documents/GitHub/MationCapture_MATLABCode/COMPhaseSpacePlanning/videos');
-        switch getenv('computername')
-            case     'DESKTOP-06PJ7UD' %Matthis Office PC
-                cd('C:\Users\jonma\Dropbox\ResearchProjects\COMPhaseSpacePlanning\vids')
-        end
+        cd('/Users/MT/Documents/GitHub/MotionCapture_MATLABCode/COMPhaseSpacePlanning/videos');
+%         switch getenv('computername')
+%             case     'DESKTOP-06PJ7UD' %Matthis Office PC
+%                 cd('C:\Users\jonma\Dropbox\ResearchProjects\COMPhaseSpacePlanning\vids')
+%         end
         
         
         videoFileName = condTitle;
@@ -147,48 +142,48 @@ for iter = 1:3
     stepFr = step_fr_ft_XYZ(:,1);
     stepDur = diff(stepFr);
     
-    m1 = find(strcmp(marNames,'LFHD'));
-    m2 = find(strcmp(marNames,'RFHD'));
-    m3 = find(strcmp(marNames,'LBHD'));
-    m4 = find(strcmp(marNames,'RBHD'));
+    m1 =    find(strcmp(marNames,'LFHD'));
+    m2 =    find(strcmp(marNames,'RFHD'));
+    m3 =    find(strcmp(marNames,'LBHD'));
+    m4 =    find(strcmp(marNames,'RBHD'));
     
-    m5 = find(strcmp(marNames,'C7'));
-    m21 =  find(strcmp(marNames,'SACR'));
-    m10 =  find(strcmp(marNames,'LSHO'));
-    m9 =  find(strcmp(marNames,'RBAK'));
-    m11 =  find(strcmp(marNames,'LELB'));
-    m12 =  find(strcmp(marNames,'LWRA'));
-    m15 = find(strcmp(marNames,'RSHO'));
-    m16 =  find(strcmp(marNames,'RELB'));
-    m17 =  find(strcmp(marNames,'RWRA'));
-    m23 =  find(strcmp(marNames,'LKNE'));
-    m29 =  find(strcmp(marNames,'RKNE'));
-    m26 =  find(strcmp(marNames,'LHEE'));
-    m27 =  find(strcmp(marNames,'LTOE'));
-    m32 =  find(strcmp(marNames,'RHEE'));
-    m33 =  find(strcmp(marNames,'RTOE'));
+    m5 =    find(strcmp(marNames,'C7'));
+    m21 =   find(strcmp(marNames,'SACR'));
+    m10 =   find(strcmp(marNames,'LSHO'));
+    m9 =    find(strcmp(marNames,'RBAK'));
+    m11 =   find(strcmp(marNames,'LELB'));
+    m12 =   find(strcmp(marNames,'LWRA'));
+    m15 =   find(strcmp(marNames,'RSHO'));
+    m16 =   find(strcmp(marNames,'RELB'));
+    m17 =   find(strcmp(marNames,'RWRA'));
+    m23 =   find(strcmp(marNames,'LKNE'));
+    m29 =   find(strcmp(marNames,'RKNE'));
+    m26 =   find(strcmp(marNames,'LHEE'));
+    m27 =   find(strcmp(marNames,'LTOE'));
+    m32 =   find(strcmp(marNames,'RHEE'));
+    m33 =   find(strcmp(marNames,'RTOE'));
     
-    m19 = find(strcmp(marNames,'LASI'));
-    m20 = find(strcmp(marNames,'RASI'));
+    m19 =   find(strcmp(marNames,'LASI'));
+    m20 =   find(strcmp(marNames,'RASI'));
     
-    head = [ m1];
-    neck = [ m1 m5];
-    spine = [m5  m21];
+    head =      [ m1];
+    neck =      [ m1 m5];
+    spine =     [m5  m21];
     
-    pelvis = [m21 ];
+    pelvis =    [m21 ];
     
-    lsho = [m5 m10  ];
-    larm = [m9 m10 m11 m12 ];
+    lsho =      [m5 m10  ];
+    larm =      [m9 m10 m11 m12 ];
     
-    rsho = [m5 m15 ];
-    rarm = [ m15 m16  m17 ];
+    rsho =      [m5 m15 ];
+    rarm =      [ m15 m16  m17 ];
     
     
-    lupleg =  [m21 m23 ];
-    llowleg = [m23 m26 m27 ];
+    lupleg =    [m21 m23 ];
+    llowleg =   [m23 m26 m27 ];
     
-    rupleg = [ m21 m29 ];
-    rlowleg = [m29 m32 m33 ];
+    rupleg =    [ m21 m29 ];
+    rlowleg =   [m29 m32 m33 ];
     
     %     incMar =  [ 1 5 9 10 11 12 15 16 17 21 23  25 26 27 29 31 32 33];
     incMar =  [ m1 m5 m9 m10 m11 m12 m15 m16 m17 m21 m23  m26 m27 m29 m32 m33 ];

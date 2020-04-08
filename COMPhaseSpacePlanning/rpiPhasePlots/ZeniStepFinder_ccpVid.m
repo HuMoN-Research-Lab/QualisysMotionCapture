@@ -1,9 +1,9 @@
 
 % function [rightTO_HS, leftTO_HS] = ZeniStepFinder(shadow_fr_mar_dim,shadowMarkerNames, avg_fps)
 
-function [allSteps, step_hs_to_ft_XYZ] = ZeniStepFinder_ccpVid(c3d_fr_mar_dim, marNames)
+function [allSteps, step_hs_to_ft_XYZ] = ZeniStepFinder_ccpVid(data_fr_mar_dim, marNames)
 
-shadow_ds_fr_mar_dim = c3d_fr_mar_dim;
+shadow_ds_fr_mar_dim = data_fr_mar_dim;
 shadowMarkerNames = marNames;
 avg_fps = 120;
 
@@ -288,10 +288,10 @@ for i = 1:length(allSteps)
         
     else        
         if allSteps(i,3) == 1 %Right foot is on the ground
-            step_hs_to_ft_XYZ(i,:) = [allSteps(i,1) allSteps(i,2) allSteps(i,3) squeeze((c3d_fr_mar_dim(allSteps(i,1),strcmp(marNames,'RTOE'),:)))'];
+            step_hs_to_ft_XYZ(i,:) = [allSteps(i,1) allSteps(i,2) allSteps(i,3) squeeze((data_fr_mar_dim(allSteps(i,1),strcmp(marNames,'RTOE'),:)))'];
             
         elseif allSteps(i,3) == 2 %Left foot is on the round
-            step_hs_to_ft_XYZ(i,:) = [allSteps(i,1) allSteps(i,2) allSteps(i,3) squeeze((c3d_fr_mar_dim(allSteps(i,1),strcmp(marNames,'LTOE'),:)))'];
+            step_hs_to_ft_XYZ(i,:) = [allSteps(i,1) allSteps(i,2) allSteps(i,3) squeeze((data_fr_mar_dim(allSteps(i,1),strcmp(marNames,'LTOE'),:)))'];
         end
     end
 end
