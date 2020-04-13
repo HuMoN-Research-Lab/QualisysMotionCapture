@@ -1,4 +1,4 @@
-% function [ c3dData ] = loadC3dBtk( fid ) %uncomment to run this as a function
+% function [ c3dData ] = makePhaseSpaceVids(fid) %uncomment to run this as a function
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Load a c3d file and put all the useful bits into a struct called "c3dData"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

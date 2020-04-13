@@ -1,35 +1,36 @@
-function [segCenter] = calcSegCOM(marker_mar_dim_frame,markerLabels) %,markerID)
+function [segCenter] = calcPhaseSpaceSegCOM(marker_mar_dim_frame,markerLabels) %,markerID)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %calcSegCOM find the center position for each anatomical segment
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Head Markers
 %Store markers data into segCenter for the Head
 %Includes: HeadL, HeadTop, HeadR, and HeadFront
-HeadL = getMarker(marker_mar_dim_frame,markerLabels,'HeadL');
-HeadTop = getMarker(marker_mar_dim_frame,markerLabels,'HeadTop');
-HeadR = getMarker(marker_mar_dim_frame,markerLabels,'HeadR');
-HeadFront = getMarker(marker_mar_dim_frame,markerLabels,'HeadFront');
+HeadFrontL = getMarker(marker_mar_dim_frame,markerLabels,'LFHD');
+HeadFrontR = getMarker(marker_mar_dim_frame,markerLabels,'RFHD');
+HeadBackL = getMarker(marker_mar_dim_frame,markerLabels,'LBHD');
+HeadBackR = getMarker(marker_mar_dim_frame,markerLabels,'RBHD');
 
 %x values located on corresponding column
-headPosX(:,1) =                     HeadL(1,:)';
-headPosX(:,2) =                     HeadTop(1,:)';
-headPosX(:,3) =                     HeadR(1,:)';
-headPosX(:,4) =                     HeadFront(1,:)';
+headPosX(:,1) =                     HeadFrontL(1,:)';
+headPosX(:,2) =                     HeadFrontR(1,:)';
+headPosX(:,3) =                     HeadBackL(1,:)';
+headPosX(:,4) =                     HeadBackR(1,:)';
 headPosX =                          mean(headPosX,2);
 
 %y values located on corresponding column
-headPosY(:,1) =                     HeadL(2,:)';
-headPosY(:,2) =                     HeadTop(2,:)';
-headPosY(:,3) =                     HeadR(2,:)';
-headPosY(:,4) =                     HeadFront(2,:)';
+headPosY(:,1) =                     HeadFrontL(2,:)';
+headPosY(:,2) =                     HeadFrontR(2,:)';
+headPosY(:,3) =                     HeadBackL(2,:)';
+headPosY(:,4) =                     HeadBackR(2,:)';
 headPosY =                          mean(headPosY,2);
 
 %z values located on corresponding column
-headPosZ(:,1) =                     HeadL(3,:)';
-headPosZ(:,2) =                     HeadTop(3,:)';
-headPosZ(:,3) =                     HeadR(3,:)';
-headPosZ(:,4) =                     HeadFront(3,:)';
+headPosZ(:,1) =                     HeadFrontL(2,:)';
+headPosZ(:,2) =                     HeadFrontR(2,:)';
+headPosZ(:,3) =                     HeadBackL(2,:)';
+headPosZ(:,4) =                     HeadBackR(2,:)';
 headPosZ =                          mean(headPosZ,2);
+
 
 %Center location for the Head
 segCenter.headCenter_mar_dim_frame =              (headPosX).';
@@ -91,30 +92,31 @@ segCenter.RShoulderCenter_mar_dim_frame(3,:) =    (RShoulderPosZ).';
 %% Chest Markers
 %Store markers data into segCenter for the Chest
 %Includes: Chest, SpineTop, BackL, and BackR
-Chest = getMarker(marker_mar_dim_frame,markerLabels,'Chest');
-SpineTop = getMarker(marker_mar_dim_frame,markerLabels,'SpineTop');
-BackL = getMarker(marker_mar_dim_frame,markerLabels,'BackL');
-BackR = getMarker(marker_mar_dim_frame,markerLabels,'BackR');
+BackUpper  = getMarker(marker_mar_dim_frame,markerLabels,'C7');
+BackLower  = getMarker(marker_mar_dim_frame,markerLabels,'T10');
+TorsoUpper = getMarker(marker_mar_dim_frame,markerLabels,'CLAV');
+TorsoMid   = getMarker(marker_mar_dim_frame,markerLabels,'STRN');
+
 
 %x values located on corresponding column
-chestPosX(:,1) =                 Chest(1,:)';
-chestPosX(:,2) =                 SpineTop(1,:)';
-chestPosX(:,3) =                 BackL(1,:)';
-chestPosX(:,4) =                 BackR(1,:)';
+chestPosX(:,1) =                 BackLower(1,:)';
+chestPosX(:,2) =                 BackUpper(1,:)';
+chestPosX(:,3) =                 TorsoUpper(1,:)';
+chestPosX(:,4) =                 TorsoMid(1,:)';
 chestPosX =                      mean(chestPosX,2);
 
 %y values located on corresponding column
-chestPosY(:,1) =                 Chest(2,:)';
-chestPosY(:,2) =                 SpineTop(2,:)';
-chestPosY(:,3) =                 BackL(2,:)';
-chestPosY(:,4) =                 BackR(2,:)';
+chestPosY(:,1) =                 BackLower(2,:)';
+chestPosY(:,2) =                 BackUpper(2,:)';
+chestPosY(:,3) =                 TorsoUpper(2,:)';
+chestPosY(:,4) =                 TorsoMid(2,:)';
 chestPosY =                      mean(chestPosY,2);
 
 %z values located on corresponding column
-chestPosZ(:,1) =                 Chest(3,:)';
-chestPosZ(:,2) =                 SpineTop(3,:)';
-chestPosZ(:,3) =                 BackL(3,:)';
-chestPosZ(:,4) =                 BackR(3,:)';
+chestPosZ(:,1) =                 BackLower(3,:)';
+chestPosZ(:,2) =                 BackUpper(3,:)';
+chestPosZ(:,3) =                 TorsoUpper(3,:)';
+chestPosZ(:,4) =                 TorsoMid(3,:)';
 chestPosZ =                      mean(chestPosZ,2);
 
 %Center location for the Chest
@@ -558,5 +560,3 @@ RFootPosZ =                      mean(RFootPosZ,2);
 segCenter.RFootCenter_mar_dim_frame =          (RFootPosX).';
 segCenter.RFootCenter_mar_dim_frame(2,:) =     (RFootPosY).';
 segCenter.RFootCenter_mar_dim_frame(3,:) =     (RFootPosZ).';
-
-end

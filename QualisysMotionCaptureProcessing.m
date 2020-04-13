@@ -14,10 +14,10 @@ addpath(genpath(cd))
 %% Load acquired Qualisys MoCap Data
 % Expects a .mat file in order for code to work
 %fileName = '2020-03-04_JSM_TPose';
-%fileName = '2020-02-04_JSM_Walking0001';
+fileName = '2020-02-04_JSM_Walking0001';
 % fileName = '2020-02-04_JSM_Slackline0006';
-% [numFrames,framerate,markerLabels,numMarkers,marker_mar_dim_frame] ... 
-%     = loadMoCapData(fileName);
+[numFrames,framerate,markerLabels,numMarkers,marker_mar_dim_frame] ... 
+    = loadMoCapData(fileName);
 
 
 %% Load c3d data
@@ -53,7 +53,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 
 %% calcRadiusOfGyration function
 % Function outputs radius of gyration for body segs
-[momentInertia,density] = calcRadiusOfGyration(bodySegMass);
+%[momentInertia,density] = calcRadiusOfGyration(bodySegMass);
 
 %% calcSegCOM function
 % Function outputs totalCOM considering marker location 
