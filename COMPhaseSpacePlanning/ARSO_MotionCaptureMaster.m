@@ -13,9 +13,9 @@ kgMass   = 1;
 
 %% loadPhaseSpaceMoCapData function loads Phase Space Planning data
 fileName = 'trial011';
-
-[data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
-    = loadPhaseSpaceMoCapData(fileName);
+unknownID = 11;
+[unknownID,data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
+    = loadPhaseSpaceMoCapData(fileName,unknownID);
 
 close all
 
@@ -53,7 +53,7 @@ close all
 
 %% calcSegCOM function
 % Function outputs totalCOM considering marker location 
-%[segCenter] = calcPhaseSpaceSegCOM(marker_mar_dim_frame,markerLabels); %,markerID)
+[segCenter] = calcPhaseSpaceSegCOM(marker_mar_dim_frame,markerLabels); %,markerID)
 
 %% calcSegWeightCOM function
 % Function outputs totalCOM depending on seg weight
@@ -75,14 +75,14 @@ for fr = startFrames:10:numFrames   %fr = startFrames:10:numFrames
     
     %% Body segment eval
     %plot of total anatomical COM
-    plot3(RBAK(1,fr),...
-        RBAK(2,fr),...
-        RBAK(3,fr),'p','DisplayName','RBAK');
+    plot3(unknownID(1,fr),...
+        unknownID(2,fr),...
+        unknownID(3,fr),'p','DisplayName','LSHO');
     %% Total Body COM in 3D
     %plot of total anatomical COM
-    plot3(comXYZ(1,fr),...
-        comXYZ(2,fr),...
-        comXYZ(3,fr),'p','DisplayName','COMXYZ');
+%     plot3(comXYZ(1,fr),...
+%         comXYZ(2,fr),...
+%         comXYZ(3,fr),'p','DisplayName','COMXYZ');
     
     %% Plotting parameters
     axis equal
