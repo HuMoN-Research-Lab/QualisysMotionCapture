@@ -1,15 +1,18 @@
 function [smoothedData] = butterLowZero(order, cutoff, sampleRate, x)
 
+% [data_mar_dim_frame(1:numel(markerLabels),:,:)] = ...
+%     butterLowZero(order,cutoff,framerate,marker_mar_dim_frame(1:numel(markerLabels),1:3,:));
+
 % Applies a zero-lag lowpass buttworth filter with a cutoff at the specified frequency ('cutoff', Hz)
 % to data ('x', may be multiple columns/rows. Will filter along longest axis, so orientation should not matter)
 % at specified order ('order') for specified sampling rate ('sampleRate')
 [rows, cols] = size(x);
 
-if cols > rows
-    x = x';
-    [rows, cols] = size(x);
-    disp('Data oriented incorrectly for butterLowZero, might not be trustworthy')
-end
+% if cols > rows
+%     x = x.';
+%     [rows, cols] = size(x);
+%     disp('Data oriented incorrectly for butterLowZero, might not be trustworthy')
+% end
 
 
 %Inelegantly fill gaps, if any exist 
