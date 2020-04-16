@@ -10,8 +10,8 @@ data = load([fileName '.mat']);
 %% Extract variables from data and put into struct
 
 startFrames = data.startFrame;
-endFrames = data.endFrame;
-numFrames = endFrames - startFrames;
+% endFrames = data.endFrame;
+numFrames = data.endFrame;  % - startFrames;
 framerate = data.c3dData.framerate;
 markerLabels = (data.c3dData.markerNames).';
 marker_mar_dim_frame = permute(data.c3d_fr_mar_dim,[2,3,1]);     %major data set

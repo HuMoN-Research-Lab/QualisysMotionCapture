@@ -12,36 +12,45 @@ mmHeight = 1;
 kgMass   = 1;
 
 %% loadPhaseSpaceMoCapData function loads Phase Space Planning data
-fileName = 'trial011';
+% fileName = 'trial011';
+% fileName = 'trial042';
 % unknownID = 8;
-[data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
-    = loadPhaseSpaceMoCapData(fileName);
+% [data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
+%     = loadPhaseSpaceMoCapData(fileName);
 
-close all
-
-% for iter = 1:3
+for iter = 3
+    
+    cd('/Users/MT/Documents/GitHub/MotionCapture_MATLABCode/COMPhaseSpacePlanning');
+    %     cd('C:\Users\jonma\Dropbox\ResearchProjects\COMPhaseSpacePlanning\sub01\c3d')
+    
+    switch iter
+        
+        case 1
+            condTitle = 'Free Walking';
+            fid = 'trial011';
+            
+        case 2
+            condTitle = 'Full Vision';
+            fid = 'trial042';
+            
+        case 3
+            condTitle = 'Limited Vision';
+            fid = 'trial015';
+    end
+    
+    [data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
+    = loadPhaseSpaceMoCapData(fid);
+    
+%     %% butterworth filter application
+%     order   = 4;
+%     cutoff  = 7;
+%     clc
 %     close all
-%     
-%     cd('/Users/MT/Documents/GitHub/MotionCapture_MATLABCode/COMPhaseSpacePlanning');
-%     %     cd('C:\Users\jonma\Dropbox\ResearchProjects\COMPhaseSpacePlanning\sub01\c3d')
-%     
-%     switch iter
-%         
-%         case 1
-%             condTitle = 'Free Walking';
-%             fid = 'trial011.mat';
-%             
-%         case 2
-%             condTitle = 'Full Vision';
-%             fid = 'trial042.mat';
-%             
-%         case 3
-%             condTitle = 'Limited Vision';
-%             fid = 'trial015.mat';
-%     end
-%     
-%     load(fid)
-% end
+%     [data_mar_dim_frame(1:numel(markerLabels),:,:)] = butterLowZero(order,cutoff,framerate,marker_mar_dim_frame(1:numel(markerLabels),1:3,:)); %Butterworth filter each marker's data and load it into the trial
+
+
+end
+close all
 
 %% butterworth filter application
 order   = 4;
@@ -59,8 +68,11 @@ close all
 %     end
 % end
 
-[allSteps, step_hs_to_ft_XYZ] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
+[allSteps,step_hs_to_ft_XYZ,peaks] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
 % [allSteps, step_fr_ft_XYZ]= ZeniStepFinder_ccpVid(data_mar_dim_frame, markerLabels);
+
+%% Insert function that detects the subjects movement
+
 
 %% bodySegLength function
 % Function outputs length for individual body segs
@@ -79,8 +91,9 @@ close all
 [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
 
 %% Plot data
+figure(6801)
 
-for fr = startFrames:10:numFrames   %fr = startFrames:10:numFrames
+for fr = 1:10:numFrames
     %Clear current frame
     clf
 
@@ -89,7 +102,6 @@ for fr = startFrames:10:numFrames   %fr = startFrames:10:numFrames
         marker_mar_dim_frame(:, 2, fr),...
         marker_mar_dim_frame(:, 3, fr),'k.','MarkerFaceColor','k')
     
-    %Hold on for next set of plotting instructions
     hold on
     
 %     %% Uncover the unknown marker location
@@ -105,9 +117,9 @@ for fr = startFrames:10:numFrames   %fr = startFrames:10:numFrames
     
     %% Total Body COM in 3D
     %plot of total anatomical COM
-    plot3(totalCOMXYZ(1,fr),...
-        totalCOMXYZ(2,fr),...
-        totalCOMXYZ(3,fr),'p','DisplayName','TotalCOMXYZ');
+%     plot3(totalCOMXYZ(1,fr),...
+%         totalCOMXYZ(2,fr),...
+%         totalCOMXYZ(3,fr),'p','DisplayName','TotalCOMXYZ');
     
     %% Plotting parameters
     axis equal
