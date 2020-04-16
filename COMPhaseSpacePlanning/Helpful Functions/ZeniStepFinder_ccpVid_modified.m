@@ -1,11 +1,12 @@
 
 % function [rightTO_HS, leftTO_HS] = ZeniStepFinder(shadow_fr_mar_dim,shadowMarkerNames, avg_fps)
 
-function [allSteps, step_fr_ft_XYZ]= ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels)
+function [allSteps, step_hs_to_ft_XYZ] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate)
+data_fr_mar_dim = permute(data_mar_dim_frame,[3,1,2]);
 
-shadow_ds_fr_mar_dim = data_mar_dim_frame;
+shadow_ds_fr_mar_dim = permute(data_mar_dim_frame,[3,1,2]);
 shadowMarkerNames = markerLabels;
-avg_fps = 120;
+framerate = 120;
 
 % The basic idea is to first situate the data by subtracting the x & y
 % coordinates of the Root marker from each marker position at each frame,
@@ -34,45 +35,44 @@ c3dData = shadow_ds_fr_mar_dim;
 
 
 rFootID = find(strcmp('RTOE', shadowMarkerNames));
-rAnkX_noZ = squeeze(c3dData(rFootID,1,:)); % pull out rFootID marker as X vector
-rAnkY_noZ = squeeze(c3dData(rFootID,2,:)); % pull out rFootID marker as Y vector
-rAnkZ_noZ = squeeze(c3dData(rFootID,3,:)); % pull out rFootID marker as Z vector
+rAnkX_noZ = squeeze(c3dData(:,rFootID,1)); % pull out rFootID marker as X vector
+rAnkY_noZ = squeeze(c3dData(:,rFootID,2)); % pull out rFootID marker as Y vector
+rAnkZ_noZ = squeeze(c3dData(:,rFootID,3)); % pull out rFootID marker as Z vector
 
 lFootID = find(strcmp('LTOE', shadowMarkerNames));
-lAnkX_noZ = squeeze(c3dData(lFootID,1,:)); % pull out lFootID marker as X vector
-lAnkY_noZ = squeeze(c3dData(lFootID,2,:)); % pull out lFootID marker as Y vector
-lAnkZ_noZ = squeeze(c3dData(lFootID,3,:)); % pull out lFootID marker as Z vector
+lAnkX_noZ = squeeze(c3dData(:,lFootID,1)); % pull out lFootID marker as X vector
+lAnkY_noZ = squeeze(c3dData(:,lFootID,2)); % pull out lFootID marker as Y vector
+lAnkZ_noZ = squeeze(c3dData(:,lFootID,3)); % pull out lFootID marker as Z vector
 
 %define root as 'Body'
 BodyID = find(strcmp('SACR',shadowMarkerNames)); %find body marker
-root = squeeze(c3dData(BodyID,:,:));
-
+root = squeeze(c3dData(:,BodyID,:));
 
 
 % zero the data first (it's not already zeroed since not downsampled)
-for f = 1:numel(c3dData(1,1,:)) %f = Frame
-    for m = 1:numel(c3dData(:,1,1)) %m = Marker
-        c3dData(m,1,f) = c3dData(m,1,f) - root(1,f);
-        c3dData(m,2,f) = c3dData(m,2,f) - root(2,f);
-        c3dData(m,3,f) = c3dData(m,3,f) - root(3,f);
+for f = 1:numel(c3dData(:,1,1)) %f = Frame
+    for m = 1:numel(c3dData(1,:,1)) %m = Marker
+        c3dData(f,m,1) = c3dData(f,m,1) - root(f,1);
+        c3dData(f,m,2) = c3dData(f,m,2) - root(f,2);
+        c3dData(f,m,3) = c3dData(f,m,3) - root(f,3);
     end
 end
 
 
-rAnkX = squeeze(c3dData(rFootID,1,:)); % pull out rFootID marker as X vector
-rAnkY = squeeze(c3dData(rFootID,2,:)); % pull out rFootID marker as Y vector
-rAnkZ = squeeze(c3dData(rFootID,3,:)); % pull out rFootID marker as Z vector
+rAnkX = squeeze(c3dData(:,rFootID,1)); % pull out rFootID marker as X vector
+rAnkY = squeeze(c3dData(:,rFootID,2)); % pull out rFootID marker as Y vector
+rAnkZ = squeeze(c3dData(:,rFootID,3)); % pull out rFootID marker as Z vector
 
-lAnkX = squeeze(c3dData(lFootID,1,:)); % pull out lFootID marker as X vector
-lAnkY = squeeze(c3dData(lFootID,2,:)); % pull out lFootID marker as Y vector
-lAnkZ = squeeze(c3dData(lFootID,3,:)); % pull out lFootID marker as Z vector
+lAnkX = squeeze(c3dData(:,lFootID,1)); % pull out lFootID marker as X vector
+lAnkY = squeeze(c3dData(:,lFootID,2)); % pull out lFootID marker as Y vector
+lAnkZ = squeeze(c3dData(:,lFootID,3)); % pull out lFootID marker as Z vector
 
 
 %find frames wherein subject is moving
-rootVel = diff(root(1,:))*mean(avg_fps)/1000;
+rootVel = diff(root(:,1))*mean(framerate)/1000;
 posRootVel = abs(rootVel);
 
-%% Right and Left Ankle markers
+%% Right and Left Ankle Marker Velocity
 % add Xvel to Zvel to get 2d vel
 rAnkVelX = diff(rAnkX);
 rAnkVelZ = diff(rAnkZ);
@@ -173,20 +173,58 @@ end
 
 
 
-% % Uncomment for debugging Plots
-% subplot(2,1,1)
-% plot(rAnkVel2D,'r-o','MarkerSize',2)
-% hold on
-% plot(rTO,0,'mo')
-% plot(rHS,0,'mx')
-% grid on
+% Uncomment for debugging Plots
+subplot(2,1,1)
+plot(rAnkVel2D,'r-o','MarkerSize',2)
+hold on
+plot(rTO,0,'mo')
+plot(rHS,0,'mx')
+grid on
+
+subplot(2,1,2)
+plot(lAnkVel2D, 'b-o','MarkerSize',2)
+hold on
+plot(lTO,0,'mo')
+plot(lHS,0,'mx')
+grid on
+
+% %% Right and Left Ankle Marker Acceleration
+% % add Xvel to Zvel to get 2d vel
+% rAnkAccX = diff(rAnkVelX);
+% rAnkAccZ = diff(rAnkVelZ);
+% rAnkAcc2D = plus(rAnkAccX, rAnkAccZ);
 % 
-% subplot(212)
-% plot(lAnkVel2D, 'b-o','MarkerSize',2)
-% hold on
-% plot(lTO,0,'mo')
-% plot(lHS,0,'mx')
-% grid on
+% lAnkAccX = diff(lAnkVelX);
+% lAnkAccZ = diff(lAnkVelZ);
+% lAnkAcc2D = plus(lAnkAccX, lAnkAccZ);
+% 
+% % Plots for debugging acceleration code
+% figure(394);
+% subplot(2,1,1)
+% plot(rAnkAcc2D,'r-o','MarkerSize',2)
+% 
+% subplot(2,1,2)
+% plot(lAnkAcc2D, 'b-o','MarkerSize',2)
+% 
+% 
+% %% Right and Left Ankle Marker Jerk
+% % add Xvel to Zvel to get 2d vel
+% rAnkJerkX = diff(rAnkAccX);
+% rAnkJerkZ = diff(rAnkAccZ);
+% rAnkJerk2D = plus(rAnkJerkX, rAnkJerkZ);
+% 
+% lAnkJerkX = diff(lAnkAccX);
+% lAnkJerkZ = diff(lAnkVelZ);
+% lAnkJerk2D = plus(lAnkJerkX, lAnkJerkZ);
+% 
+% % Plots for debugging acceleration code
+% figure(2052);
+% subplot(2,1,1)
+% plot(rAnkJerk2D,'r-o','MarkerSize',2)
+% 
+% subplot(2,1,2)
+% plot(lAnkJerk2D, 'b-o','MarkerSize',2)
+
 
 %% remove orphan Toe offs and heel stikes
 % body threshold for movement instead of removing orphans
@@ -240,14 +278,6 @@ if numel(lHS) > numel(lTO)
 end
 
 
-
-
-
-
-
-
-
-
 rSteps = [];
 lSteps = [];
 
@@ -255,12 +285,12 @@ lSteps = [];
 
 rSteps = [rTO; rHS]';
 
-rSteps(3,:) = 1; %tag right steps as '1'
+rSteps(:,3) = 1; %tag right steps as '1'
 
 
 lSteps = [lTO; lHS]';
 
-lSteps(3,:) = 2; %tag left steps as '2'
+lSteps(:,3) = 2; %tag left steps as '2'
 
 allSteps = sortrows([rSteps; lSteps]);
 
@@ -269,7 +299,7 @@ allSteps = sortrows([rSteps; lSteps]);
 
 order = 4;
 cutoff = .1;
-posRootVel = butterLowZero(order,cutoff,mean(avg_fps),posRootVel);
+posRootVel = butterLowZero(order,cutoff,mean(framerate),posRootVel);
 
 thresh = .1;
 moving = posRootVel>thresh;
@@ -281,15 +311,15 @@ moving = posRootVel>thresh;
 % plot(moving./10,'o')
 
 for i = 1:length(allSteps)
-    if moving(allSteps(1,i)) == 0 %if the subject wasn't moving, nan the step and move on
-        allSteps(:,i) = [nan nan nan];
+    if moving(allSteps(i,1)) == 0 %if the subject wasn't moving, nan the step and move on
+        allSteps(i,:) = [nan nan nan];
         
     else        
-        if allSteps(3,i) == 1 %Right foot is on the ground
-            step_fr_ft_XYZ(:,i) = [allSteps(i,1) allSteps(i,2) allSteps(i,3) squeeze((data_mar_dim_frame(allSteps(i,1),strcmp(markerLabels,'RTOE'),:)))'];
+        if allSteps(i,3) == 1 %Right foot is on the ground
+            step_hs_to_ft_XYZ(i,:) = [allSteps(i,1) allSteps(i,2) allSteps(i,3) squeeze((data_fr_mar_dim(allSteps(i,1),strcmp(markerLabels,'RTOE'),:)))'];
             
         elseif allSteps(i,3) == 2 %Left foot is on the round
-            step_fr_ft_XYZ(:,i) = [allSteps(i,1) allSteps(i,2) allSteps(i,3) squeeze((data_mar_dim_frame(allSteps(i,1),strcmp(markerLabels,'RTOE'),:)))'];
+            step_hs_to_ft_XYZ(i,:) = [allSteps(i,1) allSteps(i,2) allSteps(i,3) squeeze((data_fr_mar_dim(allSteps(i,1),strcmp(markerLabels,'LTOE'),:)))'];
         end
     end
 end
@@ -298,25 +328,30 @@ end
 
 % 
 % 
-% % Uncomment for debugging Plots
-% figure;clf;
-% subplot(2,1,1)
-% plot(rAnkVel2D,'r-o','MarkerSize',2)
-% hold on
-% plot(rSteps(:,2),0,'ko','MarkerSize',8)
-% plot(rSteps(:,1),0,'kx','MarkerSize',8)
-% 
-% plot(allSteps( allSteps(:,3)==1,1),0,'mx','MarkerSize',2)
-% 
-% grid on
-% 
-% subplot(212)
-% plot(lAnkVel2D, 'b-o','MarkerSize',2)
-% hold on
-% plot(lSteps(:,2),0,'ko','MarkerSize',2)
-% plot(lSteps(:,1),0,'kx','MarkerSize',2)
-% plot(allSteps( allSteps(:,3)==2,1),0,'gx','MarkerSize',2)
-% 
-% grid on
+% Plot for debugging subject velocity
+figure;
+clf;
+
+subplot(2,1,1)
+title('Right Foot Velocity');
+
+plot(rAnkVel2D,'r-o','MarkerSize',2)
+hold on
+plot(rSteps(:,2),0,'ko','MarkerSize',8)
+plot(rSteps(:,1),0,'kx','MarkerSize',8)
+
+plot(allSteps( allSteps(:,3)==1,1),0,'mx','MarkerSize',2)
+grid on
+
+subplot(212)
+title('Left Foot Velocity');
+
+plot(lAnkVel2D, 'b-o','MarkerSize',2)
+hold on
+plot(lSteps(:,2),0,'ko','MarkerSize',2)
+plot(lSteps(:,1),0,'kx','MarkerSize',2)
+plot(allSteps(allSteps(:,3)==2,1),0,'gx','MarkerSize',2)
+
+grid on
 
 

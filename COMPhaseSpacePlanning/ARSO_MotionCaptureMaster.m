@@ -47,7 +47,7 @@ close all
 order   = 4;
 cutoff  = 7;
 clc
-
+close all
 [data_mar_dim_frame(1:numel(markerLabels),:,:)] = butterLowZero(order,cutoff,framerate,marker_mar_dim_frame(1:numel(markerLabels),1:3,:)); %Butterworth filter each marker's data and load it into the trial
 
 % for m = 1:numel(markerLabels)
@@ -59,7 +59,8 @@ clc
 %     end
 % end
 
-[allSteps, step_fr_ft_XYZ]= ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels);
+[allSteps, step_hs_to_ft_XYZ] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
+% [allSteps, step_fr_ft_XYZ]= ZeniStepFinder_ccpVid(data_mar_dim_frame, markerLabels);
 
 %% bodySegLength function
 % Function outputs length for individual body segs
