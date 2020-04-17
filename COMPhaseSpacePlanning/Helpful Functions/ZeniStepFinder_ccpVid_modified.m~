@@ -1,12 +1,21 @@
 
 % function [rightTO_HS, leftTO_HS] = ZeniStepFinder(shadow_fr_mar_dim,shadowMarkerNames, avg_fps)
 
-function [allSteps, step_hs_to_ft_XYZ] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate)
+function [allSteps,step_hs_to_ft_XYZ,peaks,calcData] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate)
 data_fr_mar_dim = permute(data_mar_dim_frame,[3,1,2]);
 
 shadow_ds_fr_mar_dim = permute(data_mar_dim_frame,[3,1,2]);
 shadowMarkerNames = markerLabels;
 framerate = 120;
+peaks = [];
+
+%right foot heel-toe strike
+calcData.rTO = [];
+calcData.rHS = [];
+
+%left foot heel-toe strike
+calcData.lTO = [];
+calcData.lHS = [];
 
 % The basic idea is to first situate the data by subtracting the x & y
 % coordinates of the Root marker from each marker position at each frame,
@@ -71,18 +80,8 @@ lAnkZ = squeeze(c3dData(:,lFootID,3)); % pull out lFootID marker as Z vector
 %find frames wherein subject is moving
 rootVel = diff(root(:,1))*mean(framerate)/1000;
 posRootVel = abs(rootVel);
-
-%% Right and Left Ankle Marker Velocity
-% add Xvel to Zvel to get 2d vel
-rAnkVelX = diff(rAnkX);
-rAnkVelZ = diff(rAnkZ);
-rAnkVel2D = plus(rAnkVelX, rAnkVelZ);
-
-lAnkVelX = diff(lAnkX);
-lAnkVelZ = diff(lAnkZ);
-lAnkVel2D = plus(lAnkVelX, lAnkVelZ);
-
-
+startFrame = 1;
+endFrame = length(root);
 
 %% Find frames where sub is walking
 % thresh = .1;
@@ -113,45 +112,41 @@ lAnkVel2D = plus(lAnkVelX, lAnkVelZ);
 % hold on 
 % plot([startFrame endFrame], posRootVel([startFrame endFrame]), 'o')
 % 
-startFrame = 1;
-endFrame = length(root);
 
-rTO = [];
-rHS = [];
+%% Right and Left Ankle Marker Velocity
+% add Xvel to Zvel to get 2d vel
+rAnkVelX = diff(rAnkX);
+rAnkVelZ = diff(rAnkZ);
+rAnkVel2D = plus(rAnkVelX, rAnkVelZ);
+calcData.rAnkVel2D = rAnkVel2D;
 
-lTO = [];
-lHS = [];
-
+lAnkVelX = diff(lAnkX);
+lAnkVelZ = diff(lAnkZ);
+lAnkVel2D = plus(lAnkVelX, lAnkVelZ);
+calcData.lAnkVel2D = lAnkVel2D;
 
 for i = startFrame+1:endFrame-1
     %need to take absolute value to see if it is moving
     
     %Right foot toe offs
     if rAnkVel2D(i-1) <= 0 && rAnkVel2D(i) > 0
-        rTO(end+1) = i;
-        
+        calcData.rTO(end+1) = i; 
+    end
+    
+    %Right foot heel strikes
+    if (rAnkVel2D(i-1) >= 0 && rAnkVel2D(i) < 0)
+        calcData.rHS(end+1) = i;
     end
     
     %Left foot Toe offs
     if (lAnkVel2D(i-1) <= 0 && lAnkVel2D(i) > 0)
-        lTO(end+1) = i;
-        
-    end
-    
-    
-    
-    
-    if (rAnkVel2D(i-1) >= 0 && rAnkVel2D(i) < 0)
-        rHS(end+1) = i;
+        calcData.lTO(end+1) = i;  
     end
     
     %Left foot heel strikes
     if (lAnkVel2D(i-1) >= 0 && lAnkVel2D(i) < 0)
-        lHS(end+1) = i;
-        
+        calcData.lHS(end+1) = i;
     end
-    
-    
     
 end
 
@@ -163,66 +158,95 @@ end
 % % ind = find(rootVel > 0.2); %ind = frames in which rootVel is greater than 0.2 m/s
 %
 % %remove TO's and HS's that are not listed in "ind"
-% rTO = intersect(rTO,ind);
-% rHS = intersect(rHS,ind);
+% calcData.rTO = intersect(calcData.rTO,ind);
+% calcData.rHS = intersect(calcData.rHS,ind);
 %
-% lTO = intersect(lTO,ind);
-% lHS = intersect(lHS,ind);
+% calcData.lTO = intersect(calcData.lTO,ind);
+% calcData.lHS = intersect(calcData.lHS,ind);
 
-
-
-%% Plots for debugging velocity
-figure(302)
-subplot(2,1,1)
-plot(rAnkVel2D,'r-o','MarkerSize',2)
-hold on
-plot(rTO,0,'mo')
-plot(rHS,0,'mx')
-grid on
-title('Right Ankle Velocity')
+% %Plots for debugging velocity
+% figure(302)
+% subplot(2,2,1)
+% plot(rAnkVel2D,'r-o','MarkerSize',2)
+% hold on
+% plot(calcData.rTO,0,'mo')
+% plot(calcData.rHS,0,'mx')
+% grid on
+% title('Right Ankle Velocity')
+% % ylim([-10 10])
+% 
+% subplot(2,2,2)
+% plot(lAnkVel2D, 'b-o','MarkerSize',2)
+% hold on
+% plot(calcData.lTO,0,'mo')
+% plot(calcData.lHS,0,'mx')
+% grid on
+% title('Left Ankle Velocity')
 % ylim([-10 10])
+% 
+% hold on
 
+%Identify the peaks in velocity data
+[pks,locs] = findpeaks(rAnkVel2D,'MinPeakProminence',1);
+peaks.rAnkVelPeak = [pks,locs];
 
-subplot(2,1,2)
-plot(lAnkVel2D, 'b-o','MarkerSize',2)
-hold on
-plot(lTO,0,'mo')
-plot(lHS,0,'mx')
-grid on
-title('Left Ankle Velocity')
-% ylim([-10 10])
-
+[pks,locs] = findpeaks(lAnkVel2D,'MinPeakProminence',1);
+peaks.lAnkVelPeak = [pks,locs];
 
 %% Right and Left Ankle Marker Acceleration
 % add Xvel to Zvel to get 2d vel
 rAnkAccX = diff(rAnkVelX);
 rAnkAccZ = diff(rAnkVelZ);
 rAnkAcc2D = plus(rAnkAccX, rAnkAccZ);
+calcData.rAnkAcc2D = rAnkAcc2D
 
 lAnkAccX = diff(lAnkVelX);
 lAnkAccZ = diff(lAnkVelZ);
 lAnkAcc2D = plus(lAnkAccX, lAnkAccZ);
 
-% Plots for debugging acceleration code
-figure(394);
-subplot(2,1,1)
-plot(rAnkAcc2D,'r-o','MarkerSize',2)
-hold on
-plot(rTO,0,'mo')
-plot(rHS,0,'mx')
-title('Right Ankle Acceleration')
-% ylim([-1 1])
+% for i = startFrame+1:endFrame-1
+%     %need to take absolute value to see if it is moving
+%     
+%     %Right foot toe offs
+%     if rAnkAcc2D(i-1) <= 0 && rAnkAcc2D(i) > 0
+%         calcData.rTO(end+1) = i;
+%     end
+%     
+%     %Right foot heel strikes
+%     if (rAnkAcc2D(i-1) >= 0 && rAnkAcc2D(i) < 0)
+%         calcData.rHS(end+1) = i;
+%     end
+%     
+%     %Left foot Toe offs
+%     if (lAnkAcc2D(i-1) <= 0 && lAnkAcc2D(i) > 0)
+%         calcData.lTO(end+1) = i;  
+%     end
+%     
+%     %Left foot heel strikes
+%     if (lAnkAcc2D(i-1) >= 0 && lAnkAcc2D(i) < 0)
+%         calcData.lHS(end+1) = i;
+%     end
+% end
 
-subplot(2,1,2)
-plot(lAnkAcc2D, 'b-o','MarkerSize',2)
-hold on
-plot(lTO,0,'mo')
-plot(lHS,0,'mx')
-title('Left Ankle Acceleration')
-% ylim([-1 1])
+% %% Plots for debugging acceleration code
+% % figure(394);
+% subplot(2,2,3)
+% plot(rAnkAcc2D,'r-o','MarkerSize',2)
+% hold on
+% plot(calcData.rTO,0,'mo')
+% plot(calcData.rHS,0,'mx')
+% title('Right Ankle Acceleration')
+% % ylim([-1 1])
+% 
+% subplot(2,2,4)
+% plot(lAnkAcc2D, 'b-o','MarkerSize',2)
+% hold on
+% plot(calcData.lTO,0,'mo')
+% plot(calcData.lHS,0,'mx')
+% title('Left Ankle Acceleration')
+% % ylim([-1 1])
 
 %% Right and Left Ankle Marker Jerk
-% add Xvel to Zvel to get 2d vel
 rAnkJerkX = diff(rAnkAccX);
 rAnkJerkZ = diff(rAnkAccZ);
 rAnkJerk2D = plus(rAnkJerkX, rAnkJerkZ);
@@ -232,73 +256,72 @@ lAnkJerkX = diff(lAnkAccX);
 lAnkJerkZ = diff(lAnkAccZ);
 lAnkJerk2D = plus(lAnkJerkX, lAnkJerkZ);
 lAnkJerk2D = (lAnkJerk2D).^2;
-
-% Plots for debugging acceleration code
-figure(2052);
-subplot(2,1,1)
-plot(rAnkJerk2D,'r-o','MarkerSize',2)
-hold on
-plot(rTO,0,'mo')
-plot(rHS,0,'mx')
-title('Right Ankle Jerk')
-% ylim([0 0.008])
-
-subplot(2,1,2)
-plot(lAnkJerk2D, 'b-o','MarkerSize',2)
-hold on
-plot(lTO,0,'mo')
-plot(lHS,0,'mx')
-title('Left Ankle Jerk')
-% ylim([0 0.035])
+% 
+% % Plots for debugging acceleration code
+% subplot(2,2,5)
+% plot(rAnkJerk2D,'r-o','MarkerSize',2)
+% hold on
+% plot(calcData.rTO,0,'mo')
+% plot(calcData.rHS,0,'mx')
+% title('Right Ankle Jerk')
+% % ylim([0 0.008])
+% 
+% subplot(2,2,6)
+% plot(lAnkJerk2D, 'b-o','MarkerSize',2)
+% hold on
+% plot(calcData.lTO,0,'mo')
+% plot(calcData.lHS,0,'mx')
+% title('Left Ankle Jerk')
+% % ylim([0 0.035])
 
 %% remove orphan Toe offs and heel stikes
 % body threshold for movement instead of removing orphans
 
-if rHS(1)< rTO(1)
-    rHS(1) = [];
+if calcData.rHS(1)< calcData.rTO(1)
+    calcData.rHS(1) = [];
 end
 
-if rTO(end) > rHS(end)
-    rTO(end) = [];
+if calcData.rTO(end) > calcData.rHS(end)
+    calcData.rTO(end) = [];
 end
 
-if lHS(1)< lTO(1)
-    lHS(1) = [];
+if calcData.lHS(1)< calcData.lTO(1)
+    calcData.lHS(1) = [];
 end
 
-if lTO(end) > lHS(end)
-    lTO(end) = [];
+if calcData.lTO(end) > calcData.lHS(end)
+    calcData.lTO(end) = [];
 end
 
 
 
 
-if numel(rTO) > numel(rHS)
-    if rHS(1) - rTO(1) > rTO(1) - rTO(2) %if the time between rTO(1) and rHS(1) is larger than rTO(1) and rTO(2), remove rTO(1)
-        rTO(1) = [];
-    else rTO(end) = []; %otherwise, the rTO(end) is the problem
+if numel(calcData.rTO) > numel(calcData.rHS)
+    if calcData.rHS(1) - calcData.rTO(1) > calcData.rTO(1) - calcData.rTO(2) %if the time between calcData.rTO(1) and calcData.rHS(1) is larger than calcData.rTO(1) and calcData.rTO(2), remove calcData.rTO(1)
+        calcData.rTO(1) = [];
+    else calcData.rTO(end) = []; %otherwise, the calcData.rTO(end) is the problem
     end
 end
 
-if numel(lTO) > numel(lHS)
-    if lHS(1) - lTO(1) > lTO(1) - lTO(2) %if the time between lTO(1) and lHS(1) is larger than lTO(1) and lTO(2), remove lTO(1)
-        lTO(1) = [];
-    else lTO(end) = [];
+if numel(calcData.lTO) > numel(calcData.lHS)
+    if calcData.lHS(1) - calcData.lTO(1) > calcData.lTO(1) - calcData.lTO(2) %if the time between calcData.lTO(1) and calcData.lHS(1) is larger than calcData.lTO(1) and calcData.lTO(2), remove calcData.lTO(1)
+        calcData.lTO(1) = [];
+    else calcData.lTO(end) = [];
     end
 end
 
 
-if numel(rHS) > numel(rTO)
-    if rHS(1) < rTO(1)
-        rHS(1) = [];
-    else    rHS(end) = [];
+if numel(calcData.rHS) > numel(calcData.rTO)
+    if calcData.rHS(1) < calcData.rTO(1)
+        calcData.rHS(1) = [];
+    else    calcData.rHS(end) = [];
     end
 end
 
-if numel(lHS) > numel(lTO)
-    if lHS(1) < lTO(1)
-        lHS(1) = [];
-    else lHS(end) = [];
+if numel(calcData.lHS) > numel(calcData.lTO)
+    if calcData.lHS(1) < calcData.lTO(1)
+        calcData.lHS(1) = [];
+    else calcData.lHS(end) = [];
     end
 end
 
@@ -308,12 +331,12 @@ lSteps = [];
 
 
 
-rSteps = [rTO; rHS]';
+rSteps = [calcData.rTO; calcData.rHS]';
 
 rSteps(:,3) = 1; %tag right steps as '1'
 
 
-lSteps = [lTO; lHS]';
+lSteps = [calcData.lTO; calcData.lHS]';
 
 lSteps(:,3) = 2; %tag left steps as '2'
 
@@ -354,28 +377,28 @@ end
 % 
 % 
 % Plot for debugging subject velocity
-figure(18763);
-clf;
-
-subplot(2,1,1)
-title('Right Foot Velocity');
-
-plot(rAnkVel2D,'r-o','MarkerSize',2)
-hold on
-plot(rSteps(:,2),0,'ko','MarkerSize',8)
-plot(rSteps(:,1),0,'kx','MarkerSize',8)
-
-plot(allSteps( allSteps(:,3)==1,1),0,'mx','MarkerSize',2)
-grid on
-
-subplot(2,1,2)
-title('Left Foot Velocity');
-
-plot(lAnkVel2D, 'b-o','MarkerSize',2)
-hold on
-plot(lSteps(:,2),0,'ko','MarkerSize',2)
-plot(lSteps(:,1),0,'kx','MarkerSize',2)
-plot(allSteps(allSteps(:,3)==2,1),0,'gx','MarkerSize',2)
+% figure(18763);
+% clf;
+% 
+% subplot(2,1,1)
+% title('Right Foot Velocity');
+% 
+% plot(rAnkVel2D,'r-o','MarkerSize',2)
+% hold on
+% plot(rSteps(:,2),0,'ko','MarkerSize',8)
+% plot(rSteps(:,1),0,'kx','MarkerSize',8)
+% 
+% plot(allSteps( allSteps(:,3)==1,1),0,'mx','MarkerSize',2)
+% grid on
+% 
+% subplot(2,1,2)
+% title('Left Foot Velocity');
+% 
+% plot(lAnkVel2D, 'b-o','MarkerSize',2)
+% hold on
+% plot(lSteps(:,2),0,'ko','MarkerSize',2)
+% plot(lSteps(:,1),0,'kx','MarkerSize',2)
+% plot(allSteps(allSteps(:,3)==2,1),0,'gx','MarkerSize',2)
 
 grid on
 

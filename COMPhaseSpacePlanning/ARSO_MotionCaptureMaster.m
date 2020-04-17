@@ -18,8 +18,8 @@ kgMass   = 1;
 % [data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
 %     = loadPhaseSpaceMoCapData(fileName);
 
-for iter = 3
-    
+for iter = 1
+    %% Identify location where files are stored
     cd('/Users/MT/Documents/GitHub/MotionCapture_MATLABCode/COMPhaseSpacePlanning');
     %     cd('C:\Users\jonma\Dropbox\ResearchProjects\COMPhaseSpacePlanning\sub01\c3d')
     
@@ -38,26 +38,86 @@ for iter = 3
             fid = 'trial015';
     end
     
+    %% Load data from specific fid
     [data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
     = loadPhaseSpaceMoCapData(fid);
     
-%     %% butterworth filter application
-%     order   = 4;
-%     cutoff  = 7;
-%     clc
-%     close all
-%     [data_mar_dim_frame(1:numel(markerLabels),:,:)] = butterLowZero(order,cutoff,framerate,marker_mar_dim_frame(1:numel(markerLabels),1:3,:)); %Butterworth filter each marker's data and load it into the trial
+    close all
+    
+    %% Filter data using butterworth
+    order   = 4;
+    cutoff  = 7;
+    
+    [data_mar_dim_frame] = butterLowZero(order,cutoff,framerate,marker_mar_dim_frame); %left(1:numel(markerLabels),:,:) right(1:numel(markerLabels),1:3,:) Butterworth filter each marker's data and load it into the trial
+    
+    %% Identify all heel-toe step locations
+    [allSteps,step_hs_to_ft_XYZ,peaks,calcData] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
 
+    %% Store trials data in struct
+    if fid == 'trial011' %condTitle == 'Free Walking'
+        processedData.FreeWalkingData.filteredData =            data_mar_dim_frame;
+        processedData.FreeWalkingData.rawData =                 marker_mar_dim_frame;
+        processedData.FreeWalkingData.allSteps =                allSteps;
+        processedData.FreeWalkingData.step_hs_to_ft_XYZ =       step_hs_to_ft_XYZ;
+        processedData.FreeWalkingData.peaks =                   peaks;
+        
+        %right ankle velocity, acceleration, and jerk
+        processedData.FreeWalkingData.calcData.rAnkVel2d =      calcData.rAnkVel2d;
+        processedData.FreeWalkingData.calcData.rAnkAcc2d =      calcData.rAnkAcc2d;
+        processedData.FreeWalkingData.calcData.rAnkJerk2d =     calcData.rAnkJerk2d;
+        
+        %left ankle velocity, acceleration, and jerk
+        processedData.FreeWalkingData.calcData.lAnkVel2d =      calcData.lAnkVel2d;
+        processedData.FreeWalkingData.calcData.lAnkAcc2d =      calcData.lAnkAcc2d;
+        processedData.FreeWalkingData.calcData.lAnkJerk2d =     calcData.lAnkJerk2d;
+    end
 
+    if fid == 'trial042' %condTitle == 'Full Vision'
+        processedData.FullVisionData.filteredData =             data_mar_dim_frame;
+        processedData.FullVisionData.rawData =                  marker_mar_dim_frame;
+        processedData.FullVisionData.allSteps =                 allSteps;
+        processedData.FullVisionData.step_hs_to_ft_XYZ =        step_hs_to_ft_XYZ;
+        processedData.FullVisionData.peaks =                    peaks;
+        
+        %right ankle velocity, acceleration, and jerk
+        processedData.FullVisionData.calcData.rAnkVel2d =       calcData.rAnkVel2d;
+        processedData.FullVisionData.calcData.rAnkAcc2d =       calcData.rAnkAcc2d;
+        processedData.FullVisionData.calcData.rAnkJerk2d =      calcData.rAnkJerk2d;
+        
+        %left ankle velocity, acceleration, and jerk
+        processedData.FullVisionData.calcData.lAnkVel2d =       calcData.lAnkVel2d;
+        processedData.FullVisionData.calcData.lAnkAcc2d =       calcData.lAnkAcc2d;
+        processedData.FullVisionData.calcData.lAnkJerk2d =      calcData.lAnkJerk2d;
+    end
+    
+    if fid == 'trial015' %condTitle == 'Limited Vision'
+        processedData.LimitedVisionData.filteredData =          data_mar_dim_frame;
+        processedData.LimitedVisionData.rawData =               marker_mar_dim_frame;
+        processedData.LimitedVisionData.allSteps =              allSteps;
+        processedData.LimitedVisionData.step_hs_to_ft_XYZ =     step_hs_to_ft_XYZ;
+        processedData.LimitedVisionData.peaks =                 peaks;
+        
+        %right ankle velocity, acceleration, and jerk
+        processedData.LimitedVisionData.calcData.rAnkVel2d =    calcData.rAnkVel2d;
+        processedData.LimitedVisionData.calcData.rAnkAcc2d =    calcData.rAnkAcc2d;
+        processedData.LimitedVisionData.calcData.rAnkJerk2d =   calcData.rAnkJerk2d;
+        
+        %left ankle velocity, acceleration, and jerk
+        processedData.LimitedVisionData.calcData.lAnkVel2d =    calcData.lAnkVel2d;
+        processedData.LimitedVisionData.calcData.lAnkAcc2d =    calcData.lAnkAcc2d;
+        processedData.LimitedVisionData.calcData.lAnkJerk2d =   calcData.lAnkJerk2d;
+    end
+    
+    
 end
-close all
+% close all
 
 %% butterworth filter application
-order   = 4;
-cutoff  = 7;
-clc
-close all
-[data_mar_dim_frame(1:numel(markerLabels),:,:)] = butterLowZero(order,cutoff,framerate,marker_mar_dim_frame(1:numel(markerLabels),1:3,:)); %Butterworth filter each marker's data and load it into the trial
+% order   = 4;
+% cutoff  = 7;
+% clc
+% close all
+% [data_mar_dim_frame(1:numel(markerLabels),:,:)] = butterLowZero(order,cutoff,framerate,marker_mar_dim_frame(1:numel(markerLabels),1:3,:)); %Butterworth filter each marker's data and load it into the trial
 
 % for m = 1:numel(markerLabels)
 %     if sum(sum(marker_mar_dim_frame(m,1:3,:))) == 0
@@ -68,7 +128,7 @@ close all
 %     end
 % end
 
-[allSteps,step_hs_to_ft_XYZ,peaks] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
+% [allSteps,step_hs_to_ft_XYZ,peaks] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
 % [allSteps, step_fr_ft_XYZ]= ZeniStepFinder_ccpVid(data_mar_dim_frame, markerLabels);
 
 %% Insert function that detects the subjects movement

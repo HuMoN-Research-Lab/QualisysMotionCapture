@@ -13,52 +13,71 @@ kgMass   = 1;
 
 %% loadPhaseSpaceMoCapData function loads Phase Space Planning data
 % fileName = 'trial011';
-fileName = 'trial015';
+% fileName = 'trial042';
 % unknownID = 8;
-[data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
-    = loadPhaseSpaceMoCapData(fileName);
+% [data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
+%     = loadPhaseSpaceMoCapData(fileName);
 
-% for iter = 1:3
-%     close all
-%     
-%     cd('/Users/MT/Documents/GitHub/MotionCapture_MATLABCode/COMPhaseSpacePlanning');
-%     %     cd('C:\Users\jonma\Dropbox\ResearchProjects\COMPhaseSpacePlanning\sub01\c3d')
-%     
-%     switch iter
-%         
-%         case 1
-%             condTitle = 'Free Walking';
-%             fid = 'trial011';
-%             
-%         case 2
-%             condTitle = 'Full Vision';
-%             fid = 'trial042';
-%             
-%         case 3
-%             condTitle = 'Limited Vision';
-%             fid = 'trial015';
-%     end
-%     
-%     [data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
-%     = loadPhaseSpaceMoCapData(fid);
-%     
-%     %% butterworth filter application
-%     order   = 4;
-%     cutoff  = 7;
-%     clc
-%     close all
-%     [data_mar_dim_frame(1:numel(markerLabels),:,:)] = butterLowZero(order,cutoff,framerate,marker_mar_dim_frame(1:numel(markerLabels),1:3,:)); %Butterworth filter each marker's data and load it into the trial
-% 
-% 
-% end
+for iter = 1:3
+    %% Identify location where files are stored
+    cd('/Users/MT/Documents/GitHub/MotionCapture_MATLABCode/COMPhaseSpacePlanning');
+    %     cd('C:\Users\jonma\Dropbox\ResearchProjects\COMPhaseSpacePlanning\sub01\c3d')
+    
+    switch iter
+        
+        case 1
+            condTitle = 'Free Walking';
+            fid = 'trial011';
+            
+        case 2
+            condTitle = 'Full Vision';
+            fid = 'trial042';
+            
+        case 3
+            condTitle = 'Limited Vision';
+            fid = 'trial015';
+    end
+    
+    %% Load data from specific fid
+    [data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
+    = loadPhaseSpaceMoCapData(fid);
+    
+    %% Filter data using butterworth
+    order   = 4;
+    cutoff  = 7;
+    
+    [data_mar_dim_frame] = butterLowZero(order,cutoff,framerate,marker_mar_dim_frame); %left(1:numel(markerLabels),:,:) right(1:numel(markerLabels),1:3,:) Butterworth filter each marker's data and load it into the trial
+    
+    %% Identify all heel-toe step locations
+    [allSteps,step_hs_to_ft_XYZ,peaks] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
+
+    %% Store trials data in struct
+    if fid == 'trial011' %condTitle == 'Free Walking'
+        processedData.FreeWalkingData.filteredData = data_mar_dim_frame;
+        processedData.FreeWalkingData.rawData = marker_mar_dim_frame;
+        processedData.FreeWalkingData.allSteps = 
+    end
+
+    if fid == 'trial042' %condTitle == 'Full Vision'
+        processedData.FullVisionData.filteredData = data_mar_dim_frame;
+        processedData.FullVisionData.rawData = marker_mar_dim_frame;
+    end
+    
+    if fid == 'trial015' %condTitle == 'Limited Vision'
+        processedData.LimitedVisionData.filteredData = data_mar_dim_frame;
+        processedData.LimitedVisionData.rawData = marker_mar_dim_frame;
+    end
+    
+    close all
+end
 close all
 
 %% butterworth filter application
-order   = 4;
-cutoff  = 7;
-clc
-close all
-[data_mar_dim_frame(1:numel(markerLabels),:,:)] = butterLowZero(order,cutoff,framerate,marker_mar_dim_frame(1:numel(markerLabels),1:3,:)); %Butterworth filter each marker's data and load it into the trial
+% order   = 4;
+% cutoff  = 7;
+% clc
+% close all
+% [data_mar_dim_frame(1:numel(markerLabels),:,:)] = butterLowZero(order,cutoff,framerate,marker_mar_dim_frame(1:numel(markerLabels),1:3,:)); %Butterworth filter each marker's data and load it into the trial
 
 % for m = 1:numel(markerLabels)
 %     if sum(sum(marker_mar_dim_frame(m,1:3,:))) == 0
@@ -69,8 +88,11 @@ close all
 %     end
 % end
 
-[allSteps, step_hs_to_ft_XYZ] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
+% [allSteps,step_hs_to_ft_XYZ,peaks] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
 % [allSteps, step_fr_ft_XYZ]= ZeniStepFinder_ccpVid(data_mar_dim_frame, markerLabels);
+
+%% Insert function that detects the subjects movement
+
 
 %% bodySegLength function
 % Function outputs length for individual body segs
@@ -89,8 +111,9 @@ close all
 [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
 
 %% Plot data
+figure(6801)
 
-for fr = startFrames:10:numFrames   %fr = startFrames:10:numFrames
+for fr = 1:10:numFrames
     %Clear current frame
     clf
 
@@ -99,7 +122,6 @@ for fr = startFrames:10:numFrames   %fr = startFrames:10:numFrames
         marker_mar_dim_frame(:, 2, fr),...
         marker_mar_dim_frame(:, 3, fr),'k.','MarkerFaceColor','k')
     
-    %Hold on for next set of plotting instructions
     hold on
     
 %     %% Uncover the unknown marker location
