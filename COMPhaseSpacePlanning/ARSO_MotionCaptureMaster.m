@@ -18,7 +18,7 @@ kgMass   = 1;
 % [data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
 %     = loadPhaseSpaceMoCapData(fileName);
 
-for iter = 1
+for iter = 1:3
     %% Identify location where files are stored
     cd('/Users/MT/Documents/GitHub/MotionCapture_MATLABCode/COMPhaseSpacePlanning');
     %     cd('C:\Users\jonma\Dropbox\ResearchProjects\COMPhaseSpacePlanning\sub01\c3d')
@@ -62,14 +62,14 @@ for iter = 1
         processedData.FreeWalkingData.peaks =                   peaks;
         
         %right ankle velocity, acceleration, and jerk
-        processedData.FreeWalkingData.calcData.rAnkVel2d =      calcData.rAnkVel2d;
-        processedData.FreeWalkingData.calcData.rAnkAcc2d =      calcData.rAnkAcc2d;
-        processedData.FreeWalkingData.calcData.rAnkJerk2d =     calcData.rAnkJerk2d;
+        processedData.FreeWalkingData.calcData.rAnkVel2D =      calcData.rAnkVel2D;
+        processedData.FreeWalkingData.calcData.rAnkAcc2D =      calcData.rAnkAcc2D;
+        processedData.FreeWalkingData.calcData.rAnkJerk2D =     calcData.rAnkJerk2D;
         
         %left ankle velocity, acceleration, and jerk
-        processedData.FreeWalkingData.calcData.lAnkVel2d =      calcData.lAnkVel2d;
-        processedData.FreeWalkingData.calcData.lAnkAcc2d =      calcData.lAnkAcc2d;
-        processedData.FreeWalkingData.calcData.lAnkJerk2d =     calcData.lAnkJerk2d;
+        processedData.FreeWalkingData.calcData.lAnkVel2D =      calcData.lAnkVel2D;
+        processedData.FreeWalkingData.calcData.lAnkAcc2D =      calcData.lAnkAcc2D;
+        processedData.FreeWalkingData.calcData.lAnkJerk2D =     calcData.lAnkJerk2D;
     end
 
     if fid == 'trial042' %condTitle == 'Full Vision'
@@ -80,14 +80,14 @@ for iter = 1
         processedData.FullVisionData.peaks =                    peaks;
         
         %right ankle velocity, acceleration, and jerk
-        processedData.FullVisionData.calcData.rAnkVel2d =       calcData.rAnkVel2d;
-        processedData.FullVisionData.calcData.rAnkAcc2d =       calcData.rAnkAcc2d;
-        processedData.FullVisionData.calcData.rAnkJerk2d =      calcData.rAnkJerk2d;
+        processedData.FullVisionData.calcData.rAnkVel2D =       calcData.rAnkVel2D;
+        processedData.FullVisionData.calcData.rAnkAcc2D =       calcData.rAnkAcc2D;
+        processedData.FullVisionData.calcData.rAnkJerk2D =      calcData.rAnkJerk2D;
         
         %left ankle velocity, acceleration, and jerk
-        processedData.FullVisionData.calcData.lAnkVel2d =       calcData.lAnkVel2d;
-        processedData.FullVisionData.calcData.lAnkAcc2d =       calcData.lAnkAcc2d;
-        processedData.FullVisionData.calcData.lAnkJerk2d =      calcData.lAnkJerk2d;
+        processedData.FullVisionData.calcData.lAnkVel2D =       calcData.lAnkVel2D;
+        processedData.FullVisionData.calcData.lAnkAcc2D =       calcData.lAnkAcc2D;
+        processedData.FullVisionData.calcData.lAnkJerk2D =      calcData.lAnkJerk2D;
     end
     
     if fid == 'trial015' %condTitle == 'Limited Vision'
@@ -98,14 +98,14 @@ for iter = 1
         processedData.LimitedVisionData.peaks =                 peaks;
         
         %right ankle velocity, acceleration, and jerk
-        processedData.LimitedVisionData.calcData.rAnkVel2d =    calcData.rAnkVel2d;
-        processedData.LimitedVisionData.calcData.rAnkAcc2d =    calcData.rAnkAcc2d;
-        processedData.LimitedVisionData.calcData.rAnkJerk2d =   calcData.rAnkJerk2d;
+        processedData.LimitedVisionData.calcData.rAnkVel2D =    calcData.rAnkVel2D;
+        processedData.LimitedVisionData.calcData.rAnkAcc2D =    calcData.rAnkAcc2D;
+        processedData.LimitedVisionData.calcData.rAnkJerk2D =   calcData.rAnkJerk2D;
         
         %left ankle velocity, acceleration, and jerk
-        processedData.LimitedVisionData.calcData.lAnkVel2d =    calcData.lAnkVel2d;
-        processedData.LimitedVisionData.calcData.lAnkAcc2d =    calcData.lAnkAcc2d;
-        processedData.LimitedVisionData.calcData.lAnkJerk2d =   calcData.lAnkJerk2d;
+        processedData.LimitedVisionData.calcData.lAnkVel2D =    calcData.lAnkVel2D;
+        processedData.LimitedVisionData.calcData.lAnkAcc2D =    calcData.lAnkAcc2D;
+        processedData.LimitedVisionData.calcData.lAnkJerk2D =   calcData.lAnkJerk2D;
     end
     
     
