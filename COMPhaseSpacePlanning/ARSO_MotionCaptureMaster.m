@@ -8,8 +8,8 @@ cd('/Users/MT/Documents/GitHub/MotionCapture_MATLABCode/COMPhaseSpacePlanning');
 addpath(genpath(cd)) %%add the current folder & subfolders to the path (so Matlab can see the BTK methods)
 
 %% Initial conditions
-mmHeight = 1;
-kgMass   = 1;
+% mmHeight = 1;
+% kgMass   = 1;
 
 %% loadPhaseSpaceMoCapData function loads Phase Space Planning data
 % fileName = 'trial011';
@@ -42,7 +42,7 @@ for iter = 1:3
     [data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
     = loadPhaseSpaceMoCapData(fid);
     
-    close all
+%     close all
     
     %% Filter data using butterworth
     order   = 4;
@@ -62,14 +62,70 @@ for iter = 1:3
         processedData.FreeWalkingData.peaks =                   peaks;
         
         %right ankle velocity, acceleration, and jerk
-        processedData.FreeWalkingData.calcData.rAnkVel2D =      calcData.rAnkVel2D;
-        processedData.FreeWalkingData.calcData.rAnkAcc2D =      calcData.rAnkAcc2D;
-        processedData.FreeWalkingData.calcData.rAnkJerk2D =     calcData.rAnkJerk2D;
+        processedData.FreeWalkingData.rAnkVel2D =               calcData.rAnkVel2D;
+        processedData.FreeWalkingData.rAnkAcc2D =               calcData.rAnkAcc2D;
+        processedData.FreeWalkingData.rAnkJerk2D =              calcData.rAnkJerk2D;
         
         %left ankle velocity, acceleration, and jerk
-        processedData.FreeWalkingData.calcData.lAnkVel2D =      calcData.lAnkVel2D;
-        processedData.FreeWalkingData.calcData.lAnkAcc2D =      calcData.lAnkAcc2D;
-        processedData.FreeWalkingData.calcData.lAnkJerk2D =     calcData.lAnkJerk2D;
+        processedData.FreeWalkingData.lAnkVel2D =               calcData.lAnkVel2D;
+        processedData.FreeWalkingData.lAnkAcc2D =               calcData.lAnkAcc2D;
+        processedData.FreeWalkingData.lAnkJerk2D =              calcData.lAnkJerk2D;
+    
+        %% Plots for debugging velocity
+        figure(11)
+        subplot(3,2,1)
+        plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
+        hold on
+        plot(calcData.rTO,0,'mo')
+        plot(calcData.rHS,0,'mx')
+        grid on
+        title('trial011 Right Ankle Velocity')
+        % ylim([-10 10])
+        
+        subplot(3,2,2)
+        plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
+        hold on
+        plot(calcData.lTO,0,'mo')
+        plot(calcData.lHS,0,'mx')
+        grid on
+        title('trial011 Left Ankle Velocity')
+        ylim([-10 10])
+        hold on
+        
+        %% Plots for debugging acceleration code
+        subplot(3,2,3)
+        plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
+        hold on
+        plot(calcData.rTO,0,'mo')
+        plot(calcData.rHS,0,'mx')
+        title('trial011 Right Ankle Acceleration')
+        % ylim([-1 1])
+        
+        subplot(3,2,4)
+        plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
+        hold on
+        plot(calcData.lTO,0,'mo')
+        plot(calcData.lHS,0,'mx')
+        title('trial011 Left Ankle Acceleration')
+        % ylim([-1 1])
+        
+        %% Plots for debugging jerk code
+        subplot(3,2,5)
+        plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
+        hold on
+        plot(calcData.rTO,0,'mo')
+        plot(calcData.rHS,0,'mx')
+        title('trial011 Right Ankle Jerk')
+        % ylim([0 0.008])
+        
+        subplot(3,2,6)
+        plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
+        hold on
+        plot(calcData.lTO,0,'mo')
+        plot(calcData.lHS,0,'mx')
+        title('trial011 Left Ankle Jerk')
+        % ylim([0 0.035])
+        
     end
 
     if fid == 'trial042' %condTitle == 'Full Vision'
@@ -80,14 +136,71 @@ for iter = 1:3
         processedData.FullVisionData.peaks =                    peaks;
         
         %right ankle velocity, acceleration, and jerk
-        processedData.FullVisionData.calcData.rAnkVel2D =       calcData.rAnkVel2D;
-        processedData.FullVisionData.calcData.rAnkAcc2D =       calcData.rAnkAcc2D;
-        processedData.FullVisionData.calcData.rAnkJerk2D =      calcData.rAnkJerk2D;
+        processedData.FullVisionData.rAnkVel2D =       calcData.rAnkVel2D;
+        processedData.FullVisionData.rAnkAcc2D =       calcData.rAnkAcc2D;
+        processedData.FullVisionData.rAnkJerk2D =      calcData.rAnkJerk2D;
         
         %left ankle velocity, acceleration, and jerk
-        processedData.FullVisionData.calcData.lAnkVel2D =       calcData.lAnkVel2D;
-        processedData.FullVisionData.calcData.lAnkAcc2D =       calcData.lAnkAcc2D;
-        processedData.FullVisionData.calcData.lAnkJerk2D =      calcData.lAnkJerk2D;
+        processedData.FullVisionData.lAnkVel2D =       calcData.lAnkVel2D;
+        processedData.FullVisionData.lAnkAcc2D =       calcData.lAnkAcc2D;
+        processedData.FullVisionData.lAnkJerk2D =      calcData.lAnkJerk2D;
+    
+        %% Plots for debugging velocity
+        figure(42)
+        subplot(3,2,1)
+        plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
+        hold on
+        plot(calcData.rTO,0,'mo')
+        plot(calcData.rHS,0,'mx')
+        grid on
+        title('trial042 Right Ankle Velocity')
+        % ylim([-10 10])
+        
+        subplot(3,2,2)
+        plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
+        hold on
+        plot(calcData.lTO,0,'mo')
+        plot(calcData.lHS,0,'mx')
+        grid on
+        title('trial042 Left Ankle Velocity')
+        ylim([-10 10])
+        hold on
+        
+        %% Plots for debugging acceleration code
+        subplot(3,2,3)
+        plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
+        hold on
+        plot(calcData.rTO,0,'mo')
+        plot(calcData.rHS,0,'mx')
+        title('trial042 Right Ankle Acceleration')
+        % ylim([-1 1])
+        
+        subplot(3,2,4)
+        plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
+        hold on
+        plot(calcData.lTO,0,'mo')
+        plot(calcData.lHS,0,'mx')
+        title('trial042 Left Ankle Acceleration')
+        % ylim([-1 1])
+        
+        %% Plots for debugging jerk code
+        subplot(3,2,5)
+        plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
+        hold on
+        plot(calcData.rTO,0,'mo')
+        plot(calcData.rHS,0,'mx')
+        title('trial042 Right Ankle Jerk')
+        % ylim([0 0.008])
+        
+        subplot(3,2,6)
+        plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
+        hold on
+        plot(calcData.lTO,0,'mo')
+        plot(calcData.lHS,0,'mx')
+        title('trial042 Left Ankle Jerk')
+        % ylim([0 0.035])
+        
+    
     end
     
     if fid == 'trial015' %condTitle == 'Limited Vision'
@@ -98,16 +211,72 @@ for iter = 1:3
         processedData.LimitedVisionData.peaks =                 peaks;
         
         %right ankle velocity, acceleration, and jerk
-        processedData.LimitedVisionData.calcData.rAnkVel2D =    calcData.rAnkVel2D;
-        processedData.LimitedVisionData.calcData.rAnkAcc2D =    calcData.rAnkAcc2D;
-        processedData.LimitedVisionData.calcData.rAnkJerk2D =   calcData.rAnkJerk2D;
+        processedData.LimitedVisionData.rAnkVel2D =    calcData.rAnkVel2D;
+        processedData.LimitedVisionData.rAnkAcc2D =    calcData.rAnkAcc2D;
+        processedData.LimitedVisionData.rAnkJerk2D =   calcData.rAnkJerk2D;
         
         %left ankle velocity, acceleration, and jerk
-        processedData.LimitedVisionData.calcData.lAnkVel2D =    calcData.lAnkVel2D;
-        processedData.LimitedVisionData.calcData.lAnkAcc2D =    calcData.lAnkAcc2D;
-        processedData.LimitedVisionData.calcData.lAnkJerk2D =   calcData.lAnkJerk2D;
-    end
-    
+        processedData.LimitedVisionData.lAnkVel2D =    calcData.lAnkVel2D;
+        processedData.LimitedVisionData.lAnkAcc2D =    calcData.lAnkAcc2D;
+        processedData.LimitedVisionData.lAnkJerk2D =   calcData.lAnkJerk2D;
+        
+        %% Plots for debugging velocity
+        figure(15)
+        subplot(3,2,1)
+        plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
+        hold on
+        plot(calcData.rTO,0,'mo')
+        plot(calcData.rHS,0,'mx')
+        grid on
+        title('trial015 Right Ankle Velocity')
+        % ylim([-10 10])
+        
+        subplot(3,2,2)
+        plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
+        hold on
+        plot(calcData.lTO,0,'mo')
+        plot(calcData.lHS,0,'mx')
+        grid on
+        title('trial015 Left Ankle Velocity')
+        ylim([-10 10])
+        hold on
+        
+        %% Plots for debugging acceleration code
+        subplot(3,2,3)
+        plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
+        hold on
+        plot(calcData.rTO,0,'mo')
+        plot(calcData.rHS,0,'mx')
+        title('trial015 Right Ankle Acceleration')
+        % ylim([-1 1])
+        
+        subplot(3,2,4)
+        plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
+        hold on
+        plot(calcData.lTO,0,'mo')
+        plot(calcData.lHS,0,'mx')
+        title('trial015 Left Ankle Acceleration')
+        % ylim([-1 1])
+        
+        %% Plots for debugging jerk code
+        subplot(3,2,5)
+        plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
+        hold on
+        plot(calcData.rTO,0,'mo')
+        plot(calcData.rHS,0,'mx')
+        title('trial015 Right Ankle Jerk')
+        % ylim([0 0.008])
+        
+        subplot(3,2,6)
+        plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
+        hold on
+        plot(calcData.lTO,0,'mo')
+        plot(calcData.lHS,0,'mx')
+        title('trial015 Left Ankle Jerk')
+        % ylim([0 0.035])
+        
+        
+    end   
     
 end
 % close all
