@@ -42,6 +42,7 @@ for iter = 1:3
     [data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
     = loadPhaseSpaceMoCapData(fid);
     
+%     clf(f)
 %     close all
     
     %% Filter data using butterworth
@@ -62,18 +63,18 @@ for iter = 1:3
         processedData.FreeWalkingData.peaks =                   peaks;
         
         %right ankle velocity, acceleration, and jerk
-        processedData.FreeWalkingData.calcData.rAnkVel2D =      calcData.rAnkVel2D;
-        processedData.FreeWalkingData.calcData.rAnkAcc2D =      calcData.rAnkAcc2D;
-        processedData.FreeWalkingData.calcData.rAnkJerk2D =     calcData.rAnkJerk2D;
+        processedData.FreeWalkingData.rAnkVel2D =               calcData.rAnkVel2D;
+        processedData.FreeWalkingData.rAnkAcc2D =               calcData.rAnkAcc2D;
+        processedData.Jerk.rAnkJerk2D =              sum(calcData.rAnkJerk2D);
         
         %left ankle velocity, acceleration, and jerk
-        processedData.FreeWalkingData.calcData.lAnkVel2D =      calcData.lAnkVel2D;
-        processedData.FreeWalkingData.calcData.lAnkAcc2D =      calcData.lAnkAcc2D;
-        processedData.FreeWalkingData.calcData.lAnkJerk2D =     calcData.lAnkJerk2D;
+        processedData.FreeWalkingData.lAnkVel2D =               calcData.lAnkVel2D;
+        processedData.FreeWalkingData.lAnkAcc2D =               calcData.lAnkAcc2D;
+        processedData.FreeWalkingData.lAnkJerk2D =              sum(calcData.lAnkJerk2D);
     
         %% Plots for debugging velocity
         figure(11)
-        subplot(2,3,1)
+        subplot(3,2,1)
         plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
         hold on
         plot(calcData.rTO,0,'mo')
@@ -82,7 +83,7 @@ for iter = 1:3
         title('trial011 Right Ankle Velocity')
         % ylim([-10 10])
         
-        subplot(2,3,2)
+        subplot(3,2,2)
         plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
         hold on
         plot(calcData.lTO,0,'mo')
@@ -93,7 +94,7 @@ for iter = 1:3
         hold on
         
         %% Plots for debugging acceleration code
-        subplot(2,3,3)
+        subplot(3,2,3)
         plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
         hold on
         plot(calcData.rTO,0,'mo')
@@ -101,7 +102,7 @@ for iter = 1:3
         title('trial011 Right Ankle Acceleration')
         % ylim([-1 1])
         
-        subplot(2,3,4)
+        subplot(3,2,4)
         plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
         hold on
         plot(calcData.lTO,0,'mo')
@@ -110,7 +111,7 @@ for iter = 1:3
         % ylim([-1 1])
         
         %% Plots for debugging jerk code
-        subplot(2,3,5)
+        subplot(3,2,5)
         plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
         hold on
         plot(calcData.rTO,0,'mo')
@@ -118,7 +119,7 @@ for iter = 1:3
         title('trial011 Right Ankle Jerk')
         % ylim([0 0.008])
         
-        subplot(2,3,6)
+        subplot(3,2,6)
         plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
         hold on
         plot(calcData.lTO,0,'mo')
@@ -136,18 +137,18 @@ for iter = 1:3
         processedData.FullVisionData.peaks =                    peaks;
         
         %right ankle velocity, acceleration, and jerk
-        processedData.FullVisionData.calcData.rAnkVel2D =       calcData.rAnkVel2D;
-        processedData.FullVisionData.calcData.rAnkAcc2D =       calcData.rAnkAcc2D;
-        processedData.FullVisionData.calcData.rAnkJerk2D =      calcData.rAnkJerk2D;
+        processedData.FullVisionData.rAnkVel2D =                calcData.rAnkVel2D;
+        processedData.FullVisionData.rAnkAcc2D =                calcData.rAnkAcc2D;
+        processedData.FullVisionData.rAnkJerk2D =               sum(calcData.rAnkJerk2D);
         
         %left ankle velocity, acceleration, and jerk
-        processedData.FullVisionData.calcData.lAnkVel2D =       calcData.lAnkVel2D;
-        processedData.FullVisionData.calcData.lAnkAcc2D =       calcData.lAnkAcc2D;
-        processedData.FullVisionData.calcData.lAnkJerk2D =      calcData.lAnkJerk2D;
+        processedData.FullVisionData.lAnkVel2D =                calcData.lAnkVel2D;
+        processedData.FullVisionData.lAnkAcc2D =                calcData.lAnkAcc2D;
+        processedData.FullVisionData.lAnkJerk2D =               sum(calcData.lAnkJerk2D);
     
         %% Plots for debugging velocity
         figure(42)
-        subplot(2,3,1)
+        subplot(3,2,1)
         plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
         hold on
         plot(calcData.rTO,0,'mo')
@@ -156,7 +157,7 @@ for iter = 1:3
         title('trial042 Right Ankle Velocity')
         % ylim([-10 10])
         
-        subplot(2,3,2)
+        subplot(3,2,2)
         plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
         hold on
         plot(calcData.lTO,0,'mo')
@@ -167,7 +168,7 @@ for iter = 1:3
         hold on
         
         %% Plots for debugging acceleration code
-        subplot(2,3,3)
+        subplot(3,2,3)
         plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
         hold on
         plot(calcData.rTO,0,'mo')
@@ -175,7 +176,7 @@ for iter = 1:3
         title('trial042 Right Ankle Acceleration')
         % ylim([-1 1])
         
-        subplot(2,3,4)
+        subplot(3,2,4)
         plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
         hold on
         plot(calcData.lTO,0,'mo')
@@ -184,7 +185,7 @@ for iter = 1:3
         % ylim([-1 1])
         
         %% Plots for debugging jerk code
-        subplot(2,3,5)
+        subplot(3,2,5)
         plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
         hold on
         plot(calcData.rTO,0,'mo')
@@ -192,7 +193,7 @@ for iter = 1:3
         title('trial042 Right Ankle Jerk')
         % ylim([0 0.008])
         
-        subplot(2,3,6)
+        subplot(3,2,6)
         plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
         hold on
         plot(calcData.lTO,0,'mo')
@@ -211,18 +212,18 @@ for iter = 1:3
         processedData.LimitedVisionData.peaks =                 peaks;
         
         %right ankle velocity, acceleration, and jerk
-        processedData.LimitedVisionData.calcData.rAnkVel2D =    calcData.rAnkVel2D;
-        processedData.LimitedVisionData.calcData.rAnkAcc2D =    calcData.rAnkAcc2D;
-        processedData.LimitedVisionData.calcData.rAnkJerk2D =   calcData.rAnkJerk2D;
+        processedData.LimitedVisionData.rAnkVel2D =             calcData.rAnkVel2D;
+        processedData.LimitedVisionData.rAnkAcc2D =             calcData.rAnkAcc2D;
+        processedData.LimitedVisionData.rAnkJerk2D =            sum(calcData.rAnkJerk2D);
         
         %left ankle velocity, acceleration, and jerk
-        processedData.LimitedVisionData.calcData.lAnkVel2D =    calcData.lAnkVel2D;
-        processedData.LimitedVisionData.calcData.lAnkAcc2D =    calcData.lAnkAcc2D;
-        processedData.LimitedVisionData.calcData.lAnkJerk2D =   calcData.lAnkJerk2D;
+        processedData.LimitedVisionData.lAnkVel2D =             calcData.lAnkVel2D;
+        processedData.LimitedVisionData.lAnkAcc2D =             calcData.lAnkAcc2D;
+        processedData.LimitedVisionData.lAnkJerk2D =            sum(calcData.lAnkJerk2D);
         
         %% Plots for debugging velocity
         figure(15)
-        subplot(2,2,1)
+        subplot(3,2,1)
         plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
         hold on
         plot(calcData.rTO,0,'mo')
@@ -231,7 +232,7 @@ for iter = 1:3
         title('trial015 Right Ankle Velocity')
         % ylim([-10 10])
         
-        subplot(2,2,2)
+        subplot(3,2,2)
         plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
         hold on
         plot(calcData.lTO,0,'mo')
@@ -242,7 +243,7 @@ for iter = 1:3
         hold on
         
         %% Plots for debugging acceleration code
-        subplot(2,2,3)
+        subplot(3,2,3)
         plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
         hold on
         plot(calcData.rTO,0,'mo')
@@ -250,7 +251,7 @@ for iter = 1:3
         title('trial015 Right Ankle Acceleration')
         % ylim([-1 1])
         
-        subplot(2,2,4)
+        subplot(3,2,4)
         plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
         hold on
         plot(calcData.lTO,0,'mo')
@@ -259,7 +260,7 @@ for iter = 1:3
         % ylim([-1 1])
         
         %% Plots for debugging jerk code
-        subplot(2,2,5)
+        subplot(3,2,5)
         plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
         hold on
         plot(calcData.rTO,0,'mo')
@@ -267,7 +268,7 @@ for iter = 1:3
         title('trial015 Right Ankle Jerk')
         % ylim([0 0.008])
         
-        subplot(2,2,6)
+        subplot(3,2,6)
         plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
         hold on
         plot(calcData.lTO,0,'mo')

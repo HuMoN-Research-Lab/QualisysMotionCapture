@@ -42,6 +42,7 @@ for iter = 1:3
     [data,startFrames,numFrames,framerate,markerLabels,marker_mar_dim_frame,comXYZ] ... 
     = loadPhaseSpaceMoCapData(fid);
     
+%     clf(f)
 %     close all
     
     %% Filter data using butterworth
@@ -64,12 +65,12 @@ for iter = 1:3
         %right ankle velocity, acceleration, and jerk
         processedData.FreeWalkingData.rAnkVel2D =               calcData.rAnkVel2D;
         processedData.FreeWalkingData.rAnkAcc2D =               calcData.rAnkAcc2D;
-        processedData.FreeWalkingData.rAnkJerk2D =              calcData.rAnkJerk2D;
+        processedData.Jerk.FreeWalkingRAnkJerk2D =              sum(calcData.rAnkJerk2D);
         
         %left ankle velocity, acceleration, and jerk
         processedData.FreeWalkingData.lAnkVel2D =               calcData.lAnkVel2D;
         processedData.FreeWalkingData.lAnkAcc2D =               calcData.lAnkAcc2D;
-        processedData.FreeWalkingData.lAnkJerk2D =              calcData.lAnkJerk2D;
+        processedData.Jerk.FreeWalkingLAnkJerk2D =              sum(calcData.lAnkJerk2D);
     
         %% Plots for debugging velocity
         figure(11)
@@ -136,14 +137,14 @@ for iter = 1:3
         processedData.FullVisionData.peaks =                    peaks;
         
         %right ankle velocity, acceleration, and jerk
-        processedData.FullVisionData.rAnkVel2D =       calcData.rAnkVel2D;
-        processedData.FullVisionData.rAnkAcc2D =       calcData.rAnkAcc2D;
-        processedData.FullVisionData.rAnkJerk2D =      calcData.rAnkJerk2D;
+        processedData.FullVisionData.rAnkVel2D =                calcData.rAnkVel2D;
+        processedData.FullVisionData.rAnkAcc2D =                calcData.rAnkAcc2D;
+        processedData.Jerk.FullVisionRAnkJerk2D =               sum(calcData.rAnkJerk2D);
         
         %left ankle velocity, acceleration, and jerk
-        processedData.FullVisionData.lAnkVel2D =       calcData.lAnkVel2D;
-        processedData.FullVisionData.lAnkAcc2D =       calcData.lAnkAcc2D;
-        processedData.FullVisionData.lAnkJerk2D =      calcData.lAnkJerk2D;
+        processedData.FullVisionData.lAnkVel2D =                calcData.lAnkVel2D;
+        processedData.FullVisionData.lAnkAcc2D =                calcData.lAnkAcc2D;
+        processedData.Jerk.FullVisionLAnkJerk2D =               sum(calcData.lAnkJerk2D);
     
         %% Plots for debugging velocity
         figure(42)
@@ -211,14 +212,14 @@ for iter = 1:3
         processedData.LimitedVisionData.peaks =                 peaks;
         
         %right ankle velocity, acceleration, and jerk
-        processedData.LimitedVisionData.rAnkVel2D =    calcData.rAnkVel2D;
-        processedData.LimitedVisionData.rAnkAcc2D =    calcData.rAnkAcc2D;
-        processedData.LimitedVisionData.rAnkJerk2D =   calcData.rAnkJerk2D;
+        processedData.LimitedVisionData.rAnkVel2D =             calcData.rAnkVel2D;
+        processedData.LimitedVisionData.rAnkAcc2D =             calcData.rAnkAcc2D;
+        processedData.Jerk.LimitedVisionRAnkJerk2D =            sum(calcData.rAnkJerk2D);
         
         %left ankle velocity, acceleration, and jerk
-        processedData.LimitedVisionData.lAnkVel2D =    calcData.lAnkVel2D;
-        processedData.LimitedVisionData.lAnkAcc2D =    calcData.lAnkAcc2D;
-        processedData.LimitedVisionData.lAnkJerk2D =   calcData.lAnkJerk2D;
+        processedData.LimitedVisionData.lAnkVel2D =             calcData.lAnkVel2D;
+        processedData.LimitedVisionData.lAnkAcc2D =             calcData.lAnkAcc2D;
+        processedData.Jerk.LimitedVisionLAnkJerk2D =            sum(calcData.lAnkJerk2D);
         
         %% Plots for debugging velocity
         figure(15)
