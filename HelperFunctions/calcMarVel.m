@@ -1,6 +1,5 @@
 function [segCenterVel] = calcMarVel(segCenter)
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+
 %% Marker tracking hip data
 %hipIDs were acquired using the markerLabels
 segCenterVel = [];

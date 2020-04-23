@@ -12,10 +12,10 @@ load([fid '.mat']);
 % startFrames = data.startFrame;
 % endFrames = data.endFrame;
 % numFrames = data.endFrame;  % - startFrames;
-% framerate = framerate;
-markerLabels = (marNames).';
+framerate = data.c3dData.framerate;
+markerLabels = (data.c3dData.markerNames).';
 data_mar_dim_frame = permute(c3d_fr_mar_dim,[2,3,1]);     %major data set
-comXYZ = permute(comXYZ,[2,1]);   %load com of points
+comXYZ = permute(data.comXYZ, [2,1]);   %load com of points
 
 % unknownID = 13;
 % unknownID = squeeze(marker_mar_dim_frame(unknownID, 1:3, :)); %(nanmean

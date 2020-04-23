@@ -3,6 +3,9 @@ function [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight)
 %calcCOM individual seg contribution to totalCOM
 %facilitates plotting totalCOMXYZ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Initial conditions
+% totalCOMXYZ = [];
+
 %% Head Seg
 headCOM =        segPropWeight.headProp .* segCenter.headCenter_mar_dim_frame;
 % headCOM =        (bodySegMass.headMass .* segCenter.headCenter_mar_dim_frame);
