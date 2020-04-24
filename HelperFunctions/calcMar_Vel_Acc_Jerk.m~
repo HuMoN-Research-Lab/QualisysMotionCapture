@@ -1,17 +1,17 @@
-function [marVel,marAcc,marJerk,marJerk_squared] = calcMar_Vel_Acc_Jerk(totalCOMXYZ)
+function [marVel,marAcc,marJerk,marJerk_squared] = calcMar_Vel_Acc_Jerk(segCenter,totalCOMXYZ);
 
 %% Marker tracking hip data
 %hipIDs were acquired using the markerLabels
 marVel =  [];
 marAcc =  [];
 marJerk = [];
-% totalCOMXYZ = totalCOMXYZ.';
-%Velocity of hips
-marVelx =            diff(totalCOMXYZ(1,:));
-marVelz =            diff(totalCOMXYZ(3,:));
-marVel = plus(marVelx,marVelz);
-marAccx =            diff(marVelx);
-marJerkx =           diff(marAccx);
+
+%Velocity of =
+marVelx =           diff(totalCOMXYZ(1,:));
+marVelz =           diff(totalCOMXYZ(3,:));
+marVel =            plus(marVelx,marVelz);
+marAcc =            diff(marVel);
+marJerk =           diff(marAcc);
 marJerk_squared =   (marJerk).^2;
 
 %calculates acceleration of hips
