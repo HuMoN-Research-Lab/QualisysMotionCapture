@@ -58,24 +58,24 @@ for iter = 1:3
     %take markers from filtered and unfiltered data and compare velocity
     %data
     %% Identify all heel-toe step locations
-    [allSteps,step_hs_to_ft_XYZ,peaks,calcData] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
+%     [allSteps,step_hs_to_ft_XYZ,peaks,calcData] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
 
     %% Store trials data in struct
     if fid == 'trial011' %condTitle == 'Free Walking'
         processedData.FreeWalkingData.filteredData =            data_mar_dim_frame;
-        processedData.FreeWalkingData.allSteps =                allSteps;
-        processedData.FreeWalkingData.step_hs_to_ft_XYZ =       step_hs_to_ft_XYZ;
-        processedData.FreeWalkingData.peaks =                   peaks;
+%         processedData.FreeWalkingData.allSteps =                allSteps;
+%         processedData.FreeWalkingData.step_hs_to_ft_XYZ =       step_hs_to_ft_XYZ;
+%         processedData.FreeWalkingData.peaks =                   peaks;
         
         %% calcSegCOM function
         % Function outputs totalCOM considering marker location
         [segCenter] = calcPhaseSpaceSegCOM(data_mar_dim_frame,markerLabels); %,markerID)
-        segCenter.FreeWalking(iter) = segCenter;
+        FreeWalking.segCenter = segCenter; %{iter}
         
         %% calcSegWeightCOM function
-        % Function outputs totalCOM depending on seg weight
-%         [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
-%         FreeWalking_totalCOMXYZ(iter) = totalCOMXYZ;
+        %Function outputs totalCOM depending on seg weight
+        [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
+        FreeWalking.totalCOMXYZ = totalCOMXYZ;
         
 %         %% locEmptySegFrames function
 %         % Function outputs marker frames evaluation
@@ -83,234 +83,253 @@ for iter = 1:3
 %         [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
         
         %% calcMarVel
-%         [segCenterVel] = calcMarVel(segCenter);
+        [marVel] = calcMarVel(FreeWalking.totalCOMXYZ);
+        FreeWalking.COMVel = marVel.';
         
-        %right ankle velocity, acceleration, and jerk
-        processedData.FreeWalkingData.rAnkVel2D =               calcData.rAnkVel2D;
-        processedData.FreeWalkingData.rAnkAcc2D =               calcData.rAnkAcc2D;
-        processedData.Jerk.FreeWalkingRAnkJerk2D =              sum(calcData.rAnkJerk2D);
+%         %right ankle velocity, acceleration, and jerk
+%         processedData.FreeWalkingData.rAnkVel2D =               calcData.rAnkVel2D;
+%         processedData.FreeWalkingData.rAnkAcc2D =               calcData.rAnkAcc2D;
+%         processedData.Jerk.FreeWalkingRAnkJerk2D =              sum(calcData.rAnkJerk2D);
+%         
+%         %left ankle velocity, acceleration, and jerk
+%         processedData.FreeWalkingData.lAnkVel2D =               calcData.lAnkVel2D;
+%         processedData.FreeWalkingData.lAnkAcc2D =               calcData.lAnkAcc2D;
+%         processedData.Jerk.FreeWalkingLAnkJerk2D =              sum(calcData.lAnkJerk2D);
+%         processedData.Jerk.SumFreeWalkingJerk2D =               processedData.Jerk.FreeWalkingRAnkJerk2D + processedData.Jerk.FreeWalkingLAnkJerk2D;
         
-        %left ankle velocity, acceleration, and jerk
-        processedData.FreeWalkingData.lAnkVel2D =               calcData.lAnkVel2D;
-        processedData.FreeWalkingData.lAnkAcc2D =               calcData.lAnkAcc2D;
-        processedData.Jerk.FreeWalkingLAnkJerk2D =              sum(calcData.lAnkJerk2D);
-        processedData.Jerk.SumFreeWalkingJerk2D =               processedData.Jerk.FreeWalkingRAnkJerk2D + processedData.Jerk.FreeWalkingLAnkJerk2D;
-        
-        %% Plots for debugging velocity
-        figure(11)
-        subplot(3,2,1)
-        plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
-        hold on
-        plot(calcData.rTO,0,'mo')
-        plot(calcData.rHS,0,'mx')
-        grid on
-        title('Right Ankle Velocity')
-        % ylim([-10 10])
-        
-        subplot(3,2,2)
-        plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
-        hold on
-        plot(calcData.lTO,0,'mo')
-        plot(calcData.lHS,0,'mx')
-        grid on
-        title('Left Ankle Velocity')
-        ylim([-10 10])
-        hold on
-        
-        %% Plots for debugging acceleration code
-        subplot(3,2,3)
-        plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
-        hold on
-        plot(calcData.rTO,0,'mo')
-        plot(calcData.rHS,0,'mx')
-        title('Right Ankle Acceleration')
-        % ylim([-1 1])
-        
-        subplot(3,2,4)
-        plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
-        hold on
-        plot(calcData.lTO,0,'mo')
-        plot(calcData.lHS,0,'mx')
-        title('Left Ankle Acceleration')
-        % ylim([-1 1])
-        
-        %% Plots for debugging jerk code
-        subplot(3,2,5)
-        plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
-        hold on
-        plot(calcData.rTO,0,'mo')
-        plot(calcData.rHS,0,'mx')
-        title('Right Ankle Jerk')
-        % ylim([0 0.008])
-        
-        subplot(3,2,6)
-        plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
-        hold on
-        plot(calcData.lTO,0,'mo')
-        plot(calcData.lHS,0,'mx')
-        title('Left Ankle Jerk')
-        % ylim([0 0.035])
-        
+%         %% Plots for debugging velocity
+%         figure(11)
+%         subplot(3,2,1)
+%         plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.rTO,0,'mo')
+%         plot(calcData.rHS,0,'mx')
+%         grid on
+%         title('Right Ankle Velocity')
+%         % ylim([-10 10])
+%         
+%         subplot(3,2,2)
+%         plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.lTO,0,'mo')
+%         plot(calcData.lHS,0,'mx')
+%         grid on
+%         title('Left Ankle Velocity')
+%         ylim([-10 10])
+%         hold on
+%         
+%         %% Plots for debugging acceleration code
+%         subplot(3,2,3)
+%         plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.rTO,0,'mo')
+%         plot(calcData.rHS,0,'mx')
+%         title('Right Ankle Acceleration')
+%         % ylim([-1 1])
+%         
+%         subplot(3,2,4)
+%         plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.lTO,0,'mo')
+%         plot(calcData.lHS,0,'mx')
+%         title('Left Ankle Acceleration')
+%         % ylim([-1 1])
+%         
+%         %% Plots for debugging jerk code
+%         subplot(3,2,5)
+%         plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.rTO,0,'mo')
+%         plot(calcData.rHS,0,'mx')
+%         title('Right Ankle Jerk')
+%         % ylim([0 0.008])
+%         
+%         subplot(3,2,6)
+%         plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.lTO,0,'mo')
+%         plot(calcData.lHS,0,'mx')
+%         title('Left Ankle Jerk')
+%         % ylim([0 0.035])
+%         
     end
 
     if fid == 'trial042' %condTitle == 'Full Vision'
-        processedData.FullVisionData.filteredData =             data_mar_dim_frame;
-        processedData.FullVisionData.allSteps =                 allSteps;
-        processedData.FullVisionData.step_hs_to_ft_XYZ =        step_hs_to_ft_XYZ;
-        processedData.FullVisionData.peaks =                    peaks;
+%         processedData.FullVisionData.filteredData =             data_mar_dim_frame;
+%         processedData.FullVisionData.allSteps =                 allSteps;
+%         processedData.FullVisionData.step_hs_to_ft_XYZ =        step_hs_to_ft_XYZ;
+%         processedData.FullVisionData.peaks =                    peaks;
         
         %% calcSegCOM function
         % Function outputs totalCOM considering marker location
         [segCenter] = calcPhaseSpaceSegCOM(data_mar_dim_frame,markerLabels); %,markerID)
-        segCenter.FullVision(iter) = segCenter;
+        FullVision.segCenter = segCenter; %{iter(1,2)}
         
-        %right ankle velocity, acceleration, and jerk
-        processedData.FullVisionData.rAnkVel2D =                calcData.rAnkVel2D;
-        processedData.FullVisionData.rAnkAcc2D =                calcData.rAnkAcc2D;
-        processedData.Jerk.FullVisionRAnkJerk2D =               sum(calcData.rAnkJerk2D);
+        %% calcSegWeightCOM function
+        %Function outputs totalCOM depending on seg weight
+        [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
+        FullVision.totalCOMXYZ = totalCOMXYZ;
         
-        %left ankle velocity, acceleration, and jerk
-        processedData.FullVisionData.lAnkVel2D =                calcData.lAnkVel2D;
-        processedData.FullVisionData.lAnkAcc2D =                calcData.lAnkAcc2D;
-        processedData.Jerk.FullVisionLAnkJerk2D =               sum(calcData.lAnkJerk2D);
-        processedData.Jerk.SumFullVisionJerk2D =                processedData.Jerk.FullVisionRAnkJerk2D + processedData.Jerk.FullVisionLAnkJerk2D;
+        %% calcMarVel
+        [marVel] = calcMarVel(FullVision.totalCOMXYZ);
+        FullVision.COMVel = marVel.';
         
-        %% Plots for debugging velocity
-        figure(42)
-        subplot(3,2,1)
-        plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
-        hold on
-        plot(calcData.rTO,0,'mo')
-        plot(calcData.rHS,0,'mx')
-        grid on
-        title('Right Ankle Velocity')
-        % ylim([-10 10])
+%         %right ankle velocity, acceleration, and jerk
+%         processedData.FullVisionData.rAnkVel2D =                calcData.rAnkVel2D;
+%         processedData.FullVisionData.rAnkAcc2D =                calcData.rAnkAcc2D;
+%         processedData.Jerk.FullVisionRAnkJerk2D =               sum(calcData.rAnkJerk2D);
+%         
+%         %left ankle velocity, acceleration, and jerk
+%         processedData.FullVisionData.lAnkVel2D =                calcData.lAnkVel2D;
+%         processedData.FullVisionData.lAnkAcc2D =                calcData.lAnkAcc2D;
+%         processedData.Jerk.FullVisionLAnkJerk2D =               sum(calcData.lAnkJerk2D);
+%         processedData.Jerk.SumFullVisionJerk2D =                processedData.Jerk.FullVisionRAnkJerk2D + processedData.Jerk.FullVisionLAnkJerk2D;
         
-        subplot(3,2,2)
-        plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
-        hold on
-        plot(calcData.lTO,0,'mo')
-        plot(calcData.lHS,0,'mx')
-        grid on
-        title('Left Ankle Velocity')
-        ylim([-10 10])
-        hold on
-        
-        %% Plots for debugging acceleration code
-        subplot(3,2,3)
-        plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
-        hold on
-        plot(calcData.rTO,0,'mo')
-        plot(calcData.rHS,0,'mx')
-        title('Right Ankle Acceleration')
-        % ylim([-1 1])
-        
-        subplot(3,2,4)
-        plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
-        hold on
-        plot(calcData.lTO,0,'mo')
-        plot(calcData.lHS,0,'mx')
-        title('Left Ankle Acceleration')
-        % ylim([-1 1])
-        
-        %% Plots for debugging jerk code
-        subplot(3,2,5)
-        plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
-        hold on
-        plot(calcData.rTO,0,'mo')
-        plot(calcData.rHS,0,'mx')
-        title('Right Ankle Jerk')
-        % ylim([0 0.008])
-        
-        subplot(3,2,6)
-        plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
-        hold on
-        plot(calcData.lTO,0,'mo')
-        plot(calcData.lHS,0,'mx')
-        title('Left Ankle Jerk')
-        % ylim([0 0.035])
-        
-    
+%         %% Plots for debugging velocity
+%         figure(42)
+%         subplot(3,2,1)
+%         plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.rTO,0,'mo')
+%         plot(calcData.rHS,0,'mx')
+%         grid on
+%         title('Right Ankle Velocity')
+%         % ylim([-10 10])
+%         
+%         subplot(3,2,2)
+%         plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.lTO,0,'mo')
+%         plot(calcData.lHS,0,'mx')
+%         grid on
+%         title('Left Ankle Velocity')
+%         ylim([-10 10])
+%         hold on
+%         
+%         %% Plots for debugging acceleration code
+%         subplot(3,2,3)
+%         plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.rTO,0,'mo')
+%         plot(calcData.rHS,0,'mx')
+%         title('Right Ankle Acceleration')
+%         % ylim([-1 1])
+%         
+%         subplot(3,2,4)
+%         plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.lTO,0,'mo')
+%         plot(calcData.lHS,0,'mx')
+%         title('Left Ankle Acceleration')
+%         % ylim([-1 1])
+%         
+%         %% Plots for debugging jerk code
+%         subplot(3,2,5)
+%         plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.rTO,0,'mo')
+%         plot(calcData.rHS,0,'mx')
+%         title('Right Ankle Jerk')
+%         % ylim([0 0.008])
+%         
+%         subplot(3,2,6)
+%         plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.lTO,0,'mo')
+%         plot(calcData.lHS,0,'mx')
+%         title('Left Ankle Jerk')
+%         % ylim([0 0.035])
+%         
+%     
     end
     
     if fid == 'trial015' %condTitle == 'Limited Vision'
-        processedData.LimitedVisionData.filteredData =          data_mar_dim_frame;
-        processedData.LimitedVisionData.allSteps =              allSteps;
-        processedData.LimitedVisionData.step_hs_to_ft_XYZ =     step_hs_to_ft_XYZ;
-        processedData.LimitedVisionData.peaks =                 peaks;
+%         processedData.LimitedVisionData.filteredData =          data_mar_dim_frame;
+%         processedData.LimitedVisionData.allSteps =              allSteps;
+%         processedData.LimitedVisionData.step_hs_to_ft_XYZ =     step_hs_to_ft_XYZ;
+%         processedData.LimitedVisionData.peaks =                 peaks;
         
         %% calcSegCOM function
         % Function outputs totalCOM considering marker location
         [segCenter] = calcPhaseSpaceSegCOM(data_mar_dim_frame,markerLabels); %,markerID)
-        segCenter.LimitedVision(iter) = segCenter;
+        LimitedVision.segCenter = segCenter;
         
-        %right ankle velocity, acceleration, and jerk
-        processedData.LimitedVisionData.rAnkVel2D =             calcData.rAnkVel2D;
-        processedData.LimitedVisionData.rAnkAcc2D =             calcData.rAnkAcc2D;
-        processedData.Jerk.LimitedVisionRAnkJerk2D =            sum(calcData.rAnkJerk2D);
+        %% calcSegWeightCOM function
+        %Function outputs totalCOM depending on seg weight
+        [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
+        LimitedVision.totalCOMXYZ = totalCOMXYZ;
         
-        %left ankle velocity, acceleration, and jerk
-        processedData.LimitedVisionData.lAnkVel2D =             calcData.lAnkVel2D;
-        processedData.LimitedVisionData.lAnkAcc2D =             calcData.lAnkAcc2D;
-        processedData.Jerk.LimitedVisionLAnkJerk2D =            sum(calcData.lAnkJerk2D);
-        processedData.Jerk.SumLimitedVisionJerk2D =             processedData.Jerk.LimitedVisionRAnkJerk2D + processedData.Jerk.LimitedVisionLAnkJerk2D;
+        %% calcMarVel
+        [marVel] = calcMarVel(LimitedVision.totalCOMXYZ);
+        LimitedVision.COMVel = marVel.';
         
-        %% Plots for debugging velocity
-        figure(15)
-        subplot(3,2,1)
-        plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
-        hold on
-        plot(calcData.rTO,0,'mo')
-        plot(calcData.rHS,0,'mx')
-        grid on
-        title('Right Ankle Velocity')
-        % ylim([-10 10])
-        
-        subplot(3,2,2)
-        plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
-        hold on
-        plot(calcData.lTO,0,'mo')
-        plot(calcData.lHS,0,'mx')
-        grid on
-        title('Left Ankle Velocity')
-        ylim([-10 10])
-        hold on
-        
-        %% Plots for debugging acceleration code
-        subplot(3,2,3)
-        plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
-        hold on
-        plot(calcData.rTO,0,'mo')
-        plot(calcData.rHS,0,'mx')
-        title('Right Ankle Acceleration')
-        % ylim([-1 1])
-        
-        subplot(3,2,4)
-        plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
-        hold on
-        plot(calcData.lTO,0,'mo')
-        plot(calcData.lHS,0,'mx')
-        title('Left Ankle Acceleration')
-        % ylim([-1 1])
-        
-        %% Plots for debugging jerk code
-        subplot(3,2,5)
-        plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
-        hold on
-        plot(calcData.rTO,0,'mo')
-        plot(calcData.rHS,0,'mx')
-        title('Right Ankle Jerk')
-        % ylim([0 0.008])
-        
-        subplot(3,2,6)
-        plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
-        hold on
-        plot(calcData.lTO,0,'mo')
-        plot(calcData.lHS,0,'mx')
-        title('Left Ankle Jerk')
-        % ylim([0 0.035])
-        
-        
+%         %right ankle velocity, acceleration, and jerk
+%         processedData.LimitedVisionData.rAnkVel2D =             calcData.rAnkVel2D;
+%         processedData.LimitedVisionData.rAnkAcc2D =             calcData.rAnkAcc2D;
+%         processedData.Jerk.LimitedVisionRAnkJerk2D =            sum(calcData.rAnkJerk2D);
+%         
+%         %left ankle velocity, acceleration, and jerk
+%         processedData.LimitedVisionData.lAnkVel2D =             calcData.lAnkVel2D;
+%         processedData.LimitedVisionData.lAnkAcc2D =             calcData.lAnkAcc2D;
+%         processedData.Jerk.LimitedVisionLAnkJerk2D =            sum(calcData.lAnkJerk2D);
+%         processedData.Jerk.SumLimitedVisionJerk2D =             processedData.Jerk.LimitedVisionRAnkJerk2D + processedData.Jerk.LimitedVisionLAnkJerk2D;
+%         
+%         %% Plots for debugging velocity
+%         figure(15)
+%         subplot(3,2,1)
+%         plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.rTO,0,'mo')
+%         plot(calcData.rHS,0,'mx')
+%         grid on
+%         title('Right Ankle Velocity')
+%         % ylim([-10 10])
+%         
+%         subplot(3,2,2)
+%         plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.lTO,0,'mo')
+%         plot(calcData.lHS,0,'mx')
+%         grid on
+%         title('Left Ankle Velocity')
+%         ylim([-10 10])
+%         hold on
+%         
+%         %% Plots for debugging acceleration code
+%         subplot(3,2,3)
+%         plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.rTO,0,'mo')
+%         plot(calcData.rHS,0,'mx')
+%         title('Right Ankle Acceleration')
+%         % ylim([-1 1])
+%         
+%         subplot(3,2,4)
+%         plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.lTO,0,'mo')
+%         plot(calcData.lHS,0,'mx')
+%         title('Left Ankle Acceleration')
+%         % ylim([-1 1])
+%         
+%         %% Plots for debugging jerk code
+%         subplot(3,2,5)
+%         plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.rTO,0,'mo')
+%         plot(calcData.rHS,0,'mx')
+%         title('Right Ankle Jerk')
+%         % ylim([0 0.008])
+%         
+%         subplot(3,2,6)
+%         plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
+%         hold on
+%         plot(calcData.lTO,0,'mo')
+%         plot(calcData.lHS,0,'mx')
+%         title('Left Ankle Jerk')
+%         % ylim([0 0.035])
+%         
+%         
     end   
     
 end

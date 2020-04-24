@@ -1,11 +1,11 @@
-function [segCenterVel] = calcMarVel(segCenter)
+function [marVel] = calcMarVel(totalCOMXYZ)
 
 %% Marker tracking hip data
 %hipIDs were acquired using the markerLabels
-segCenterVel = [];
+marVel = [];
 
 %Velocity of hips
-segCenterVel.hip =  [0 0 0; diff(segCenter.hipCenter_mar_dim_frame)];
+marVel =  [0 0 0; diff(totalCOMXYZ.')];
 
 %calculates acceleration of hips
 %hipsAcc = [0 0 0; diff(hipsVel)];
