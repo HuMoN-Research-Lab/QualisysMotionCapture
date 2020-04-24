@@ -278,7 +278,6 @@ for iter = 1:3
         LimitedVision.COMAcc =    marAcc;
         LimitedVision.COMJerk =   marJerk;
 
-
         % Plots for velocity, acceleration, and jerk
         figure(15)
         subplot(1,3,1)
@@ -296,28 +295,54 @@ for iter = 1:3
         plot(LimitedVision.COMJerk,'g-o','MarkerSize',2)
         hold on
         title('COM Jerk')
-    end        
+        
+        %RFoot calcs
+        LimitedVision.RFootVel =      RFoot.marVel;
+        LimitedVision.RFootAcc =      RFoot.marAcc;
+        LimitedVision.RFootJerk =     RFoot.marJerk;
+        
+        figure(16)
+        subplot(2,3,1)
+        plot(LimitedVision.RFootVel,'r-o','MarkerSize',2)
+        hold on
+        grid on
+        title('RFoot Velocity')
+        
+        subplot(2,3,2)
+        plot(LimitedVision.RFootAcc,'b-o','MarkerSize',2)
+        hold on
+        title('RFoot Acceleration')
+        
+        subplot(2,3,3)
+        plot(LimitedVision.RFootJerk,'g-o','MarkerSize',2)
+        hold on
+        title('RFoot Jerk') 
+        
+        %LFoot calcs
+        LimitedVision.LFootVel =      LFoot.marVel;
+        LimitedVision.LFootAcc =      LFoot.marAcc;
+        LimitedVision.LFootJerk =     LFoot.marJerk;
+
+        subplot(2,3,4)
+        plot(LimitedVision.LFootVel,'r-o','MarkerSize',2)
+        hold on
+        grid on
+        title('LFoot Velocity')
+        
+        subplot(2,3,5)
+        plot(LimitedVision.LFootAcc,'b-o','MarkerSize',2)
+        hold on
+        title('LFoot Acceleration')
+        
+        subplot(2,3,6)
+        plot(LimitedVision.LFootJerk,'g-o','MarkerSize',2)
+        hold on
+        title('LFoot Jerk')
+        
+    end 
+    
 end
 % close all
-
-%% butterworth filter application
-% order   = 4;
-% cutoff  = 7;
-% clc
-% close all
-% [data_mar_dim_frame(1:numel(markerLabels),:,:)] = butterLowZero(order,cutoff,framerate,data_mar_dim_frame(1:numel(markerLabels),1:3,:)); %Butterworth filter each marker's data and load it into the trial
-
-% for m = 1:numel(markerLabels)
-%     if sum(sum(data_mar_dim_frame(m,1:3,:))) == 0
-%         data_mar_dim_frame(m,:,:) = nan(size(data_mar_dim_frame(m,1:3,:)));
-%     else
-%         data_mar_dim_frame(m,1:3,:)(data_mar_dim_frame(m,1:3,:))==0) == nan;
-%         data_mar_dim_frame(m,:,:) = butterLowZero(order,cutoff,framerate,(data_mar_dim_frame(m,1:3,:))); %Butterworth filter each marker's data and load it into the trial
-%     end
-% end
-
-% [allSteps,step_hs_to_ft_XYZ,peaks] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
-% [allSteps, step_fr_ft_XYZ]= ZeniStepFinder_ccpVid(data_mar_dim_frame, markerLabels);
 
 %% Plot data
 % figure(6801)

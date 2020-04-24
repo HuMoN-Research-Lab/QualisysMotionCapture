@@ -19,7 +19,7 @@ kgMass   = 1;
 % Function outputs mass for individual body segs
 [bodySegMass,segPropWeight] = calcBodySegMass(kgMass);
 
-%% Troubleshooting Issues
+%% Troubleshooting Section
 % %% loadPhaseSpaceMoCapData function loads Phase Space Planning data
 % fileName = ('trial011');
 % 
@@ -35,7 +35,7 @@ kgMass   = 1;
 % %Function outputs totalCOM depending on seg weight
 % [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
 
-%% Essential calc for loop
+%% Trial calc for loop
 
 for iter = 1:3
     % Identify location where files are stored
@@ -60,15 +60,11 @@ for iter = 1:3
     [numFrames,framerate,markerLabels,data_mar_dim_frame] ... 
     = loadPhaseSpaceMoCapData(fid);
     
-%     close all
-    
     % Filter data using butterworth
     order   = 4;
     cutoff  = 7;
     
     [data_mar_dim_frame] = butterLowZero(order,cutoff,framerate,data_mar_dim_frame); %left(1:numel(markerLabels),:,:) right(1:numel(markerLabels),1:3,:) Butterworth filter each marker's data and load it into the trial
-    %take markers from filtered and unfiltered data and compare velocity
-    %data
     
     % Identify all heel-toe step locations
     %[allSteps,step_hs_to_ft_XYZ,peaks,calcData] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
@@ -343,25 +339,6 @@ for iter = 1:3
     
 end
 % close all
-
-%% butterworth filter application
-% order   = 4;
-% cutoff  = 7;
-% clc
-% close all
-% [data_mar_dim_frame(1:numel(markerLabels),:,:)] = butterLowZero(order,cutoff,framerate,data_mar_dim_frame(1:numel(markerLabels),1:3,:)); %Butterworth filter each marker's data and load it into the trial
-
-% for m = 1:numel(markerLabels)
-%     if sum(sum(data_mar_dim_frame(m,1:3,:))) == 0
-%         data_mar_dim_frame(m,:,:) = nan(size(data_mar_dim_frame(m,1:3,:)));
-%     else
-%         data_mar_dim_frame(m,1:3,:)(data_mar_dim_frame(m,1:3,:))==0) == nan;
-%         data_mar_dim_frame(m,:,:) = butterLowZero(order,cutoff,framerate,(data_mar_dim_frame(m,1:3,:))); %Butterworth filter each marker's data and load it into the trial
-%     end
-% end
-
-% [allSteps,step_hs_to_ft_XYZ,peaks] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
-% [allSteps, step_fr_ft_XYZ]= ZeniStepFinder_ccpVid(data_mar_dim_frame, markerLabels);
 
 %% Plot data
 % figure(6801)
