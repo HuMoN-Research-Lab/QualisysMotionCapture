@@ -7,11 +7,11 @@ marAcc =  [];
 marJerk = [];
 % totalCOMXYZ = totalCOMXYZ.';
 %Velocity of hips
-marVelx =           diff(totalCOMXYZ(1,:));
-marVelz =           diff(totalCOMXYZ(3,:));
-marVel =            plus(marVelx,marVelz);
-marAcc =            diff(marVel);
-marJerk =           diff(marAcc);
+marVelx =            diff(totalCOMXYZ(1,:));
+marVelz =            diff(totalCOMXYZ(3,:));
+marVel = plus(marVelx,marVelz);
+marAccx =            diff(marVelx);
+marJerkx =           diff(marAccx);
 marJerk_squared =   (marJerk).^2;
 
 %calculates acceleration of hips

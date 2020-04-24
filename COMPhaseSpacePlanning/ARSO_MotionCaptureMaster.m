@@ -79,40 +79,40 @@ for iter = 1:3
 %         processedData.FreeWalkingData.step_hs_to_ft_XYZ =       step_hs_to_ft_XYZ;
 %         processedData.FreeWalkingData.peaks =                   peaks;
         
-        % calcSegCOM function
+        %% calcSegCOM function
         %Function outputs totalCOM considering marker location
         [segCenter] = calcPhaseSpaceSegCOM(data_mar_dim_frame,markerLabels); %,markerID)
         FreeWalking.segCenter = segCenter; %{iter}
         
-        % calcSegWeightCOM function
+        %% calcSegWeightCOM function
         %Function outputs totalCOM depending on seg weight
         [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
         FreeWalking.totalCOMXYZ = totalCOMXYZ;
         
         %% locEmptySegFrames function
-%         % Function outputs marker frames evaluation
-%         [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
+        % Function outputs marker frames evaluation
+        [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
         
-        % calcMarVel
+        %% calcMarVel
         [marVel,marAcc,marJerk,marJerk_squared] = calcMar_Vel_Acc_Jerk(totalCOMXYZ);
-        FreeWalking.COMVel =    marVel.';
-        FreeWalking.COMAcc =    marAcc.';
-        FreeWalking.COMJerk =   marJerk.';
+        FreeWalking.COMVel =    marVel;
+        FreeWalking.COMAcc =    marAcc;
+        FreeWalking.COMJerk =   marJerk;
 
         % Plots for velocity, acceleration, and jerk
         figure(11)
-        subplot(2,3,1)
+        subplot(1,3,1)
         plot(FreeWalking.COMVel,'r-o','MarkerSize',2)
         hold on
         grid on
         title('COM Velocity')
         
-        subplot(2,3,2)
+        subplot(1,3,2)
         plot(FreeWalking.COMAcc,'r-o','MarkerSize',2)
         hold on
         title('COM Acceleration')
         
-        subplot(2,3,3)
+        subplot(1,3,3)
         plot(FreeWalking.COMJerk,'r-o','MarkerSize',2)
         hold on
         title('COM Jerk')
@@ -152,36 +152,50 @@ for iter = 1:3
 %         
     end
 % 
-% % %     if fid == 'trial042' %condTitle == 'Full Vision'
+    if fid == 'trial042' %condTitle == 'Full Vision'
 % % %         processedData.FullVisionData.filteredData =             data_mar_dim_frame;
 % % %         processedData.FullVisionData.allSteps =                 allSteps;
 % % %         processedData.FullVisionData.step_hs_to_ft_XYZ =        step_hs_to_ft_XYZ;
 % % %         processedData.FullVisionData.peaks =                    peaks;
 % % %         
-% % %         % calcSegCOM function
-% % %         Function outputs totalCOM considering marker location
-% % %         [segCenter] = calcPhaseSpaceSegCOM(data_mar_dim_frame,markerLabels); %,markerID)
-% % %         FullVision.segCenter = segCenter; %{iter(1,2)}
-% % %         
-% % %         % calcSegWeightCOM function
-% % %         Function outputs totalCOM depending on seg weight
-% % %         [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
-% % %         FullVision.totalCOMXYZ = totalCOMXYZ;
-% % %         
-% % %         % calcMarVel
-% % %         [marVel] = calcMar_Vel_Acc_Jerk(FullVision.totalCOMXYZ);
-% % %         FullVision.COMVel = marVel.';
-% % %         
-% % %         %right ankle velocity, acceleration, and jerk
-% % %         processedData.FullVisionData.rAnkVel2D =                calcData.rAnkVel2D;
-% % %         processedData.FullVisionData.rAnkAcc2D =                calcData.rAnkAcc2D;
-% % %         processedData.Jerk.FullVisionRAnkJerk2D =               sum(calcData.rAnkJerk2D);
-% % %         
-% % %         %left ankle velocity, acceleration, and jerk
-% % %         processedData.FullVisionData.lAnkVel2D =                calcData.lAnkVel2D;
-% % %         processedData.FullVisionData.lAnkAcc2D =                calcData.lAnkAcc2D;
-% % %         processedData.Jerk.FullVisionLAnkJerk2D =               sum(calcData.lAnkJerk2D);
-% % %         processedData.Jerk.SumFullVisionJerk2D =                processedData.Jerk.FullVisionRAnkJerk2D + processedData.Jerk.FullVisionLAnkJerk2D;
+        %% calcSegCOM function
+        %Function outputs totalCOM considering marker location
+        [segCenter] = calcPhaseSpaceSegCOM(data_mar_dim_frame,markerLabels); %,markerID)
+        FullVision.segCenter = segCenter; %{iter}
+        
+        %% calcSegWeightCOM function
+        %Function outputs totalCOM depending on seg weight
+        [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
+        FullVision.totalCOMXYZ = totalCOMXYZ;
+        
+        %% locEmptySegFrames function
+        % Function outputs marker frames evaluation
+        [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
+        
+        %% calcMarVel
+        [marVel,marAcc,marJerk,marJerk_squared] = calcMar_Vel_Acc_Jerk(totalCOMXYZ);
+        FullVision.COMVel =    marVel;
+        FullVision.COMAcc =    marAcc;
+        FullVision.COMJerk =   marJerk;
+
+        % Plots for velocity, acceleration, and jerk
+        figure(42)
+        subplot(1,3,1)
+        plot(FullVision.COMVel,'r-o','MarkerSize',2)
+        hold on
+        grid on
+        title('COM Velocity')
+        
+        subplot(1,3,2)
+        plot(FullVision.COMAcc,'r-o','MarkerSize',2)
+        hold on
+        title('COM Acceleration')
+        
+        subplot(1,3,3)
+        plot(FullVision.COMJerk,'r-o','MarkerSize',2)
+        hold on
+        title('COM Jerk')
+
 % % %         
 % % %         %% Plots for debugging velocity
 % % %         figure(42)
@@ -239,7 +253,7 @@ for iter = 1:3
 % % %         % ylim([0 0.035])
 % % %         
 % % %     
-% % %     end
+    end
 %     
 % %     if fid == 'trial015' %condTitle == 'Limited Vision'
 % %         processedData.LimitedVisionData.filteredData =          data_mar_dim_frame;
@@ -331,7 +345,7 @@ for iter = 1:3
 %     end   
 %     
 end
-close all
+% close all
 
 %% butterworth filter application
 % order   = 4;
@@ -353,53 +367,53 @@ close all
 % [allSteps, step_fr_ft_XYZ]= ZeniStepFinder_ccpVid(data_mar_dim_frame, markerLabels);
 
 %% Plot data
-figure(6801)
-
-for fr = 1:10:numFrames
-    %Clear current frame
-    clf
-
-    %Plot all markers in x,y, and z
-    plot3(data_mar_dim_frame(:, 1, fr),...
-        data_mar_dim_frame(:, 2, fr),...
-        data_mar_dim_frame(:, 3, fr),'k.','MarkerFaceColor','k')
-    
-    hold on
-    
-    %% Uncover the unknown marker location
-%     plot3(unknownID(1,fr),...
-%         unknownID(2,fr),...
-%         unknownID(3,fr),'p','DisplayName','RWRB');
-
-%     %% Seg Evals in 3D
+% figure(6801)
+% 
+% for fr = 1:10:numFrames
+%     %Clear current frame
+%     clf
+% 
+%     %Plot all markers in x,y, and z
+%     plot3(data_mar_dim_frame(:, 1, fr),...
+%         data_mar_dim_frame(:, 2, fr),...
+%         data_mar_dim_frame(:, 3, fr),'k.','MarkerFaceColor','k')
+%     
+%     hold on
+%     
+%     %% Uncover the unknown marker location
+% %     plot3(unknownID(1,fr),...
+% %         unknownID(2,fr),...
+% %         unknownID(3,fr),'p','DisplayName','RWRB');
+% 
+% %     %% Seg Evals in 3D
+% %     %plot of total anatomical COM
+% %     plot3(segCenter.RHandCenter_mar_dim_frame(1,fr),...
+% %         segCenter.RHandCenter_mar_dim_frame(2,fr),...
+% %         segCenter.RHandCenter_mar_dim_frame(3,fr),'p','DisplayName','Next');
+%     
+%     %% Total Body COM in 3D
 %     %plot of total anatomical COM
-%     plot3(segCenter.RHandCenter_mar_dim_frame(1,fr),...
-%         segCenter.RHandCenter_mar_dim_frame(2,fr),...
-%         segCenter.RHandCenter_mar_dim_frame(3,fr),'p','DisplayName','Next');
-    
-    %% Total Body COM in 3D
-    %plot of total anatomical COM
-    plot3(totalCOMXYZ(1,fr),...
-        totalCOMXYZ(2,fr),...
-        totalCOMXYZ(3,fr),'p','DisplayName','TotalCOMXYZ');
-    
-    %% Plotting parameters
-    axis equal
-    grid on
-    legend
-    
-    %optimal x y z graph limits 
-    xlim([-1e3 5e3])
-    ylim([-1e3 1e3]) %full lab
-%    ylim([1e3 3e3]) %smaller space
-    zlim([0 3e3])
-    
-    %unsure of what this section XYZs
-    az = -84.362;
-    el =  20.417;
-    view(az,el)
-    
-    
-   drawnow
-end
+%     plot3(totalCOMXYZ(1,fr),...
+%         totalCOMXYZ(2,fr),...
+%         totalCOMXYZ(3,fr),'p','DisplayName','TotalCOMXYZ');
+%     
+%     %% Plotting parameters
+%     axis equal
+%     grid on
+%     legend
+%     
+%     %optimal x y z graph limits 
+%     xlim([-1e3 5e3])
+%     ylim([-1e3 1e3]) %full lab
+% %    ylim([1e3 3e3]) %smaller space
+%     zlim([0 3e3])
+%     
+%     %unsure of what this section XYZs
+%     az = -84.362;
+%     el =  20.417;
+%     view(az,el)
+%     
+%     
+%    drawnow
+% end
 

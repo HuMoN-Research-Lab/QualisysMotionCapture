@@ -11,15 +11,15 @@ addpath(genpath(cd)) %%add the current folder & subfolders to the path (so Matla
 mmHeight = 1;
 kgMass   = 1;
 
+%% bodySegLength function
+% Function outputs length for individual body segs
+[bodySegLength] = calcBodySegLength(mmHeight);
+
+%% calcBodySegMass function
+% Function outputs mass for individual body segs
+[bodySegMass,segPropWeight] = calcBodySegMass(kgMass);
+
 %% Troubleshooting Issues
-% %% bodySegLength function
-% % Function outputs length for individual body segs
-% [bodySegLength] = calcBodySegLength(mmHeight);
-% 
-% %% calcBodySegMass function
-% % Function outputs mass for individual body segs
-% [bodySegMass,segPropWeight] = calcBodySegMass(kgMass);
-% 
 % %% loadPhaseSpaceMoCapData function loads Phase Space Planning data
 % fileName = ('trial011');
 % 
@@ -37,99 +37,96 @@ kgMass   = 1;
 
 %% Essential calc for loop
 
-% for iter = 1:3
-%     % Identify location where files are stored
-%     cd('/Users/MT/Documents/GitHub/MotionCapture_MATLABCode/COMPhaseSpacePlanning');
-%         cd('C:\Users\jonma\Dropbox\ResearchProjects\COMPhaseSpacePlanning\sub01\c3d')
-%      
-%     switch iter
-%         
-%         case 1
-%             condTitle = 'Free Walking';
-%             fid = 'trial011';
-%             
-%         case 2
-%             condTitle = 'Full Vision';
-%             fid = 'trial042';
-%             
-%         case 3
-%             condTitle = 'Limited Vision';
-%             fid = 'trial015';
-%     end
-%     
-%     % Load data from specific fid
-%     [framerate,markerLabels,data_mar_dim_frame,comXYZ] ... 
-%     = loadPhaseSpaceMoCapData(fid);
-%     
-%     clf(f)
+for iter = 1:3
+    % Identify location where files are stored
+    cd('/Users/MT/Documents/GitHub/MotionCapture_MATLABCode/COMPhaseSpacePlanning');
+     
+    switch iter
+        
+        case 1
+            condTitle = 'Free Walking';
+            fid = 'trial011';
+            
+        case 2
+            condTitle = 'Full Vision';
+            fid = 'trial042';
+            
+        case 3
+            condTitle = 'Limited Vision';
+            fid = 'trial015';
+    end
+    
+    % Load data from specific fid
+    [numFrames,framerate,markerLabels,data_mar_dim_frame] ... 
+    = loadPhaseSpaceMoCapData(fid);
+    
 %     close all
-%     
-%     % Filter data using butterworth
-%     order   = 4;
-%     cutoff  = 7;
-%     
-%     [data_mar_dim_frame] = butterLowZero(order,cutoff,framerate,data_mar_dim_frame); %left(1:numel(markerLabels),:,:) right(1:numel(markerLabels),1:3,:) Butterworth filter each marker's data and load it into the trial
-%     take markers from filtered and unfiltered data and compare velocity
-%     data
-%     % Identify all heel-toe step locations
-%     [allSteps,step_hs_to_ft_XYZ,peaks,calcData] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
-% 
-%     % Store trials data in struct
-%     if fid == 'trial011' %condTitle == 'Free Walking'
+    
+    % Filter data using butterworth
+    order   = 4;
+    cutoff  = 7;
+    
+    [data_mar_dim_frame] = butterLowZero(order,cutoff,framerate,data_mar_dim_frame); %left(1:numel(markerLabels),:,:) right(1:numel(markerLabels),1:3,:) Butterworth filter each marker's data and load it into the trial
+    %take markers from filtered and unfiltered data and compare velocity
+    %data
+    
+    % Identify all heel-toe step locations
+    %[allSteps,step_hs_to_ft_XYZ,peaks,calcData] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
+
+    if fid == 'trial011' %condTitle == 'Free Walking'
 %         processedData.FreeWalkingData.filteredData =            data_mar_dim_frame;
 %         processedData.FreeWalkingData.allSteps =                allSteps;
 %         processedData.FreeWalkingData.step_hs_to_ft_XYZ =       step_hs_to_ft_XYZ;
 %         processedData.FreeWalkingData.peaks =                   peaks;
-%         
-%         % calcSegCOM function
-%         Function outputs totalCOM considering marker location
-%         [segCenter] = calcPhaseSpaceSegCOM(data_mar_dim_frame,markerLabels); %,markerID)
-%         FreeWalking.segCenter = segCenter; %{iter}
-%         
-%         % calcSegWeightCOM function
-%         Function outputs totalCOM depending on seg weight
-%         [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
-%         FreeWalking.totalCOMXYZ = totalCOMXYZ;
-%         
-%         %% locEmptySegFrames function
-%         % Function outputs marker frames evaluation
-%         clc
-%         [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
-%         
-%         % calcMarVel
-%         [marVel,marAcc,marJerk,marJerk_squared] = calcMar_Vel_Acc_Jerk(totalCOMXYZ);
-%         FreeWalking.COMVel =    marVel.';
-%         FreeWalking.COMAcc =    marAcc.';
-%         FreeWalking.COMJerk =   marJerk.';
-%         
-%         % Plots for velocity, acceleration, and jerk
-%         figure(11)
-%         subplot(2,3,1)
-%         plot(FreeWalking.COMVel,'r-o','MarkerSize',2)
-%         hold on
-%         grid on
-%         title('COM Velocity')
-%         
-%         subplot(2,3,2)
-%         plot(FreeWalking.COMAcc,'r-o','MarkerSize',2)
-%         hold on
-%         title('COM Acceleration')
-%         
-%         subplot(2,3,3)
-%         plot(FreeWalking.COMJerk,'r-o','MarkerSize',2)
-%         hold on
-%         title('COM Jerk')
-%         
-%         %right ankle velocity, acceleration, and jerk
-%         processedData.FreeWalkingData.rAnkVel2D =               calcData.rAnkVel2D;
-%         processedData.FreeWalkingData.rAnkAcc2D =               calcData.rAnkAcc2D;
-%         processedData.Jerk.FreeWalkingRAnkJerk2D =              sum(calcData.rAnkJerk2D);
-%         
-%         %left ankle velocity, acceleration, and jerk
-%         processedData.FreeWalkingData.lAnkVel2D =               calcData.lAnkVel2D;
-%         processedData.FreeWalkingData.lAnkAcc2D =               calcData.lAnkAcc2D;
-%         processedData.Jerk.FreeWalkingLAnkJerk2D =              sum(calcData.lAnkJerk2D);
-%         processedData.Jerk.SumFreeWalkingJerk2D =               processedData.Jerk.FreeWalkingRAnkJerk2D + processedData.Jerk.FreeWalkingLAnkJerk2D;
+        
+        %% calcSegCOM function
+        %Function outputs totalCOM considering marker location
+        [segCenter] = calcPhaseSpaceSegCOM(data_mar_dim_frame,markerLabels); %,markerID)
+        FreeWalking.segCenter = segCenter; %{iter}
+        
+        %% calcSegWeightCOM function
+        %Function outputs totalCOM depending on seg weight
+        [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
+        FreeWalking.totalCOMXYZ = totalCOMXYZ;
+        
+        %% locEmptySegFrames function
+        % Function outputs marker frames evaluation
+        [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
+        
+        %% calcMarVel
+        [marVel,marAcc,marJerk,marJerk_squared] = calcMar_Vel_Acc_Jerk(totalCOMXYZ);
+        FreeWalking.COMVel =    marVel;
+        FreeWalking.COMAcc =    marAcc;
+        FreeWalking.COMJerk =   marJerk;
+
+        % Plots for velocity, acceleration, and jerk
+        figure(11)
+        subplot(1,3,1)
+        plot(FreeWalking.COMVel,'r-o','MarkerSize',2)
+        hold on
+        grid on
+        title('COM Velocity')
+        
+        subplot(1,3,2)
+        plot(FreeWalking.COMAcc,'r-o','MarkerSize',2)
+        hold on
+        title('COM Acceleration')
+        
+        subplot(1,3,3)
+        plot(FreeWalking.COMJerk,'r-o','MarkerSize',2)
+        hold on
+        title('COM Jerk')
+        
+% %         %right ankle velocity, acceleration, and jerk
+% %         processedData.FreeWalkingData.rAnkVel2D =               calcData.rAnkVel2D;
+% %         processedData.FreeWalkingData.rAnkAcc2D =               calcData.rAnkAcc2D;
+% %         processedData.Jerk.FreeWalkingRAnkJerk2D =              sum(calcData.rAnkJerk2D);
+% %         
+% %         %left ankle velocity, acceleration, and jerk
+% %         processedData.FreeWalkingData.lAnkVel2D =               calcData.lAnkVel2D;
+% %         processedData.FreeWalkingData.lAnkAcc2D =               calcData.lAnkAcc2D;
+% %         processedData.Jerk.FreeWalkingLAnkJerk2D =              sum(calcData.lAnkJerk2D);
+% %         processedData.Jerk.SumFreeWalkingJerk2D =               processedData.Jerk.FreeWalkingRAnkJerk2D + processedData.Jerk.FreeWalkingLAnkJerk2D;
 %         
 %         %% Plots for debugging velocity
 %         figure(11)
@@ -152,130 +149,111 @@ kgMass   = 1;
 %         ylim([-10 10])
 %         hold on
 %         
-%         %% Plots for debugging acceleration code
-%         subplot(3,2,3)
-%         plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
-%         hold on
-%         plot(calcData.rTO,0,'mo')
-%         plot(calcData.rHS,0,'mx')
-%         title('Right Ankle Acceleration')
-%         % ylim([-1 1])
 %         
-%         subplot(3,2,4)
-%         plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
-%         hold on
-%         plot(calcData.lTO,0,'mo')
-%         plot(calcData.lHS,0,'mx')
-%         title('Left Ankle Acceleration')
-%         % ylim([-1 1])
-%         
-%         %% Plots for debugging jerk code
-%         subplot(3,2,5)
-%         plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
-%         hold on
-%         plot(calcData.rTO,0,'mo')
-%         plot(calcData.rHS,0,'mx')
-%         title('Right Ankle Jerk')
-%         % ylim([0 0.008])
-%         
-%         subplot(3,2,6)
-%         plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
-%         hold on
-%         plot(calcData.lTO,0,'mo')
-%         plot(calcData.lHS,0,'mx')
-%         title('Left Ankle Jerk')
-%         % ylim([0 0.035])
-%         
-%     end
+    end
 % 
-%     if fid == 'trial042' %condTitle == 'Full Vision'
-%         processedData.FullVisionData.filteredData =             data_mar_dim_frame;
-%         processedData.FullVisionData.allSteps =                 allSteps;
-%         processedData.FullVisionData.step_hs_to_ft_XYZ =        step_hs_to_ft_XYZ;
-%         processedData.FullVisionData.peaks =                    peaks;
-%         
-%         % calcSegCOM function
-%         Function outputs totalCOM considering marker location
-%         [segCenter] = calcPhaseSpaceSegCOM(data_mar_dim_frame,markerLabels); %,markerID)
-%         FullVision.segCenter = segCenter; %{iter(1,2)}
-%         
-%         % calcSegWeightCOM function
-%         Function outputs totalCOM depending on seg weight
-%         [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
-%         FullVision.totalCOMXYZ = totalCOMXYZ;
-%         
-%         % calcMarVel
-%         [marVel] = calcMar_Vel_Acc_Jerk(FullVision.totalCOMXYZ);
-%         FullVision.COMVel = marVel.';
-%         
-%         %right ankle velocity, acceleration, and jerk
-%         processedData.FullVisionData.rAnkVel2D =                calcData.rAnkVel2D;
-%         processedData.FullVisionData.rAnkAcc2D =                calcData.rAnkAcc2D;
-%         processedData.Jerk.FullVisionRAnkJerk2D =               sum(calcData.rAnkJerk2D);
-%         
-%         %left ankle velocity, acceleration, and jerk
-%         processedData.FullVisionData.lAnkVel2D =                calcData.lAnkVel2D;
-%         processedData.FullVisionData.lAnkAcc2D =                calcData.lAnkAcc2D;
-%         processedData.Jerk.FullVisionLAnkJerk2D =               sum(calcData.lAnkJerk2D);
-%         processedData.Jerk.SumFullVisionJerk2D =                processedData.Jerk.FullVisionRAnkJerk2D + processedData.Jerk.FullVisionLAnkJerk2D;
-%         
-%         %% Plots for debugging velocity
-%         figure(42)
-%         subplot(3,2,1)
-%         plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
-%         hold on
-%         plot(calcData.rTO,0,'mo')
-%         plot(calcData.rHS,0,'mx')
-%         grid on
-%         title('Right Ankle Velocity')
-%         % ylim([-10 10])
-%         
-%         subplot(3,2,2)
-%         plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
-%         hold on
-%         plot(calcData.lTO,0,'mo')
-%         plot(calcData.lHS,0,'mx')
-%         grid on
-%         title('Left Ankle Velocity')
-%         ylim([-10 10])
-%         hold on
-%         
-%         %% Plots for debugging acceleration code
-%         subplot(3,2,3)
-%         plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
-%         hold on
-%         plot(calcData.rTO,0,'mo')
-%         plot(calcData.rHS,0,'mx')
-%         title('Right Ankle Acceleration')
-%         % ylim([-1 1])
-%         
-%         subplot(3,2,4)
-%         plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
-%         hold on
-%         plot(calcData.lTO,0,'mo')
-%         plot(calcData.lHS,0,'mx')
-%         title('Left Ankle Acceleration')
-%         % ylim([-1 1])
-%         
-%         %% Plots for debugging jerk code
-%         subplot(3,2,5)
-%         plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
-%         hold on
-%         plot(calcData.rTO,0,'mo')
-%         plot(calcData.rHS,0,'mx')
-%         title('Right Ankle Jerk')
-%         % ylim([0 0.008])
-%         
-%         subplot(3,2,6)
-%         plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
-%         hold on
-%         plot(calcData.lTO,0,'mo')
-%         plot(calcData.lHS,0,'mx')
-%         title('Left Ankle Jerk')
-%         % ylim([0 0.035])
-%         
-%     
-%     end
+    if fid == 'trial042' %condTitle == 'Full Vision'
+% % %         processedData.FullVisionData.filteredData =             data_mar_dim_frame;
+% % %         processedData.FullVisionData.allSteps =                 allSteps;
+% % %         processedData.FullVisionData.step_hs_to_ft_XYZ =        step_hs_to_ft_XYZ;
+% % %         processedData.FullVisionData.peaks =                    peaks;
+% % %         
+        %% calcSegCOM function
+        %Function outputs totalCOM considering marker location
+        [segCenter] = calcPhaseSpaceSegCOM(data_mar_dim_frame,markerLabels); %,markerID)
+        FullVision.segCenter = segCenter; %{iter}
+        
+        %% calcSegWeightCOM function
+        %Function outputs totalCOM depending on seg weight
+        [totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
+        FullVision.totalCOMXYZ = totalCOMXYZ;
+        
+        %% locEmptySegFrames function
+        % Function outputs marker frames evaluation
+        [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
+        
+        %% calcMarVel
+        [marVel,marAcc,marJerk,marJerk_squared] = calcMar_Vel_Acc_Jerk(totalCOMXYZ);
+        FullVision.COMVel =    marVel;
+        FullVision.COMAcc =    marAcc;
+        FullVision.COMJerk =   marJerk;
+
+        % Plots for velocity, acceleration, and jerk
+        figure(1)
+        subplot(1,3,1)
+        plot(FullVision.COMVel,'r-o','MarkerSize',2)
+        hold on
+        grid on
+        title('COM Velocity')
+        
+        subplot(1,3,2)
+        plot(FullVision.COMAcc,'r-o','MarkerSize',2)
+        hold on
+        title('COM Acceleration')
+        
+        subplot(1,3,3)
+        plot(FullVision.COMJerk,'r-o','MarkerSize',2)
+        hold on
+        title('COM Jerk')
+
+% % %         
+% % %         %% Plots for debugging velocity
+% % %         figure(42)
+% % %         subplot(3,2,1)
+% % %         plot(calcData.rAnkVel2D,'r-o','MarkerSize',2)
+% % %         hold on
+% % %         plot(calcData.rTO,0,'mo')
+% % %         plot(calcData.rHS,0,'mx')
+% % %         grid on
+% % %         title('Right Ankle Velocity')
+% % %         % ylim([-10 10])
+% % %         
+% % %         subplot(3,2,2)
+% % %         plot(calcData.lAnkVel2D, 'b-o','MarkerSize',2)
+% % %         hold on
+% % %         plot(calcData.lTO,0,'mo')
+% % %         plot(calcData.lHS,0,'mx')
+% % %         grid on
+% % %         title('Left Ankle Velocity')
+% % %         ylim([-10 10])
+% % %         hold on
+% % %         
+% % %         %% Plots for debugging acceleration code
+% % %         subplot(3,2,3)
+% % %         plot(calcData.rAnkAcc2D,'r-o','MarkerSize',2)
+% % %         hold on
+% % %         plot(calcData.rTO,0,'mo')
+% % %         plot(calcData.rHS,0,'mx')
+% % %         title('Right Ankle Acceleration')
+% % %         % ylim([-1 1])
+% % %         
+% % %         subplot(3,2,4)
+% % %         plot(calcData.lAnkAcc2D, 'b-o','MarkerSize',2)
+% % %         hold on
+% % %         plot(calcData.lTO,0,'mo')
+% % %         plot(calcData.lHS,0,'mx')
+% % %         title('Left Ankle Acceleration')
+% % %         % ylim([-1 1])
+% % %         
+% % %         %% Plots for debugging jerk code
+% % %         subplot(3,2,5)
+% % %         plot(calcData.rAnkJerk2D,'r-o','MarkerSize',2)
+% % %         hold on
+% % %         plot(calcData.rTO,0,'mo')
+% % %         plot(calcData.rHS,0,'mx')
+% % %         title('Right Ankle Jerk')
+% % %         % ylim([0 0.008])
+% % %         
+% % %         subplot(3,2,6)
+% % %         plot(calcData.lAnkJerk2D, 'b-o','MarkerSize',2)
+% % %         hold on
+% % %         plot(calcData.lTO,0,'mo')
+% % %         plot(calcData.lHS,0,'mx')
+% % %         title('Left Ankle Jerk')
+% % %         % ylim([0 0.035])
+% % %         
+% % %     
+    end
 %     
 % %     if fid == 'trial015' %condTitle == 'Limited Vision'
 % %         processedData.LimitedVisionData.filteredData =          data_mar_dim_frame;
@@ -366,7 +344,7 @@ kgMass   = 1;
 %         
 %     end   
 %     
-% end
+end
 close all
 
 %% butterworth filter application
