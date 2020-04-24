@@ -89,7 +89,7 @@ for iter = 1:3
         % Function outputs marker frames evaluation
         [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
         
-        %% calcMarVel
+        %% calcMar_Vel_Acc_Jerk function
         [marVel,marAcc,marJerk,marJerk_squared,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,totalCOMXYZ);
         FreeWalking.COMVel =        marVel;
         FreeWalking.COMAcc =        marAcc;
@@ -113,7 +113,7 @@ for iter = 1:3
         hold on
         title('COM Jerk') 
         
-        %RFoot calcs
+        %% RFoot calcs and plots
         FreeWalking.RFootVel =      RFoot.marVel;
         FreeWalking.RFootAcc =      RFoot.marAcc;
         FreeWalking.RFootJerk =     RFoot.marJerk;
@@ -135,7 +135,7 @@ for iter = 1:3
         hold on
         title('RFoot Jerk') 
         
-        %LFoot calcs
+        %% LFoot calcs and plots
         FreeWalking.LFootVel =      LFoot.marVel;
         FreeWalking.LFootAcc =      LFoot.marAcc;
         FreeWalking.LFootJerk =     LFoot.marJerk;
@@ -178,7 +178,7 @@ for iter = 1:3
         % Function outputs marker frames evaluation
         [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
         
-        %% calcMarVel
+        %% calcMar_Vel_Acc_Jerk function
         [marVel,marAcc,marJerk,marJerk_squared,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,totalCOMXYZ);        
         FullVision.COMVel =    marVel;
         FullVision.COMAcc =    marAcc;
@@ -202,7 +202,7 @@ for iter = 1:3
         hold on
         title('COM Jerk')
 
-        %RFoot calcs
+        %% RFoot calcs and plots
         FullVision.RFootVel =      RFoot.marVel;
         FullVision.RFootAcc =      RFoot.marAcc;
         FullVision.RFootJerk =     RFoot.marJerk;
@@ -224,7 +224,7 @@ for iter = 1:3
         hold on
         title('RFoot Jerk') 
         
-        %LFoot calcs
+        %% LFoot calcs and plots
         FullVision.LFootVel =      LFoot.marVel;
         FullVision.LFootAcc =      LFoot.marAcc;
         FullVision.LFootJerk =     LFoot.marJerk;
@@ -245,9 +245,8 @@ for iter = 1:3
         hold on
         title('LFoot Jerk')
         
-        
     end
-%     
+
     if fid == 'trial015' %condTitle == 'Limited Vision'
 % %         processedData.LimitedVisionData.filteredData =          data_mar_dim_frame;
 % %         processedData.LimitedVisionData.allSteps =              allSteps;
@@ -268,7 +267,7 @@ for iter = 1:3
         % Function outputs marker frames evaluation
         [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
         
-        %% calcMarVel
+        %% calcMar_Vel_Acc_Jerk function
         [marVel,marAcc,marJerk,marJerk_squared,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,totalCOMXYZ);
         LimitedVision.COMVel =    marVel;
         LimitedVision.COMAcc =    marAcc;
@@ -292,7 +291,7 @@ for iter = 1:3
         hold on
         title('COM Jerk')
         
-        %RFoot calcs
+        %% RFoot calcs and plots
         LimitedVision.RFootVel =      RFoot.marVel;
         LimitedVision.RFootAcc =      RFoot.marAcc;
         LimitedVision.RFootJerk =     RFoot.marJerk;
@@ -314,7 +313,7 @@ for iter = 1:3
         hold on
         title('RFoot Jerk') 
         
-        %LFoot calcs
+        %% LFoot calcs and plots
         LimitedVision.LFootVel =      LFoot.marVel;
         LimitedVision.LFootAcc =      LFoot.marAcc;
         LimitedVision.LFootJerk =     LFoot.marJerk;
@@ -338,7 +337,6 @@ for iter = 1:3
     end 
     
 end
-% close all
 
 %% Plot data
 % figure(6801)
