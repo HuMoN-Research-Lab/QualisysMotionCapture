@@ -1,4 +1,4 @@
-function [numFrames,framerate,markerLabels,data_mar_dim_frame] ... 
+function [numFrames,framerate,markerLabels,data_mar_dim_frame,unknownID] ... 
     = loadPhaseSpaceMoCapData(fileName)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %loadPhaseSpaceMoCapData outputs various variables from the file name 
@@ -14,12 +14,17 @@ load([fileName '.mat']);
 numFrames = endFrame;  % - startFrames;
 % framerate = framerate;
 markerLabels = (marNames).';
-data_mar_dim_frame = permute(c3dData.c3dData_fr_mar_dim,[2,3,1]);     %major data set
+data_mar_dim_frame = permute(c3d_fr_mar_dim,[2,3,1]);     %major data set
 % comXYZ = permute(comXYZ,[2,1]);   %load com of points
 
+[row,col] = find(isnan(segCenter.headCenter_mar_dim_frame));
+emptyFrames.headCenter = [col];
+if emptyFrames.headCenter ~= 0
+    disp('headCenter is missing data!');
+end
 
 % unknownID = 13;
-% unknownID = squeeze(data_mar_dim_frame(15, 1:3, :)); %(nanmean
+unknownID = squeeze(data_mar_dim_frame(15, 1:3, :)); %(nanmean
 
 
 %% Modifications to be done 

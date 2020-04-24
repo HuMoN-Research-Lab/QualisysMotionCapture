@@ -28,10 +28,10 @@ headPosY(:,4) =                     HeadBackR(2,:)';
 headPosY =                          mean(headPosY,2);
 
 %z values located on corresponding column
-headPosZ(:,1) =                     HeadFrontL(2,:)';
-headPosZ(:,2) =                     HeadFrontR(2,:)';
-headPosZ(:,3) =                     HeadBackL(2,:)';
-headPosZ(:,4) =                     HeadBackR(2,:)';
+headPosZ(:,1) =                     HeadFrontL(3,:)';
+headPosZ(:,2) =                     HeadFrontR(3,:)';
+headPosZ(:,3) =                     HeadBackL(3,:)';
+headPosZ(:,4) =                     HeadBackR(3,:)';
 headPosZ =                          mean(headPosZ,2);
 
 
@@ -205,22 +205,22 @@ segCenter.RForearmCenter_mar_dim_frame(3,:) =     (RForearmPosZ).';
 LHandOut = getMarker(data_mar_dim_frame,markerLabels,'LFIN');
 
 %x values located on corresponding column
-LHandPosX(:,1) =                 LWristOut(1,:)';
+LHandPosX(:,1) =                 LWristIn(1,:)';
 LHandPosX(:,2) =                 LWristOut(1,:)';
 LHandPosX(:,3) =                 LHandOut(1,:)';
-LHandPosX =                      nanmean(LHandPosX,2);
+LHandPosX =                      mean(LHandPosX,2);
 
 %y values located on corresponding column
-LHandPosY(:,1) =                 LWristOut(2,:)';
+LHandPosY(:,1) =                 LWristIn(2,:)';
 LHandPosY(:,2) =                 LWristOut(2,:)';
 LHandPosY(:,3) =                 LHandOut(2,:)';
-LHandPosY =                      nanmean(LHandPosY,2);
+LHandPosY =                      mean(LHandPosY,2);
 
 %z values located on corresponding column
-LHandPosZ(:,1) =                 LWristOut(3,:)';
+LHandPosZ(:,1) =                 LWristIn(3,:)';
 LHandPosZ(:,2) =                 LWristOut(3,:)';
 LHandPosZ(:,3) =                 LHandOut(3,:)';
-LHandPosZ =                      nanmean(LHandPosZ,2);
+LHandPosZ =                      mean(LHandPosZ,2);
 
 %Center location for the LHand
 segCenter.LHandCenter_mar_dim_frame =          (LHandPosX).';
