@@ -65,9 +65,6 @@ for iter = 1:3
     cutoff  = 7;
     
     [data_mar_dim_frame] = butterLowZero(order,cutoff,framerate,data_mar_dim_frame); %left(1:numel(markerLabels),:,:) right(1:numel(markerLabels),1:3,:) Butterworth filter each marker's data and load it into the trial
-    
-    % Identify all heel-toe step locations
-    %[allSteps,step_hs_to_ft_XYZ,peaks,calcData] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
 
     if fid == 'trial011' %condTitle == 'Free Walking'
 %         processedData.FreeWalkingData.filteredData =            data_mar_dim_frame;
@@ -78,6 +75,7 @@ for iter = 1:3
         %% calcSegCOM function
         %Function outputs totalCOM considering marker location
         [segCenter] = calcPhaseSpaceSegCOM(data_mar_dim_frame,markerLabels); %,markerID)
+        %STILL HAVENT FIGURED OUT HOW TO DO THIS WITH REGULAR ARRAY!
         FreeWalking.segCenter = segCenter; %{iter}
         
         %% calcSegWeightCOM function
@@ -95,66 +93,79 @@ for iter = 1:3
         FreeWalking.COMAcc =        marAcc;
         FreeWalking.COMJerk =       marJerk;
         
-        % Plots for velocity, acceleration, and jerk
-        figure(11)
-        subplot(1,3,1)
-        plot(FreeWalking.COMVel,'r-o','MarkerSize',2)
-        hold on
-        grid on
-        title('COM Velocity')
+        %% ZeniStepFinder
+        % Identify all heel-toe step locations
+        [allSteps,step_hs_to_ft_XYZ,peaks,hs_to_ft_Data] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
+
+        %% Vel_Acc_Jerk_per_step
+        [rStep_vel,lStep_vel,rStep_Acc,lStep_Acc,rStep_Jerk,lStep_Jerk] = Vel_Acc_Jerk_per_step(allSteps,hs_to_ft_Data);
+%         FreeWalking.rStep_vel =     rStep_vel;
+%         FreeWalking.lStep_vel =     lStep_vel;
+%         FreeWalking.rStep_Acc =     rStep_Acc;
+%         FreeWalking.lStep_Acc =     lStep_Acc;
+        FreeWalking.rStep_Jerk =    rStep_Jerk;
+        FreeWalking.lStep_Jerk =    lStep_Jerk;
         
-        subplot(1,3,2)
-        plot(FreeWalking.COMAcc,'b-o','MarkerSize',2)
-        hold on
-        title('COM Acceleration')
-        
-        subplot(1,3,3)
-        plot(FreeWalking.COMJerk,'g-o','MarkerSize',2)
-        hold on
-        title('COM Jerk') 
+%         % Plots for velocity, acceleration, and jerk
+%         figure(11)
+%         subplot(1,3,1)
+%         plot(FreeWalking.COMVel,'r-o','MarkerSize',2)
+%         hold on
+%         grid on
+%         title('COM Velocity')
+%         
+%         subplot(1,3,2)
+%         plot(FreeWalking.COMAcc,'b-o','MarkerSize',2)
+%         hold on
+%         title('COM Acceleration')
+%         
+%         subplot(1,3,3)
+%         plot(FreeWalking.COMJerk,'g-o','MarkerSize',2)
+%         hold on
+%         title('COM Jerk') 
         
         %% RFoot calcs and plots
         FreeWalking.RFootVel =      RFoot.marVel;
         FreeWalking.RFootAcc =      RFoot.marAcc;
         FreeWalking.RFootJerk =     RFoot.marJerk;
         
-        figure(12)
-        subplot(2,3,1)
-        plot(FreeWalking.RFootVel,'r-o','MarkerSize',2)
-        hold on
-        grid on
-        title('RFoot Velocity')
-        
-        subplot(2,3,2)
-        plot(FreeWalking.RFootAcc,'b-o','MarkerSize',2)
-        hold on
-        title('RFoot Acceleration')
-        
-        subplot(2,3,3)
-        plot(FreeWalking.RFootJerk,'g-o','MarkerSize',2)
-        hold on
-        title('RFoot Jerk') 
+%         figure(12)
+%         subplot(2,3,1)
+%         plot(FreeWalking.RFootVel,'r-o','MarkerSize',2)
+%         hold on
+%         grid on
+%         title('RFoot Velocity')
+%         
+%         subplot(2,3,2)
+%         plot(FreeWalking.RFootAcc,'b-o','MarkerSize',2)
+%         hold on
+%         title('RFoot Acceleration')
+%         
+%         subplot(2,3,3)
+%         plot(FreeWalking.RFootJerk,'g-o','MarkerSize',2)
+%         hold on
+%         title('RFoot Jerk') 
         
         %% LFoot calcs and plots
         FreeWalking.LFootVel =      LFoot.marVel;
         FreeWalking.LFootAcc =      LFoot.marAcc;
         FreeWalking.LFootJerk =     LFoot.marJerk;
 
-        subplot(2,3,4)
-        plot(FreeWalking.LFootVel,'r-o','MarkerSize',2)
-        hold on
-        grid on
-        title('LFoot Velocity')
-        
-        subplot(2,3,5)
-        plot(FreeWalking.LFootAcc,'b-o','MarkerSize',2)
-        hold on
-        title('LFoot Acceleration')
-        
-        subplot(2,3,6)
-        plot(FreeWalking.LFootJerk,'g-o','MarkerSize',2)
-        hold on
-        title('LFoot Jerk')         
+%         subplot(2,3,4)
+%         plot(FreeWalking.LFootVel,'r-o','MarkerSize',2)
+%         hold on
+%         grid on
+%         title('LFoot Velocity')
+%         
+%         subplot(2,3,5)
+%         plot(FreeWalking.LFootAcc,'b-o','MarkerSize',2)
+%         hold on
+%         title('LFoot Acceleration')
+%         
+%         subplot(2,3,6)
+%         plot(FreeWalking.LFootJerk,'g-o','MarkerSize',2)
+%         hold on
+%         title('LFoot Jerk')         
         
     end
  
@@ -184,6 +195,15 @@ for iter = 1:3
         FullVision.COMAcc =    marAcc;
         FullVision.COMJerk =   marJerk;
 
+        %% ZeniStepFinder
+        % Identify all heel-toe step locations
+        [allSteps,step_hs_to_ft_XYZ,peaks,hs_to_ft_Data] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
+
+        %% Vel_Acc_Jerk_per_step
+        [rStep_vel,lStep_vel,rStep_Acc,lStep_Acc,rStep_Jerk,lStep_Jerk] = Vel_Acc_Jerk_per_step(allSteps,hs_to_ft_Data);
+        FullVision.rStep_Jerk =    rStep_Jerk;
+        FullVision.lStep_Jerk =    lStep_Jerk;
+        
         % Plots for velocity, acceleration, and jerk
         figure(42)
         subplot(1,3,1)
@@ -207,43 +227,43 @@ for iter = 1:3
         FullVision.RFootAcc =      RFoot.marAcc;
         FullVision.RFootJerk =     RFoot.marJerk;
         
-        figure(43)
-        subplot(2,3,1)
-        plot(FullVision.RFootVel,'r-o','MarkerSize',2)
-        hold on
-        grid on
-        title('RFoot Velocity')
-        
-        subplot(2,3,2)
-        plot(FullVision.RFootAcc,'b-o','MarkerSize',2)
-        hold on
-        title('RFoot Acceleration')
-        
-        subplot(2,3,3)
-        plot(FullVision.RFootJerk,'g-o','MarkerSize',2)
-        hold on
-        title('RFoot Jerk') 
+%         figure(43)
+%         subplot(2,3,1)
+%         plot(FullVision.RFootVel,'r-o','MarkerSize',2)
+%         hold on
+%         grid on
+%         title('RFoot Velocity')
+%         
+%         subplot(2,3,2)
+%         plot(FullVision.RFootAcc,'b-o','MarkerSize',2)
+%         hold on
+%         title('RFoot Acceleration')
+%         
+%         subplot(2,3,3)
+%         plot(FullVision.RFootJerk,'g-o','MarkerSize',2)
+%         hold on
+%         title('RFoot Jerk') 
         
         %% LFoot calcs and plots
         FullVision.LFootVel =      LFoot.marVel;
         FullVision.LFootAcc =      LFoot.marAcc;
         FullVision.LFootJerk =     LFoot.marJerk;
 
-        subplot(2,3,4)
-        plot(FullVision.LFootVel,'r-o','MarkerSize',2)
-        hold on
-        grid on
-        title('LFoot Velocity')
-        
-        subplot(2,3,5)
-        plot(FullVision.LFootAcc,'b-o','MarkerSize',2)
-        hold on
-        title('LFoot Acceleration')
-        
-        subplot(2,3,6)
-        plot(FullVision.LFootJerk,'g-o','MarkerSize',2)
-        hold on
-        title('LFoot Jerk')
+%         subplot(2,3,4)
+%         plot(FullVision.LFootVel,'r-o','MarkerSize',2)
+%         hold on
+%         grid on
+%         title('LFoot Velocity')
+%         
+%         subplot(2,3,5)
+%         plot(FullVision.LFootAcc,'b-o','MarkerSize',2)
+%         hold on
+%         title('LFoot Acceleration')
+%         
+%         subplot(2,3,6)
+%         plot(FullVision.LFootJerk,'g-o','MarkerSize',2)
+%         hold on
+%         title('LFoot Jerk')
         
     end
 
@@ -273,6 +293,15 @@ for iter = 1:3
         LimitedVision.COMAcc =    marAcc;
         LimitedVision.COMJerk =   marJerk;
 
+        %% ZeniStepFinder
+        % Identify all heel-toe step locations
+        [allSteps,step_hs_to_ft_XYZ,peaks,hs_to_ft_Data] = ZeniStepFinder_ccpVid_modified(data_mar_dim_frame, markerLabels,framerate);
+
+        %% Vel_Acc_Jerk_per_step
+        [rStep_vel,lStep_vel,rStep_Acc,lStep_Acc,rStep_Jerk,lStep_Jerk] = Vel_Acc_Jerk_per_step(allSteps,hs_to_ft_Data);
+        LimitedVision.rStep_Jerk =    rStep_Jerk;
+        LimitedVision.lStep_Jerk =    lStep_Jerk;
+        
         % Plots for velocity, acceleration, and jerk
         figure(15)
         subplot(1,3,1)
@@ -296,43 +325,43 @@ for iter = 1:3
         LimitedVision.RFootAcc =      RFoot.marAcc;
         LimitedVision.RFootJerk =     RFoot.marJerk;
         
-        figure(16)
-        subplot(2,3,1)
-        plot(LimitedVision.RFootVel,'r-o','MarkerSize',2)
-        hold on
-        grid on
-        title('RFoot Velocity')
-        
-        subplot(2,3,2)
-        plot(LimitedVision.RFootAcc,'b-o','MarkerSize',2)
-        hold on
-        title('RFoot Acceleration')
-        
-        subplot(2,3,3)
-        plot(LimitedVision.RFootJerk,'g-o','MarkerSize',2)
-        hold on
-        title('RFoot Jerk') 
+%         figure(16)
+%         subplot(2,3,1)
+%         plot(LimitedVision.RFootVel,'r-o','MarkerSize',2)
+%         hold on
+%         grid on
+%         title('RFoot Velocity')
+%         
+%         subplot(2,3,2)
+%         plot(LimitedVision.RFootAcc,'b-o','MarkerSize',2)
+%         hold on
+%         title('RFoot Acceleration')
+%         
+%         subplot(2,3,3)
+%         plot(LimitedVision.RFootJerk,'g-o','MarkerSize',2)
+%         hold on
+%         title('RFoot Jerk') 
         
         %% LFoot calcs and plots
         LimitedVision.LFootVel =      LFoot.marVel;
         LimitedVision.LFootAcc =      LFoot.marAcc;
         LimitedVision.LFootJerk =     LFoot.marJerk;
 
-        subplot(2,3,4)
-        plot(LimitedVision.LFootVel,'r-o','MarkerSize',2)
-        hold on
-        grid on
-        title('LFoot Velocity')
-        
-        subplot(2,3,5)
-        plot(LimitedVision.LFootAcc,'b-o','MarkerSize',2)
-        hold on
-        title('LFoot Acceleration')
-        
-        subplot(2,3,6)
-        plot(LimitedVision.LFootJerk,'g-o','MarkerSize',2)
-        hold on
-        title('LFoot Jerk')
+%         subplot(2,3,4)
+%         plot(LimitedVision.LFootVel,'r-o','MarkerSize',2)
+%         hold on
+%         grid on
+%         title('LFoot Velocity')
+%         
+%         subplot(2,3,5)
+%         plot(LimitedVision.LFootAcc,'b-o','MarkerSize',2)
+%         hold on
+%         title('LFoot Acceleration')
+%         
+%         subplot(2,3,6)
+%         plot(LimitedVision.LFootJerk,'g-o','MarkerSize',2)
+%         hold on
+%         title('LFoot Jerk')
         
     end 
     

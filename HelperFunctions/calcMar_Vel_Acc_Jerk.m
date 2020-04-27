@@ -14,7 +14,7 @@ marVelz =           diff(totalCOMXYZ(3,:));
 calc_marVel =       plus(marVelx,marVelz);
 
 %id start and end point of trial
-ind_start_end = find(calc_marVel > 2);
+ind_start_end =     find(calc_marVel > 2);
 
 %vel, acc, and jerk calc
 marVel =            calc_marVel(ind_start_end);
