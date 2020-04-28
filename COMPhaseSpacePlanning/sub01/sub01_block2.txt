@@ -1,7 +1,0 @@
-cond3.conf
-cond6.conf
-cond5.conf
-cond1.conf
-cond2.conf
-cond7.conf
-cond4.conf

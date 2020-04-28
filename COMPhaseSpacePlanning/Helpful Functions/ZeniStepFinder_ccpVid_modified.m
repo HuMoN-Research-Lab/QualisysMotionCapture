@@ -178,7 +178,7 @@ end
 %
 % hold on
 
-%Identify the peaks in velocity data
+%% Identify the peaks in velocity data
 [pks,locs] = findpeaks(rAnkVel2D,'MinPeakProminence',1);
 peaks.rAnkVelPeak = [pks,locs];
 
@@ -367,7 +367,15 @@ for i = 1:length(allSteps)
     end
 end
 
+%% Gut check for accuracy of steps
 
+if numel(hs_to_ft_Data.rTO)~=numel(hs_to_ft_Data.lTO)
+    assert("Take a look at ZeniStepFinder!")
+end
+
+if length(hs_to_ft_Data.rHS)~=length(hs_to_ft_Data.lHS)
+    assert("Take a look at ZeniStepFinder!")
+end
 
 %
 %
