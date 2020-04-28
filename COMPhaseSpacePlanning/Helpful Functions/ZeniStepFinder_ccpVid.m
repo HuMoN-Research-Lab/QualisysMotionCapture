@@ -131,7 +131,7 @@ for i = startFrame+1:endFrame-1
     %need to take absolute value to see if it is moving
     
     %Right foot toe offs
-    if rAnkVel2D(i-1) <= 0 && rAnkVel2D(i) > 0
+    if (rAnkVel2D(i-1) <= 0 && rAnkVel2D(i) > 0)
         rTO(end+1) = i;
         
     end
