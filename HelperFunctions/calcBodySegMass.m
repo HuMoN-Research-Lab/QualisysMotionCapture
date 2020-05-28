@@ -1,79 +1,90 @@
-function [bodySegMass,segPropWeight] = calcBodySegMass(kgMass)
+function [bodySegWeight,propSegWeight] = calcBodySegMass(kgMass)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Calculates totalMass of each body segment based on users overall kgMass
+%Calculates total weight of body segment based on subject overall kgMass
+%Prepared based on Miller & Nelson and Lea & Febiger
+%Pages 63-64 in David A. Winters book
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Establishing output parameters
-bodySegMass = [];
-segPropWeight = [];
+%% Establishing output parameters
+propSegWeight = [];
+bodySegWeight = [];
 
 %% Torso segMass by totalMass of body
 %Head propWeight
-segPropWeight.headProp =             0.0810; %headMass and neckMass 
-bodySegMass.headMass =               segPropWeight.headProp*kgMass;
+propSegWeight.headProp =             0.0810; %headMass and neckMass 
+bodySegWeight.headMass =             propSegWeight.headProp*kgMass;
 
 %Shoulder propWeight
-segPropWeight.shoulderProp =         0.0158;
-bodySegMass.shoulderMass =           0.0158*kgMass;
+propSegWeight.shoulderProp =         0.0158;
+bodySegWeight.shoulderMass =         0.0158*kgMass;
 
 %HAT propWeight
-segPropWeight.HATProp =              0.678;
-bodySegMass.HATMass =                0.678*kgMass;
+propSegWeight.HATProp =              0.678;
+bodySegWeight.HATMass =              0.678*kgMass;
 
 %trunkMass calculation
-segPropWeight.chestProp =            0.2160; %thoraxMass
-bodySegMass.chestMass =              segPropWeight.chestProp*kgMass; 
+propSegWeight.chestProp =            0.2160; %thoraxMass
+bodySegWeight.chestMass =            propSegWeight.chestProp*kgMass; 
 
-segPropWeight.abdomenProp =          0.1390;
-bodySegMass.abdomenMass =            segPropWeight.abdomenProp*kgMass;
+propSegWeight.abdomenProp =          0.1390;
+bodySegWeight.abdomenMass =          propSegWeight.abdomenProp*kgMass;
 
-segPropWeight.hipProp =              0.1420; %pelvisMass
-bodySegMass.hipMass =                segPropWeight.hipProp*kgMass; 
+propSegWeight.hipProp =              0.1420; %pelvisMass
+bodySegWeight.hipMass =              propSegWeight.hipProp*kgMass; 
 
-segPropWeight.trunkProp =            0.4970;
-bodySegMass.trunkMass =              segPropWeight.trunkProp*kgMass;
+propSegWeight.trunkProp =            0.4970;
+bodySegWeight.trunkMass =            propSegWeight.trunkProp*kgMass;
 
-assert(segPropWeight.trunkProp == segPropWeight.chestProp...
-    + segPropWeight.abdomenProp + segPropWeight.hipProp, 'Torso needs rechecking!')
+assert(propSegWeight.trunkProp == propSegWeight.chestProp...
+    + propSegWeight.abdomenProp + propSegWeight.hipProp, 'Torso needs rechecking!')
 
 %% Upper extremity segMass by total Mass of body
-segPropWeight.handProp =             0.0060;
-bodySegMass.handMass =               segPropWeight.handProp*kgMass;
+propSegWeight.handProp =             0.0060;
+bodySegWeight.handMass =             propSegWeight.handProp*kgMass;
 
-segPropWeight.forearmProp =          0.0160;
-bodySegMass.forearmMass =            segPropWeight.forearmProp*kgMass;
+propSegWeight.forearmProp =          0.0160;
+bodySegWeight.forearmMass =          propSegWeight.forearmProp*kgMass;
 
-segPropWeight.upperArmProp =         0.0280;
-bodySegMass.upperArmMass =           segPropWeight.upperArmProp*kgMass;
+propSegWeight.upperArmProp =         0.0280;
+bodySegWeight.upperArmMass =         propSegWeight.upperArmProp*kgMass;
 
-segPropWeight.totalArmProp =         0.0500;
-bodySegMass.totalArmMass =           segPropWeight.totalArmProp*kgMass;
+propSegWeight.totalArmProp =         0.0500;
+bodySegWeight.totalArmMass =         propSegWeight.totalArmProp*kgMass;
 
-assert(segPropWeight.totalArmProp == segPropWeight.handProp...
-    + segPropWeight.forearmProp + segPropWeight.upperArmProp, 'Upper extremity needs rechecking!')
+assert(propSegWeight.totalArmProp == propSegWeight.handProp...
+    + propSegWeight.forearmProp + propSegWeight.upperArmProp, 'Upper extremity needs rechecking!')
 
 %% Lower extremity segMass by total Mass of body
-segPropWeight.footProp =             0.0145;
-bodySegMass.footMass =               segPropWeight.footProp*kgMass;
+propSegWeight.footProp =             0.0145;
+bodySegWeight.footMass =             propSegWeight.footProp*kgMass;
 
-segPropWeight.legProp =              0.0465;
-bodySegMass.legMass =                segPropWeight.legProp*kgMass;
+propSegWeight.legProp =              0.0465;
+bodySegWeight.legMass =              propSegWeight.legProp*kgMass;
 
-segPropWeight.thighProp =            0.1000;
-bodySegMass.thighMass =              segPropWeight.thighProp*kgMass;
+propSegWeight.thighProp =            0.1000;
+bodySegWeight.thighMass =            propSegWeight.thighProp*kgMass;
 
-segPropWeight.totalLegProp =         0.1610;
-bodySegMass.totalLegMass =           segPropWeight.totalLegProp*kgMass;
+propSegWeight.totalLegProp =         0.1610;
+bodySegWeight.totalLegMass =         propSegWeight.totalLegProp*kgMass;
 
-assert(segPropWeight.totalLegProp == (segPropWeight.footProp...
-    + segPropWeight.legProp + segPropWeight.thighProp), 'Lower extremity needs rechecking!')
-
-% assert((segWeight.totalLegWeight - (segWeight.footWeight...
-%     + segWeight.legWeight + segWeight.thighWeight)) < 1e-10, 'Lower extremity needs rechecking!')
+assert(propSegWeight.totalLegProp == (propSegWeight.footProp...
+    + propSegWeight.legProp + propSegWeight.thighProp), 'Lower extremity needs rechecking!')
 
 %% Total Body Evaluation by grouping
+assert(propSegWeight.headProp + propSegWeight.trunkProp + (2.*propSegWeight.totalArmProp)...
+    + (2.*propSegWeight.totalLegProp) == 1, 'Total Body Evaluation needs rechecking!')
 
-assert(segPropWeight.headProp + segPropWeight.trunkProp + (2.*segPropWeight.totalArmProp)...
-    + (2.*segPropWeight.totalLegProp) == 1, 'Total Body Evaluation needs rechecking!')
+%% Visual representation of table
+segNames = {'Head and neck';'Shoulder Mass';'Thorax';'Abdomen';'Pelvis';...
+    'Trunk';'Hand';'Forearm';'Upper arm';'Total arm';'Foot';'Leg';'Thigh';'Total Leg';};
+
+segWeight = [propSegWeight.headProp;propSegWeight.shoulderProp;...
+    propSegWeight.chestProp;propSegWeight.abdomenProp;propSegWeight.hipProp;...
+    propSegWeight.trunkProp;propSegWeight.handProp;propSegWeight.forearmProp;...
+    propSegWeight.upperArmProp;propSegWeight.totalArmProp;propSegWeight.footProp;...
+    propSegWeight.legProp;propSegWeight.thighProp;propSegWeight.totalLegProp];
+
+T = table(segWeight,'RowNames',segNames);
+%unsure how to make sure that 0 values are cut off
 
 end
 

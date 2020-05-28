@@ -6,8 +6,8 @@ if ispc %JSM PC
     codePath = 'C:\Users\jonma\Dropbox\ResearchProjects\GithubDesktop_DontEdit\COMPhaseSpacePlanning';
     dataPath = 'C:\Users\jonma\Google Drive\MotionCaptureProjects\COMPhaseSpacePlanningData\Data\Sub01\mat';
 elseif ismac %MT Mac
-    codePath = '/Users/MT/Documents/GitHub/COMPhaseSpacePlanning';
-    dataPath = '/Users/MT/Google Drive File Stream/My Drive/MotionCaptureProjects/COMPhaseSpacePlanningData/Data/Sub01/mat';
+    codePath = '/Users/MT/Documents/GitHub/QualisysMotionCapture';
+    dataPath = '/Users/MT/Google Drive File Stream/My Drive/MotionCaptureProjects/MotionCaptureMATLAB';
 end
 
 cd(codePath)
@@ -33,11 +33,11 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 
 %% calcBodySegMass function
 % Function outputs mass for individual body segs
-[bodySegMass,segPropWeight] = calcBodySegMass(kgMass);
+[bodySegWeight,propSegWeight] = calcBodySegMass(kgMass);
 
 %% calcRadiusOfGyration function
 % Function outputs radius of gyration for body segs
-%[momentInertia,density] = calcRadiusOfGyration(bodySegMass);
+%[momentInertia,density] = calcRadiusOfGyration(bodySegWeight);
 
 %% calcSegCOM function
 % Function outputs totalCOM considering marker location 
@@ -45,7 +45,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 
 %% calcSegWeightCOM function
 % Function outputs totalCOM depending on seg weight
-[totalCOMXYZ] = calcSegWeightCOM(segCenter,segPropWeight);
+[totalCOMXYZ] = calcSegWeightCOM(segCenter,propSegWeight);
 
 %% locEmptySegFrames function
 % Function outputs marker frames evaluation

@@ -2,9 +2,8 @@ function [bodySegLength] = calcBodySegLength(mmHeight)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function calculates length of each body segment based on totalHeight (mm)
 %calcBodySegLength function prepared via Drillis and Contini (1966)
-%From pg 60 of Winter
+%Page 60 of David A. Winter book
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %% Head and neck length
 bodySegLength.headTotalLength =           0.130*mmHeight;
 
