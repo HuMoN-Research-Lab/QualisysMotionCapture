@@ -24,11 +24,9 @@ markerLabels = data.Trajectories.Labeled.Labels;
 numMarkers = data.Trajectories.Labeled.Count;
 marker_mar_dim_frame = marker_mar_dim_frameRAW;
 
-%force plate data
+
 Force.force_plate1 = data.Force(1).Force;
-Force.force_plate2 = data.Force(2).Force;
-Force.force_plate3 = data.Force(3).Force;
-Force.force_plate4 = data.Force(4).Force;
+Force.force_plate1 = data.Force(1).Force;
 
 end
 
