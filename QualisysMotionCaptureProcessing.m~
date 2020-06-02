@@ -16,7 +16,7 @@ addpath(dataPath)
 
 %% Load acquired Qualisys MoCap Data
 fileName = '02_21_2020_Walking_Calibration';
-[numFrames,framerate,markerLabels,numMarkers,marker_mar_dim_frame,force]... 
+[numFrames,framerate,markerLabels,numMarkers,marker_mar_dim_frame,Force]... 
     = loadMoCapData(fileName);
 
 %% findUser function
@@ -33,10 +33,6 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 % Function outputs mass for individual body segs
 [bodySegWeight,propSegWeight] = calcBodySegMass(kgMass);
 
-%% calcRadiusOfGyration function
-% Function outputs radius of gyration for body segs
-%[momentInertia,density] = calcRadiusOfGyration(bodySegWeight);
-
 %% calcSegCOM function
 % Function outputs totalCOM considering marker location 
 [segCenter] = calcSegCOM(marker_mar_dim_frame,markerLabels);
@@ -50,69 +46,80 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 clc
 [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
 
+%% calcCOMXYZ_Vel_Acc_Jerk function
+%function outputs vel,acc, and jerk values for totalCOM
+[totalCOM_calc,trial_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ);
+
+%% Calculates marker vel,acc,and jerk for trials
+[head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
+
+%% Misc. calculations
+%% calcRadiusOfGyration function
+% Function outputs radius of gyration for body segs
+%[momentInertia,density] = calcRadiusOfGyration(bodySegWeight);
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
 % Currently not optimized yet for plotting purposes
 %[segCenterVel] = calcMarVel(segCenter);
 
 %% Motion capture data plot
-%Miscellaneous numbering of figures important for future reference
-f = figure(45000);
-%facilitates output of figures across multiple mediums
-f.Units = 'normalized';
-f.Position = [-0.0042 0.4306 0.9401 0.4741];
-
-%Create video with frames
-% stepA = VideoWriter('TotalCOM_MotionCapture.mp4');
-% open(stepA);
-
-%for frames 1:numFrames at interval of 10
-for fr = 1:10:numFrames
-    %Clear current frame
-    clf
-
-    %Plot all markers in x,y, and z
-    plot3(marker_mar_dim_frame(:, 1, fr),...
-        marker_mar_dim_frame(:, 2, fr),...
-        marker_mar_dim_frame(:, 3, fr),'k.','MarkerFaceColor','k')
-    
-    %Hold on for next set of plotting instructions
-    hold on
-    
-    %% Total Body COM in 3D
-    %plot of total anatomical COM
-    plot3(totalCOMXYZ(1,fr),...
-        totalCOMXYZ(2,fr),...
-        totalCOMXYZ(3,fr),'p','DisplayName','TotalXYZ');
-    hold on
-
-    %% PlotMoCapTracer function
-    %segCenter is plotted along with the anatomical markers of the subject
-%     plotMoCapTracer(segCenter)
-    
-    %% Plotting parameters
-    axis equal
-    grid on
-    legend
-    
-    %optimal x y z graph limits 
-    xlim([0 2e3])
-    ylim([-5e3 10e3]) %full lab
-%    ylim([1e3 3e3]) %smaller space
-    zlim([0 3e3])
-    
-    %unsure of what this section XYZs
-    az = -84.362;
-    el =  20.417;
-    view(az,el)
-    
-    drawnow
-    
-    %Middle of video acquisition code
-%     frame = getframe(gcf);
-%     writeVideo(stepA,frame);
-    
-end
+% %Miscellaneous numbering of figures important for future reference
+% f = figure(45000);
+% %facilitates output of figures across multiple mediums
+% f.Units = 'normalized';
+% f.Position = [-0.0042 0.4306 0.9401 0.4741];
+% 
+% %Create video with frames
+% % stepA = VideoWriter('TotalCOM_MotionCapture.mp4');
+% % open(stepA);
+% 
+% %for frames 1:numFrames at interval of 10
+% for fr = 1:10:numFrames
+%     %Clear current frame
+%     clf
+% 
+%     %Plot all markers in x,y, and z
+%     plot3(marker_mar_dim_frame(:, 1, fr),...
+%         marker_mar_dim_frame(:, 2, fr),...
+%         marker_mar_dim_frame(:, 3, fr),'k.','MarkerFaceColor','k')
+%     
+%     %Hold on for next set of plotting instructions
+%     hold on
+%     
+%     %% Total Body COM in 3D
+%     %plot of total anatomical COM
+%     plot3(totalCOMXYZ(1,fr),...
+%         totalCOMXYZ(2,fr),...
+%         totalCOMXYZ(3,fr),'p','DisplayName','TotalXYZ');
+%     hold on
+% 
+%     %% PlotMoCapTracer function
+%     %segCenter is plotted along with the anatomical markers of the subject
+% %     plotMoCapTracer(segCenter)
+%     
+%     %% Plotting parameters
+%     axis equal
+%     grid on
+%     legend
+%     
+%     %optimal x y z graph limits 
+%     xlim([0 2e3])
+%     ylim([-5e3 10e3]) %full lab
+% %    ylim([1e3 3e3]) %smaller space
+%     zlim([0 3e3])
+%     
+%     %unsure of what this section XYZs
+%     az = -84.362;
+%     el =  20.417;
+%     view(az,el)
+%     
+%     drawnow
+%     
+%     %Middle of video acquisition code
+% %     frame = getframe(gcf);
+% %     writeVideo(stepA,frame);
+%     
+% end
 
 %End of video acquisition code
 % close(stepA)

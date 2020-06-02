@@ -33,10 +33,6 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 % Function outputs mass for individual body segs
 [bodySegWeight,propSegWeight] = calcBodySegMass(kgMass);
 
-%% calcRadiusOfGyration function
-% Function outputs radius of gyration for body segs
-%[momentInertia,density] = calcRadiusOfGyration(bodySegWeight);
-
 %% calcSegCOM function
 % Function outputs totalCOM considering marker location 
 [segCenter] = calcSegCOM(marker_mar_dim_frame,markerLabels);
@@ -50,12 +46,30 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 clc
 [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
 
+%% calcCOMXYZ_Vel_Acc_Jerk function
+%function outputs vel,acc, and jerk values for totalCOM
+[totalCOM_calc,trial_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ);
+
+%% Calculates marker vel,acc,and jerk for trials
+[head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
+    
+%% Plot head, chest, hip, and feet
+%Create function that plots marker in x,y,z
+plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
+
+%% Plot force plate data
+plotForces(Force)%,trial_start_end);
+
+%% Misc. calculations
+%% calcRadiusOfGyration function
+% Function outputs radius of gyration for body segs
+%[momentInertia,density] = calcRadiusOfGyration(bodySegWeight);
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
 % Currently not optimized yet for plotting purposes
 %[segCenterVel] = calcMarVel(segCenter);
 
-% %% Motion capture data plot
+%% Motion capture data plot
 % %Miscellaneous numbering of figures important for future reference
 % f = figure(45000);
 % %facilitates output of figures across multiple mediums

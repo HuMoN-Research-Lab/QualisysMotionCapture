@@ -29,6 +29,7 @@ Force.force_plate1 = data.Force(1).Force;
 Force.force_plate2 = data.Force(2).Force;
 Force.force_plate3 = data.Force(3).Force;
 Force.force_plate4 = data.Force(4).Force;
+Force.force_plate5 = data.Force(5).Force;
 
 end
 
