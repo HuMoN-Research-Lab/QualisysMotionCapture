@@ -5,11 +5,11 @@ function [smoothedData] = butterLowZero(order, cutoff, sampleRate, x)
 % at specified order ('order') for specified sampling rate ('sampleRate')
 [rows, cols] = size(x);
 
-if cols > rows
-    x = x';
-    [rows, cols] = size(x);
-    disp('Data oriented incorrectly for butterLowZero, might not be trustworthy')
-end
+% if cols > rows
+%     x = x';
+%     [rows, cols] = size(x);
+%     disp('Data oriented incorrectly for butterLowZero, might not be trustworthy')
+% end
 
 
 %Inelegantly fill gaps, if any exist 

@@ -16,7 +16,7 @@ addpath(dataPath)
 
 %% Load acquired Qualisys MoCap Data
 fileName = '02_21_2020_Walking_Calibration';
-[numFrames,framerate,markerLabels,numMarkers,marker_mar_dim_frame,Force]... 
+[markerLabels,numMarkers,marker_mar_dim_frame,Force]... 
     = loadMoCapData(fileName);
 
 %% findUser function
