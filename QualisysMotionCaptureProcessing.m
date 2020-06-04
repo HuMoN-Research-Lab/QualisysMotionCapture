@@ -16,7 +16,7 @@ addpath(dataPath)
 
 %% Load acquired Qualisys MoCap Data
 fileName = '02_21_2020_Walking_Calibration';
-[markerLabels,numMarkers,marker_mar_dim_frame,Force]... 
+[markerLabels,numMarkers,pre_filter_marker_mar_dim_frame,marker_mar_dim_frame,Force,head_filterEval]... 
     = loadMoCapData(fileName);
 
 %% findUser function
@@ -43,7 +43,6 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 
 %% locEmptySegFrames function
 % Function outputs marker frames evaluation
-clc
 [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
 
 %% calcCOMXYZ_Vel_Acc_Jerk function
@@ -51,14 +50,43 @@ clc
 [totalCOM_calc,trial_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ);
 
 %% Calculates marker vel,acc,and jerk for trials
-[head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
+[head,head_filter,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,head_filterEval,trial_start_end);
     
 %% Plot head, chest, hip, and feet
 %Create function that plots marker in x,y,z
 plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
 
+% figure(325);
+% subplot(3,1,1)
+% plot(head.marPosx)
+% title('Unfiltered Head Posx')
+% hold on
+% subplot(3,1,2)
+% plot(head.marVelx)
+% title('Unfiltered Head Velx')
+% hold on
+% subplot(3,1,3)
+% plot(head.marAccx)
+% title('Unfiltered Head Accx')
+% 
+% figure(350);
+% subplot(3,1,1)
+% plot(head_filter.marPosx)
+% title('Filtered Head Posx')
+% hold on
+% subplot(3,1,2)
+% plot(head_filter.marVelx)
+% title('Filtered Head Velx')
+% hold on
+% subplot(3,1,3)
+% plot(head_filter.marAccx)
+% title('Filtered Head Accx')
+
+%% Inverse kinematics function
+% joint_kinematics(LFoot,RFoot,LLeg,RLeg,LThigh,RThigh,hip,head);
+
 %% Plot force plate data
-plotForces(Force)%,trial_start_end);
+% plotForces(Force)%,trial_start_end);
 
 %% Misc. calculations
 %% calcRadiusOfGyration function

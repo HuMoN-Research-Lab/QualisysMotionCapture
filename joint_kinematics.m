@@ -1,0 +1,1 @@
+function joint_kinematics(marker_mar_dim_frame,segCenter,

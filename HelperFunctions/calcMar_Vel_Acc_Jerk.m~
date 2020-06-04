@@ -38,10 +38,10 @@ head_filter.marJerkx =            diff(head_filter.marAccx);
 % head_filter.marJerkz =            diff(head_filter.marAccz);
 
 %Total vel, acc, and jerk for head
-% head_filter.totalmarVel =         plus(head_filter.marVelx,head_filter.marVely);
-% head_filter.totalmarAcc =         diff(head_filter.totalmarVel);
-% head_filter.totalmarJerk =        diff(head_filter.totalmarAcc);
-% head_filter.totalmarJerk_abs =    abs(head_filter.totalmarJerk);
+head_filter.totalmarVel =         plus(head_filter.marVelx,head_filter.marVely);
+head_filter.totalmarAcc =         diff(head_filter.totalmarVel);
+head_filter.totalmarJerk =        diff(head_filter.totalmarAcc);
+head_filter.totalmarJerk_abs =    abs(head_filter.totalmarJerk);
 
 
 %% Head vel, acc, and jerk calculations
