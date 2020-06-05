@@ -16,7 +16,7 @@ addpath(dataPath)
 
 %% Load acquired Qualisys MoCap Data
 fileName = '02_21_2020_Walking_Calibration';
-[markerLabels,numMarkers,pre_filter_marker_mar_dim_frame,marker_mar_dim_frame,Force,head_filterEval]... 
+[markerLabels,numMarkers,pre_filter_marker_mar_dim_frame,marker_mar_dim_frame,Force]... 
     = loadMoCapData(fileName);
 
 %% findUser function
@@ -50,7 +50,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 [totalCOM_calc,trial_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ);
 
 %% Calculates marker vel,acc,and jerk for trials
-[head,head_filter,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,head_filterEval,trial_start_end);
+[head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
     
 %% Plot head, chest, hip, and feet
 %Create function that plots marker in x,y,z
@@ -83,7 +83,8 @@ plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
 % title('Filtered Head Accx')
 
 %% Inverse kinematics function
-% joint_kinematics(LFoot,RFoot,LLeg,RLeg,LThigh,RThigh,hip,head);
+joint_kinematics(marker_mar_dim_frame,segCenter,bodySegWeight,markerLabels,LFoot,RFoot,...
+    LLeg,RLeg,LThigh,RThigh,hip);
 
 %% Plot force plate data
 % plotForces(Force)%,trial_start_end);

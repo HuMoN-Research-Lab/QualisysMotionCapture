@@ -1,11 +1,10 @@
-function[head,head_filter,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,head_filterEval,trial_start_end)
+function[head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Calc vel, acc, jerk for specified segCenters
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %question: how does the acc and jerk in x,y,z jerk differ for markers?
 
 %% Initial structuring of markers of interest
-head_filter = [];
 head =      [];
 chest =     [];
 hip =       [];
@@ -18,69 +17,45 @@ RFoot =     [];
 
 %% Head vel, acc, and jerk calculations
 %head individual (x y z) position
-head_filter.marPosx =             head_filterEval(1,:);
-% head_filter.marPosy =             head_filterEval(2,:);
-% head_filter.marPosz =             head_filterEval(3,:);
+head_marPos =               segCenter.headCenter_mar_dim_frame;
+head_marPosx =              head_marPos(1,:);
+head_marPosy =              head_marPos(2,:);
+head_marPosz =              head_marPos(3,:);
+head.marPos =               head_marPos(trial_start_end);
 
 %head individual (x y z)velocity
-head_filter.marVelx =             diff(head_filter.marPosx(trial_start_end));
-% head_filter.marVely =             diff(head_filter.marPosy(trial_start_end));
-% head_filter.marVelz =             diff(head_filter.marPosz(trial_start_end));
+head.marVelx =              diff(head_marPosx(trial_start_end));
+head.marVely =              diff(head_marPosy(trial_start_end));
+head.marVelz =              diff(head_marPosz(trial_start_end));
 
 %head individual (x y z) acceleration
-head_filter.marAccx =             diff(head_filter.marVelx);
-% head_filter.marAccy =             diff(head_filter.marVely);
-% head_filter.marAccz =             diff(head_filter.marVelz);
+head.marAccx =              diff(head.marVelx);
+head.marAccy =              diff(head.marVely);
+head.marAccz =              diff(head.marVelz);
 
 %head individual (x y z) jerk
-head_filter.marJerkx =            diff(head_filter.marAccx);
-% head_filter.marJerky =            diff(head_filter.marAccy);
-% head_filter.marJerkz =            diff(head_filter.marAccz);
+head.marJerkx =             diff(head.marAccx);
+head.marJerky =             diff(head.marAccy);
+head.marJerkz =             diff(head.marAccz);
 
 %Total vel, acc, and jerk for head
-% head_filter.totalmarVel =         plus(head_filter.marVelx,head_filter.marVely);
-% head_filter.totalmarAcc =         diff(head_filter.totalmarVel);
-% head_filter.totalmarJerk =        diff(head_filter.totalmarAcc);
-% head_filter.totalmarJerk_abs =    abs(head_filter.totalmarJerk);
-
-
-%% Head vel, acc, and jerk calculations
-%head individual (x y z) position
-head.marPosx =             segCenter.headCenter_mar_dim_frame(1,:);
-head.marPosy =             segCenter.headCenter_mar_dim_frame(2,:);
-head.marPosz =             segCenter.headCenter_mar_dim_frame(3,:);
-
-%head individual (x y z)velocity
-head.marVelx =             diff(head.marPosx(trial_start_end));
-head.marVely =             diff(head.marPosy(trial_start_end));
-head.marVelz =             diff(head.marPosz(trial_start_end));
-
-%head individual (x y z) acceleration
-head.marAccx =             diff(head.marVelx);
-head.marAccy =             diff(head.marVely);
-head.marAccz =             diff(head.marVelz);
-
-%head individual (x y z) jerk
-head.marJerkx =            diff(head.marAccx);
-head.marJerky =            diff(head.marAccy);
-head.marJerkz =            diff(head.marAccz);
-
-%Total vel, acc, and jerk for head
-head.totalmarVel =         plus(head.marVelx,head.marVely);
-head.totalmarAcc =         diff(head.totalmarVel);
-head.totalmarJerk =        diff(head.totalmarAcc);
-head.totalmarJerk_abs =    abs(head.totalmarJerk);
+head.totalmarVel =          plus(head.marVelx,head.marVely);
+head.totalmarAcc =          diff(head.totalmarVel);
+head.totalmarJerk =         diff(head.totalmarAcc);
+head.totalmarJerk_abs =     abs(head.totalmarJerk);
 
 %% Chest vel, acc, and jerk calculations
 %chest individual (x y z) position
-chest.marPosx =             segCenter.chestCenter_mar_dim_frame(1,:);
-chest.marPosy =             segCenter.chestCenter_mar_dim_frame(2,:);
-chest.marPosz =             segCenter.chestCenter_mar_dim_frame(3,:);
+chest_marPos =              segCenter.chestCenter_mar_dim_frame;
+chest_marPosx =             chest_marPos(1,:);
+chest_marPosy =             chest_marPos(2,:);
+chest_marPosz =             chest_marPos(3,:);
+chest.marPos =              chest_marPos(trial_start_end);
 
 %chest individual (x y z) velocity
-chest.marVelx =             diff(chest.marPosx(trial_start_end));
-chest.marVely =             diff(chest.marPosy(trial_start_end));
-chest.marVelz =             diff(chest.marPosz(trial_start_end));
+chest.marVelx =             diff(chest_marPosx(trial_start_end));
+chest.marVely =             diff(chest_marPosy(trial_start_end));
+chest.marVelz =             diff(chest_marPosz(trial_start_end));
 
 %chest individual (x y z) acceleration
 chest.marAccx =             diff(chest.marVelx);
@@ -100,9 +75,11 @@ chest.totalmarJerk_abs =    abs(chest.totalmarJerk);
 
 %% Hips vel, acc, and jerk calculations
 %hips individual (x y z) position
-hip_marPosx =             segCenter.hipCenter_mar_dim_frame(1,:);
-hip_marPosy =             segCenter.hipCenter_mar_dim_frame(2,:);
-hip_marPosz =             segCenter.hipCenter_mar_dim_frame(3,:);
+hip_marPos =              segCenter.hipCenter_mar_dim_frame;
+hip_marPosx =             hip_marPos(1,:);
+hip_marPosy =             hip_marPos(2,:);
+hip_marPosz =             hip_marPos(3,:);
+hip.marPos =              hip_marPos(trial_start_end);
 
 %hip individual (x y z) velocity
 hip.marVelx =             diff(hip_marPosx(trial_start_end));
@@ -127,14 +104,16 @@ hip.totalmarJerk_abs =    abs(hip.totalmarJerk);
 
 %% LThigh & RThigh vel, acc, and jerk calculations
 %LThigh individual (x y z) position
-LThigh.marPosx =             segCenter.LThighCenter_mar_dim_frame(1,:);
-LThigh.marPosy =             segCenter.LThighCenter_mar_dim_frame(2,:);
-LThigh.marPosz =             segCenter.LThighCenter_mar_dim_frame(3,:);
+LThigh_marPos =              segCenter.LThighCenter_mar_dim_frame;
+LThigh_marPosx =             LThigh_marPos(1,:);
+LThigh_marPosy =             LThigh_marPos(2,:);
+LThigh_marPosz =             LThigh_marPos(3,:);
+LThigh.marPos =              LThigh_marPos(trial_start_end);
 
 %LThigh individual (x y z) velocity
-LThigh.marVelx =             diff(LThigh.marPosx(trial_start_end));
-LThigh.marVely =             diff(LThigh.marPosy(trial_start_end));
-LThigh.marVelz =             diff(LThigh.marPosz(trial_start_end));
+LThigh.marVelx =             diff(LThigh_marPosx(trial_start_end));
+LThigh.marVely =             diff(LThigh_marPosy(trial_start_end));
+LThigh.marVelz =             diff(LThigh_marPosz(trial_start_end));
 
 %LThigh individual (x y z) acceleration
 LThigh.marAccx =             diff(LThigh.marVelx);
@@ -153,14 +132,16 @@ LThigh.totalmarJerk =        diff(LThigh.totalmarAcc);
 LThigh.totalmarJerk_abs =    abs(LThigh.totalmarJerk);
 
 %RThigh individual (x y z) position
-RThigh.marPosx =             segCenter.RThighCenter_mar_dim_frame(1,:);
-RThigh.marPosy =             segCenter.RThighCenter_mar_dim_frame(2,:);
-RThigh.marPosz =             segCenter.RThighCenter_mar_dim_frame(3,:);
+RThigh_marPos =              segCenter.RThighCenter_mar_dim_frame;
+RThigh_marPosx =             RThigh_marPos(1,:);
+RThigh_marPosy =             RThigh_marPos(2,:);
+RThigh_marPosz =             RThigh_marPos(3,:);
+RThigh.marPos =              RThigh_marPos(trial_start_end);
 
 %RThigh individual (x y z)velocity
-RThigh.marVelx =             diff(RThigh.marPosx(trial_start_end));
-RThigh.marVely =             diff(RThigh.marPosy(trial_start_end));
-RThigh.marVelz =             diff(RThigh.marPosz(trial_start_end));
+RThigh.marVelx =             diff(RThigh_marPosx(trial_start_end));
+RThigh.marVely =             diff(RThigh_marPosy(trial_start_end));
+RThigh.marVelz =             diff(RThigh_marPosz(trial_start_end));
 
 %RThigh individual (x y z) acceleration
 RThigh.marAccx =             diff(RThigh.marVelx);
@@ -180,14 +161,16 @@ RThigh.totalmarJerk_abs =    abs(RThigh.totalmarJerk);
 
 %% LLeg & RLeg vel, acc, and jerk calculations
 %LLeg individual (x y z) position
-LLeg.marPosx =             segCenter.LLegCenter_mar_dim_frame(1,:);
-LLeg.marPosy =             segCenter.LLegCenter_mar_dim_frame(2,:);
-LLeg.marPosz =             segCenter.LLegCenter_mar_dim_frame(3,:);
+LLeg_marPos =              segCenter.LLegCenter_mar_dim_frame;
+LLeg_marPosx =             LLeg_marPos(1,:);
+LLeg_marPosy =             LLeg_marPos(2,:);
+LLeg_marPosz =             LLeg_marPos(3,:);
+LLeg.marPos =              LLeg_marPos(trial_start_end);
 
 %LLeg individual (x y z) velocity
-LLeg.marVelx =             diff(LLeg.marPosx(trial_start_end));
-LLeg.marVely =             diff(LLeg.marPosy(trial_start_end));
-LLeg.marVelz =             diff(LLeg.marPosz(trial_start_end));
+LLeg.marVelx =             diff(LLeg_marPosx(trial_start_end));
+LLeg.marVely =             diff(LLeg_marPosy(trial_start_end));
+LLeg.marVelz =             diff(LLeg_marPosz(trial_start_end));
 
 %LLeg individual (x y z) acceleration
 LLeg.marAccx =             diff(LLeg.marVelx);
@@ -206,14 +189,16 @@ LLeg.totalmarJerk =        diff(LLeg.totalmarAcc);
 LLeg.totalmarJerk_abs =    abs(LLeg.totalmarJerk);
 
 %RLeg individual (x y z) position
-RLeg.marPosx =             segCenter.RLegCenter_mar_dim_frame(1,:);
-RLeg.marPosy =             segCenter.RLegCenter_mar_dim_frame(2,:);
-RLeg.marPosz =             segCenter.RLegCenter_mar_dim_frame(3,:);
+RLeg_marPos =              segCenter.RLegCenter_mar_dim_frame;
+RLeg_marPosx =             RLeg_marPos(1,:);
+RLeg_marPosy =             RLeg_marPos(2,:);
+RLeg_marPosz =             RLeg_marPos(3,:);
+RLeg.marPos =              RLeg_marPos(trial_start_end);
 
 %RLeg individual (x y z)velocity
-RLeg.marVelx =             diff(RLeg.marPosx(trial_start_end));
-RLeg.marVely =             diff(RLeg.marPosy(trial_start_end));
-RLeg.marVelz =             diff(RLeg.marPosz(trial_start_end));
+RLeg.marVelx =             diff(RLeg_marPosx(trial_start_end));
+RLeg.marVely =             diff(RLeg_marPosy(trial_start_end));
+RLeg.marVelz =             diff(RLeg_marPosz(trial_start_end));
 
 %RLeg individual (x y z) acceleration
 RLeg.marAccx =             diff(RLeg.marVelx);
@@ -233,14 +218,17 @@ RLeg.totalmarJerk_abs =    abs(RLeg.totalmarJerk);
 
 %% LAnkle & RAnkle vel, acc, and jerk calculations
 %LFoot individual (x y z) position
-LFoot.marPosx =             segCenter.LFootCenter_mar_dim_frame(1,:);
-LFoot.marPosy =             segCenter.LFootCenter_mar_dim_frame(2,:);
-LFoot.marPosz =             segCenter.LFootCenter_mar_dim_frame(3,:);
+LFoot_marPos =              segCenter.LFootCenter_mar_dim_frame;
+LFoot_marPosx =             LFoot_marPos(1,:);
+LFoot_marPosy =             LFoot_marPos(2,:);
+LFoot_marPosz =             LFoot_marPos(3,:);
+LFoot.marPos =              LFoot_marPos(trial_start_end);
+
 
 %LFoot individual (x y z) velocity
-LFoot.marVelx =             diff(LFoot.marPosx(trial_start_end));
-LFoot.marVely =             diff(LFoot.marPosy(trial_start_end));
-LFoot.marVelz =             diff(LFoot.marPosz(trial_start_end));
+LFoot.marVelx =             diff(LFoot_marPosx(trial_start_end));
+LFoot.marVely =             diff(LFoot_marPosy(trial_start_end));
+LFoot.marVelz =             diff(LFoot_marPosz(trial_start_end));
 
 %LFoot individual (x y z) acceleration
 LFoot.marAccx =             diff(LFoot.marVelx);
@@ -259,14 +247,16 @@ LFoot.totalmarJerk =        diff(LFoot.totalmarAcc);
 LFoot.totalmarJerk_abs =    abs(LFoot.totalmarJerk);
 
 %RFoot individual (x y z) position
-RFoot.marPosx =             segCenter.RFootCenter_mar_dim_frame(1,:);
-RFoot.marPosy =             segCenter.RFootCenter_mar_dim_frame(2,:);
-RFoot.marPosz =             segCenter.RFootCenter_mar_dim_frame(3,:);
+RFoot_marPos =              segCenter.RFootCenter_mar_dim_frame;
+RFoot_marPosx =             RFoot_marPos(1,:);
+RFoot_marPosy =             RFoot_marPos(2,:);
+RFoot_marPosz =             RFoot_marPos(3,:);
+RFoot.marPos =              RFoot_marPos(trial_start_end);
 
 %RFoot individual (x y z)velocity
-RFoot.marVelx =             diff(RFoot.marPosx(trial_start_end));
-RFoot.marVely =             diff(RFoot.marPosy(trial_start_end));
-RFoot.marVelz =             diff(RFoot.marPosz(trial_start_end));
+RFoot.marVelx =             diff(RFoot_marPosx(trial_start_end));
+RFoot.marVely =             diff(RFoot_marPosy(trial_start_end));
+RFoot.marVelz =             diff(RFoot_marPosz(trial_start_end));
 
 %RFoot individual (x y z) acceleration
 RFoot.marAccx =             diff(RFoot.marVelx);
