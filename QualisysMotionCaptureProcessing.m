@@ -52,42 +52,15 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 %% Calculates marker vel,acc,and jerk for trials
 [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
     
+%% Calculates the inst. angular velocity of the lower extremity
+[angVel] = segAngVel(LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
+
 %% Plot head, chest, hip, and feet
 %Create function that plots marker in x,y,z
 plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
 
-% figure(325);
-% subplot(3,1,1)
-% plot(head.marPosx)
-% title('Unfiltered Head Posx')
-% hold on
-% subplot(3,1,2)
-% plot(head.marVelx)
-% title('Unfiltered Head Velx')
-% hold on
-% subplot(3,1,3)
-% plot(head.marAccx)
-% title('Unfiltered Head Accx')
-% 
-% figure(350);
-% subplot(3,1,1)
-% plot(head_filter.marPosx)
-% title('Filtered Head Posx')
-% hold on
-% subplot(3,1,2)
-% plot(head_filter.marVelx)
-% title('Filtered Head Velx')
-% hold on
-% subplot(3,1,3)
-% plot(head_filter.marAccx)
-% title('Filtered Head Accx')
-
-%% Inverse kinematics function
-joint_kinematics(marker_mar_dim_frame,segCenter,bodySegWeight,markerLabels,LFoot,RFoot,...
-    LLeg,RLeg,LThigh,RThigh,hip);
-
 %% Plot force plate data
-% plotForces(Force)%,trial_start_end);
+plotForces(Force)%,trial_start_end);
 
 %% Misc. calculations
 %% calcRadiusOfGyration function

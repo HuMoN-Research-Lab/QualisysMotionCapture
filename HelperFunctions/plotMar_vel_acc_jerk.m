@@ -24,6 +24,9 @@ hold on
 % end
 ylim ([ytrial_uppertrunkMin ytrial_uppertrunkMax]); %get foot_vel lim - max = 1.1*ymax of foot
 title('Head Vely')
+xlabel('Number of Frames')
+ylabel('Velocity (m/s)')
+
 
 %chest marker coordinates
 subplot(3,2,3)
@@ -40,6 +43,8 @@ hold on
 % end
 ylim ([ytrial_uppertrunkMin ytrial_uppertrunkMax]);
 title('Chest Vely')
+xlabel('Number of Frames')
+ylabel('Velocity (m/s)')
 
 %hip marker coordinates
 subplot(3,2,5)
@@ -56,6 +61,8 @@ hold on
 % end
 ylim ([ytrial_uppertrunkMin ytrial_uppertrunkMax]);
 title('Hip Vely')
+xlabel('Number of Frames')
+ylabel('Velocity (m/s)')
 
 %% Lower trunk kinematic chain normalization
 %Initial conditions
@@ -93,6 +100,8 @@ plot(RThigh.marVely,'r')
 % end
 ylim ([ytrialvel_min ytrialvel_max]);
 title('LThigh & RThigh Velx')
+xlabel('Number of Frames')
+ylabel('Velocity (m/s)')
 
 %LLeg & RLeg marker overlayed
 subplot(3,2,4)
@@ -110,6 +119,8 @@ plot(RLeg.marVely,'r')
 % end
 ylim ([ytrialvel_min ytrialvel_max]);
 title('LShank & RShank Velx')
+xlabel('Number of Frames')
+ylabel('Velocity (m/s)')
 
 %LFoot & RFoot marker overlayed
 subplot(3,2,6)
@@ -126,6 +137,8 @@ foot_ylim = ylim;
 % end
 ylim ([ytrialvel_min ytrialvel_max]);
 title('LFoot & RFoot Velx')
+xlabel('Number of Frames')
+ylabel('Velocity (m/s)')
 
 %% Acceleration for markers in the x coordinate frames
 % figure(1232)
