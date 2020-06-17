@@ -53,7 +53,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
     
 %% Calculates the inst. angular velocity of the lower extremity
-[angVel] = segAngVel(LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
+[segAngle] = calcSegAngle(marker_mar_dim_frame,markerLabels); %LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
 
 %% Plot head, chest, hip, and feet
 %Create function that plots marker in x,y,z

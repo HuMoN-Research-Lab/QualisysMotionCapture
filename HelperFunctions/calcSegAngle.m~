@@ -48,7 +48,7 @@ end
 figure(365);
 subplot(3,1,1)
 plot(theta_LThigh_deg,'b')
-title('Thigh Change in Theta')
+title('LThigh Change in Theta')
 xlabel('Number of Frames')
 ylabel('Angular Position (deg)')
 hold on
@@ -80,6 +80,9 @@ end
 % figure(375);
 subplot(3,1,1)
 plot(theta_RThigh_deg,'r')
+title('RThigh Change in Theta')
+xlabel('Number of Frames')
+ylabel('Angular Position (deg)')
 
 %% LKnee to Hip Reference Frame Calibration
 %Calibration of LKnee w/r/t LHip_mar
@@ -94,7 +97,7 @@ end
 % figure(535);
 subplot(3,1,2)
 plot(theta_LKnee_deg,'b')
-title('Knee Change in Theta')
+title('LKnee Change in Theta')
 xlabel('Number of Frames')
 ylabel('Angular Position (deg)')
 hold on
@@ -111,10 +114,13 @@ end
 
 subplot(3,1,2)
 plot(theta_RKnee_deg,'r')
+title('RKnee Change in Theta')
+xlabel('Number of Frames')
+ylabel('Angular Position (deg)')
 
 %% LAnkle to LKnee Reference Frame Calibration
 %Calibration of LAnkle w/r/t LKnee
-LAnkle_mar_cal = LAnkle_mar_uncal - LKnee_mar_uncal;
+LAnkle_mar_cal = LAnkle_mar_uncal - LKnee_mar_cal;
 
 for ii = 1:length(LAnkle_mar_cal)
     theta_LAnkle_rad(ii) =  atan2(LAnkle_mar_cal(3,ii),LAnkle_mar_cal(2,ii));
@@ -123,15 +129,15 @@ for ii = 1:length(LAnkle_mar_cal)
 end
 
 subplot(3,1,3)
-plot(theta_LAnkle_deg,'b')
-title('Ankle Change in Theta')
+plot(theta_LAnkle_deg,'k')
+title('LAnkle Change in Theta')
 xlabel('Number of Frames')
 ylabel('Angular Position (deg)')
 hold on
 
 %% RAnkle to RKnee Reference Frame Calibration
 %Calibration of RAnkle w/r/t RKnee
-RAnkle_mar_cal = RAnkle_mar_uncal - RKnee_mar_uncal;
+RAnkle_mar_cal = LAnkle_mar_uncal - RKnee_mar_cal;
 
 for ii = 1:length(RAnkle_mar_cal)
     theta_RAnkle_rad(ii) =  atan2(RAnkle_mar_cal(3,ii),RAnkle_mar_cal(2,ii));
@@ -141,7 +147,10 @@ end
 
 % figure(545);
 subplot(3,1,3)
-plot(theta_RAnkle_deg,'r')
+plot(theta_RAnkle_deg,)
+title('RAnkle Change in Theta')
+xlabel('Number of Frames')
+ylabel('Angular Position (deg)')
 
 end
 
