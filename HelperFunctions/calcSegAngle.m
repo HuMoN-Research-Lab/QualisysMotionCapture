@@ -1,9 +1,9 @@
-function [segAngle] = calcSegAngle(marker_mar_dim_frame,markerLabels) %segCenter,trial_start_end,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot)
+function [segTheta] = calcSegAngle(marker_mar_dim_frame,markerLabels) %segCenter,trial_start_end,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %calcSegAngle calculates the angle for lower extremity joints
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Initial Conditions & Marker Reformating
-segAngle = [];
+segTheta = [];
 
 %Hip marker reformatting
 LFHip_mar =         getMarker(marker_mar_dim_frame,markerLabels,'WaistLFront');
@@ -45,6 +45,10 @@ for ii = 1:length(LThigh_mar_cal)
     length_LThigh(ii) =     sqrt((LThigh_mar_cal(2,ii)).^2 + (LThigh_mar_cal(3,ii)).^2);
 end
 
+%Thigh segment angle
+segTheta.theta_LThigh_rad = theta_LThigh_rad;
+segTheta.theta_LThigh_deg = theta_LThigh_deg;
+
 figure(365);
 subplot(3,1,1)
 plot(theta_LThigh_deg,'b')
@@ -77,7 +81,10 @@ for ii = 1:length(RThigh_mar_cal)
     length_RThigh(ii) =     sqrt((RThigh_mar_cal(2,ii)).^2 + (RThigh_mar_cal(3,ii)).^2);
 end
 
-% figure(375);
+%Thigh segment angle
+segTheta.theta_RThigh_rad = theta_RThigh_rad;
+segTheta.theta_RThigh_deg = theta_RThigh_deg;
+
 subplot(3,1,1)
 plot(theta_RThigh_deg,'r')
 
@@ -90,6 +97,10 @@ for ii = 1:length(LKnee_mar_cal)
     theta_LKnee_deg(ii) =  atan2d(LKnee_mar_cal(3,ii),LKnee_mar_cal(2,ii));
     length_LKnee(ii) =     sqrt((LKnee_mar_cal(2,ii)).^2 + (LKnee_mar_cal(3,ii)).^2);
 end
+
+%Knee segment angle
+segTheta.theta_LKnee_rad = theta_LKnee_rad;
+segTheta.theta_LKnee_deg = theta_LKnee_deg;
 
 % figure(535);
 subplot(3,1,2)
@@ -109,6 +120,10 @@ for ii = 1:length(RKnee_mar_cal)
     length_RKnee(ii) =     sqrt((RKnee_mar_cal(2,ii)).^2 + (RKnee_mar_cal(3,ii)).^2);
 end
 
+%Knee segment angle
+segTheta.theta_RKnee_rad = theta_RKnee_rad;
+segTheta.theta_RKnee_deg = theta_RKnee_deg;
+
 subplot(3,1,2)
 plot(theta_RKnee_deg,'r')
 
@@ -121,6 +136,10 @@ for ii = 1:length(LAnkle_mar_cal)
     theta_LAnkle_deg(ii) =  atan2d(LAnkle_mar_cal(3,ii),LAnkle_mar_cal(2,ii));
     length_LAnkle(ii) =     sqrt((LAnkle_mar_cal(2,ii)).^2 + (LAnkle_mar_cal(3,ii)).^2);
 end
+
+%Ankle segment angle
+segTheta.theta_LAnkle_rad = theta_LAnkle_rad;
+segTheta.theta_LAnkle_deg = theta_LAnkle_deg;
 
 subplot(3,1,3)
 plot(theta_LAnkle_deg,'b')
@@ -139,7 +158,10 @@ for ii = 1:length(RAnkle_mar_cal)
     length_RAnkle(ii) =     sqrt((RAnkle_mar_cal(2,ii)).^2 + (RAnkle_mar_cal(3,ii)).^2);
 end
 
-% figure(545);
+%Ankle segment angle
+segTheta.theta_RAnkle_rad = theta_RAnkle_rad;
+segTheta.theta_RAnkle_deg = theta_RAnkle_deg;
+
 subplot(3,1,3)
 plot(theta_RAnkle_deg,'r')
 

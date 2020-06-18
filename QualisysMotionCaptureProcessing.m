@@ -52,15 +52,18 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 %% Calculates marker vel,acc,and jerk for trials
 [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
     
+%% Calculates the inst. angle for lower extremity joint
+[segTheta] = calcSegAngle(marker_mar_dim_frame,markerLabels); %LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
+
 %% Calculates the inst. angular velocity of the lower extremity
-[segAngle] = calcSegAngle(marker_mar_dim_frame,markerLabels); %LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
+[segOmega,segAlpha] = calcThetaVel(segTheta);
 
 %% Plot head, chest, hip, and feet
 %Create function that plots marker in x,y,z
-plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
+% plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
 
 %% Plot force plate data
-plotForces(Force)%,trial_start_end);
+% plotForces(Force)%,trial_start_end);
 
 %% Misc. calculations
 %% calcRadiusOfGyration function
