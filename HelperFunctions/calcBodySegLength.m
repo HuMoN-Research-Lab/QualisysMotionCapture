@@ -1,45 +1,43 @@
-function [bodySegLength] = calcBodySegLength(mmHeight)
+function [bodySegLength] = calcBodySegLength(marker_mar_dim_frame,markerLabels,segCenter)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Function calculates length of each body segment based on totalHeight (mm)
-%calcBodySegLength function prepared via Drillis and Contini (1966)
-%Page 60 of David A. Winter book
+%Function calcs length of body segments based on location of markers(mm)
+%Example 3.3 of page 377 of Research Methods in Biomechanics (2014)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Head and neck length
-bodySegLength.headTotalLength =           0.130*mmHeight;
+%% Calc length of thigh with hip and knee as references
+hip_loc =               segCenter.hipCenter_mar_dim_frame(2:3,:);
+LKnee_loc_unfil =       getMarker(marker_mar_dim_frame,markerLabels,'LKneeOut');
+LKnee_loc =             LKnee_loc_unfil(2:3,:); %acquire solely vertical position
 
-%% Shoulder length
-bodySegLength.shoulderTotalLength =       0.1295*mmHeight;
+RKnee_loc_unfil =       getMarker(marker_mar_dim_frame,markerLabels,'RKneeOut');
+RKnee_loc =             RKnee_loc_unfil(2:3,:); %acquire solely vertical position
 
-%% Chest breadth
-bodySegLength.chestTotalWidth =           0.174*mmHeight; %thorax width
+LThigh_length_raw =             sqrt((LKnee_loc(1,:) - hip_loc(1,:)).^2 + (LKnee_loc(2,:) - hip_loc(2,:)).^2);
+bodySegLength.LThigh_length =   mean(LThigh_length_raw);
+RThigh_length_raw =             sqrt((RKnee_loc(1,:) - hip_loc(1,:)).^2 + (RKnee_loc(2,:) - hip_loc(2,:)).^2);
+bodySegLength.RThigh_length =   mean(RThigh_length_raw);
 
-%% Trunk breadth
-bodySegLength.trunkTotalLength =          0.288*mmHeight; %greater trochanter to glenohumeral joint
+%% Calc length of shank with knee and ankle as references
+LAnkle_loc_unfil =      getMarker(marker_mar_dim_frame,markerLabels,'LAnkleOut');
+LAnkle_loc =            LAnkle_loc_unfil(2:3,:); %acquire solely vertical position
 
-%% UpperArm length
-bodySegLength.upperArmTotalLength =       0.186*mmHeight;
+RAnkle_loc_unfil =      getMarker(marker_mar_dim_frame,markerLabels,'RAnkleOut');
+RAnkle_loc =            RAnkle_loc_unfil(2:3,:); %acquire solely vertical position
 
-%% Forearm length
-bodySegLength.forearmTotalLength =        0.146*mmHeight;
+LShank_length_raw =             sqrt((LAnkle_loc(1,:) - LKnee_loc(1,:)).^2 + (LAnkle_loc(2,:) - LKnee_loc(2,:)).^2);
+bodySegLength.LShank_length =   mean(LShank_length_raw);
+RShank_length_raw =             sqrt((RAnkle_loc(1,:) - RKnee_loc(1,:)).^2 + (RAnkle_loc(2,:) - RKnee_loc(2,:)).^2);
+bodySegLength.RShank_length =   mean(RShank_length_raw);
 
-%% Hand length
-bodySegLength.handTotalLength =           0.108*mmHeight;
+%% Calc length of foot with ankle and foot as references
+LFoot_loc_unfil =       getMarker(marker_mar_dim_frame,markerLabels,'LToeTip');
+LFoot_loc =             LFoot_loc_unfil(2:3,:); %acquire solely vertical position
 
-%% Hip length
-bodySegLength.hipTotalLength =            0.191*mmHeight;
+RFoot_loc_unfil =       getMarker(marker_mar_dim_frame,markerLabels,'RToeTip');
+RFoot_loc =             RFoot_loc_unfil(2:3,:); %acquire solely vertical position
 
-%% Thigh length
-bodySegLength.thighTotalLength =          0.245*mmHeight;
-%bodySegLength.thighTotalLength =          0.530*mmHeight - bodySegLength.legTotalLength;
-
-%% Leg length
-bodySegLength.legTotalLength =            0.246*mmHeight;
-%bodySegLength.legTotalLength =            0.285*mmHeight - bodySegLength.ankleTotalHeight;
-
-%% Foot length measurements
-bodySegLength.ankleTotalHeight =          0.039*mmHeight;
-bodySegLength.footTotalLength =           0.152*mmHeight;
-bodySegLength.footTotalBreadth =          0.055*mmHeight;
+LFoot_length_raw =              sqrt((LFoot_loc(1,:) - LAnkle_loc(1,:)).^2 + (LFoot_loc(2,:) - LAnkle_loc(2,:)).^2);
+bodySegLength.LFoot_length =    mean(LFoot_length_raw);
+RFoot_length_raw =              sqrt((RFoot_loc(1,:) - RAnkle_loc(1,:)).^2 + (RFoot_loc(2,:) - RAnkle_loc(2,:)).^2);
+bodySegLength.RFoot_length =    mean(RFoot_length_raw);
 
 end
-

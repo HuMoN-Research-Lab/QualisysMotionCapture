@@ -27,7 +27,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 
 %% bodySegLength function
 % Function outputs length for individual body segs
-[bodySegLength] = calcBodySegLength(mmHeight);
+% [bodySegLength] = calcBodySegLength_old(mmHeight);
 
 %% calcBodySegMass function
 % Function outputs mass for individual body segs
@@ -53,7 +53,18 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
     
 %% Calculates the inst. angle for lower extremity joint
-[segTheta] = calcSegAngle(marker_mar_dim_frame,markerLabels); %LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
+[segTheta] = calcSegAngle(marker_mar_dim_frame,markerLabels,segCenter);
+
+%% Calculates lower extremity seg length
+[bodySegLength] = calcBodySegLength(marker_mar_dim_frame,markerLabels,segCenter);
+
+%% calcRadiusOfGyration function
+% Function outputs radius of gyration for body segs
+[radGyra] = calcRadiusOfGyration(bodySegLength);
+
+%% calcRadiusOfGyration function
+% Function outputs radius of gyration for body segs
+[momInertia] = calcMomentOfInertia(bodySegLength,bodyMass);
 
 %% Calculates the inst. angular velocity of the lower extremity
 [segOmega,segAlpha] = calcThetaVel(segTheta);
@@ -65,10 +76,6 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 %% Plot force plate data
 % plotForces(Force)%,trial_start_end);
 
-%% Misc. calculations
-%% calcRadiusOfGyration function
-% Function outputs radius of gyration for body segs
-%[momentInertia,density] = calcRadiusOfGyration(bodySegWeight);
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
 % Currently not optimized yet for plotting purposes

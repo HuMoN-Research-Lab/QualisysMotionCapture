@@ -8,6 +8,8 @@ function [bodySegWeight,propSegWeight] = calcBodySegMass(kgMass)
 propSegWeight = [];
 bodySegWeight = [];
 
+showTable = false;
+
 %% Torso segMass by totalMass of body
 %Head propWeight
 propSegWeight.headProp =             0.0810; %headMass and neckMass 
@@ -83,7 +85,9 @@ segWeight = [propSegWeight.headProp;propSegWeight.shoulderProp;...
     propSegWeight.upperArmProp;propSegWeight.totalArmProp;propSegWeight.footProp;...
     propSegWeight.legProp;propSegWeight.thighProp;propSegWeight.totalLegProp];
 
-T = table(segWeight,'RowNames',segNames);
+if showTable == true
+    T = table(segWeight,'RowNames',segNames)
+end
 %unsure how to make sure that 0 values are cut off
 
 end
