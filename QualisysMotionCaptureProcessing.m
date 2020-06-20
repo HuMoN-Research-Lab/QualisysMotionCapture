@@ -64,7 +64,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 
 %% calcRadiusOfGyration function
 % Function outputs radius of gyration for body segs
-[momInertia] = calcMomentOfInertia(bodySegLength,bodyMass);
+[momInertia] = calcMomentOfInertia(radGyra,bodySegWeight);
 
 %% Calculates the inst. angular velocity of the lower extremity
 [segOmega,segAlpha] = calcThetaVel(segTheta);
