@@ -56,18 +56,21 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 [segTheta] = calcSegAngle(marker_mar_dim_frame,markerLabels,segCenter);
 
 %% Calculates lower extremity seg length
+% units converted from mm to m
 [bodySegLength] = calcBodySegLength(marker_mar_dim_frame,markerLabels,segCenter);
 
 %% calcRadiusOfGyration function
 % Function outputs radius of gyration for body segs
+% units in m
 [radGyra] = calcRadiusOfGyration(bodySegLength);
 
 %% calcRadiusOfGyration function
-% Function outputs radius of gyration for body segs
-[momInertia] = calcMomentOfInertia(radGyra,bodySegWeight);
+% Function outputs radius of gyration for body segs 
+% units in kg/m^2
+[momInertia] = calcMomentOfInertia(bodySegWeight,bodySegLength,radGyra);
 
 %% Calculates the inst. angular velocity of the lower extremity
-[segOmega,segAlpha] = calcThetaVel(segTheta);
+% [segOmega,segAlpha] = calcThetaVel(segTheta);
 
 %% Plot head, chest, hip, and feet
 %Create function that plots marker in x,y,z
