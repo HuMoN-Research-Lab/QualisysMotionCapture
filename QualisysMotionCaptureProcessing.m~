@@ -16,13 +16,18 @@ addpath(dataPath)
 
 %% Load acquired Qualisys MoCap Data
 fileName = '02_21_2020_Walking_Calibration';
-[markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(fileName);
+[markerLabels,numMarkers,pre_filter_marker_mar_dim_frame,marker_mar_dim_frame,Force]... 
+    = loadMoCapData(fileName);
 
 %% findUser function
 %function locates relevant information based on user name
 %bodyMass should be in kg and height in metric units (mm)
 userProfile = readtable('userProfile.xlsx','readrownames',true);
 [mmHeight,kgMass] = findUser(userProfile,'Jon Matthis');
+
+%% bodySegLength function
+% Function outputs length for individual body segs
+% [bodySegLength] = calcBodySegLength_old(mmHeight);
 
 %% calcBodySegMass function
 % Function outputs mass for individual body segs
@@ -42,7 +47,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 
 %% calcCOMXYZ_Vel_Acc_Jerk function
 %function outputs vel,acc, and jerk values for totalCOM
-[totalCOM_metrics,trial_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ);
+[totalCOM_calc,trial_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ);
 
 %% Calculates marker vel,acc,and jerk for trials
 [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
@@ -60,7 +65,8 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 [radGyra] = calcRadiusOfGyration(bodySegLength);
 
 %% calcRadiusOfGyration function
-% Function outputs radius of gyration for body segs in units of kg/m^2
+% Function outputs radius of gyration for body segs 
+% units in kg/m^2
 [momInertia] = calcMomentOfInertia(bodySegWeight,bodySegLength,radGyra);
 
 %% Calculates the inst. angular velocity of the lower extremity
@@ -79,7 +85,7 @@ plotForces(Force,trial_start_end,marker_mar_dim_frame,markerLabels)%,trial_start
 %[segCenterVel] = calcMarVel(segCenter);
 
 %% Optimizer finds location of jont center
-optimizer(segCenter,marker_mar_dim_frame,markerLabels);
+p
 
 %% Motion capture data plot
 % %Miscellaneous numbering of figures important for future reference

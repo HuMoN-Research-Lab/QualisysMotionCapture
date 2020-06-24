@@ -294,31 +294,57 @@ WaistLBack= getMarker(marker_mar_dim_frame,markerLabels,'WaistLBack');
 WaistRFront = getMarker(marker_mar_dim_frame,markerLabels,'WaistRFront');
 WaistRBack = getMarker(marker_mar_dim_frame,markerLabels,'WaistRBack');
 
-%x values located on corresponding column
-hipPosX(:,1) =                      WaistLFront(1,:)';
-hipPosX(:,2) =                      WaistLBack(1,:)';
-hipPosX(:,3) =                      WaistRFront(1,:)';
-hipPosX(:,4) =                      WaistRBack(1,:)';
-hipPosX =                           mean(hipPosX,2);
+%x values of hip center
+hipPosX_raw(:,1) =                  WaistLFront(1,:)';
+hipPosX_raw(:,2) =                  WaistLBack(1,:)';
+hipPosX_raw(:,3) =                  WaistRFront(1,:)';
+hipPosX_raw(:,4) =                  WaistRBack(1,:)';
+hipPosX =                           mean(hipPosX_raw,2);
 
-%y values located on corresponding column
-hipPosY(:,1) =                      WaistLFront(2,:)';
-hipPosY(:,2) =                      WaistLBack(2,:)';
-hipPosY(:,3) =                      WaistRFront(2,:)';
-hipPosY(:,4) =                      WaistRBack(2,:)';
-hipPosY =                           mean(hipPosY,2);
+%y values of hip center
+hipPosY_raw(:,1) =                  WaistLFront(2,:)';
+hipPosY_raw(:,2) =                  WaistLBack(2,:)';
+hipPosY_raw(:,3) =                  WaistRFront(2,:)';
+hipPosY_raw(:,4) =                  WaistRBack(2,:)';
+hipPosY =                           mean(hipPosY_raw,2);
 
-%z values located on corresponding column
-hipPosZ(:,1) =                      WaistLFront(3,:)';
-hipPosZ(:,2) =                      WaistLBack(3,:)';
-hipPosZ(:,3) =                      WaistRFront(3,:)';
-hipPosZ(:,4) =                      WaistRBack(3,:)';
-hipPosZ =                           mean(hipPosZ,2);
+%z values of hip center
+hipPosZ_raw(:,1) =                  WaistLFront(3,:)';
+hipPosZ_raw(:,2) =                  WaistLBack(3,:)';
+hipPosZ_raw(:,3) =                  WaistRFront(3,:)';
+hipPosZ_raw(:,4) =                  WaistRBack(3,:)';
+hipPosZ =                           mean(hipPosZ_raw,2);
 
 %Center location for the Hip
 segCenter.hipCenter_mar_dim_frame =         (hipPosX).';
 segCenter.hipCenter_mar_dim_frame(2,:) = 	(hipPosY).';
 segCenter.hipCenter_mar_dim_frame(3,:) =    (hipPosZ).';
+
+%x values of left and right hip center
+hipPosXL_raw =                      hipPosX_raw(:,1:2);
+hipPosXL =                          mean(hipPosXL_raw,2);
+hipPosXR_raw =                      hipPosX_raw(:,3:4);
+hipPosXR =                          mean(hipPosXR_raw,2);
+
+%y values of left and right hip center
+hipPosYL_raw =                      hipPosY_raw(:,1:2);
+hipPosYL =                          mean(hipPosYL_raw,2);
+hipPosYR_raw =                      hipPosY_raw(:,3:4);
+hipPosYR =                          mean(hipPosYR_raw,2);
+
+%z values of left and right hip center
+hipPosZL_raw =                      hipPosZ_raw(:,1:2);
+hipPosZL =                          mean(hipPosZL_raw,2);
+hipPosZR_raw =                      hipPosZ_raw(:,3:4);
+hipPosZR =                          mean(hipPosZR_raw,2);
+
+%Center location for the LHip and RHip
+segCenter.LHipCenter_mar_dim_frame =         (hipPosXL).';
+segCenter.LHipCenter_mar_dim_frame(2,:) = 	 (hipPosYL).';
+segCenter.LHipCenter_mar_dim_frame(3,:) =    (hipPosZL).';
+segCenter.RHipCenter_mar_dim_frame =         (hipPosXR).';
+segCenter.RHipCenter_mar_dim_frame(2,:) = 	 (hipPosYR).';
+segCenter.RHipCenter_mar_dim_frame(3,:) =    (hipPosZR).';
 
 %% LThigh Markers
 %Includes: WaistLFront, WaistLBack, LThigh, LKneeOut

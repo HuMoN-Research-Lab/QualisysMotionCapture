@@ -49,5 +49,4 @@ bodySegLength.RShank_proxlength =      bodySegLength.RShank_length .* 0.433;
 bodySegLength.LFoot_proxlength =       bodySegLength.LFoot_length .* 0.500;
 bodySegLength.RFoot_proxlength =       bodySegLength.RFoot_length .* 0.500;
 
-
 end
