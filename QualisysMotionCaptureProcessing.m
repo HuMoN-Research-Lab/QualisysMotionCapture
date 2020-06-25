@@ -48,7 +48,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
     
 %% Calculates the inst. angle for lower extremity joint
-[segTheta] = calcSegAngle(marker_mar_dim_frame,markerLabels,segCenter);
+% [segTheta] = calcSegAngle(marker_mar_dim_frame,markerLabels,segCenter);
 
 %% Calculates lower extremity seg length
 % units converted from mm to m
@@ -71,7 +71,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 % plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
 
 %% Plot force plate data
-plotForces(Force,trial_start_end,marker_mar_dim_frame,markerLabels)%,trial_start_end);
+% plotForces(Force,trial_start_end,marker_mar_dim_frame,markerLabels)%,trial_start_end);
 
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
@@ -79,7 +79,9 @@ plotForces(Force,trial_start_end,marker_mar_dim_frame,markerLabels)%,trial_start
 %[segCenterVel] = calcMarVel(segCenter);
 
 %% Optimizer finds location of jont center
-optimizer(segCenter,marker_mar_dim_frame,markerLabels);
+% [error] = JointCenterError(segCenter);
+
+% optimizer(segCenter,marker_mar_dim_frame,markerLabels);
 
 %% Motion capture data plot
 % %Miscellaneous numbering of figures important for future reference
