@@ -75,5 +75,42 @@ if length(data.Force(5).Force) ~= length(filteredData)
     Force.force_plate5(3,:) = raw_force5(3,1:4:end);
 end
 
+%% Filter acquired COP force plate data
+%Final COP force plate data
+
+if length(data.Force(1).COP) ~= length(filteredData)
+    raw_COP1 = data.Force(1).COP;
+    Force.COP_plate1(1,:) = raw_COP1(1,1:4:end);
+    Force.COP_plate1(2,:) = raw_COP1(2,1:4:end);
+    Force.COP_plate1(3,:) = raw_COP1(3,1:4:end);
+end
+
+if length(data.Force(2).COP) ~= length(filteredData)
+    raw_COP2 = data.Force(2).COP;
+    Force.COP_plate2(1,:) = raw_COP2(1,1:4:end);
+    Force.COP_plate2(2,:) = raw_COP2(2,1:4:end);
+    Force.COP_plate2(3,:) = raw_COP2(3,1:4:end);
+end
+
+if length(data.Force(3).COP) ~= length(filteredData)
+    raw_COP3 = data.Force(3).COP;
+    Force.COP_plate3(1,:) = raw_COP3(1,1:4:end);
+    Force.COP_plate3(2,:) = raw_COP3(2,1:4:end);
+    Force.COP_plate3(3,:) = raw_COP3(3,1:4:end);
+end
+
+if length(data.Force(4).COP) ~= length(filteredData)
+    raw_COP4 = data.Force(4).COP;
+    Force.COP_plate4(1,:) = raw_COP4(1,1:4:end);
+    Force.COP_plate4(2,:) = raw_COP4(2,1:4:end);
+    Force.COP_plate4(3,:) = raw_COP4(3,1:4:end);
+end
+
+if length(data.Force(5).COP) ~= length(filteredData)
+    raw_COP5 = data.Force(5).COP;
+    Force.COP_plate5(1,:) = raw_COP5(1,1:4:end);
+    Force.COP_plate5(2,:) = raw_COP5(2,1:4:end);
+    Force.COP_plate5(3,:) = raw_COP5(3,1:4:end);
+end
 end
 

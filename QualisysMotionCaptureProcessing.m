@@ -68,10 +68,10 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 
 %% Plot head, chest, hip, and feet
 %Create function that plots marker in x,y,z
-% plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
+plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
 
 %% Plot force plate data
-% plotForces(Force,trial_start_end,marker_mar_dim_frame,markerLabels)%,trial_start_end);
+plotForces(Force,trial_start_end,segCenter,marker_mar_dim_frame,markerLabels)%,trial_start_end);
 
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
