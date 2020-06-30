@@ -75,6 +75,13 @@ if length(data.Force(5).Force) ~= length(filteredData)
     Force.force_plate5(3,:) = raw_force5(3,1:4:end);
 end
 
+%% Force plate cartisian locations
+Force.force_plate1_loc = data.Force(1).ForcePlateLocation;
+Force.force_plate2_loc = data.Force(2).ForcePlateLocation;
+Force.force_plate3_loc = data.Force(3).ForcePlateLocation;
+Force.force_plate4_loc = data.Force(4).ForcePlateLocation;
+Force.force_plate5_loc = data.Force(5).ForcePlateLocation;
+
 %% Filter acquired COP force plate data
 %Final COP force plate data
 

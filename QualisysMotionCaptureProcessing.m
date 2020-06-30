@@ -44,6 +44,12 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 %function outputs vel,acc, and jerk values for totalCOM
 [totalCOM_metrics,trial_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ);
 
+%% Calibrates segCenter data using trial start and end frames
+[segCenter_cal] = calibrateSegCenter(segCenter,trial_start_end,marker_mar_dim_frame,markerLabels);
+
+%% Calibrates force data using trial start and end frames
+[Force_cal] = calibrateForce(Force,trial_start_end);
+
 %% Calculates marker vel,acc,and jerk for trials
 [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
     
@@ -68,10 +74,10 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 
 %% Plot head, chest, hip, and feet
 %Create function that plots marker in x,y,z
-plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
+% plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
 
 %% Plot force plate data
-plotForces(Force,trial_start_end,segCenter,marker_mar_dim_frame,markerLabels)%,trial_start_end);
+plotForces(Force_cal,segCenter_cal)
 
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
