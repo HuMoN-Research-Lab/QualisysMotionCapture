@@ -2,7 +2,17 @@ function plotForces(Force_cal,segCenter_cal)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function plots the force output for the force plates
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%% Reformatting of segCenter data
+LHip = segCenter_cal.LHip_loc_fil;
+RHip = segCenter_cal.RHip_loc_fil;
+LKnee = segCenter_cal.LKnee_loc_fil;
+RKnee = segCenter_cal.RKnee_loc_fil;
+LAnkle = segCenter_cal.LAnkle_loc_fil;
+RAnkle = segCenter_cal.RAnkle_loc_fil;
+LFoot = segCenter_cal.LFoot_loc_fil;
+RFoot = segCenter_cal.RFoot_loc_fil;
+LToeTip = segCenter_cal.LToeTip_loc_fil;
+RToeTip = segCenter_cal.RToeTip_loc_fil;
 
 %% Plot force plate data
 figure(9582)
@@ -16,32 +26,52 @@ open(stepA);
 for ii = 1:10:length(segCenter_cal.RHip_loc_fil)
     clf   
     
-    %Plot right side of lower extremities
-    plot3(segCenter_cal.LHip_loc_fil(1,ii),...
-        segCenter_cal.LHip_loc_fil(2,ii),segCenter_cal.LHip_loc_fil(3,ii),'bo')
+    plot 0,0,0 red circle. Plot 1,1,1. bcircle, plot vector (0,1 0,1. 0,1) 
+    vectors you define two points 000 and 111. 
+    ID how to take 3 markers. How to take knee marker
+    
+    %Plot left side of lower extremities
+    plot3([LHip(1,ii);LKnee(1,ii);LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)],...
+        [LHip(2,ii);LKnee(2,ii);LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)],...
+        [LHip(3,ii);LKnee(3,ii);LAnkle(3,ii);LFoot(3,ii);LToeTip(3,ii)],'b-')
     hold on
-    plot3(segCenter_cal.LKnee_loc_fil(1,ii),...
-        segCenter_cal.LKnee_loc_fil(2,ii),segCenter_cal.LKnee_loc_fil(3,ii),'bo')
-    plot3(segCenter_cal.LAnkle_loc_fil(1,ii),...
-        segCenter_cal.LAnkle_loc_fil(2,ii),segCenter_cal.LAnkle_loc_fil(3,ii),'bo')
-    plot3(segCenter_cal.LFoot_loc_fil(1,ii),...
-        segCenter_cal.LFoot_loc_fil(2,ii),segCenter_cal.LFoot_loc_fil(3,ii),'bo')
-    plot3(segCenter_cal.LToeTip_loc_fil(1,ii),...
-        segCenter_cal.LToeTip_loc_fil(2,ii),segCenter_cal.LToeTip_loc_fil(3,ii),'bo')
+%     plot3(,LKnee(2,ii),LKnee(3,ii),'bo')
+%     plot3(,LAnkle(2,ii),LAnkle(3,ii),'bo')
+%     plot3(,LFoot(2,ii),LFoot(3,ii),'bo')
+%     plot3(,LToeTip(2,ii),LToeTip(3,ii),'bo')
+    
+%     plot3(LHip(1,ii),LHip(2,ii),LHip(3,ii),'bo')
+%     hold on
+%     plot3(LKnee(1,ii),LKnee(2,ii),LKnee(3,ii),'bo')
+%     plot3(LAnkle(1,ii),LAnkle(2,ii),LAnkle(3,ii),'bo')
+%     plot3(LFoot(1,ii),LFoot(2,ii),LFoot(3,ii),'bo')
+%     plot3(LToeTip(1,ii),LToeTip(2,ii),LToeTip(3,ii),'bo')
     
     %Plot right side of lower extremities
-    plot3(segCenter_cal.RHip_loc_fil(1,ii),...
-        segCenter_cal.RHip_loc_fil(2,ii),segCenter_cal.RHip_loc_fil(3,ii),'ro')
-    hold on
-    plot3(segCenter_cal.RKnee_loc_fil(1,ii),...
-        segCenter_cal.RKnee_loc_fil(2,ii),segCenter_cal.RKnee_loc_fil(3,ii),'ro')
-    plot3(segCenter_cal.RAnkle_loc_fil(1,ii),...
-        segCenter_cal.RAnkle_loc_fil(2,ii),segCenter_cal.RAnkle_loc_fil(3,ii),'ro')
-    plot3(segCenter_cal.RFoot_loc_fil(1,ii),...
-        segCenter_cal.RFoot_loc_fil(2,ii),segCenter_cal.RFoot_loc_fil(3,ii),'ro')
-    plot3(segCenter_cal.RToeTip_loc_fil(1,ii),...
-        segCenter_cal.RToeTip_loc_fil(2,ii),segCenter_cal.RToeTip_loc_fil(3,ii),'ro')
+    plot3([LHip(1,ii);LKnee(1,ii);LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)],...
+        [LHip(2,ii);LKnee(2,ii);LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)],...
+        [LHip(3,ii);LKnee(3,ii);LAnkle(3,ii);LFoot(3,ii);LToeTip(3,ii)],'bo')
     
+%     plot3(RHip(1,ii),RHip(2,ii),RHip(3,ii),'bo')
+%     hold on
+%     plot3(RKnee(1,ii),RKnee(2,ii),RKnee(3,ii),'bo')
+%     plot3(RAnkle(1,ii),RAnkle(2,ii),RAnkle(3,ii),'bo')
+%     plot3(RFoot(1,ii),RFoot(2,ii),RFoot(3,ii),'bo')
+%     plot3(RToeTip(1,ii),RToeTip(2,ii),RToeTip(3,ii),'bo')
+    
+    
+%     plot3(segCenter_cal.RHip(1,ii),...
+%         segCenter_cal.RHip_loc_fil(2,ii),segCenter_cal.RHip_loc_fil(3,ii),'ro')
+%     hold on
+%     plot3(segCenter_cal.RKnee_loc_fil(1,ii),...
+%         segCenter_cal.RKnee_loc_fil(2,ii),segCenter_cal.RKnee_loc_fil(3,ii),'ro')
+%     plot3(segCenter_cal.RAnkle_loc_fil(1,ii),...
+%         segCenter_cal.RAnkle_loc_fil(2,ii),segCenter_cal.RAnkle_loc_fil(3,ii),'ro')
+%     plot3(segCenter_cal.RFoot_loc_fil(1,ii),...
+%         segCenter_cal.RFoot_loc_fil(2,ii),segCenter_cal.RFoot_loc_fil(3,ii),'ro')
+%     plot3(segCenter_cal.RToeTip_loc_fil(1,ii),...
+%         segCenter_cal.RToeTip_loc_fil(2,ii),segCenter_cal.RToeTip_loc_fil(3,ii),'ro')
+%     
     quiver3(Force_cal.COP1(1,ii),...
         Force_cal.COP1(2,ii),...
         Force_cal.COP1(3,ii),...
