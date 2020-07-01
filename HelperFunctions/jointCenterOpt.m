@@ -35,5 +35,38 @@ firstMarker = LHip;
 initialGuess = [0;0;0];
 
 %% Error function initiation
+%with JointCenterGuess being the average loc using select markers
+JointCenterError = @(JointCenterGuess) JointCenterErrorFun(firstMarker, JointCenterGuess, HipJointMarkers_mean);
+
+%% Settings for optimizer
+opts = optimset('Display', 'iter','MaxFunEvals',50000, 'PlotFcns',{@optimplotx, @optimplotfval,@optimplotfirstorderopt});
+A =     [];
+b =     [];
+Aeq =   [];
+beq =   [];
+lb =    0;
+ub =    1;
+
+%% Initiates optimizer and calibrates results
+%initialGuess initiates optimizer
+%jointCenter difference = Optimized joint center loc in x,y,z
+[jointCenterDifference, jointCenterError] = fmincon(JointCenterError, initialGuess,A,b,Aeq,beq,lb,ub,[],opts);
+
+%Calibrates results considering initialGuess
+HipJointCenter = [(jointCenterDifference(1)+ markersX_mean);...
+    (jointCenterDifference(2)+ markersY_mean);...
+    (jointCenterDifference(3)+ markersZ_mean)]; 
+
+%% Visual representation of accuracy
+figure(7447)
+for ii = 1:20:length(LHip)
+   clf
+   plot3(LThigh(1,ii),LThigh(2,ii),LThigh(3,ii),'k.','MarkerSize',15)
+   hold on
+   plot3(HipJointCenter(1,ii),HipJointCenter(2,ii),HipJointCenter(3,ii),...
+       'r.','MarkerSize',15)
+end
+
+
 
 end
