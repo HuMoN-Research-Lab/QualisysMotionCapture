@@ -1,8 +1,8 @@
-function jointCenterOpt(segCenter_cal)
+function [LHipJointCenter] = jointCenterOpt(segCenter_cal)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%Optimize Joint center location
+%%Optimize all joint center location 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Identification of markers in use
+%% IDs of markers in use
 %LMarkers
 LHipFront =     segCenter_cal.LHipFront_loc_fil;
 LHipBack =      segCenter_cal.LHipBack_loc_fil;
@@ -25,32 +25,6 @@ RAnkle =        segCenter_cal.RAnkle_loc_fil;
 RFoot =         segCenter_cal.RFoot_loc_fil;
 RToeTip =       segCenter_cal.RToeTip_loc_fil;
 
-%% Reformat LMarker data into x,y,z components
-%x,y,z components for markers in thigh segment
-LMarkersX_raw = [LHipFront(1,:);LHipBack(1,:);LThigh(1,:)]; %;RHipCenter(1,:)]; %;LKnee(1,:)
-LMarkersY_raw = [LHipFront(2,:);LHipBack(2,:);LThigh(2,:)]; %;RHipCenter(2,:)]; %;LKnee(2,:)
-LMarkersZ_raw = [LHipFront(3,:);LHipBack(3,:);LThigh(3,:)]; %;RHipCenter(3,:)]; %;LKnee(3,:)
-
-%Average position of markers around the joint
-LMarkersX_mean = mean(LMarkersX_raw);
-LMarkersY_mean = mean(LMarkersY_raw);
-LMarkersZ_mean = mean(LMarkersZ_raw);
-
-%% Create variables for function
-%Joint center mean markers into vector notation
-LHipJointMarkers_mean = [LMarkersX_mean; LMarkersY_mean; LMarkersZ_mean];
-
-%First marker to evaluate joint center
-firstMarker = LHipCenter;
-
-%Starting point of JointCenter guess
-initialGuess = [0;0;0];
-
-%% Error function initiation
-%with JointCenterGuess being the average loc using select markers
-v = VideoWriter('Segment Length Optimization.mp4');
-LHipJointCenterError = @(JointCenterGuess) JointCenterErrorFun(firstMarker, JointCenterGuess, LHipJointMarkers_mean,v);
-close(v)
 %% Settings for optimizer
 opts = optimset('Display', 'iter','MaxFunEvals',50000, 'PlotFcns',{@optimplotx, @optimplotfval,@optimplotfirstorderopt});
 A =     [];
@@ -60,15 +34,53 @@ beq =   [];
 lb =    0;
 ub =    1;
 
+%% Joint ref loc and initial guess for LHipJointCenter
+%Acquire mean location of markers around hip joint
+[LHipJointMarkers_mean] = joint_ref_loc(LHipFront,LHipBack,LThigh);
+
+%Starting point of JointCenter guess that initiates optimizer
+initialGuess =  [0;0;0];
+figNum =        132435;
+
+v = VideoWriter('LHip Segment Length Optimization.mp4');
+
+%First marker to evaluate joint center is LHipCenter marker (input1)
+%LHipJointCenterGuess = average loc using select markers (input2)
+LHipJointCenterError = @(LHipJointCenterGuess) JointCenterErrorFun(LHipCenter, LHipJointCenterGuess, LHipJointMarkers_mean,v,figNum);
+close(v)
+
 %% Initiates optimizer and calibrates results
-%initialGuess initiates optimizer
 %jointCenter difference = Optimized joint center loc in x,y,z
-[jointCenterDifference, jointCenterError] = fmincon(LHipJointCenterError, initialGuess,A,b,Aeq,beq,lb,ub,[],opts);
+[LHipJointCenterDifference, LHipJointCenterError_final] = fmincon(LHipJointCenterError,initialGuess,A,b,Aeq,beq,lb,ub,[],opts);
 
 %Calibrates results considering initialGuess
-LHipJointCenter = [(jointCenterDifference(1)+ LMarkersX_mean);...
-    (jointCenterDifference(2)+ LMarkersY_mean);...
-    (jointCenterDifference(3)+ LMarkersZ_mean)]; 
+LHipJointCenter = [(LHipJointCenterDifference(1)+LHipJointMarkers_mean(1,:));...
+    (LHipJointCenterDifference(2)+LHipJointMarkers_mean(2,:));...
+    (LHipJointCenterDifference(3)+LHipJointMarkers_mean(3,:))]; 
+
+%% Joint ref loc and initial guess for RHipJointCenter
+%Acquire mean location of markers around hip joint
+[RHipJointMarkers_mean] = joint_ref_loc(RHipFront,RHipBack,RThigh);
+
+%Starting point of JointCenter guess that initiates optimizer
+initialGuess =  [0;0;0];
+figNum =        49586;
+
+w = VideoWriter('RHip Segment Length Optimization.mp4');
+
+%First marker to evaluate joint center is RHipCenter marker (input1)
+%RHipJointCenterGuess = average loc using select markers (input2)
+RHipJointCenterError = @(RHipJointCenterGuess) JointCenterErrorFun(RHipCenter, RHipJointCenterGuess, RHipJointMarkers_mean,w,figNum);
+close(v)
+
+%% Initiates optimizer and calibrates results
+%jointCenter difference = Optimized joint center loc in x,y,z
+[RHipJointCenterDifference, RHipJointCenterError_final] = fmincon(RHipJointCenterError,initialGuess,A,b,Aeq,beq,lb,ub,[],opts);
+
+%Calibrates results considering initialGuess
+RHipJointCenter = [(RHipJointCenterDifference(1)+RHipJointMarkers_mean(1,:));...
+    (RHipJointCenterDifference(2)+RHipJointMarkers_mean(2,:));...
+    (RHipJointCenterDifference(3)+RHipJointMarkers_mean(3,:))]; 
 
 %% Visual representation of accuracy
 figure(7447)
@@ -86,6 +98,9 @@ for ii = 1:20:length(LHipCenter)
     plot3(LHipJointCenter(1,ii),LHipJointCenter(2,ii),...
         LHipJointCenter(3,ii),'r.','MarkerSize',12)
     hold on
+    
+    plot3(RHipJointCenter(1,ii),RHipJointCenter(2,ii),...
+        RHipJointCenter(3,ii),'r.','MarkerSize',12)
     
     if plot_markers == true
         %LMarkers

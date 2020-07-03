@@ -1,13 +1,13 @@
-function [error] = JointCenterErrorFun(firstMarker,JointCenterGuess,HipJointMarkers_mean,v)
+function [error] = JointCenterErrorFun(firstMarker,JointCenterGuess,JointMarkers_mean,v,figNum)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%Function ID's the errors of joint center loc given specific markers
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Create variables for JointCenterGuess
 % Variable will change with every iteration of the optimiser to adjust the 
 % JointCenterGuess to the optimal Joint Center Location
-JointCenterAttempt = [(HipJointMarkers_mean(1,:)+ JointCenterGuess(1));...
-    (HipJointMarkers_mean(2,:) + JointCenterGuess(2));...
-    (HipJointMarkers_mean(3,:) + JointCenterGuess(3))]; 
+JointCenterAttempt = [(JointMarkers_mean(1,:)+ JointCenterGuess(1));...
+    (JointMarkers_mean(2,:) + JointCenterGuess(2));...
+    (JointMarkers_mean(3,:) + JointCenterGuess(3))]; 
 
 %Establish joint center as origin
 NormalizedSegmentX = JointCenterAttempt(1,:) - firstMarker(1,:);
@@ -29,9 +29,10 @@ error = sum(abs(diff((SegmentDistance))));
 % Started at this, ended at this
 % error  = num 
 % sqrterror = erro.^2
+
 % Take sum squared error divided by frames
 %Plot the differences
-figure(2814983)
+figure(figNum)
 open(v)
 plot(frame_to_frame_diff)
 xlabel('Frame')
