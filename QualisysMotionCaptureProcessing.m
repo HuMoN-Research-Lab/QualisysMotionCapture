@@ -51,7 +51,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 [Force_cal] = calibrateForce(Force,trial_start_end);
 
 %% Function optimizes joint center location
-[LHipJointCenter] = jointCenterOpt(segCenter_cal);
+[LHipJointCenter,RHipJointCenter,RKneeJointCenter] = jointCenterOpt(segCenter_cal);
 
 %% Calculates marker vel,acc,and jerk for trials
 [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);

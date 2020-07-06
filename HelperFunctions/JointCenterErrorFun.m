@@ -1,4 +1,4 @@
-function [error] = JointCenterErrorFun(segCenter,marker1,marker2,marker3,v,figNum,weights)
+function [error] = JointCenterErrorFun(segCenter,marker1,marker2,marker3,figNum,weights)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%Function ID's the errors of joint center loc given specific markers
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -30,14 +30,15 @@ error = sum(abs(diff((SegmentDistance))));
 % Take sum squared error divided by frames
 %Plot the differences
 figure(figNum)
-open(v)
+% open(v)
 plot(frame_to_frame_diff)
 xlabel('Frame')
 ylabel('Segment length difference (mm)')
 title('Segment Length Optimization')
 drawnow
-frame = getframe(gcf);
-writeVideo(v,frame);
+
+% frame = getframe(gcf);
+% writeVideo(v,frame);
 
 
 % %First attempt with optimizer
