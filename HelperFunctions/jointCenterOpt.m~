@@ -35,28 +35,36 @@ lb =    0;
 ub =    1;
 
 %% Joint ref loc and initial guess for LHipJointCenter
+%Weights for markers
+weights = {0.40 0.30 0.30};
+
 %Acquire mean location of markers around hip joint
-[LHipJointMarkers_mean] = joint_ref_loc(LHipFront,LHipBack,LThigh);
+% [LHipJointMarkers_mean] = joint_ref_loc(LHipFront,LHipBack,LThigh);
 
 %Starting point of JointCenter guess that initiates optimizer
-initialGuess = [0;0;0];
-figNum = 1  32435;
+initialGuess =  [0;0;0];
+figNum =        132435;
 
 v = VideoWriter('LHip Segment Length Optimization.mp4');
 
 %First marker to evaluate joint center is LHipCenter marker (input1)
 %LHipJointCenterGuess = average loc using select markers (input2)
-LHipJointCenterError = @(LHipJointCenterGuess) JointCenterErrorFun(LHipCenter, LHipJointCenterGuess, LHipJointMarkers_mean,v,figNum);
+
+LHipJointCenterError = @(LHipJointCenterGuess) JointCenterErrorFun(LHipCenter,...
+    LHipFront,LHipBack,LThigh,v,figNum,weights);
 close(v)
+
+%First attempt
+% LHipJointCenterError = @(LHipJointCenterGuess) JointCenterErrorFun(LHipCenter, LHipJointCenterGuess, LHipJointMarkers_mean,v,figNum,weights);
 
 %% Initiates optimizer and calibrates results
 %jointCenter difference = Optimized joint center loc in x,y,z
 [LHipJointCenterDifference, LHipJointCenterError_final] = fmincon(LHipJointCenterError,initialGuess,A,b,Aeq,beq,lb,ub,[],opts);
 
 %Calibrates results considering initialGuess
-LHipJointCenter = [(LHipJointCenterDifference(1)+ LHipJointMarkers_mean(1,:));...
-    (LHipJointCenterDifference(2)+ LHipJointMarkers_mean(2,:));...
-    (LHipJointCenterDifference(3)+ LHipJointMarkers_mean(3,:))]; 
+LHipJointCenter = [(LHipJointCenterDifference(1)+LHipJointMarkers_mean(1,:));...
+    (LHipJointCenterDifference(2)+LHipJointMarkers_mean(2,:));...
+    (LHipJointCenterDifference(3)+LHipJointMarkers_mean(3,:))]; 
 
 %% Joint ref loc and initial guess for RHipJointCenter
 %Acquire mean location of markers around hip joint
@@ -78,9 +86,9 @@ close(v)
 [RHipJointCenterDifference, RHipJointCenterError_final] = fmincon(RHipJointCenterError,initialGuess,A,b,Aeq,beq,lb,ub,[],opts);
 
 %Calibrates results considering initialGuess
-RHipJointCenter = [(RHipJointCenterDifference(1)+ LHipJointMarkers_mean(1,:));...
-    (RHipJointCenterDifference(2)+ LHipJointMarkers_mean(2,:));...
-    (RHipJointCenterDifference(3)+ LHipJointMarkers_mean(3,:))]; 
+RHipJointCenter = [(RHipJointCenterDifference(1)+RHipJointMarkers_mean(1,:));...
+    (RHipJointCenterDifference(2)+RHipJointMarkers_mean(2,:));...
+    (RHipJointCenterDifference(3)+RHipJointMarkers_mean(3,:))]; 
 
 %% Visual representation of accuracy
 figure(7447)

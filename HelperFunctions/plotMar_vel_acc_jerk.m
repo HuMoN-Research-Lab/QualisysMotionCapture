@@ -137,7 +137,7 @@ end
 
 %% Acceleration for markers in the x coordinate frames
 figure(1232)
-plot_acc = false;
+plot_acc = true;
 
 %Set ymin and ymax for upper extremities acc plots
 ytrialAcc_uppertrunkMax = max(hip.marAccy);

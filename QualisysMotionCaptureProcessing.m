@@ -77,7 +77,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 
 %% Plot head, chest, hip, and feet
 %Create function that plots marker in x,y,z
-% plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
+plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
 
 %% Plot force plate data
 plotForces(Force_cal,segCenter_cal)

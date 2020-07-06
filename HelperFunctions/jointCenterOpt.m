@@ -35,8 +35,11 @@ lb =    0;
 ub =    1;
 
 %% Joint ref loc and initial guess for LHipJointCenter
+%Weights for markers
+weights = {0.40 0.30 0.30};
+
 %Acquire mean location of markers around hip joint
-[LHipJointMarkers_mean] = joint_ref_loc(LHipFront,LHipBack,LThigh);
+% [LHipJointMarkers_mean] = joint_ref_loc(LHipFront,LHipBack,LThigh);
 
 %Starting point of JointCenter guess that initiates optimizer
 initialGuess =  [0;0;0];
@@ -46,8 +49,13 @@ v = VideoWriter('LHip Segment Length Optimization.mp4');
 
 %First marker to evaluate joint center is LHipCenter marker (input1)
 %LHipJointCenterGuess = average loc using select markers (input2)
-LHipJointCenterError = @(LHipJointCenterGuess) JointCenterErrorFun(LHipCenter, LHipJointCenterGuess, LHipJointMarkers_mean,v,figNum);
+
+LHipJointCenterError = @(LHipJointCenterGuess) JointCenterErrorFun(LHipCenter,...
+    LHipFront,LHipBack,LThigh,v,figNum,weights);
 close(v)
+
+%First attempt
+% LHipJointCenterError = @(LHipJointCenterGuess) JointCenterErrorFun(LHipCenter, LHipJointCenterGuess, LHipJointMarkers_mean,v,figNum,weights);
 
 %% Initiates optimizer and calibrates results
 %jointCenter difference = Optimized joint center loc in x,y,z
