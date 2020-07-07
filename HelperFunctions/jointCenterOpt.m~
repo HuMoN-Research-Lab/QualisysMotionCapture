@@ -9,6 +9,7 @@ HeadTop =           segCenter_cal.HeadTop_loc_fil;
 HeadR =             segCenter_cal.HeadR_loc_fil;
 HeadFront =         segCenter_cal.HeadFront_loc_fil;
 HeadCenter =        segCenter_cal.HeadCenter_loc_fil;
+SpineTop =          segCenter_cal.SpineTop_loc_fil;
 ChestCenter =       segCenter_cal.ChestCenter_loc_fil;
 
 %LUpper markers & segCenters
@@ -213,8 +214,8 @@ if lookfor_LKneeJointCenter == true
     weightedMarker3 = marker3*LKneeWeights(3);
     LKneeJointCenter = weightedMarker1 + weightedMarker2 + weightedMarker3;
     
-    jointCenters.LKneeWeights = LKneeWeights;
-    jointCenters.LKneeJointCenter = LKneeJointCenter;
+    jointCenters.LKneeWeights =         LKneeWeights;
+    jointCenters.LKneeJointCenter =     LKneeJointCenter;
 end
 
 %% Joint ref loc and initial guess for RKneeJointCenter
@@ -245,8 +246,8 @@ if lookfor_RKneeJointCenter == true
     weightedMarker3 = marker3*RKneeWeights(3);
     RKneeJointCenter = weightedMarker1 + weightedMarker2 + weightedMarker3;
     
-    jointCenters.RKneeWeights =     RKneeWeights;
-    jointCenters.RKneeJointCenter = RKneeJointCenter;
+    jointCenters.RKneeWeights =         RKneeWeights;
+    jointCenters.RKneeJointCenter =     RKneeJointCenter;
 end
 
 %% Joint ref loc and initial guess for LAnkleJointCenter
@@ -310,7 +311,7 @@ if lookfor_RAnkleJointCenter == true
     RAnkleJointCenter = weightedMarker1 + weightedMarker2 + weightedMarker3;
     
     jointCenters.RAnkleWeights =        RAnkleWeights;
-    jointCenters.RAnkleJointCenter = RAnkleJointCenter;
+    jointCenters.RAnkleJointCenter =    RAnkleJointCenter;
 end
 
 %% Visual representation of accuracy
@@ -419,23 +420,29 @@ for ii = 1:5:length(LHipCenter)
         
     end
     if plot_skeleton == true
+        %Plot Head
+        plot3([HeadL(1,ii);HeadTop(1,ii);HeadR(1,ii);HeadFront(1,ii);SpineTop(1,:)],...
+            [HeadL(2,ii);HeadTop(2,ii);HeadR(2,ii);HeadFront(2,ii);SpineTop(1,:)],...
+            [HeadL(3,ii);HeadTop(3,ii);HeadR(3,ii);HeadFront(3,ii)],'-k','MarkerSize',20)
+        SpineTop
+        
         %Plot LExtremities
         plot3([LShoulderCenter(1,ii);LUpperArmCenter(1,ii);LElbow(1,ii);LForearmCenter(1,ii);LWristOut(1,ii)],...
             [LShoulderCenter(2,ii);LUpperArmCenter(2,ii);LElbow(2,ii);LForearmCenter(2,ii);LWristOut(2,ii)],...
-            [LShoulderCenter(3,ii);LUpperArmCenter(3,ii);LElbow(3,ii);LForearmCenter(3,ii);LWristOut(3,ii)],'-b','MarkerSize',15)
+            [LShoulderCenter(3,ii);LUpperArmCenter(3,ii);LElbow(3,ii);LForearmCenter(3,ii);LWristOut(3,ii)],'-b','MarkerSize',20)
         
         plot3([LHipCenter(1,ii);LThigh(1,ii);LKnee(1,ii);LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)],...
             [LHipCenter(2,ii);LThigh(2,ii);LKnee(2,ii);LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)],...
-            [LHipCenter(3,ii);LThigh(3,ii);LKnee(3,ii);LAnkle(3,ii);LFoot(3,ii);LToeTip(3,ii)],'-b','MarkerSize',15)
+            [LHipCenter(3,ii);LThigh(3,ii);LKnee(3,ii);LAnkle(3,ii);LFoot(3,ii);LToeTip(3,ii)],'-b','MarkerSize',20)
         
         %Plot RExtremities
         plot3([RShoulderCenter(1,ii);RUpperArmCenter(1,ii);RElbow(1,ii);RForearmCenter(1,ii);RWristOut(1,ii)],...
             [RShoulderCenter(2,ii);RUpperArmCenter(2,ii);RElbow(2,ii);RForearmCenter(2,ii);RWristOut(2,ii)],...
-            [RShoulderCenter(3,ii);RUpperArmCenter(3,ii);RElbow(3,ii);RForearmCenter(3,ii);RWristOut(3,ii)],'-r','MarkerSize',15)
+            [RShoulderCenter(3,ii);RUpperArmCenter(3,ii);RElbow(3,ii);RForearmCenter(3,ii);RWristOut(3,ii)],'-r','MarkerSize',20)
         
         plot3([RHipCenter(1,ii);RThigh(1,ii);RKnee(1,ii);RAnkle(1,ii);RFoot(1,ii);RToeTip(1,ii)],...
             [RHipCenter(2,ii);RThigh(2,ii);RKnee(2,ii);RAnkle(2,ii);RFoot(2,ii);RToeTip(2,ii)],...
-            [RHipCenter(3,ii);RThigh(3,ii);RKnee(3,ii);RAnkle(3,ii);RFoot(3,ii);RToeTip(3,ii)],'-r','MarkerSize',15)
+            [RHipCenter(3,ii);RThigh(3,ii);RKnee(3,ii);RAnkle(3,ii);RFoot(3,ii);RToeTip(3,ii)],'-r','MarkerSize',20)
     end
     
     axis equal

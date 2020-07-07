@@ -141,6 +141,17 @@ segCenter_cal.HeadCenter_loc_fil(2,:) =  HeadCenter_locY_unfil(trial_start_end);
 segCenter_cal.HeadCenter_loc_fil(3,:) =  HeadCenter_locZ_unfil(trial_start_end); 
 
 %Identify the market/segment
+SpineTop_loc_unfil_all =    getMarker(marker_mar_dim_frame,markerLabels,'SpineTop');
+SpineTop_locX_unfil =       SpineTop_loc_unfil_all(1,:);
+SpineTop_locY_unfil =       SpineTop_loc_unfil_all(2,:);
+SpineTop_locZ_unfil =       SpineTop_loc_unfil_all(3,:);
+
+%Filter using start and end of trial
+segCenter_cal.SpineTop_loc_fil =       SpineTop_locX_unfil(trial_start_end);
+segCenter_cal.SpineTop_loc_fil(2,:) =  SpineTop_locY_unfil(trial_start_end);
+segCenter_cal.SpineTop_loc_fil(3,:) =  SpineTop_locZ_unfil(trial_start_end);
+
+%Identify the market/segment
 ChestCenter_loc_unfil_all =    segCenter.chestCenter_mar_dim_frame;
 ChestCenter_locX_unfil =       ChestCenter_loc_unfil_all(1,:);
 ChestCenter_locY_unfil =       ChestCenter_loc_unfil_all(2,:);
@@ -149,7 +160,7 @@ ChestCenter_locZ_unfil =       ChestCenter_loc_unfil_all(3,:);
 %Filter using start and end of trial
 segCenter_cal.ChestCenter_loc_fil =       ChestCenter_locX_unfil(trial_start_end);
 segCenter_cal.ChestCenter_loc_fil(2,:) =  ChestCenter_locY_unfil(trial_start_end);
-segCenter_cal.ChestCenter_loc_fil(3,:) =  ChestCenter_locZ_unfil(trial_start_end); 
+segCenter_cal.ChestCenter_loc_fil(3,:) =  ChestCenter_locZ_unfil(trial_start_end);
 
 %% SegCenter LUpper extremities calibration
 %Identify the market/segment
