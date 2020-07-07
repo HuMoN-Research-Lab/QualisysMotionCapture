@@ -5,6 +5,51 @@ function [segCenter_cal] = calibrateSegCenter(segCenter,trial_start_end,marker_m
 %% Initial conditions
 segCenter_cal = [];
 
+%% Head marker upper extremities calibration
+%Identify the market/segment
+HeadL_loc_unfil_all =    getMarker(marker_mar_dim_frame,markerLabels,'HeadL');
+HeadL_locX_unfil =       HeadL_loc_unfil_all(1,:);
+HeadL_locY_unfil =       HeadL_loc_unfil_all(2,:);
+HeadL_locZ_unfil =       HeadL_loc_unfil_all(3,:);
+
+%Filter using start and end of trial
+segCenter_cal.HeadL_loc_fil =       HeadL_locX_unfil(trial_start_end);
+segCenter_cal.HeadL_loc_fil(2,:) =  HeadL_locY_unfil(trial_start_end);
+segCenter_cal.HeadL_loc_fil(3,:) =  HeadL_locZ_unfil(trial_start_end); 
+
+%Identify the market/segment
+HeadTop_loc_unfil_all =    getMarker(marker_mar_dim_frame,markerLabels,'HeadTop');
+HeadTop_locX_unfil =       HeadTop_loc_unfil_all(1,:);
+HeadTop_locY_unfil =       HeadTop_loc_unfil_all(2,:);
+HeadTop_locZ_unfil =       HeadTop_loc_unfil_all(3,:);
+
+%Filter using start and end of trial
+segCenter_cal.HeadTop_loc_fil =       HeadTop_locX_unfil(trial_start_end);
+segCenter_cal.HeadTop_loc_fil(2,:) =  HeadTop_locY_unfil(trial_start_end);
+segCenter_cal.HeadTop_loc_fil(3,:) =  HeadTop_locZ_unfil(trial_start_end);
+
+%Identify the market/segment
+HeadR_loc_unfil_all =    getMarker(marker_mar_dim_frame,markerLabels,'HeadR');
+HeadR_locX_unfil =       HeadR_loc_unfil_all(1,:);
+HeadR_locY_unfil =       HeadR_loc_unfil_all(2,:);
+HeadR_locZ_unfil =       HeadR_loc_unfil_all(3,:);
+
+%Filter using start and end of trial
+segCenter_cal.HeadR_loc_fil =       HeadR_locX_unfil(trial_start_end);
+segCenter_cal.HeadR_loc_fil(2,:) =  HeadR_locY_unfil(trial_start_end);
+segCenter_cal.HeadR_loc_fil(3,:) =  HeadR_locZ_unfil(trial_start_end);
+
+%Identify the market/segment
+HeadFront_loc_unfil_all =    getMarker(marker_mar_dim_frame,markerLabels,'HeadFront');
+HeadFront_locX_unfil =       HeadFront_loc_unfil_all(1,:);
+HeadFront_locY_unfil =       HeadFront_loc_unfil_all(2,:);
+HeadFront_locZ_unfil =       HeadFront_loc_unfil_all(3,:);
+
+%Filter using start and end of trial
+segCenter_cal.HeadFront_loc_fil =       HeadFront_locX_unfil(trial_start_end);
+segCenter_cal.HeadFront_loc_fil(2,:) =  HeadFront_locY_unfil(trial_start_end);
+segCenter_cal.HeadFront_loc_fil(3,:) =  HeadFront_locZ_unfil(trial_start_end);
+
 %% Marker LUpper extremities calibration
 %Identify the market/segment
 LShoulderTop_loc_unfil_all =    getMarker(marker_mar_dim_frame,markerLabels,'LShoulderTop');
@@ -82,6 +127,29 @@ LHandOut_locZ_unfil =       LHandOut_loc_unfil_all(3,:);
 segCenter_cal.LHandOut_loc_fil =       LHandOut_locX_unfil(trial_start_end);
 segCenter_cal.LHandOut_loc_fil(2,:) =  LHandOut_locY_unfil(trial_start_end);
 segCenter_cal.LHandOut_loc_fil(3,:) =  LHandOut_locZ_unfil(trial_start_end);
+
+%% Head center upper extremities calibration
+%Identify the market/segment
+HeadCenter_loc_unfil_all =    segCenter.headCenter_mar_dim_frame;
+HeadCenter_locX_unfil =       HeadCenter_loc_unfil_all(1,:);
+HeadCenter_locY_unfil =       HeadCenter_loc_unfil_all(2,:);
+HeadCenter_locZ_unfil =       HeadCenter_loc_unfil_all(3,:);
+
+%Filter using start and end of trial
+segCenter_cal.HeadCenter_loc_fil =       HeadCenter_locX_unfil(trial_start_end);
+segCenter_cal.HeadCenter_loc_fil(2,:) =  HeadCenter_locY_unfil(trial_start_end);
+segCenter_cal.HeadCenter_loc_fil(3,:) =  HeadCenter_locZ_unfil(trial_start_end); 
+
+%Identify the market/segment
+ChestCenter_loc_unfil_all =    segCenter.chestCenter_mar_dim_frame;
+ChestCenter_locX_unfil =       ChestCenter_loc_unfil_all(1,:);
+ChestCenter_locY_unfil =       ChestCenter_loc_unfil_all(2,:);
+ChestCenter_locZ_unfil =       ChestCenter_loc_unfil_all(3,:);
+
+%Filter using start and end of trial
+segCenter_cal.ChestCenter_loc_fil =       ChestCenter_locX_unfil(trial_start_end);
+segCenter_cal.ChestCenter_loc_fil(2,:) =  ChestCenter_locY_unfil(trial_start_end);
+segCenter_cal.ChestCenter_loc_fil(3,:) =  ChestCenter_locZ_unfil(trial_start_end); 
 
 %% SegCenter LUpper extremities calibration
 %Identify the market/segment

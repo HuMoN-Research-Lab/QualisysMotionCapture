@@ -3,6 +3,14 @@ function [LHipJointCenter,RHipJointCenter,RKneeJointCenter] = jointCenterOpt(seg
 %%Optimize all joint center location 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% IDs of markers in use
+%Upper markers & segCenters
+HeadL =             segCenter_cal.HeadL_loc_fil;
+HeadTop =           segCenter_cal.HeadTop_loc_fil;
+HeadR =             segCenter_cal.HeadR_loc_fil;
+HeadFront =         segCenter_cal.HeadFront_loc_fil;
+HeadCenter =        segCenter_cal.HeadCenter_loc_fil;
+ChestCenter =       segCenter_cal.ChestCenter_loc_fil;
+
 %LUpper markers & segCenters
 LShoulderTop =      segCenter_cal.LShoulderTop_loc_fil;
 LShoulderCenter =   segCenter_cal.LShoulderCenter_loc_fil;
@@ -295,6 +303,12 @@ for ii = 1:5:length(LHipCenter)
     end
     
     if plot_markers == true
+        %Upper markers
+        plot3(HeadL(1,ii),HeadL(2,ii),HeadL(3,ii),'k.','MarkerSize',5)
+        plot3(HeadTop(1,ii),HeadTop(2,ii),HeadTop(3,ii),'k.','MarkerSize',5)
+        plot3(HeadR(1,ii),HeadR(2,ii),HeadR(3,ii),'k.','MarkerSize',5)
+        plot3(HeadFront(1,ii),HeadFront(2,ii),HeadFront(3,ii),'k.','MarkerSize',5)
+        
         %LUpper Markers
         plot3(LShoulderTop(1,ii),LShoulderTop(2,ii),LShoulderTop(3,ii),'k.','MarkerSize',5)
         plot3(LShoulderBack(1,ii),LShoulderBack(2,ii),LShoulderBack(3,ii),'k.','MarkerSize',5)
@@ -329,6 +343,9 @@ for ii = 1:5:length(LHipCenter)
     end
     
     if plot_segCenters == true
+        %Upper SegCenters
+        plot3(HeadCenter(1,ii),HeadCenter(2,ii),HeadCenter(3,ii),'g.','MarkerSize',5)
+        plot3(ChestCenter(1,ii),ChestCenter(2,ii),ChestCenter(3,ii),'g.','MarkerSize',5)
         
         %LUpper SegCenters
         plot3(LShoulderCenter(1,ii),LShoulderCenter(2,ii),LShoulderCenter(3,ii),'g.','MarkerSize',5)
