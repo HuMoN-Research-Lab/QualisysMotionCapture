@@ -61,12 +61,12 @@ RFoot =             segCenter_cal.RFoot_loc_fil;
 RToeTip =           segCenter_cal.RToeTip_loc_fil;
 
 %% Activation settings for optimizer of joint centers
-lookfor_LHipJointCenter =       true;
-lookfor_LKneeJointCenter =      true;
-lookfor_LAnkleJointCenter =     true;
-lookfor_RHipJointCenter =       true;
-lookfor_RKneeJointCenter =      true;
-lookfor_RAnkleJointCenter =     true;
+lookfor_LHipJointCenter =       false;
+lookfor_LKneeJointCenter =      false;
+lookfor_LAnkleJointCenter =     false;
+lookfor_RHipJointCenter =       false;
+lookfor_RKneeJointCenter =      false;
+lookfor_RAnkleJointCenter =     false;
 
 %% Activation settings for plotting markers and segCenters
 plot_segCenters =   false;
@@ -314,7 +314,7 @@ if lookfor_RAnkleJointCenter == true
     jointCenters.RAnkleJointCenter =    RAnkleJointCenter;
 end
 
-%% Visual representation of accuracy
+%% Visual representation of markers and segCenters w/ jointCenters
 figure(7447)
 stepA = VideoWriter('Skeleton Motion Capture with Joint Centers.mp4');
 open(stepA);
@@ -417,14 +417,13 @@ for ii = 1:5:length(LHipCenter)
         plot3(RThigh(1,ii),RThigh(2,ii),RThigh(3,ii),'g.','MarkerSize',5)
         plot3(RLeg(1,ii),RLeg(2,ii),RLeg(3,ii),'g.','MarkerSize',5);
         plot3(RFoot(1,ii),RFoot(2,ii),RFoot(3,ii),'g.','MarkerSize',5);
-        
     end
+    
     if plot_skeleton == true
         %Plot Head
-        plot3([HeadL(1,ii);HeadTop(1,ii);HeadR(1,ii);HeadFront(1,ii);SpineTop(1,:)],...
-            [HeadL(2,ii);HeadTop(2,ii);HeadR(2,ii);HeadFront(2,ii);SpineTop(1,:)],...
-            [HeadL(3,ii);HeadTop(3,ii);HeadR(3,ii);HeadFront(3,ii)],'-k','MarkerSize',20)
-        SpineTop
+        plot3([HeadTop(1,ii);HeadR(1,ii);HeadFront(1,ii);SpineTop(1,ii);ChestCenter(1,ii)],...
+            [HeadTop(2,ii);HeadR(2,ii);HeadFront(2,ii);SpineTop(2,ii);ChestCenter(2,ii)],...
+            [HeadTop(3,ii);HeadR(3,ii);HeadFront(3,ii);SpineTop(3,ii);ChestCenter(3,ii)],'-k','MarkerSize',20)
         
         %Plot LExtremities
         plot3([LShoulderCenter(1,ii);LUpperArmCenter(1,ii);LElbow(1,ii);LForearmCenter(1,ii);LWristOut(1,ii)],...
@@ -445,12 +444,14 @@ for ii = 1:5:length(LHipCenter)
             [RHipCenter(3,ii);RThigh(3,ii);RKnee(3,ii);RAnkle(3,ii);RFoot(3,ii);RToeTip(3,ii)],'-r','MarkerSize',20)
     end
     
+    %% Plotting settings
     axis equal
     grid on
     
     xlim([0 2e3])
     ylim([-5e3 10e3])
     zlim([0 3e3])
+    
 %     %left side view
 %     az = -30.8155;
 %     el = 6.8338;
@@ -459,10 +460,7 @@ for ii = 1:5:length(LHipCenter)
     az = 33.0845;
     el = 11.6447;
     
-    %     %Find az and el values of the current plot
-    %     [az,el] = view
     view(az,el)
-%     legend('LHip','LThigh','LKnee','LHip Joint Center')
     drawnow
     
     frame = getframe(gcf);
