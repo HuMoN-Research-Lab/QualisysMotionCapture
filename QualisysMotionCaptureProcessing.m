@@ -45,10 +45,10 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 [totalCOM_metrics,trial_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ);
 
 %% Calibrates segCenter data using trial start and end frames
-[segCenter_cal] = calibrateSegCenter(segCenter,trial_start_end,marker_mar_dim_frame,markerLabels);
+[segCenter_cal] = indexSegCenter(segCenter,trial_start_end,marker_mar_dim_frame,markerLabels);
 
 %% Calibrates force data using trial start and end frames
-[Force_cal] = calibrateForce(Force,trial_start_end);
+[Force_cal] = indexForce(Force,trial_start_end);
 
 %% Function optimizes joint center location
 [jointCenters] = jointCenterOpt(segCenter_cal);

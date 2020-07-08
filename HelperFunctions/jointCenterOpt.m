@@ -61,7 +61,7 @@ RFoot =             segCenter_cal.RFoot_loc_fil;
 RToeTip =           segCenter_cal.RToeTip_loc_fil;
 
 %% Activation settings for optimizer of joint centers
-lookfor_LHipJointCenter =       false;
+lookfor_LHipJointCenter =       true;
 lookfor_LKneeJointCenter =      false;
 lookfor_LAnkleJointCenter =     false;
 lookfor_RHipJointCenter =       false;
@@ -72,7 +72,7 @@ lookfor_RAnkleJointCenter =     false;
 plot_segCenters =   false;
 plot_markers =      false;
 plot_LExtr =        false;
-plot_skeleton =     true;
+plot_skeleton =     false;
 
 %Attempt to plot markers on top of each other
 if plot_LExtr == true
@@ -120,13 +120,14 @@ ub =    1;
 
 %% Joint ref loc and initial guess for LHipJointCenter
 %Respective markers around jointCenter
-if lookfor_LHipJointCenter == true
+if lookfor_LHipJointCenter
     marker1 = LHipFront;
     marker2 = LHipBack;
     marker3 = LThigh;
+    %include RHipFront/RHipBack
     
     %Starting point of JointCenter guess that initiates optimizer
-    initialWeightsGuess =   [0.40;0.30;0.30];
+    initialWeightsGuess =   [0.40;0.30;0.30]; %1/numMarkers
     figNum =                132435;
     
     % v = VideoWriter('LHip Segment Length Optimization.mp4');
@@ -135,6 +136,8 @@ if lookfor_LHipJointCenter == true
     %unknown that equation is solving for (weights)
     LHipJointCenterError = @(weights) JointCenterErrorFun(LHipCenter,...
         marker1,marker2,marker3,figNum,weights);
+    %change to markers variable 
+    
     % close(v)
     
     %First attempt
@@ -315,9 +318,9 @@ if lookfor_RAnkleJointCenter == true
 end
 
 %% Visual representation of markers and segCenters w/ jointCenters
-figure(7447)
-stepA = VideoWriter('Skeleton Motion Capture with Joint Centers.mp4');
-open(stepA);
+% figure(7447)
+% stepA = VideoWriter('Skeleton Motion Capture with Joint Centers.mp4');
+% open(stepA);
 
 for ii = 1:5:length(LHipCenter)
     clf

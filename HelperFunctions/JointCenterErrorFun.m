@@ -25,7 +25,8 @@ frame_to_frame_diff = diff(SegmentDistance);
 %because if this error is zero that would mean that the length of the
 %segment from joint center to segment center would be the same in every
 %frame
-error = sum(abs(diff((SegmentDistance))));
+% error = sum(abs(diff((SegmentDistance))));
+error = sum(diff(SegmentDistance).^2);
 
 % Take sum squared error divided by frames
 %Plot the differences
