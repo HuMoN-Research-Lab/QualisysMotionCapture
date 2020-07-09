@@ -2,570 +2,302 @@ function [segCenter] = calcSegCOM(marker_mar_dim_frame,markerLabels) %,markerID)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %calcSegCOM find the center position for each anatomical segment
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Initial conditions
+%% Establish output conditions
 segCenter = [];
 
 %% Head Markers
 %Includes: HeadL, HeadTop, HeadR, and HeadFront
+%Next step to expedite the process further
+head_MarkerNames = {'HeadL' 'HeadTop' 'HeadR' 'HeadFront'};
+[markerNum] = findMarNum(markerLabels,head_MarkerNames);
+
 HeadL = getMarker(marker_mar_dim_frame,markerLabels,'HeadL');
 HeadTop = getMarker(marker_mar_dim_frame,markerLabels,'HeadTop');
 HeadR = getMarker(marker_mar_dim_frame,markerLabels,'HeadR');
 HeadFront = getMarker(marker_mar_dim_frame,markerLabels,'HeadFront');
 
-%x values located on corresponding column
-headPosX(:,1) =                     HeadL(1,:)';
-headPosX(:,2) =                     HeadTop(1,:)';
-headPosX(:,3) =                     HeadR(1,:)';
-headPosX(:,4) =                     HeadFront(1,:)';
-headPosX =                          mean(headPosX,2);
+%For loop takes markerNames and restructues x,y,z dimensions to get their
+%mean. Next step would be to have for loop reference head_MarkerNames and
+%organize them accordingly
 
-%y values located on corresponding column
-headPosY(:,1) =                     HeadL(2,:)';
-headPosY(:,2) =                     HeadTop(2,:)';
-headPosY(:,3) =                     HeadR(2,:)';
-headPosY(:,4) =                     HeadFront(2,:)';
-headPosY =                          mean(headPosY,2);
+for jj = 1:3 %ref num dim
+    headPos_raw{1,jj} = cat(1,HeadTop(jj,:),HeadR(jj,:),HeadFront(jj,:));
+    headPos(jj,:) =     mean(headPos_raw{1,jj},1);
+end
 
-%z values located on corresponding column
-headPosZ(:,1) =                     HeadL(3,:)';
-headPosZ(:,2) =                     HeadTop(3,:)';
-headPosZ(:,3) =                     HeadR(3,:)';
-headPosZ(:,4) =                     HeadFront(3,:)';
-headPosZ =                          mean(headPosZ,2);
-
-%Center location for the Head
-segCenter.headCenter_mar_dim_frame =        (headPosX).';
-segCenter.headCenter_mar_dim_frame(2,:) = 	(headPosY).';
-segCenter.headCenter_mar_dim_frame(3,:) = 	(headPosZ).';
+%Output headCenter data into struct
+segCenter.headCenter_mar_dim_frame = headPos;
 
 %% LShoulder Markers
 %Includes: LShoulderTop and LShoulderBack
+LShoulder_MarkerNames = {'LShoulderTop' 'LShoulderBack'};
 LShoulderTop = getMarker(marker_mar_dim_frame,markerLabels,'LShoulderTop');
 LShoulderBack = getMarker(marker_mar_dim_frame,markerLabels,'LShoulderBack');
 
-%x values located on corresponding column
-LShoulderPosX(:,1) =                LShoulderTop(1,:)';
-LShoulderPosX(:,2) =                LShoulderBack(1,:)';
-LShoulderPosX =                     mean(LShoulderPosX,2);
+for jj = 1:3 %ref num dim
+    LShoulderPos_raw{1,jj} = cat(1,LShoulderTop(jj,:),LShoulderBack(jj,:));
+    LShoulderPos(jj,:) =     mean(LShoulderPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-LShoulderPosY(:,1) =                LShoulderTop(2,:)';
-LShoulderPosY(:,2) =                LShoulderBack(2,:)';
-LShoulderPosY =                     mean(LShoulderPosY,2);
-
-%z values located on corresponding column
-LShoulderPosZ(:,1) =                LShoulderTop(3,:)';
-LShoulderPosZ(:,2) =                LShoulderBack(3,:)';
-LShoulderPosZ =                     mean(LShoulderPosZ,2);
-
-%Center location for the LShoulder
-segCenter.LShoulderCenter_mar_dim_frame =       (LShoulderPosX).';
-segCenter.LShoulderCenter_mar_dim_frame(2,:) =  (LShoulderPosY).';
-segCenter.LShoulderCenter_mar_dim_frame(3,:) =  (LShoulderPosZ).';
+%Output LShoulderCenter data into struct
+segCenter.LShoulderCenter_mar_dim_frame = LShoulderPos;
 
 %% RShoulder Markers
 %Includes RShoulderTop and RShoulderBack
+RShoulder_MarkerNames = {'RShoulderTop' 'RShoulderBack'};
 RShoulderTop = getMarker(marker_mar_dim_frame,markerLabels,'RShoulderTop');
 RShoulderBack = getMarker(marker_mar_dim_frame,markerLabels,'RShoulderBack');
 
-%x values located on corresponding column
-RShoulderPosX(:,1) =                RShoulderTop(1,:)';
-RShoulderPosX(:,2) =                RShoulderBack(1,:)';
-RShoulderPosX =                     mean(RShoulderPosX,2);
+for jj = 1:3 %ref num dim
+    RShoulderPos_raw{1,jj} = cat(1,RShoulderTop(jj,:),RShoulderBack(jj,:));
+    RShoulderPos(jj,:) =     mean(RShoulderPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-RShoulderPosY(:,1) =                RShoulderTop(2,:)';
-RShoulderPosY(:,2) =                RShoulderBack(2,:)';
-RShoulderPosY =                     mean(RShoulderPosY,2);
-
-%z values located on corresponding column
-RShoulderPosZ(:,1) =                RShoulderTop(3,:)';
-RShoulderPosZ(:,2) =                RShoulderBack(3,:)';
-RShoulderPosZ =                     mean(RShoulderPosZ,2);
-
-%Center location for the RShoulder
-segCenter.RShoulderCenter_mar_dim_frame =       (RShoulderPosX).';
-segCenter.RShoulderCenter_mar_dim_frame(2,:) = 	(RShoulderPosY).';
-segCenter.RShoulderCenter_mar_dim_frame(3,:) =  (RShoulderPosZ).';
+%Output RShoulderCenter data into struct
+segCenter.RShoulderCenter_mar_dim_frame = RShoulderPos;
 
 %% Chest Markers
 %Includes: Chest, SpineTop, BackL, and BackR
+Chest_MarkerNames = {'Chest' 'SpineTop' 'BackL' 'BackR'};
 Chest = getMarker(marker_mar_dim_frame,markerLabels,'Chest');
 SpineTop = getMarker(marker_mar_dim_frame,markerLabels,'SpineTop');
 BackL = getMarker(marker_mar_dim_frame,markerLabels,'BackL');
 BackR = getMarker(marker_mar_dim_frame,markerLabels,'BackR');
 
-%x values located on corresponding column
-chestPosX(:,1) =                    Chest(1,:)';
-chestPosX(:,2) =                    SpineTop(1,:)';
-chestPosX(:,3) =                    BackL(1,:)';
-chestPosX(:,4) =                    BackR(1,:)';
-chestPosX =                         mean(chestPosX,2);
+for jj = 1:3 %ref num dim
+    ChestPos_raw{1,jj} = cat(1,Chest(jj,:),SpineTop(jj,:),BackL(jj,:),BackR(jj,:));
+    ChestPos(jj,:) =     mean(ChestPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-chestPosY(:,1) =                    Chest(2,:)';
-chestPosY(:,2) =                    SpineTop(2,:)';
-chestPosY(:,3) =                    BackL(2,:)';
-chestPosY(:,4) =                    BackR(2,:)';
-chestPosY =                         mean(chestPosY,2);
-
-%z values located on corresponding column
-chestPosZ(:,1) =                    Chest(3,:)';
-chestPosZ(:,2) =                    SpineTop(3,:)';
-chestPosZ(:,3) =                    BackL(3,:)';
-chestPosZ(:,4) =                    BackR(3,:)';
-chestPosZ =                         mean(chestPosZ,2);
-
-%Center location for the Chest
-segCenter.chestCenter_mar_dim_frame =       (chestPosX).';
-segCenter.chestCenter_mar_dim_frame(2,:) =  (chestPosY).';
-segCenter.chestCenter_mar_dim_frame(3,:) =  (chestPosZ).';
+%Output ChestCenter data into struct
+segCenter.chestCenter_mar_dim_frame = ChestPos;
 
 %% LUpperArm Markers
 %Includes: LShoulder Mean, LArm, and LElbowOut
+LUpperArm_MarkerNames = {'LShoulderPos' 'LArm' 'LElbowOut'};
 LArm = getMarker(marker_mar_dim_frame,markerLabels,'LArm');
 LElbowOut = getMarker(marker_mar_dim_frame,markerLabels,'LElbowOut');
 
-%x values located on corresponding column
-LUpperArmPosX(:,1) =                segCenter.LShoulderCenter_mar_dim_frame(1,:)'; % LShoulderPosX(1,:)';
-LUpperArmPosX(:,2) =                LArm(1,:)';
-LUpperArmPosX(:,3) =                LElbowOut(1,:)';
-LUpperArmPosX =                     mean(LUpperArmPosX,2);
+for jj = 1:3 %ref num dim
+    LUpperArmPos_raw{1,jj} = cat(1,LShoulderPos(jj,:),LArm(jj,:),LElbowOut(jj,:));
+    LUpperArmPos(jj,:) =     mean(LUpperArmPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-LUpperArmPosY(:,1) =                segCenter.LShoulderCenter_mar_dim_frame(2,:)'; %LShoulderPosY(1,:)';
-LUpperArmPosY(:,2) =                LArm(2,:)';
-LUpperArmPosY(:,3) =                LElbowOut(2,:)';
-LUpperArmPosY =                     mean(LUpperArmPosY,2);
-
-%z values located on corresponding column
-LUpperArmPosZ(:,1) =                segCenter.LShoulderCenter_mar_dim_frame(3,:)'; %LShoulderPosZ(1,:)';
-LUpperArmPosZ(:,2) =                LArm(3,:)';
-LUpperArmPosZ(:,3) =                LElbowOut(3,:)';
-LUpperArmPosZ =                     mean(LUpperArmPosZ,2);
-
-%Center location for the LUpperArm
-segCenter.LUpperArmCenter_mar_dim_frame =       (LUpperArmPosX).';
-segCenter.LUpperArmCenter_mar_dim_frame(2,:) =  (LUpperArmPosY).';
-segCenter.LUpperArmCenter_mar_dim_frame(3,:) =  (LUpperArmPosZ).';
+%Output LUpperArmCenter data into struct
+segCenter.LUpperArmCenter_mar_dim_frame = LUpperArmPos;
 
 %% RUpperArm Markers
 %Includes: RShoulder Mean, RArm, and RElbowOut
+RUpperArm_MarkerNames = {'RShoulderPos' 'RArm' 'RElbowOut'};
 RArm = getMarker(marker_mar_dim_frame,markerLabels,'RArm');
 RElbowOut = getMarker(marker_mar_dim_frame,markerLabels,'RElbowOut');
 
-%x values located on corresponding column
-RUpperArmPosX(:,1) =                segCenter.RShoulderCenter_mar_dim_frame(1,:)'; % RShoulderPosX(1,:)';
-RUpperArmPosX(:,2) =                RArm(1,:)';
-RUpperArmPosX(:,3) =                RElbowOut(1,:)';
-RUpperArmPosX =                     mean(RUpperArmPosX,2);
+for jj = 1:3 %ref num dim
+    RUpperArmPos_raw{1,jj} = cat(1,RShoulderPos(jj,:),RArm(jj,:),RElbowOut(jj,:));
+    RUpperArmPos(jj,:) =     mean(RUpperArmPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-RUpperArmPosY(:,1) =                segCenter.RShoulderCenter_mar_dim_frame(2,:)'; %RShoulderPosY(1,:)';
-RUpperArmPosY(:,2) =                RArm(2,:)';
-RUpperArmPosY(:,3) =                RElbowOut(2,:)';
-RUpperArmPosY =                     mean(RUpperArmPosY,2);
-
-%z values located on corresponding column
-RUpperArmPosZ(:,1) =                segCenter.RShoulderCenter_mar_dim_frame(3,:)'; %RShoulderPosZ(1,:)';
-RUpperArmPosZ(:,2) =                RArm(3,:)';
-RUpperArmPosZ(:,3) =                RElbowOut(3,:)';
-RUpperArmPosZ =                     mean(RUpperArmPosZ,2);
-
-%Center location for the RUpperArm
-segCenter.RUpperArmCenter_mar_dim_frame =       (RUpperArmPosX).';
-segCenter.RUpperArmCenter_mar_dim_frame(2,:) =  (RUpperArmPosY).';
-segCenter.RUpperArmCenter_mar_dim_frame(3,:) =  (RUpperArmPosZ).';
+%Output RUpperArmCenter data into struct
+segCenter.RUpperArmCenter_mar_dim_frame = RUpperArmPos;
 
 %% LForearm Markers
 %Includes: LElbowOut, LWristOut, LWristIn
+LForearm_MarkerNames = {'LElbowOut' 'LWristOut' 'LWristIn'};
 LWristOut = getMarker(marker_mar_dim_frame,markerLabels,'LWristOut');
 LWristIn = getMarker(marker_mar_dim_frame,markerLabels,'LWristIn');
 
-%x values located on corresponding column
-LForearmPosX(:,1) =                 LElbowOut(1,:)';
-LForearmPosX(:,2) =                 LWristOut(1,:)';
-LForearmPosX(:,3) =                 LWristIn(1,:)';
-LForearmPosX =                      mean(LForearmPosX,2);
+for jj = 1:3 %ref num dim
+    LForearmPos_raw{1,jj} = cat(1,LElbowOut(jj,:),LWristOut(jj,:),LWristIn(jj,:));
+    LForearmPos(jj,:) =     mean(LForearmPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-LForearmPosY(:,1) =                 LElbowOut(2,:)';
-LForearmPosY(:,2) =                 LWristOut(2,:)';
-LForearmPosY(:,3) =                 LWristIn(2,:)';
-LForearmPosY =                      mean(LForearmPosY,2);
-
-%z values located on corresponding column
-LForearmPosZ(:,1) =                 LElbowOut(3,:)';
-LForearmPosZ(:,2) =                 LWristOut(3,:)';
-LForearmPosZ(:,3) =                 LWristIn(3,:)';
-LForearmPosZ =                      mean(LForearmPosZ,2);
-
-%Center location for the LForearm
-segCenter.LForearmCenter_mar_dim_frame =        (LForearmPosX).';
-segCenter.LForearmCenter_mar_dim_frame(2,:) =   (LForearmPosY).';
-segCenter.LForearmCenter_mar_dim_frame(3,:) =   (LForearmPosZ).';
+%Output LForearmCenter data into struct
+segCenter.LForearmCenter_mar_dim_frame = LForearmPos;
 
 %% RForearm Markers
 %Includes: RElbowOut, RWristOut, RWristIn
+RForearm_MarkerNames = {'RElbowOut' 'RWristOut' 'RWristIn'};
 RWristOut = getMarker(marker_mar_dim_frame,markerLabels,'RWristOut');
 RWristIn = getMarker(marker_mar_dim_frame,markerLabels,'RWristIn');
 
-%x values located on corresponding column
-RForearmPosX(:,1) =                 RElbowOut(1,:)';
-RForearmPosX(:,2) =                 RWristOut(1,:)';
-RForearmPosX(:,3) =                 RWristIn(1,:)';
-RForearmPosX =                      mean(RForearmPosX,2);
+for jj = 1:3 %ref num dim
+    RForearmPos_raw{1,jj} = cat(1,RElbowOut(jj,:),RWristOut(jj,:),RWristIn(jj,:));
+    RForearmPos(jj,:) =     mean(RForearmPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-RForearmPosY(:,1) =                 RElbowOut(2,:)';
-RForearmPosY(:,2) =                 RWristOut(2,:)';
-RForearmPosY(:,3) =                 RWristIn(2,:)';
-RForearmPosY =                      mean(RForearmPosY,2);
+%Output RForearmCenter data into struct
+segCenter.RForearmCenter_mar_dim_frame = RForearmPos;
 
-%z values located on corresponding column
-RForearmPosZ(:,1) =                 RElbowOut(3,:)';
-RForearmPosZ(:,2) =                 RWristOut(3,:)';
-RForearmPosZ(:,3) =                 RWristIn(3,:)';
-RForearmPosZ =                      mean(RForearmPosZ,2);
+%% LWrist Markers
+%Includes: LWristOut, LWristIn
+LWrist_MarkerNames = {'LWristOut' 'LWristIn'};
 
-%Center location for the RForearm
-segCenter.RForearmCenter_mar_dim_frame =        (RForearmPosX).';
-segCenter.RForearmCenter_mar_dim_frame(2,:) =   (RForearmPosY).';
-segCenter.RForearmCenter_mar_dim_frame(3,:) =   (RForearmPosZ).';
+for jj = 1:3 %ref num dim
+    LWristPos_raw{1,jj} = cat(1,LWristOut(jj,:),LWristIn(jj,:));
+    LWristPos(jj,:) =     mean(LWristPos_raw{1,jj},1);
+end
+
+%Output LWristCenter data into struct
+segCenter.LWristCenter_mar_dim_frame = LWristPos;
+
+%% RWrist Markers
+%Includes: LWristOut, LWristIn
+RWrist_MarkerNames = {'RWristOut' 'RWristIn'};
+
+for jj = 1:3 %ref num dim
+    RWristPos_raw{1,jj} = cat(1,RWristOut(jj,:),RWristIn(jj,:));
+    RWristPos(jj,:) =     mean(RWristPos_raw{1,jj},1);
+end
+
+%Output RWristCenter data into struct
+segCenter.RWristCenter_mar_dim_frame = RWristPos;
 
 %% LHand Markers
 %Includes: LWristOut, LWristIn, LHandOut
+LHand_MarkerNames = {'LWristOut' 'LWristIn' 'LHandOut'};
 LHandOut = getMarker(marker_mar_dim_frame,markerLabels,'LHandOut');
 
-%x values located on corresponding column
-LHandPosX(:,1) =                    LWristOut(1,:)';
-LHandPosX(:,2) =                    LWristIn(1,:)';
-LHandPosX(:,3) =                    LHandOut(1,:)';
-LHandPosX =                         mean(LHandPosX,2);
+for jj = 1:3 %ref num dim
+    LHandPos_raw{1,jj} = cat(1,LWristOut(jj,:),LWristIn(jj,:),LHandOut(jj,:));
+    LHandPos(jj,:) =     mean(LHandPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-LHandPosY(:,1) =                    LWristOut(2,:)';
-LHandPosY(:,2) =                    LWristIn(2,:)';
-LHandPosY(:,3) =                    LHandOut(2,:)';
-LHandPosY =                         mean(LHandPosY,2);
-
-%z values located on corresponding column
-LHandPosZ(:,1) =                    LWristOut(3,:)';
-LHandPosZ(:,2) =                    LWristIn(3,:)';
-LHandPosZ(:,3) =                    LHandOut(3,:)';
-LHandPosZ =                         mean(LHandPosZ,2);
-
-%Center location for the LHand
-segCenter.LHandCenter_mar_dim_frame =       (LHandPosX).';
-segCenter.LHandCenter_mar_dim_frame(2,:) =  (LHandPosY).';
-segCenter.LHandCenter_mar_dim_frame(3,:) =  (LHandPosZ).';
+%Output LHandCenter data into struct
+segCenter.LHandCenter_mar_dim_frame = LHandPos;
 
 %% RHand Markers
 %Includes: RWristOut, RWristIn, RHandOut
+RHand_MarkerNames = {'RWristOut' 'RWristIn' 'RHandOut'};
 RHandOut = getMarker(marker_mar_dim_frame,markerLabels,'RHandOut');
 
-%x values located on corresponding column
-RHandPosX(:,1) =                    RWristOut(1,:)';
-RHandPosX(:,2) =                    RWristIn(1,:)';
-RHandPosX(:,3) =                    RHandOut(1,:)';
-RHandPosX =                         mean(RHandPosX,2);
+for jj = 1:3 %ref num dim
+    RHandPos_raw{1,jj} = cat(1,RWristOut(jj,:),RWristIn(jj,:),RHandOut(jj,:));
+    RHandPos(jj,:) =     mean(RHandPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-RHandPosY(:,1) =                    RWristOut(2,:)';
-RHandPosY(:,2) =                    RWristIn(2,:)';
-RHandPosY(:,3) =                    RHandOut(2,:)';
-RHandPosY =                         mean(RHandPosY,2);
-
-%z values located on corresponding column
-RHandPosZ(:,1) =                    RWristOut(3,:)';
-RHandPosZ(:,2) =                    RWristIn(3,:)';
-RHandPosZ(:,3) =                    RHandOut(3,:)';
-RHandPosZ =                         mean(RHandPosZ,2);
-
-%Center location for the RHand
-segCenter.RHandCenter_mar_dim_frame =       (RHandPosX).';
-segCenter.RHandCenter_mar_dim_frame(2,:) =  (RHandPosY).';
-segCenter.RHandCenter_mar_dim_frame(3,:) =  (RHandPosZ).';
+%Output RHandCenter data into struct
+segCenter.RHandCenter_mar_dim_frame = RHandPos;
 
 %% Hip Markers
 %Includes: WaistLFront, WaistLBack, WaistRFront, WaistRBack
+Hip_MarkerNames = {'WaistLFront' 'WaistLBack' 'WaistRFront' 'WaistRBack'};
 WaistLFront = getMarker(marker_mar_dim_frame,markerLabels,'WaistLFront');
 WaistLBack= getMarker(marker_mar_dim_frame,markerLabels,'WaistLBack');
 WaistRFront = getMarker(marker_mar_dim_frame,markerLabels,'WaistRFront');
 WaistRBack = getMarker(marker_mar_dim_frame,markerLabels,'WaistRBack');
 
-%x values of hip center
-hipPosX_raw(:,1) =                  WaistLFront(1,:)';
-hipPosX_raw(:,2) =                  WaistLBack(1,:)';
-hipPosX_raw(:,3) =                  WaistRFront(1,:)';
-hipPosX_raw(:,4) =                  WaistRBack(1,:)';
-hipPosX =                           mean(hipPosX_raw,2);
+for jj = 1:3 %ref num dim
+    HipPos_raw{1,jj} = cat(1,WaistLFront(jj,:),WaistLBack(jj,:),WaistRFront(jj,:),WaistRBack(jj,:));
+    HipPos(jj,:) =     mean(HipPos_raw{1,jj},1);
+end
 
-%y values of hip center
-hipPosY_raw(:,1) =                  WaistLFront(2,:)';
-hipPosY_raw(:,2) =                  WaistLBack(2,:)';
-hipPosY_raw(:,3) =                  WaistRFront(2,:)';
-hipPosY_raw(:,4) =                  WaistRBack(2,:)';
-hipPosY =                           mean(hipPosY_raw,2);
+%Output HipCenter data into struct
+segCenter.hipCenter_mar_dim_frame = HipPos;
 
-%z values of hip center
-hipPosZ_raw(:,1) =                  WaistLFront(3,:)';
-hipPosZ_raw(:,2) =                  WaistLBack(3,:)';
-hipPosZ_raw(:,3) =                  WaistRFront(3,:)';
-hipPosZ_raw(:,4) =                  WaistRBack(3,:)';
-hipPosZ =                           mean(hipPosZ_raw,2);
+for jj = 1:3 %ref num dim
+    LHipPos_raw{1,jj} = cat(1,WaistLFront(jj,:),WaistLBack(jj,:));
+    LHipPos(jj,:) =     mean(LHipPos_raw{1,jj},1);
+end
 
-%Center location for the Hip
-segCenter.hipCenter_mar_dim_frame =         (hipPosX).';
-segCenter.hipCenter_mar_dim_frame(2,:) = 	(hipPosY).';
-segCenter.hipCenter_mar_dim_frame(3,:) =    (hipPosZ).';
+%Output LHipCenter data into struct
+segCenter.LHipCenter_mar_dim_frame = LHipPos;
 
-%x values of left and right hip center
-hipPosXL_raw =                      hipPosX_raw(:,1:2);
-hipPosXL =                          mean(hipPosXL_raw,2);
-hipPosXR_raw =                      hipPosX_raw(:,3:4);
-hipPosXR =                          mean(hipPosXR_raw,2);
+for jj = 1:3 %ref num dim
+    RHipPos_raw{1,jj} = cat(1,WaistRFront(jj,:),WaistRBack(jj,:));
+    RHipPos(jj,:) =     mean(RHipPos_raw{1,jj},1);
+end
 
-%y values of left and right hip center
-hipPosYL_raw =                      hipPosY_raw(:,1:2);
-hipPosYL =                          mean(hipPosYL_raw,2);
-hipPosYR_raw =                      hipPosY_raw(:,3:4);
-hipPosYR =                          mean(hipPosYR_raw,2);
-
-%z values of left and right hip center
-hipPosZL_raw =                      hipPosZ_raw(:,1:2);
-hipPosZL =                          mean(hipPosZL_raw,2);
-hipPosZR_raw =                      hipPosZ_raw(:,3:4);
-hipPosZR =                          mean(hipPosZR_raw,2);
-
-%Center location for the LHip and RHip
-segCenter.LHipCenter_mar_dim_frame =         (hipPosXL).';
-segCenter.LHipCenter_mar_dim_frame(2,:) = 	 (hipPosYL).';
-segCenter.LHipCenter_mar_dim_frame(3,:) =    (hipPosZL).';
-segCenter.RHipCenter_mar_dim_frame =         (hipPosXR).';
-segCenter.RHipCenter_mar_dim_frame(2,:) = 	 (hipPosYR).';
-segCenter.RHipCenter_mar_dim_frame(3,:) =    (hipPosZR).';
+%Output RHipCenter data into struct
+segCenter.RHipCenter_mar_dim_frame = RHipPos;
 
 %% LThigh Markers
 %Includes: WaistLFront, WaistLBack, LThigh, LKneeOut
+LThigh_MarkerNames = {'WaistLFront' 'WaistLBack' 'LThigh' 'LKneeOut'};
 LThigh = getMarker(marker_mar_dim_frame,markerLabels,'LThigh');
 LKneeOut= getMarker(marker_mar_dim_frame,markerLabels,'LKneeOut');
 
-%x values located on corresponding column
-%LThighPosX(:,1) =                  WaistLFront(1,:)';
-LThighPosX(:,1) =                   WaistLBack(1,:)';
-LThighPosX(:,2) =                   LThigh(1,:)';
-LThighPosX(:,3) =                   LKneeOut(1,:)';
-LThighPosX =                        mean(LThighPosX,2);
+for jj = 1:3 %ref num dim
+    LThighPos_raw{1,jj} = cat(1,WaistLFront(jj,:),WaistLBack(jj,:),LThigh(jj,:),LKneeOut(jj,:));
+    LThighPos(jj,:) =     mean(LThighPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-%LThighPosY(:,1) =                  WaistLFront(2,:)';
-LThighPosY(:,1) =                   WaistLBack(2,:)';
-LThighPosY(:,2) =                   LThigh(2,:)';
-LThighPosY(:,3) =                   LKneeOut(2,:)';
-LThighPosY =                        mean(LThighPosY,2);
-
-%z values located on corresponding column
-%LThighPosZ(:,1) =                  WaistLFront(3,:)';
-LThighPosZ(:,1) =                   WaistLBack(3,:)';
-LThighPosZ(:,2) =                   LThigh(3,:)';
-LThighPosZ(:,3) =                   LKneeOut(3,:)';
-LThighPosZ =                        mean(LThighPosZ,2);
-
-%Center location for the LThigh
-segCenter.LThighCenter_mar_dim_frame =      (LThighPosX).';
-segCenter.LThighCenter_mar_dim_frame(2,:) = (LThighPosY).';
-segCenter.LThighCenter_mar_dim_frame(3,:) = (LThighPosZ).';
+%Output LThighCenter data into struct
+segCenter.LThighCenter_mar_dim_frame = LThighPos;
 
 %% RThigh Markers
 %Includes: WaistRFront, WaistRBack, RThigh, RKneeOut
+RThigh_MarkerNames = {'WaistRFront' 'WaistRBack' 'RThigh' 'RKneeOut'};
 RThigh = getMarker(marker_mar_dim_frame,markerLabels,'RThigh');
 RKneeOut= getMarker(marker_mar_dim_frame,markerLabels,'RKneeOut');
 
-%x values located on corresponding column
-%RThighPosX(:,1) =                  WaistRFront(1,:)';
-RThighPosX(:,1) =                   WaistRBack(1,:)';
-RThighPosX(:,2) =                   RThigh(1,:)';
-RThighPosX(:,3) =                   RKneeOut(1,:)';
-RThighPosX =                        mean(RThighPosX,2);
+for jj = 1:3 %ref num dim
+    RThighPos_raw{1,jj} = cat(1,WaistRFront(jj,:),WaistRBack(jj,:),RThigh(jj,:),RKneeOut(jj,:));
+    RThighPos(jj,:) =     mean(RThighPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-%RThighPosY(:,1) =                  WaistRFront(2,:)';
-RThighPosY(:,1) =                   WaistRBack(2,:)';
-RThighPosY(:,2) =                   RThigh(2,:)';
-RThighPosY(:,3) =                   RKneeOut(2,:)';
-RThighPosY =                        mean(RThighPosY,2);
-
-%z values located on corresponding column
-%RThighPosZ(:,1) =                  WaistRFront(3,:)';
-RThighPosZ(:,1) =                   WaistRBack(3,:)';
-RThighPosZ(:,2) =                   RThigh(3,:)';
-RThighPosZ(:,3) =                   RKneeOut(3,:)';
-RThighPosZ =                        mean(RThighPosZ,2);
-
-%Center location for the RThigh
-segCenter.RThighCenter_mar_dim_frame =      (RThighPosX).';
-segCenter.RThighCenter_mar_dim_frame(2,:) = (RThighPosY).';
-segCenter.RThighCenter_mar_dim_frame(3,:) = (RThighPosZ).';
+%Output RThighCenter data into struct
+segCenter.RThighCenter_mar_dim_frame = RThighPos;
 
 %% LLeg Markers
 %Includes: LKneeOut, LShin, LAnkleOut
+%Should marker plates be sure to add them
+LLeg_MarkerNames = {'LKneeOut' 'LShin' 'LAnkleOut'};
 LShin = getMarker(marker_mar_dim_frame,markerLabels,'LShin');
 LAnkleOut= getMarker(marker_mar_dim_frame,markerLabels,'LAnkleOut');
-% LeftLegCluster1 = getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster1');
-% LeftLegCluster2 = getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster2');
-% LeftLegCluster3 = getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster3');
-% LeftLegCluster4 = getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster4');
 
-%x values located on corresponding column
-LLegPosX(:,1) =                     LKneeOut(1,:)';
-LLegPosX(:,2) =                     LShin(1,:)';
-LLegPosX(:,3) =                     LAnkleOut(1,:)';
-% LLegPosX(:,4) =                 LeftLegCluster1(1,:)';
-% LLegPosX(:,5) =                 LeftLegCluster2(1,:)';
-% LLegPosX(:,6) =                 LeftLegCluster3(1,:)';
-% LLegPosX(:,7) =                 LeftLegCluster4(1,:)';
-LLegPosX =                          mean(LLegPosX,2);
+for jj = 1:3 %ref num dim
+    LLegPos_raw{1,jj} = cat(1,LKneeOut(jj,:),LShin(jj,:),LAnkleOut(jj,:));
+    LLegPos(jj,:) =     mean(LLegPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-LLegPosY(:,1) =                     LKneeOut(2,:)';
-LLegPosY(:,2) =                     LShin(2,:)';
-LLegPosY(:,3) =                     LAnkleOut(2,:)';
-% LLegPosY(:,4) =                 LeftLegCluster1(2,:)';
-% LLegPosY(:,5) =                 LeftLegCluster2(2,:)';
-% LLegPosY(:,6) =                 LeftLegCluster3(2,:)';
-% LLegPosY(:,7) =                 LeftLegCluster4(2,:)';
-LLegPosY =                          mean(LLegPosY,2);
-
-%z values located on corresponding column
-LLegPosZ(:,1) =                     LKneeOut(3,:)';
-LLegPosZ(:,2) =                     LShin(3,:)';
-LLegPosZ(:,3) =                     LAnkleOut(3,:)';
-% LLegPosZ(:,4) =                 LeftLegCluster1(3,:)';
-% LLegPosZ(:,5) =                 LeftLegCluster2(3,:)';
-% LLegPosZ(:,6) =                 LeftLegCluster3(3,:)';
-% LLegPosZ(:,7) =                 LeftLegCluster4(3,:)';
-LLegPosZ =                          mean(LLegPosZ,2);
-
-%Center location for the LLeg
-segCenter.LLegCenter_mar_dim_frame =        (LLegPosX).';
-segCenter.LLegCenter_mar_dim_frame(2,:) =   (LLegPosY).';
-segCenter.LLegCenter_mar_dim_frame(3,:) =   (LLegPosZ).';
+%Output LLegCenter data into struct
+segCenter.LLegCenter_mar_dim_frame = LLegPos;
 
 %% RLeg Markers
 %Includes: RKneeOut, RShin, RAnkleOut
+%Should marker plates be sure to add them
+RLeg_MarkerNames = {'RKneeOut' 'RShin' 'RAnkleOut'};
 RShin = getMarker(marker_mar_dim_frame,markerLabels,'RShin');
 RAnkleOut= getMarker(marker_mar_dim_frame,markerLabels,'RAnkleOut');
-% RightLegCluster1 = getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster1');
-% RightLegCluster2 = getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster2');
-% RightLegCluster3 = getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster3');
-% RightLegCluster4 = getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster4');
 
-%x values located on corresponding column
-RLegPosX(:,1) =                     RKneeOut(1,:)';
-RLegPosX(:,2) =                     RShin(1,:)';
-RLegPosX(:,3) =                     RAnkleOut(1,:)';
-% RLegPosX(:,4) =                 RightLegCluster1(1,:)';
-% RLegPosX(:,5) =                 RightLegCluster2(1,:)';
-% RLegPosX(:,6) =                 RightLegCluster3(1,:)';
-% RLegPosX(:,7) =                 RightLegCluster4(1,:)';
-RLegPosX =                          mean(RLegPosX,2);
+for jj = 1:3 %ref num dim
+    RLegPos_raw{1,jj} = cat(1,RKneeOut(jj,:),RShin(jj,:),RAnkleOut(jj,:));
+    RLegPos(jj,:) =     mean(RLegPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-RLegPosY(:,1) =                     RKneeOut(2,:)';
-RLegPosY(:,2) =                     RShin(2,:)';
-RLegPosY(:,3) =                     RAnkleOut(2,:)';
-% RLegPosY(:,4) =                 RightLegCluster1(2,:)';
-% RLegPosY(:,5) =                 RightLegCluster2(2,:)';
-% RLegPosY(:,6) =                 RightLegCluster3(2,:)';
-% RLegPosY(:,7) =                 RightLegCluster4(2,:)';
-RLegPosY =                          mean(RLegPosY,2);
-
-%z values located on corresponding column
-RLegPosZ(:,1) =                     RKneeOut(3,:)';
-RLegPosZ(:,2) =                     RShin(3,:)';
-RLegPosZ(:,3) =                     RAnkleOut(3,:)';
-% RLegPosZ(:,4) =                 RightLegCluster1(3,:)';
-% RLegPosZ(:,5) =                 RightLegCluster2(3,:)';
-% RLegPosZ(:,6) =                 RightLegCluster3(3,:)';
-% RLegPosZ(:,7) =                 RightLegCluster4(3,:)';
-RLegPosZ =                          mean(RLegPosZ,2);
-
-%Center location for the RLeg
-segCenter.RLegCenter_mar_dim_frame =          (RLegPosX).';
-segCenter.RLegCenter_mar_dim_frame(2,:) =     (RLegPosY).';
-segCenter.RLegCenter_mar_dim_frame(3,:) =     (RLegPosZ).';
+%Output RLegCenter data into struct
+segCenter.RLegCenter_mar_dim_frame = RLegPos;
 
 %% LFoot Markers
 %Includes: LAnkleOut, LHeelBack, LForefootOut, LToeTip, LForefootIn
+LFoot_MarkerNames = {'LAnkleOut' 'LHeelBack' 'LForefootOut' 'LToeTip' 'LForefootIn'};
 LHeelBack = getMarker(marker_mar_dim_frame,markerLabels,'LHeelBack');
 LForefootOut= getMarker(marker_mar_dim_frame,markerLabels,'LForefootOut');
 LToeTip = getMarker(marker_mar_dim_frame,markerLabels,'LToeTip');
 LForefootIn = getMarker(marker_mar_dim_frame,markerLabels,'LForefootIn');
 
-%x values located on corresponding column
-LFootPosX(:,1) =                    LAnkleOut(1,:)';
-LFootPosX(:,2) =                    LHeelBack(1,:)';
-LFootPosX(:,3) =                    LForefootOut(1,:)';
-LFootPosX(:,4) =                    LToeTip(1,:)';
-LFootPosX(:,5) =                    LForefootIn(1,:)';
-LFootPosX =                         mean(LFootPosX,2);
+for jj = 1:3 %ref num dim
+    LFootPos_raw{1,jj} = cat(1,LAnkleOut(jj,:),LHeelBack(jj,:),LForefootOut(jj,:),LToeTip(jj,:),LForefootIn(jj,:));
+    LFootPos(jj,:) =     mean(LFootPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-LFootPosY(:,1) =                    LAnkleOut(2,:)';
-LFootPosY(:,2) =                    LHeelBack(2,:)';
-LFootPosY(:,3) =                    LForefootOut(2,:)';
-LFootPosY(:,4) =                    LToeTip(2,:)';
-LFootPosY(:,5) =                    LForefootIn(2,:)';
-LFootPosY =                         mean(LFootPosY,2);
-
-%z values located on corresponding column
-LFootPosZ(:,1) =                    LAnkleOut(3,:)';
-LFootPosZ(:,2) =                    LHeelBack(3,:)';
-LFootPosZ(:,3) =                    LForefootOut(3,:)';
-LFootPosZ(:,4) =                    LToeTip(3,:)';
-LFootPosZ(:,5) =                    LForefootIn(3,:)';
-LFootPosZ =                         mean(LFootPosZ,2);
-
-%Center location for the LFoot
-segCenter.LFootCenter_mar_dim_frame =       (LFootPosX).';
-segCenter.LFootCenter_mar_dim_frame(2,:) =  (LFootPosY).';
-segCenter.LFootCenter_mar_dim_frame(3,:) =  (LFootPosZ).';
+%Output LFootCenter data into struct
+segCenter.LFootCenter_mar_dim_frame = LFootPos;
 
 %% RFoot Markers
 %Includes: RAnkleOut, RHeelBack, RForefootOut, RToeTip, RForefootIn
+RFoot_MarkerNames = {'RAnkleOut' 'RHeelBack' 'RForefootOut' 'RToeTip' 'RForefootIn'};
 RHeelBack = getMarker(marker_mar_dim_frame,markerLabels,'RHeelBack');
 RForefootOut= getMarker(marker_mar_dim_frame,markerLabels,'RForefootOut');
 RToeTip = getMarker(marker_mar_dim_frame,markerLabels,'RToeTip');
 RForefootIn = getMarker(marker_mar_dim_frame,markerLabels,'RForefootIn');
 
-%x values located on corresponding column
-RFootPosX(:,1) =                    RAnkleOut(1,:)';
-RFootPosX(:,2) =                    RHeelBack(1,:)';
-RFootPosX(:,3) =                    RForefootOut(1,:)';
-RFootPosX(:,4) =                    RToeTip(1,:)';
-RFootPosX(:,5) =                    RForefootIn(1,:)';
-RFootPosX =                         mean(RFootPosX,2);
+for jj = 1:3 %ref num dim
+    RFootPos_raw{1,jj} = cat(1,RAnkleOut(jj,:),RHeelBack(jj,:),RForefootOut(jj,:),RToeTip(jj,:),RForefootIn(jj,:));
+    RFootPos(jj,:) =     mean(RFootPos_raw{1,jj},1);
+end
 
-%y values located on corresponding column
-RFootPosY(:,1) =                    RAnkleOut(2,:)';
-RFootPosY(:,2) =                    RHeelBack(2,:)';
-RFootPosY(:,3) =                    RForefootOut(2,:)';
-RFootPosY(:,4) =                    RToeTip(2,:)';
-RFootPosY(:,5) =                    RForefootIn(2,:)';
-RFootPosY =                         mean(RFootPosY,2);
-
-%z values located on corresponding column
-RFootPosZ(:,1) =                    RAnkleOut(3,:)';
-RFootPosZ(:,2) =                    RHeelBack(3,:)';
-RFootPosZ(:,3) =                    RForefootOut(3,:)';
-RFootPosZ(:,4) =                    RToeTip(3,:)';
-RFootPosZ(:,5) =                    RForefootIn(3,:)';
-RFootPosZ =                         mean(RFootPosZ,2);
-
-%Center location for the RFoot
-segCenter.RFootCenter_mar_dim_frame =       (RFootPosX).';
-segCenter.RFootCenter_mar_dim_frame(2,:) =  (RFootPosY).';
-segCenter.RFootCenter_mar_dim_frame(3,:) =  (RFootPosZ).';
+%Output RFootCenter data into struct
+segCenter.RFootCenter_mar_dim_frame = RFootPos;
 
 end

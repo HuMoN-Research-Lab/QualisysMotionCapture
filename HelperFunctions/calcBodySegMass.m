@@ -7,7 +7,6 @@ function [bodySegWeight,propSegWeight] = calcBodySegMass(kgMass)
 %% Establishing output parameters
 propSegWeight = [];
 bodySegWeight = [];
-
 showTable = false;
 
 %% Torso segMass by totalMass of body
