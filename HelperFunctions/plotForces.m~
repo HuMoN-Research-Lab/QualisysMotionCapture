@@ -17,13 +17,13 @@ LToeTip =           segCenter_cal.LToeTip;
 %RLower markers & segCenters
 RHipFront =         segCenter_cal.RHipFront;
 RHipBack =          segCenter_cal.RHipBack;
-RHipCenter =        segCenter_cal.RHipCenter;
-RThigh =            segCenter_cal.RThigh;
-RKnee =             segCenter_cal.RKnee;
-RLeg =              segCenter_cal.RLeg;
-RAnkle =            segCenter_cal.RAnkle;
-RFoot =             segCenter_cal.RFoot;
-RToeTip =           segCenter_cal.RToeTip;
+RHipCenter =        segCenter_cal.RHipCenter_loc_fil;
+RThigh =            segCenter_cal.RThigh_loc_fil;
+RKnee =             segCenter_cal.RKnee_loc_fil;
+RLeg =              segCenter_cal.RLeg_loc_fil;
+RAnkle =            segCenter_cal.RAnkle_loc_fil;
+RFoot =             segCenter_cal.RFoot_loc_fil;
+RToeTip =           segCenter_cal.RToeTip_loc_fil;
 
 %% Plot settings for different force plate plots
 plot_individual_FPlates =   false;
@@ -35,8 +35,8 @@ if plot_LExtr == true
     figure(10);
     stepA = VideoWriter('Lower Extremities Motion Tracker.mp4');
     open(stepA);
-%     alpha = 0:0.2:1;
-    for ii = 1:50:length(LHipCenter)
+    
+    for ii = 1:10:length(LHipCenter)
         hold on
         
         %Tracer for the movement of LLower extremities
@@ -51,17 +51,17 @@ if plot_LExtr == true
             [LHipCenter(2,ii);LThigh(2,ii);LKnee(2,ii);LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
             [LHipCenter(3,ii);LThigh(3,ii);LKnee(3,ii);LAnkle(3,ii);LFoot(3,ii);LToeTip(3,ii)],'-b','MarkerSize',15)                          %;LAnkle(3,ii);LFoot(3,ii);LToeTip(3,ii)]
         
-%         %Tracer for the movement of LLower extremities
-%         plot3([RHipCenter(1,ii);RThigh(1,ii);RKnee(1,ii);RAnkle(1,ii);RFoot(1,ii);RToeTip(1,ii)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
-%             [RHipCenter(2,ii);RThigh(2,ii);RKnee(2,ii);RAnkle(2,ii);RFoot(2,ii);RToeTip(2,ii)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
-%             [RHipCenter(3,ii);RThigh(3,ii);RKnee(3,ii);RAnkle(3,ii);RFoot(3,ii);RToeTip(3,ii)],'-k','MarkerSize',15)
-%         
-%         pause(0.5);
-%         
-%         %Real-time movement of RLower extremities
-%         plot3([RHipCenter(1,ii);RThigh(1,ii);RKnee(1,ii);RAnkle(1,ii);RFoot(1,ii);RToeTip(1,ii)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
-%             [RHipCenter(2,ii);RThigh(2,ii);RKnee(2,ii);RAnkle(2,ii);RFoot(2,ii);RToeTip(2,ii)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
-%             [RHipCenter(3,ii);RThigh(3,ii);RKnee(3,ii);RAnkle(3,ii);RFoot(3,ii);RToeTip(3,ii)],'-r','MarkerSize',15)      
+        %Tracer for the movement of LLower extremities
+        plot3([RHipCenter(1,ii);RThigh(1,ii);RKnee(1,ii);RAnkle(1,ii);RFoot(1,ii);RToeTip(1,ii)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
+            [RHipCenter(2,ii);RThigh(2,ii);RKnee(2,ii);RAnkle(2,ii);RFoot(2,ii);RToeTip(2,ii)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
+            [RHipCenter(3,ii);RThigh(3,ii);RKnee(3,ii);RAnkle(3,ii);RFoot(3,ii);RToeTip(3,ii)],'-k','MarkerSize',15)
+        
+        pause(0.5);
+        
+        %Real-time movement of RLower extremities
+        plot3([RHipCenter(1,ii);RThigh(1,ii);RKnee(1,ii);RAnkle(1,ii);RFoot(1,ii);RToeTip(1,ii)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
+            [RHipCenter(2,ii);RThigh(2,ii);RKnee(2,ii);RAnkle(2,ii);RFoot(2,ii);RToeTip(2,ii)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
+            [RHipCenter(3,ii);RThigh(3,ii);RKnee(3,ii);RAnkle(3,ii);RFoot(3,ii);RToeTip(3,ii)],'-r','MarkerSize',15)      
         
         %Quiver for Force Plate#1
         quiver3(Force_cal.COP1(1,ii),...
@@ -71,13 +71,13 @@ if plot_LExtr == true
             Force_cal.fp1(2,ii),...
             Force_cal.fp1(3,ii),'LineWidth',2.25,'Color','g')
         
-%         %Quiver for Force Plate#2
-%         quiver3(Force_cal.COP2(1,ii),...
-%             Force_cal.COP2(2,ii),...
-%             Force_cal.COP2(3,ii),...
-%             Force_cal.fp2(1,ii),...
-%             Force_cal.fp2(2,ii),...
-%             Force_cal.fp2(3,ii),'LineWidth',2.25,'Color','g')
+        %Quiver for Force Plate#2
+        quiver3(Force_cal.COP2(1,ii),...
+            Force_cal.COP2(2,ii),...
+            Force_cal.COP2(3,ii),...
+            Force_cal.fp2(1,ii),...
+            Force_cal.fp2(2,ii),...
+            Force_cal.fp2(3,ii),'LineWidth',2.25,'Color','g')
         
         %Quiver for Force Plate#3
         quiver3(Force_cal.COP3(1,ii),...
@@ -115,78 +115,20 @@ if plot_LExtr == true
         drawnow
         frame = getframe(gcf);
         writeVideo(stepA,frame);
-        hold on
-    end
-    
-    %Quiver for Force Plate#1 (1068)
-        quiver3(Force_cal.COP1(1,:),...
-            Force_cal.COP1(2,:),...
-            Force_cal.COP1(3,:),...
-            Force_cal.fp1(1,:),...
-            Force_cal.fp1(2,:),...
-            Force_cal.fp1(3,:),'LineWidth',2.25,'Color','w')
-        
-        %Quiver for Force Plate#2 (1232)
-        quiver3(Force_cal.COP2(1,ii),...
-            Force_cal.COP2(2,ii),...
-            Force_cal.COP2(3,ii),...
-            Force_cal.fp2(1,ii),...
-            Force_cal.fp2(2,ii),...
-            Force_cal.fp2(3,ii),'LineWidth',2.25,'Color','w')
-        
-        %Quiver for Force Plate#3 (899)
-        quiver3(Force_cal.COP3(1,:),...
-            Force_cal.COP3(2,:),...
-            Force_cal.COP3(3,:),...
-            Force_cal.fp3(1,:),...
-            Force_cal.fp3(2,:),...
-            Force_cal.fp3(3,:),'LineWidth',2.25,'Color','w')
-        
-        %Quiver for Force Plate#4 (unused)
-        quiver3(Force_cal.COP4(1,:),...
-            Force_cal.COP4(2,:),...
-            Force_cal.COP4(3,:),...
-            Force_cal.fp4(1,:),...
-            Force_cal.fp4(2,:),...
-            Force_cal.fp4(3,:),'LineWidth',2.25,'Color','w')
-        
-        %Quiver for Force Plate#5 (1399)
-        quiver3(Force_cal.COP5(1,:),...
-            Force_cal.COP5(2,:),...
-            Force_cal.COP5(3,:),...
-            Force_cal.fp5(1,:),...
-            Force_cal.fp5(2,:),...
-            Force_cal.fp5(3,:),'LineWidth',2.25,'Color','w')
-    
-    for ii = 1:50:length(LHipCenter)
-    %% Clear Data   
-        %Tracer for the movement of LLower extremities
-        plot3([LHipCenter(1,ii);LThigh(1,ii);LKnee(1,ii);LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
-            [LHipCenter(2,ii);LThigh(2,ii);LKnee(2,ii);LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
-            [LHipCenter(3,ii);LThigh(3,ii);LKnee(3,ii);LAnkle(3,ii);LFoot(3,ii);LToeTip(3,ii)],'-w','MarkerSize',15)
-        
-        pause(0.5);
-        
-        %Real-time movement of LLower extremities
-        plot3([LHipCenter(1,ii);LThigh(1,ii);LKnee(1,ii);LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
-            [LHipCenter(2,ii);LThigh(2,ii);LKnee(2,ii);LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
-            [LHipCenter(3,ii);LThigh(3,ii);LKnee(3,ii);LAnkle(3,ii);LFoot(3,ii);LToeTip(3,ii)],'-w','MarkerSize',15) 
-        
-        %Tracer for the movement of LLower extremities
-        plot3([RHipCenter(1,ii);RThigh(1,ii);RKnee(1,ii);RAnkle(1,ii);RFoot(1,ii);RToeTip(1,ii)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
-            [RHipCenter(2,ii);RThigh(2,ii);RKnee(2,ii);RAnkle(2,ii);RFoot(2,ii);RToeTip(2,ii)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
-            [RHipCenter(3,ii);RThigh(3,ii);RKnee(3,ii);RAnkle(3,ii);RFoot(3,ii);RToeTip(3,ii)],'-w','MarkerSize',15)
-        
-        pause(0.5);
-        
-        %Real-time movement of RLower extremities
-        plot3([RHipCenter(1,ii);RThigh(1,ii);RKnee(1,ii);RAnkle(1,ii);RFoot(1,ii);RToeTip(1,ii)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
-            [RHipCenter(2,ii);RThigh(2,ii);RKnee(2,ii);RAnkle(2,ii);RFoot(2,ii);RToeTip(2,ii)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
-            [RHipCenter(3,ii);RThigh(3,ii);RKnee(3,ii);RAnkle(3,ii);RFoot(3,ii);RToeTip(3,ii)],'-w','MarkerSize',15)
     end
     close(stepA)
     
 end
+
+
+    
+    
+    
+%     %Plot right side of lower extremities
+%     plot3([LHip(1,ii);LKnee(1,ii);LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)],...
+%         [LHip(2,ii);LKnee(2,ii);LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)],...
+%         [LHip(3,ii);LKnee(3,ii);LAnkle(3,ii);LFoot(3,ii);LToeTip(3,ii)],'bo')
+
 
 %% Plot lower extremities position data
 % plot_lowExtrems = false;

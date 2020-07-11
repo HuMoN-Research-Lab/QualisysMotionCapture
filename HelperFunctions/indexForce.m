@@ -27,17 +27,17 @@ ForcePlate4_loc = mean(ForcePlate4_loc_raw,1);
 ForcePlate5_loc = mean(ForcePlate5_loc_raw,1);
 
 %% COP force data filtering and configuration
-COP{1} =   Force.COP_plate1(:,trial_start_end);
-COP{2} =   Force.COP_plate2(:,trial_start_end);
-COP{3} =   Force.COP_plate3(:,trial_start_end);
-COP{4} =   Force.COP_plate4(:,trial_start_end);
-COP{5} =   Force.COP_plate5(:,trial_start_end);
+COP1 =   Force.COP_plate1(:,trial_start_end);
+COP2 =   Force.COP_plate2(:,trial_start_end);
+COP3 =   Force.COP_plate3(:,trial_start_end);
+COP4 =   Force.COP_plate4(:,trial_start_end);
+COP5 =   Force.COP_plate5(:,trial_start_end);
 
 %% Calibrate COP to global reference frame
 %Force Plate 1
-for ii = 1:3
-    Force_cal{ii} = COP{ii,ii(ii,:)};
-end
+% for ii = 1:3
+%     Force_cal{ii} = COP{ii,ii(ii,:)};
+% end
 Force_cal.COP1 =        COP1(1,:)+ForcePlate1_loc(1);
 Force_cal.COP1(2,:) =   COP1(2,:)+ForcePlate1_loc(2);
 Force_cal.COP1(3,:) =   COP1(3,:)+ForcePlate1_loc(3);

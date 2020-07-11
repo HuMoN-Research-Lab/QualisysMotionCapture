@@ -51,7 +51,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 [Force_cal] = indexForce(Force,trial_start_end);
 
 %% Function optimizes joint center location
-[jointCenters] = jointCenterOpt(segCenter_cal);
+% [jointCenters] = jointCenterOpt(segCenter_cal);
 
 %% Calculates marker vel,acc,and jerk for trials
 [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
@@ -81,7 +81,8 @@ plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
 
 %% Plot force plate data
 plotForces(Force_cal,segCenter_cal)
-
+ 
+b=3;
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
 % Currently not optimized yet for plotting purposes
