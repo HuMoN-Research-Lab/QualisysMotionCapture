@@ -1,64 +1,64 @@
-function [jointCenters] = jointCenterOpt(segCenter_cal)
+function [jointCenters] = jointCenterOpt(segCenter)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%Optimize all joint center location 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% IDs of markers in use
 %Upper markers & segCenters
-HeadL =             segCenter_cal.HeadL_loc_fil;
-HeadTop =           segCenter_cal.HeadTop_loc_fil;
-HeadR =             segCenter_cal.HeadR_loc_fil;
-HeadFront =         segCenter_cal.HeadFront_loc_fil;
-HeadCenter =        segCenter_cal.HeadCenter_loc_fil;
-SpineTop =          segCenter_cal.SpineTop_loc_fil;
-ChestCenter =       segCenter_cal.ChestCenter_loc_fil;
+HeadL =             segCenter.HeadL;
+HeadTop =           segCenter.HeadTop;
+HeadR =             segCenter.HeadR;
+HeadFront =         segCenter.HeadFront;
+HeadCenter =        segCenter.HeadCenter;
+SpineTop =          segCenter.SpineTop;
+ChestCenter =       segCenter.ChestCenter;
 
 %LUpper markers & segCenters
-LShoulderTop =      segCenter_cal.LShoulderTop_loc_fil;
-LShoulderCenter =   segCenter_cal.LShoulderCenter_loc_fil;
-LShoulderBack =     segCenter_cal.LShoulderBack_loc_fil;
-LArm =              segCenter_cal.LArm_loc_fil;
-LUpperArmCenter =   segCenter_cal.LUpperArmCenter_loc_fil;
-LElbow =            segCenter_cal.LElbow_loc_fil;
-LForearmCenter =    segCenter_cal.LForearmCenter_loc_fil;
-LWristOut =         segCenter_cal.LWristOut_loc_fil;
-LWristIn =          segCenter_cal.LWristIn_loc_fil;
-LHandOut =          segCenter_cal.LHandOut_loc_fil;
-LHandCenter =       segCenter_cal.LHandCenter_loc_fil;
+LShoulderTop =      segCenter.LShoulderTop;
+LShoulderCenter =   segCenter.LShoulderCenter;
+LShoulderBack =     segCenter.LShoulderBack;
+LArm =              segCenter.LArm;
+LUpperArmCenter =   segCenter.LUpperArmCenter;
+LElbow =            segCenter.LElbow;
+LForearmCenter =    segCenter.LForearmCenter;
+LWristOut =         segCenter.LWristOut;
+LWristIn =          segCenter.LWristIn;
+LHandOut =          segCenter.LHandOut;
+LHandCenter =       segCenter.LHandCenter;
 
 %LLower markers & segCenters
-LHipFront =         segCenter_cal.LHipFront_loc_fil;
-LHipBack =          segCenter_cal.LHipBack_loc_fil;
-LHipCenter =        segCenter_cal.LHipCenter_loc_fil;
-LThigh =            segCenter_cal.LThigh_loc_fil;
-LKnee =             segCenter_cal.LKnee_loc_fil;
-LLeg =              segCenter_cal.LLeg_loc_fil;
-LAnkle =            segCenter_cal.LAnkle_loc_fil;
-LFoot =             segCenter_cal.LFoot_loc_fil;
-LToeTip =           segCenter_cal.LToeTip_loc_fil;
+LHipFront =         segCenter.LHipFront;
+LHipBack =          segCenter.LHipBack;
+LHipCenter =        segCenter.LHipCenter;
+LThigh =            segCenter.LThigh;
+LKnee =             segCenter.LKnee;
+LLeg =              segCenter.LLeg;
+LAnkle =            segCenter.LAnkle;
+LFoot =             segCenter.LFoot;
+LToeTip =           segCenter.LToeTip;
 
 %RUpper markers & segCenters
-RShoulderTop =      segCenter_cal.RShoulderTop_loc_fil;
-RShoulderCenter =   segCenter_cal.RShoulderCenter_loc_fil;
-RShoulderBack =     segCenter_cal.RShoulderBack_loc_fil;
-RArm =              segCenter_cal.RArm_loc_fil;
-RUpperArmCenter =   segCenter_cal.RUpperArmCenter_loc_fil;
-RElbow =            segCenter_cal.RElbow_loc_fil;
-RForearmCenter =    segCenter_cal.RForearmCenter_loc_fil;
-RWristOut =         segCenter_cal.RWristOut_loc_fil;
-RWristIn =          segCenter_cal.RWristIn_loc_fil;
-RHandOut =          segCenter_cal.RHandOut_loc_fil;
-RHandCenter =       segCenter_cal.RHandCenter_loc_fil;
+RShoulderTop =      segCenter.RShoulderTop;
+RShoulderCenter =   segCenter.RShoulderCenter;
+RShoulderBack =     segCenter.RShoulderBack;
+RArm =              segCenter.RArm;
+RUpperArmCenter =   segCenter.RUpperArmCenter;
+RElbow =            segCenter.RElbow;
+RForearmCenter =    segCenter.RForearmCenter;
+RWristOut =         segCenter.RWristOut;
+RWristIn =          segCenter.RWristIn;
+RHandOut =          segCenter.RHandOut;
+RHandCenter =       segCenter.RHandCenter;
 
 %RLower markers & segCenters
-RHipFront =         segCenter_cal.RHipFront_loc_fil;
-RHipBack =          segCenter_cal.RHipBack_loc_fil;
-RHipCenter =        segCenter_cal.RHipCenter_loc_fil;
-RThigh =            segCenter_cal.RThigh_loc_fil;
-RKnee =             segCenter_cal.RKnee_loc_fil;
-RLeg =              segCenter_cal.RLeg_loc_fil;
-RAnkle =            segCenter_cal.RAnkle_loc_fil;
-RFoot =             segCenter_cal.RFoot_loc_fil;
-RToeTip =           segCenter_cal.RToeTip_loc_fil;
+RHipFront =         segCenter.RHipFront;
+RHipBack =          segCenter.RHipBack;
+RHipCenter =        segCenter.RHipCenter;
+RThigh =            segCenter.RThigh;
+RKnee =             segCenter.RKnee;
+RLeg =              segCenter.RLeg;
+RAnkle =            segCenter.RAnkle;
+RFoot =             segCenter.RFoot;
+RToeTip =           segCenter.RToeTip;
 
 %% Activation settings for optimizer of joint centers
 lookfor_LHipJointCenter =       true;

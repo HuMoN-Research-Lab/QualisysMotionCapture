@@ -73,7 +73,7 @@ end
 segCenter.chestCenter_mar_dim_frame = ChestPos;
 
 %% LUpperArm Markers
-%Includes: LShoulder Mean, LArm, and LElbowOut
+%Includes: LUpperArm Mean, LArm, and LElbowOut
 LUpperArm_MarkerNames = {'LShoulderPos' 'LArm' 'LElbowOut'};
 LArm = getMarker(marker_mar_dim_frame,markerLabels,'LArm');
 LElbowOut = getMarker(marker_mar_dim_frame,markerLabels,'LElbowOut');
