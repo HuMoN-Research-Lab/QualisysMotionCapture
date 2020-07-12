@@ -1,5 +1,4 @@
-function [markerLabels,marker_mar_dim_frame,Force] ... 
-    = loadMoCapData(fileName)
+function [markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(fileName)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %loadMoCapData outputs various variables from the file name 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
