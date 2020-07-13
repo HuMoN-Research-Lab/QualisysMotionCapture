@@ -15,41 +15,37 @@ segCenter.SpineTop =            getMarker(marker_mar_dim_frame(:,:,trial_start_e
 segCenter.Chest =               getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'Chest');
 segCenter.BackL =               getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'BackL');
 segCenter.BackR =               getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'BackR');
+segCenter.LHipFront =           getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistLFront');
+segCenter.LHipBack =            getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistLBack');
+segCenter.RHipFront =           getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistRFront');
+segCenter.RHipBack =            getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistRBack');
 
-%% LUpper markers indexing
+%% Upper markers indexing
 %Index markers
 segCenter.LShoulderTop =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LShoulderTop');
 segCenter.LShoulderBack =       getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LShoulderBack');
+segCenter.RShoulderTop =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RShoulderTop');
+segCenter.RShoulderBack =       getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RShoulderBack');
 segCenter.LArm =                getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LArm');
+segCenter.RArm =                getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RArm');
 segCenter.LElbow =              getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LElbowOut');
+segCenter.RElbow =              getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RElbowOut');
 segCenter.LWristOut =           getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LWristOut');
 segCenter.LWristIn =            getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LWristIn');
 segCenter.LHandOut =            getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LHandOut');
-
-%% RUpper markers indexing
-%Index RUpper markers
-segCenter.RShoulderTop =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RShoulderTop');
-segCenter.RShoulderBack =       getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RShoulderBack');
-segCenter.RArm =                getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RArm');
-segCenter.RElbow =              getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RElbowOut');
 segCenter.RWristOut =           getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RWristOut');
 segCenter.RWristIn =            getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RWristIn');
 segCenter.RHandOut =            getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RHandOut');
 
-%% LLower marker indexing
+%% Lower marker indexing
 %Index markers
-segCenter.LHipFront =           getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistLFront');
-segCenter.LHipBack =            getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistLBack');
+segCenter.LThigh =              getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LThigh');
+segCenter.RThigh =              getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RThigh');
 segCenter.LKnee =               getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LKneeOut');
-segCenter.LAnkle =              getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LAnkleOut');
-segCenter.LToeTip =             getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LToeTip');
-
-%% RLower marker indexing
-%Index markers
-segCenter.RHipFront =           getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistRFront');
-segCenter.RHipBack =            getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistRBack');
 segCenter.RKnee =               getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RKneeOut');
+segCenter.LAnkle =              getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LAnkleOut');
 segCenter.RAnkle =              getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RAnkleOut');
+segCenter.LToeTip =             getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LToeTip');
 segCenter.RToeTip =             getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RToeTip');
 
 %% Torso segCenter indexing
@@ -122,7 +118,7 @@ end
 %Output RHipCenter data into struct
 segCenter.RHipCenter =          RHipPos(:,trial_start_end);
 
-%% LUpper segCenter indexing
+%% Shoulder segCenter indexing
 %Index LShoulderCenter
 %Includes: LShoulderTop and LShoulderBack
 LShoulder_MarkerNames =         {'LShoulderTop' 'LShoulderBack'};
@@ -136,6 +132,20 @@ end
 
 segCenter.LShoulderCenter =     LShoulderPos(:,trial_start_end);
 
+%Index RUpper
+%Includes: RShoulderTop and RShoulderBack
+RShoulder_MarkerNames =         {'RShoulderTop' 'RShoulderBack'};
+RShoulderTop =                  getMarker(marker_mar_dim_frame,markerLabels,'RShoulderTop');
+RShoulderBack =                 getMarker(marker_mar_dim_frame,markerLabels,'RShoulderBack');
+
+for jj = 1:3 %ref num dim
+    RShoulderPos_raw{1,jj} =    cat(1,RShoulderTop(jj,:),RShoulderBack(jj,:));
+    RShoulderPos(jj,:) =        mean(RShoulderPos_raw{1,jj},1);
+end
+
+segCenter.RShoulderCenter =     RShoulderPos(:,trial_start_end);
+
+%% UpperArm segCenter indexing
 %Index LUpperArmCenter
 %Includes: LUpperArm Mean, LArm, and LElbowOut
 LUpperArm_MarkerNames =         {'LShoulderPos' 'LArm' 'LElbowOut'};
@@ -149,55 +159,6 @@ end
 
 segCenter.LUpperArmCenter =     LUpperArmPos(:,trial_start_end);
 
-%Index LForearmCenter
-%Includes: LElbowOut, LWristOut, LWristIn
-LForearm_MarkerNames =          {'LElbowOut' 'LWristOut' 'LWristIn'};
-LWristOut =                     getMarker(marker_mar_dim_frame,markerLabels,'LWristOut');
-LWristIn =                      getMarker(marker_mar_dim_frame,markerLabels,'LWristIn');
-
-for jj = 1:3 %ref num dim
-    LForearmPos_raw{1,jj} =     cat(1,LElbowOut(jj,:),LWristOut(jj,:),LWristIn(jj,:));
-    LForearmPos(jj,:) =         mean(LForearmPos_raw{1,jj},1);
-end
-
-segCenter.LForearmCenter =      LForearmPos(:,trial_start_end);
-
-%Index LWristCenter
-%Includes: LWristOut, LWristIn
-LWrist_MarkerNames =            {'LWristOut' 'LWristIn'};
-
-for jj = 1:3 %ref num dim
-    LWristPos_raw{1,jj} =       cat(1,LWristOut(jj,:),LWristIn(jj,:));
-    LWristPos(jj,:) =           mean(LWristPos_raw{1,jj},1);
-end
-
-segCenter.LWristCenter =        LWristPos(:,trial_start_end);
-
-%Index LHandCenter
-%Includes: LWristOut, LWristIn, LHandOut
-LHand_MarkerNames =             {'LWristOut' 'LWristIn' 'LHandOut'};
-LHandOut =                      getMarker(marker_mar_dim_frame,markerLabels,'LHandOut');
-
-for jj = 1:3 %ref num dim
-    LHandPos_raw{1,jj} =        cat(1,LWristOut(jj,:),LWristIn(jj,:),LHandOut(jj,:));
-    LHandPos(jj,:) =            mean(LHandPos_raw{1,jj},1);
-end
-
-segCenter.LHandCenter =         LHandPos(:,trial_start_end);
-
-%% RUpperArm segCenter indexing
-%Index RUpper
-%Includes: RShoulderTop and RShoulderBack
-RShoulder_MarkerNames =         {'RShoulderTop' 'RShoulderBack'};
-RShoulderTop =                  getMarker(marker_mar_dim_frame,markerLabels,'RShoulderTop');
-RShoulderBack =                 getMarker(marker_mar_dim_frame,markerLabels,'RShoulderBack');
-
-for jj = 1:3 %ref num dim
-    RShoulderPos_raw{1,jj} =    cat(1,RShoulderTop(jj,:),RShoulderBack(jj,:));
-    RShoulderPos(jj,:) =        mean(RShoulderPos_raw{1,jj},1);
-end
-
-segCenter.RShoulderCenter =     RShoulderPos(:,trial_start_end);
 
 %Index RUpperArmCenter
 %Includes: RUpperArm Mean, RArm, and RElbowOut
@@ -213,6 +174,20 @@ end
 %Output RUpperArmCenter data into struct
 segCenter.RUpperArmCenter =     RUpperArmPos(:,trial_start_end);
 
+%% Forearm segCenter indexing
+%Index LForearmCenter
+%Includes: LElbowOut, LWristOut, LWristIn
+LForearm_MarkerNames =          {'LElbowOut' 'LWristOut' 'LWristIn'};
+LWristOut =                     getMarker(marker_mar_dim_frame,markerLabels,'LWristOut');
+LWristIn =                      getMarker(marker_mar_dim_frame,markerLabels,'LWristIn');
+
+for jj = 1:3 %ref num dim
+    LForearmPos_raw{1,jj} =     cat(1,LElbowOut(jj,:),LWristOut(jj,:),LWristIn(jj,:));
+    LForearmPos(jj,:) =         mean(LForearmPos_raw{1,jj},1);
+end
+
+segCenter.LForearmCenter =      LForearmPos(:,trial_start_end);
+
 %Index RForearmCenter
 %Includes: RElbowOut, RWristOut, RWristIn
 RForearm_MarkerNames =          {'RElbowOut' 'RWristOut' 'RWristIn'};
@@ -226,6 +201,18 @@ end
 
 segCenter.RForearmCenter =      RForearmPos(:,trial_start_end);
 
+%% Wrist segCenter indexing
+%Index LWristCenter
+%Includes: LWristOut, LWristIn
+LWrist_MarkerNames =            {'LWristOut' 'LWristIn'};
+
+for jj = 1:3 %ref num dim
+    LWristPos_raw{1,jj} =       cat(1,LWristOut(jj,:),LWristIn(jj,:));
+    LWristPos(jj,:) =           mean(LWristPos_raw{1,jj},1);
+end
+
+segCenter.LWristCenter =        LWristPos(:,trial_start_end);
+
 %Index RWristCenter
 %Includes: RWristOut, RWristIn
 RWrist_MarkerNames =            {'RWristOut' 'RWristIn'};
@@ -236,6 +223,19 @@ for jj = 1:3 %ref num dim
 end
 
 segCenter.RWristCenter =        RWristPos(:,trial_start_end);
+
+%% Hand segCenter indexing
+%Index LHandCenter
+%Includes: LWristOut, LWristIn, LHandOut
+LHand_MarkerNames =             {'LWristOut' 'LWristIn' 'LHandOut'};
+LHandOut =                      getMarker(marker_mar_dim_frame,markerLabels,'LHandOut');
+
+for jj = 1:3 %ref num dim
+    LHandPos_raw{1,jj} =        cat(1,LWristOut(jj,:),LWristIn(jj,:),LHandOut(jj,:));
+    LHandPos(jj,:) =            mean(LHandPos_raw{1,jj},1);
+end
+
+segCenter.LHandCenter =         LHandPos(:,trial_start_end);
 
 %Index RHandCenter
 %Includes: RWristOut, RWristIn, RHandOut
@@ -249,7 +249,7 @@ end
 
 segCenter.RHandCenter =         RHandPos(:,trial_start_end);
 
-%% LLower SegCenters extremities calibration
+%% Thigh segCenter indexing
 %Index LThighCenter
 %Includes: WaistLFront, WaistLBack, LThigh, LKneeOut
 LThigh_MarkerNames =            {'WaistLFront' 'WaistLBack' 'LThigh' 'LKneeOut'};
@@ -263,6 +263,20 @@ end
 
 segCenter.LThighCenter =        LThighPos(:,trial_start_end);
 
+%Index RThighCenter
+%Includes: WaistRFront, WaistRBack, RThigh, RKneeOut
+RThigh_MarkerNames =            {'WaistRFront' 'WaistRBack' 'RThigh' 'RKneeOut'};
+RThigh =                        getMarker(marker_mar_dim_frame,markerLabels,'RThigh');
+RKneeOut=                       getMarker(marker_mar_dim_frame,markerLabels,'RKneeOut');
+
+for jj = 1:3 %ref num dim
+    RThighPos_raw{1,jj} =       cat(1,WaistRFront(jj,:),WaistRBack(jj,:),RThigh(jj,:),RKneeOut(jj,:));
+    RThighPos(jj,:) =           mean(RThighPos_raw{1,jj},1);
+end
+
+segCenter.RThighCenter =        RThighPos(:,trial_start_end);
+
+%% Leg segCenter indexing
 %Index LLegCenter
 %Includes: LKneeOut, LShin, LAnkleOut
 %Should marker plates be sure to add them
@@ -277,6 +291,21 @@ end
 
 segCenter.LLegCenter =          LLegPos(:,trial_start_end);
 
+%Index RLegCenter
+%Includes: RKneeOut, RShin, RAnkleOut
+%Should marker plates be sure to add them
+RLeg_MarkerNames =              {'RKneeOut' 'RShin' 'RAnkleOut'};
+RShin =                         getMarker(marker_mar_dim_frame,markerLabels,'RShin');
+RAnkleOut=                      getMarker(marker_mar_dim_frame,markerLabels,'RAnkleOut');
+
+for jj = 1:3 %ref num dim
+    RLegPos_raw{1,jj} =         cat(1,RKneeOut(jj,:),RShin(jj,:),RAnkleOut(jj,:));
+    RLegPos(jj,:) =             mean(RLegPos_raw{1,jj},1);
+end
+
+segCenter.RLegCenter =          RLegPos(:,trial_start_end);
+
+%% Foot segCenter indexing
 %Index LFootCenter
 %Includes: LAnkleOut, LHeelBack, LForefootOut, LToeTip, LForefootIn
 LFoot_MarkerNames =             {'LAnkleOut' 'LHeelBack' 'LForefootOut' 'LToeTip' 'LForefootIn'};
@@ -291,34 +320,6 @@ for jj = 1:3 %ref num dim
 end
 
 segCenter.LFootCenter =         LFootPos(:,trial_start_end);
-
-%% Reformat RLower extremities data
-%Index RThighCenter
-%Includes: WaistRFront, WaistRBack, RThigh, RKneeOut
-RThigh_MarkerNames =            {'WaistRFront' 'WaistRBack' 'RThigh' 'RKneeOut'};
-RThigh =                        getMarker(marker_mar_dim_frame,markerLabels,'RThigh');
-RKneeOut=                       getMarker(marker_mar_dim_frame,markerLabels,'RKneeOut');
-
-for jj = 1:3 %ref num dim
-    RThighPos_raw{1,jj} =       cat(1,WaistRFront(jj,:),WaistRBack(jj,:),RThigh(jj,:),RKneeOut(jj,:));
-    RThighPos(jj,:) =           mean(RThighPos_raw{1,jj},1);
-end
-
-segCenter.RThighCenter =        RThighPos(:,trial_start_end);
-
-%Index RLegCenter
-%Includes: RKneeOut, RShin, RAnkleOut
-%Should marker plates be sure to add them
-RLeg_MarkerNames =              {'RKneeOut' 'RShin' 'RAnkleOut'};
-RShin =                         getMarker(marker_mar_dim_frame,markerLabels,'RShin');
-RAnkleOut=                      getMarker(marker_mar_dim_frame,markerLabels,'RAnkleOut');
-
-for jj = 1:3 %ref num dim
-    RLegPos_raw{1,jj} =         cat(1,RKneeOut(jj,:),RShin(jj,:),RAnkleOut(jj,:));
-    RLegPos(jj,:) =             mean(RLegPos_raw{1,jj},1);
-end
-
-segCenter.RLegCenter =          RLegPos(:,trial_start_end);
 
 %Index RFootCenter
 %Includes: RAnkleOut, RHeelBack, RForefootOut, RToeTip, RForefootIn

@@ -18,19 +18,25 @@ moCap_framerate = data.FrameRate;
 forceplate_framerate = data.Force.Frequency;
 
 %% Data restructuring
-pre_filter_marker_mar_dim_frame = data.Trajectories.Labeled.Data;
+pre_filter_marker_mar_dim_frame = data.Trajectories.Labeled.Data(:,1:3,:);
 % [marker_mar_dim_frame] = butterLowZero(order, cutoff, forceplate_framerate, marker_mar_dim_frameRAW);
 markerLabels = data.Trajectories.Labeled.Labels;
-numMarkers = data.Trajectories.Labeled.Count;
+numMarkers = length(markerLabels);
+
+%Function here should ID which marker has a discrepancy in it. Upon doing
+%so the markers data would be filled with the fillmissing function
+
+%% Identify missing data in trial data
+[pre_filter_marker_mar_dim_frame] = locMissingData(pre_filter_marker_mar_dim_frame,markerLabels,numMarkers);
 
 %% Data filtering
-for ii = 2:numMarkers
-    select_marker =     pre_filter_marker_mar_dim_frame(ii,:,:);
-    squeeze_marker =    squeeze(select_marker);
+for ii = 1:numMarkers
+    select_marker =             pre_filter_marker_mar_dim_frame(ii,:,:);
+    squeeze_marker =            squeeze(select_marker);
     for jj = 1:3
 %         select_dim =    select_marker(jj,:);
-        [select_dim] = butterLowZero(order, cutoff, moCap_framerate, squeeze_marker(jj,:));
-        filteredData(jj,:) = select_dim;
+        [select_dim] =          butterLowZero(order, cutoff, moCap_framerate, squeeze_marker(jj,:));
+        filteredData(jj,:) =    select_dim;
     end
     marker_mar_dim_frame(ii,:,:) = filteredData;
 %     marker_mar_dim_frame = marker_mar_dim_frame;
