@@ -1,12 +1,12 @@
-function [error] = JointCenterErrorFun(segCenter,marker1,marker2,marker3,figNum,weights)
+function [error] = JointCenterErrorFun(segCenter,markers,figNum,weights)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%Function ID's the errors of joint center loc given specific markers
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Find the weighted average of markers
-weightedMarker1 = marker1*weights(1);
-weightedMarker2 = marker2*weights(2);
-weightedMarker3 = marker3*weights(3);
-weightedMarkerAverage = weightedMarker1 + weightedMarker2 +weightedMarker3;
+for ii = 1:numOfWeights
+    weightedMarkers(:,:,ii)= markers(:,:,ii)*weights(ii);
+end
+weightedMarkerAverage = mean(weightedMarkers,3);
 
 %% Create variables for JointCenterGuess
 %Establish joint center as origin

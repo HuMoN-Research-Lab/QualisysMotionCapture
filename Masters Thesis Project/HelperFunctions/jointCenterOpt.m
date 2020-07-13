@@ -124,10 +124,13 @@ if lookfor_LHipJointCenter
     marker1 = LHipFront;
     marker2 = LHipBack;
     marker3 = LThigh;
+    numOfWeights = 3;
     %include RHipFront/RHipBack
-    
+    markers = cat(numOfWeights,marker1,marker2,marker3);
+    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess = weightVector*(1/numOfWeights);
     %Starting point of JointCenter guess that initiates optimizer
-    initialWeightsGuess =   [0.40;0.30;0.30]; %1/numMarkers
+    
     figNum =                132435;
     
     % v = VideoWriter('LHip Segment Length Optimization.mp4');
@@ -135,7 +138,7 @@ if lookfor_LHipJointCenter
     %LHipCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     LHipJointCenterError = @(weights) JointCenterErrorFun(LHipCenter,...
-        marker1,marker2,marker3,figNum,weights);
+        markers,figNum,weights);
     %change to markers variable 
     
     % close(v)
@@ -148,10 +151,10 @@ if lookfor_LHipJointCenter
     [LHipWeights, LHipJointCenterError_final] = fmincon(LHipJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
     
     %Calibrates results considering initialGuess
-    weightedMarker1 = marker1*LHipWeights(1);
-    weightedMarker2 = marker2*LHipWeights(2);
-    weightedMarker3 = marker3*LHipWeights(3);
-    LHipJointCenter = weightedMarker1 + weightedMarker2 + weightedMarker3; 
+    for ii = 1:numOfWeights
+        weightedMarkers(:,:,ii)= markers(:,:,ii)*LHipWeights(ii);
+    end
+    LHipJointCenter = mean(weightedMarkers,3); 
     
     jointCenters.LHipWeights =      LHipWeights;
     jointCenters.LHipJointCenter =  LHipJointCenter;
