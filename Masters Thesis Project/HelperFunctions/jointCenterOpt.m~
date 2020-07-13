@@ -3,7 +3,7 @@ function [jointCenters] = jointCenterOpt(segCenter)
 %%Optimize all joint center location 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% IDs of markers in use
-%Torso markers & segCenters
+%Upper markers & segCenters
 HeadL =             segCenter.HeadL;
 HeadTop =           segCenter.HeadTop;
 HeadR =             segCenter.HeadR;
@@ -18,7 +18,7 @@ RHipFront =         segCenter.RHipFront;
 RHipBack =          segCenter.RHipBack;
 RHipCenter =        segCenter.RHipCenter;
 
-%Shoulder markers & segCenters
+%LUpper markers & segCenters
 LShoulderTop =      segCenter.LShoulderTop;
 LShoulderBack =     segCenter.LShoulderBack;
 LShoulderCenter =   segCenter.LShoulderCenter;
@@ -26,35 +26,23 @@ RShoulderTop =      segCenter.RShoulderTop;
 RShoulderBack =     segCenter.RShoulderBack;
 RShoulderCenter =   segCenter.RShoulderCenter;
 
-%UpperArm markers & segCenters
+
 LArm =              segCenter.LArm;
-RArm =              segCenter.RArm;
 LUpperArmCenter =   segCenter.LUpperArmCenter;
-RUpperArmCenter =   segCenter.RUpperArmCenter;
 LElbow =            segCenter.LElbow;
-RElbow =            segCenter.RElbow;
-
-%Forearm markers & segCenters
 LForearmCenter =    segCenter.LForearmCenter;
-RForearmCenter =    segCenter.RForearmCenter;
-
-%Hand markers & segCenters
 LWristOut =         segCenter.LWristOut;
 LWristIn =          segCenter.LWristIn;
 LHandOut =          segCenter.LHandOut;
 LHandCenter =       segCenter.LHandCenter;
-RWristOut =         segCenter.RWristOut;
-RWristIn =          segCenter.RWristIn;
-RHandOut =          segCenter.RHandOut;
-RHandCenter =       segCenter.RHandCenter;
 
-%Femur markers & segCenters
+%Femur seg
 LThigh =            segCenter.LThigh;
 LThighCenter =      segCenter.LThighCenter;
 RThigh =            segCenter.RThigh;
 RThighCenter =      segCenter.RThighCenter;
 
-%Tibia markers & segCenters
+%Tibia seg
 LKnee =             segCenter.LKnee;
 RKnee =             segCenter.RKnee;
 LLeg =              segCenter.LLeg;
@@ -62,12 +50,30 @@ LLegCenter =        segCenter.LLegCenter;
 RLeg =              segCenter.RLeg;
 RLegCenter =        segCenter.RLegCenter;
 
-%Foot markers & segCenters
+%Foot seg
 LAnkle =            segCenter.LAnkle;
 RAnkle =            segCenter.RAnkle;
-LFootCenter =       segCenter.LFootCenter;
-RFootCenter =       segCenter.RFootCenter;
+LFootCenter =             segCenter.LFootCenter;
+RFootCenter =             segCenter.RFootCenter;
 LToeTip =           segCenter.LToeTip;
+RToeTip =           segCenter.RToeTip;
+
+%RUpper markers & segCenters
+
+RArm =              segCenter.RArm;
+RUpperArmCenter =   segCenter.RUpperArmCenter;
+RElbow =            segCenter.RElbow;
+RForearmCenter =    segCenter.RForearmCenter;
+RWristOut =         segCenter.RWristOut;
+RWristIn =          segCenter.RWristIn;
+RHandOut =          segCenter.RHandOut;
+RHandCenter =       segCenter.RHandCenter;
+
+%RLower markers & segCenters
+RKnee =             segCenter.RKnee;
+RLeg =              segCenter.RLeg;
+RAnkle =            segCenter.RAnkle;
+RFoot =             segCenter.RFoot;
 RToeTip =           segCenter.RToeTip;
 
 %% Activation settings for optimizer of joint centers
