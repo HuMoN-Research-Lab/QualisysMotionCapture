@@ -41,10 +41,12 @@ RForearmCenter =    segCenter.RForearmCenter;
 %Hand markers & segCenters
 LWristOut =         segCenter.LWristOut;
 LWristIn =          segCenter.LWristIn;
+LWristCenter =      segCenter.LWristCenter;
 LHandOut =          segCenter.LHandOut;
 LHandCenter =       segCenter.LHandCenter;
 RWristOut =         segCenter.RWristOut;
 RWristIn =          segCenter.RWristIn;
+RWristCenter =      segCenter.RWristCenter;
 RHandOut =          segCenter.RHandOut;
 RHandCenter =       segCenter.RHandCenter;
 
@@ -69,11 +71,18 @@ LToeTip =           segCenter.LToeTip;
 RToeTip =           segCenter.RToeTip;
 
 %% Activation settings for optimizer of joint centers
-lookfor_LHipJointCenter =       false;
-lookfor_LKneeJointCenter =      false;
+lookfor_LShoulderJointCenter =  false;
+lookfor_RShoulderJointCenter =  false;
+lookfor_LElbowJointCenter =     false;
+lookfor_RElbowJointCenter =     false;
+lookfor_LWristJointCenter =     false;
+lookfor_RWristJointCenter =     false;
+
+lookfor_LHipJointCenter =       true;
+lookfor_RHipJointCenter =       true;
+lookfor_LKneeJointCenter =      true;
+lookfor_RKneeJointCenter =      true;
 lookfor_LAnkleJointCenter =     true;
-lookfor_RHipJointCenter =       false;
-lookfor_RKneeJointCenter =      false;
 lookfor_RAnkleJointCenter =     true;
 
 %% Activation settings for plotting markers and segCenters
@@ -81,42 +90,6 @@ plot_segCenters =   true;
 plot_markers =      true;
 plot_LExtr =        false;
 plot_skeleton =     false;
-
-%Attempt to plot markers on top of each other
-if plot_LExtr == true
-    figure(10);
-    stepA = VideoWriter('Lower Extremities Motion Tracker.mp4');
-    open(stepA);
-    
-    for jj = 1:10:length(LHipCenter)
-        hold on
-        
-        %Tracer for the movement of lower extremities
-        plot3([LHipCenter(1,jj);LThigh(1,jj);LKnee(1,jj);LAnkle(1,jj);LFootCenter(1,jj);LToeTip(1,jj)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
-            [LHipCenter(2,jj);LThigh(2,jj);LKnee(2,jj);LAnkle(2,jj);LFootCenter(2,jj);LToeTip(2,jj)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
-            [LHipCenter(3,jj);LThigh(3,jj);LKnee(3,jj);LAnkle(3,jj);LFootCenter(3,jj);LToeTip(3,jj)],'-k','MarkerSize',15)
-        pause(0.5);
-        %Real-time movement of lower extremities
-        plot3([LHipCenter(1,jj);LThigh(1,jj);LKnee(1,jj);LAnkle(1,jj);LFootCenter(1,jj);LToeTip(1,jj)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
-            [LHipCenter(2,jj);LThigh(2,jj);LKnee(2,jj);LAnkle(2,jj);LFootCenter(2,jj);LToeTip(2,jj)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
-            [LHipCenter(3,jj);LThigh(3,jj);LKnee(3,jj);LAnkle(3,jj);LFootCenter(3,jj);LToeTip(3,jj)],'-b','MarkerSize',15)                          %;LAnkle(3,ii);LFoot(3,ii);LToeTip(3,ii)]
-        
-        axis equal
-        grid on
-        xlim([0 2e3])
-        ylim([-5e3 10e3])
-        zlim([0 3e3])
-        
-        %left side view
-        az = -88.5681;
-        el = 0.7189;
-        view(az,el)
-        drawnow
-        frame = getframe(gcf);
-        writeVideo(stepA,frame);
-    end
-    close(stepA)
-end
 
 %% Settings for optimizer
 opts = optimset('Display', 'iter','MaxFunEvals',50000, 'PlotFcns',{@optimplotx, @optimplotfval,@optimplotfirstorderopt});
@@ -127,19 +100,256 @@ beq =   [];
 lb =    0;
 ub =    1;
 
+%% Joint ref loc and initial guess for LShoulderJointCenter
+%Respective markers around jointCenter
+if lookfor_LShoulderJointCenter
+    %future code detects number of markers by how many markers are
+    %referenced
+    marker1 = LShoulderTop;
+    marker2 = LShoulderBack;
+    marker3 = LShoulderCenter;
+    numOfWeights = 3;
+    upper_markers = cat(numOfWeights,marker1,marker2,marker3);
+    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess = weightVector*(1/numOfWeights);
+    
+    %Starting point of JointCenter guess that initiates optimizer
+    figNum =                132435;
+    
+    % v = VideoWriter('LHip Segment Length Optimization.mp4');
+    
+    %LShoulderCenter marker (input1), markers around joint(input 2,3,4),
+    %unknown that equation is solving for (weights)
+    LShoulderJointCenterError = @(weights) JointCenterErrorFun(LShoulderCenter,...
+        upper_markers,figNum,weights,numOfWeights);
+    
+    % close(v)
+    
+    %Optimizer for LShoulderJointCenter weights
+    %jointCenter difference = Optimized joint center loc in x,y,z
+    [LShoulderWeights, LShoulderJointCenterError_final] = fmincon(LShoulderJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
+    
+    %Calibrates results considering initialGuess
+    for ii = 1:numOfWeights
+        weightedMarkers(:,:,ii)= upper_markers(:,:,ii)*LShoulderWeights(ii);
+    end
+    
+    LShoulderJointCenter =                  mean(weightedMarkers,3); 
+    jointCenters.LShoulderWeights =         LShoulderWeights;
+    jointCenters.LShoulderJointCenter =     LShoulderJointCenter;
+end
+
+%% Joint ref loc and initial guess for RShoulderJointCenter
+%Respective markers around jointCenter
+if lookfor_RShoulderJointCenter
+    %future code detects number of markers by how many markers are
+    %referenced
+    marker1 = RShoulderTop;
+    marker2 = RShoulderBack;
+    marker3 = RShoulderCenter;
+    numOfWeights = 3;
+    markers = cat(numOfWeights,marker1,marker2,marker3);
+    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess = weightVector*(1/numOfWeights);
+    
+    %Starting point of JointCenter guess that initiates optimizer
+    figNum =                132435;
+    
+    % v = VideoWriter('LHip Segment Length Optimization.mp4');
+    
+    %LShoulderCenter marker (input1), markers around joint(input 2,3,4),
+    %unknown that equation is solving for (weights)
+    RShoulderJointCenterError = @(weights) JointCenterErrorFun(RShoulderCenter,...
+        markers,figNum,weights,numOfWeights);
+    
+    % close(v)
+    
+    %Optimizer for RShoulderJointCenter weights
+    %jointCenter difference = Optimized joint center loc in x,y,z
+    [RShoulderWeights, RShoulderJointCenterError_final] = fmincon(RShoulderJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
+    
+    %Calibrates results considering initialGuess
+    for ii = 1:numOfWeights
+        weightedMarkers(:,:,ii)= markers(:,:,ii)*RShoulderWeights(ii);
+    end
+    
+    RShoulderJointCenter =                  mean(weightedMarkers,3); 
+    jointCenters.RShoulderWeights =         RShoulderWeights;
+    jointCenters.RShoulderJointCenter =     RShoulderJointCenter;
+end
+
+%% Joint ref loc and initial guess for LElbowJointCenter
+%Respective markers around jointCenter
+if lookfor_LElbowJointCenter
+    %future code detects number of markers by how many markers are
+    %referenced
+    marker1 = LArm;
+    marker2 = LElbow;
+    marker3 = LForearmCenter;
+    numOfWeights = 3;
+    markers = cat(numOfWeights,marker1,marker2,marker3);
+    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess = weightVector*(1/numOfWeights);
+    
+    %Starting point of JointCenter guess that initiates optimizer
+    figNum =                132435;
+    
+    % v = VideoWriter('LElbow Segment Length Optimization.mp4');
+    
+    %LElbowCenter marker (input1), markers around joint(input 2,3,4),
+    %unknown that equation is solving for (weights)
+    LElbowJointCenterError = @(weights) JointCenterErrorFun(LElbow,...
+        markers,figNum,weights,numOfWeights);
+    
+    % close(v)
+    
+    %Optimizer for LElbowJointCenter weights
+    %jointCenter difference = Optimized joint center loc in x,y,z
+    [LElbowWeights,LElbowJointCenterError_final] = fmincon(LElbowJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
+    
+    %Calibrates results considering initialGuess
+    for ii = 1:numOfWeights
+        weightedMarkers(:,:,ii)= markers(:,:,ii)*LElbowWeights(ii);
+    end
+    
+    LElbowJointCenter =                 mean(weightedMarkers,3); 
+    jointCenters.LElbowWeights =        LElbowWeights;
+    jointCenters.LElbowJointCenter =    LElbowJointCenter;
+end
+
+%% Joint ref loc and initial guess for RElbowJointCenter
+%Respective markers around jointCenter
+if lookfor_RElbowJointCenter
+    %future code detects number of markers by how many markers are
+    %referenced
+    marker1 = RArm;
+    marker2 = RElbow;
+    marker3 = RForearmCenter;
+    numOfWeights = 3;
+    markers = cat(numOfWeights,marker1,marker2,marker3);
+    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess = weightVector*(1/numOfWeights);
+    
+    %Starting point of JointCenter guess that initiates optimizer
+    figNum =                132435;
+    
+    % v = VideoWriter('RElbow Segment Length Optimization.mp4');
+    
+    %RElbowCenter marker (input1), markers around joint(input 2,3,4),
+    %unknown that equation is solving for (weights)
+    RElbowJointCenterError = @(weights) JointCenterErrorFun(RElbow,...
+        markers,figNum,weights,numOfWeights);
+    
+    % close(v)
+    
+    %Optimizer for RElbowJointCenter weights
+    %jointCenter difference = Optimized joint center loc in x,y,z
+    [RElbowWeights,RElbowJointCenterError_final] = fmincon(RElbowJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
+    
+    %Calibrates results considering initialGuess
+    for ii = 1:numOfWeights
+        weightedMarkers(:,:,ii)= markers(:,:,ii)*RElbowWeights(ii);
+    end
+    
+    RElbowJointCenter =                 mean(weightedMarkers,3); 
+    jointCenters.RElbowWeights =        RElbowWeights;
+    jointCenters.RElbowJointCenter =    RElbowJointCenter;
+end
+
+%% Joint ref loc and initial guess for LWristJointCenter
+%Respective markers around jointCenter
+if lookfor_LWristJointCenter
+    %future code detects number of markers by how many markers are
+    %referenced
+    marker1 = LWristOut;
+    marker2 = LWristIn;
+    marker3 = LWristCenter;
+    marker4 = LHandOut;
+    numOfWeights = 4;
+    markers = cat(numOfWeights,marker1,marker2,marker3,marker4);
+    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess = weightVector*(1/numOfWeights);
+    
+    %Starting point of JointCenter guess that initiates optimizer
+    figNum =                132435;
+    
+    % v = VideoWriter('LWrist Segment Length Optimization.mp4');
+    
+    %LWristCenter marker (input1), markers around joint(input 2,3,4),
+    %unknown that equation is solving for (weights)
+    LWristJointCenterError = @(weights) JointCenterErrorFun(LWristCenter,...
+        markers,figNum,weights,numOfWeights);
+    
+    % close(v)
+    
+    %Optimizer for LWristJointCenter weights
+    %jointCenter difference = Optimized joint center loc in x,y,z
+    [LWristWeights,LWristJointCenterError_final] = fmincon(LWristJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
+    
+    %Calibrates results considering initialGuess
+    for ii = 1:numOfWeights
+        weightedMarkers(:,:,ii)= markers(:,:,ii)*LWristWeights(ii);
+    end
+    
+    LWristJointCenter =                 mean(weightedMarkers,3); 
+    jointCenters.LWristWeights =        LWristWeights;
+    jointCenters.LWristJointCenter =    LWristJointCenter;
+end
+
+%% Joint ref loc and initial guess for RWristJointCenter
+%Respective markers around jointCenter
+if lookfor_RWristJointCenter
+    %future code detects number of markers by how many markers are
+    %referenced
+    marker1 = RWristOut;
+    marker2 = RWristIn;
+    marker3 = RWristCenter;
+    marker4 = RHandOut;
+    numOfWeights = 4;
+    markers = cat(numOfWeights,marker1,marker2,marker3,marker4);
+    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess = weightVector*(1/numOfWeights);
+    
+    %Starting point of JointCenter guess that initiates optimizer
+    figNum =                132435;
+    
+    % v = VideoWriter('RWrist Segment Length Optimization.mp4');
+    
+    %RWristCenter marker (input1), markers around joint(input 2,3,4),
+    %unknown that equation is solving for (weights)
+    RWristJointCenterError = @(weights) JointCenterErrorFun(RWristCenter,...
+        markers,figNum,weights,numOfWeights);
+    
+    % close(v)
+    
+    %Optimizer for RWristJointCenter weights
+    %jointCenter difference = Optimized joint center loc in x,y,z
+    [RWristWeights,RWristJointCenterError_final] = fmincon(RWristJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
+    
+    %Calibrates results considering initialGuess
+    for ii = 1:numOfWeights
+        weightedMarkers(:,:,ii)= markers(:,:,ii)*RWristWeights(ii);
+    end
+    
+    RWristJointCenter =                 mean(weightedMarkers,3); 
+    jointCenters.RWristWeights =        RWristWeights;
+    jointCenters.RWristJointCenter =    RWristJointCenter;
+end
+
 %% Joint ref loc and initial guess for LHipJointCenter
 %Respective markers around jointCenter
 if lookfor_LHipJointCenter
     %future code detects number of markers by how many markers are
     %referenced
-    marker1 = LHipFront;
-    marker2 = LHipBack;
-    marker3 = LThigh;
-    numOfWeights = 3;
-    %include RHipFront/RHipBack
-    markers = cat(numOfWeights,marker1,marker2,marker3);
-    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
-    initialWeightsGuess = weightVector*(1/numOfWeights);
+    marker1 =       LHipFront;
+    marker2 =       LHipBack;
+    marker3 =       LHipCenter;
+    marker4 =       LThigh;
+%     marker5 =       LKnee;
+    numOfWeights =  4;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4); %,marker5);
+    weightVector =          ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess =   weightVector*(1/numOfWeights);
     
     %Starting point of JointCenter guess that initiates optimizer
     figNum =                132435;
@@ -168,20 +378,22 @@ if lookfor_LHipJointCenter
 end
 
 %% Joint ref loc and initial guess for RHipJointCenter
-if lookfor_RHipJointCenter == true
+if lookfor_RHipJointCenter
     %Acquire mean location of markers around hip joint
     marker1 =       RHipFront;
     marker2 =       RHipBack;
-    marker3 =       RThigh;
-    numOfWeights =  3;
-    markers =               cat(numOfWeights,marker1,marker2,marker3);
-    weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    marker3 =       RHipCenter;
+    marker4 =       RThigh;
+%     marker5 =       RKnee;
+    numOfWeights =  4;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4); %,marker5);
+    weightVector =          ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                29586;
     
 %     w = VideoWriter('RHip Segment Length Optimization.mp4');
 
-    RHipJointCenterError = @(weights) JointCenterErrorFun(LHipCenter,...
+    RHipJointCenterError = @(weights) JointCenterErrorFun(RHipCenter,...
         markers,figNum,weights,numOfWeights);
     
     %Optimizer for RHipJointCenter weights
@@ -222,8 +434,9 @@ if lookfor_LKneeJointCenter
     marker1 =       LKnee;
     marker2 =       LLegCenter;
     marker3 =       LAnkle;
-    numOfWeights =  3;
-    markers =               cat(numOfWeights,marker1,marker2,marker3);
+    marker4 =       LThighCenter;
+    numOfWeights =  4;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                33496;
@@ -250,13 +463,14 @@ if lookfor_LKneeJointCenter
 end
 
 %% Joint ref loc and initial guess for RKneeJointCenter
-if lookfor_RKneeJointCenter == true
+if lookfor_RKneeJointCenter
     %Acquire mean location of markers around hip joint
     marker1 =       RKnee;
     marker2 =       RLegCenter;
     marker3 =       RAnkle;
-    numOfWeights =  3;
-    markers =               cat(numOfWeights,marker1,marker2,marker3);
+    marker4 =       RThighCenter;
+    numOfWeights =  4;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                43496;
@@ -283,13 +497,14 @@ if lookfor_RKneeJointCenter == true
 end
 
 %% Joint ref loc and initial guess for LAnkleJointCenter
-if lookfor_LAnkleJointCenter == true
+if lookfor_LAnkleJointCenter
     %Acquire mean location of markers around hip joint
     marker1 =       LAnkle;
     marker2 =       LFootCenter;
     marker3 =       LToeTip;
-    numOfWeights =  3;
-    markers =               cat(numOfWeights,marker1,marker2,marker3);
+    marker4 =       LLegCenter;
+    numOfWeights =  4;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                53496;
@@ -316,13 +531,14 @@ if lookfor_LAnkleJointCenter == true
 end
 
 %% Joint ref loc and initial guess for LAnkleJointCenter
-if lookfor_RAnkleJointCenter == true
+if lookfor_RAnkleJointCenter
     %Acquire mean location of markers around ankle
     marker1 =       RAnkle;
     marker2 =       RFootCenter;
     marker3 =       RToeTip;
-    numOfWeights =  3;
-    markers =               cat(numOfWeights,marker1,marker2,marker3);
+    marker4 =       LLegCenter;
+    numOfWeights =  4;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                53496;
@@ -357,32 +573,56 @@ for ii = 1:5:length(LHipCenter)
     clf
     hold on
     
-    if lookfor_LHipJointCenter == true
+    if lookfor_LShoulderJointCenter
+        plot3(LShoulderJointCenter(1,ii),LShoulderJointCenter(2,ii),...
+            LShoulderJointCenter(3,ii),'b.','MarkerSize',12)
+    end
+    if lookfor_RShoulderJointCenter
+        plot3(RShoulderJointCenter(1,ii),RShoulderJointCenter(2,ii),...
+            RShoulderJointCenter(3,ii),'r.','MarkerSize',12)
+    end
+    if lookfor_LElbowJointCenter
+        plot3(LElbowJointCenter(1,ii),LElbowJointCenter(2,ii),...
+            LElbowJointCenter(3,ii),'b.','MarkerSize',12)
+    end
+    if lookfor_RElbowJointCenter
+        plot3(RElbowJointCenter(1,ii),RElbowJointCenter(2,ii),...
+            RElbowJointCenter(3,ii),'r.','MarkerSize',12)
+    end
+    if lookfor_LWristJointCenter
+        plot3(LWristJointCenter(1,ii),LWristJointCenter(2,ii),...
+            LWristJointCenter(3,ii),'b.','MarkerSize',12)
+    end
+    if lookfor_RWristJointCenter
+        plot3(RWristJointCenter(1,ii),RWristJointCenter(2,ii),...
+            RWristJointCenter(3,ii),'r.','MarkerSize',12)
+    end    
+    if lookfor_LHipJointCenter
         plot3(LHipJointCenter(1,ii),LHipJointCenter(2,ii),...
             LHipJointCenter(3,ii),'b.','MarkerSize',12)
+    end
+    if lookfor_RHipJointCenter
+        plot3(RHipJointCenter(1,ii),RHipJointCenter(2,ii),...
+            RHipJointCenter(3,ii),'r.','MarkerSize',12)
+    end
+    if lookfor_LKneeJointCenter
+        plot3(LKneeJointCenter(1,ii),LKneeJointCenter(2,ii),...
+            LKneeJointCenter(3,ii),'b.','MarkerSize',12)
+    end
+    if lookfor_RKneeJointCenter
+        plot3(RKneeJointCenter(1,ii),RKneeJointCenter(2,ii),...
+            RKneeJointCenter(3,ii),'r.','MarkerSize',12)
     end
     if lookfor_LAnkleJointCenter == true
         plot3(LAnkleJointCenter(1,ii),LAnkleJointCenter(2,ii),...
             LAnkleJointCenter(3,ii),'b.','MarkerSize',12)
     end
-    if lookfor_LKneeJointCenter == true
-        plot3(LKneeJointCenter(1,ii),LKneeJointCenter(2,ii),...
-            LKneeJointCenter(3,ii),'b.','MarkerSize',12)
-    end
-    if lookfor_RHipJointCenter == true
-        plot3(RHipJointCenter(1,ii),RHipJointCenter(2,ii),...
-            RHipJointCenter(3,ii),'r.','MarkerSize',12)
-    end
-    if lookfor_RKneeJointCenter == true
-        plot3(RKneeJointCenter(1,ii),RKneeJointCenter(2,ii),...
-            RKneeJointCenter(3,ii),'r.','MarkerSize',12)
-    end
-    if lookfor_RAnkleJointCenter == true
+    if lookfor_RAnkleJointCenter
         plot3(RAnkleJointCenter(1,ii),RAnkleJointCenter(2,ii),...
             RAnkleJointCenter(3,ii),'r.','MarkerSize',12)
     end
     
-    if plot_markers == true
+    if plot_markers
         %Upper markers
         plot3(HeadL(1,ii),HeadL(2,ii),HeadL(3,ii),'k.','MarkerSize',5)
         plot3(HeadTop(1,ii),HeadTop(2,ii),HeadTop(3,ii),'k.','MarkerSize',5)
@@ -491,8 +731,8 @@ for ii = 1:5:length(LHipCenter)
 %     el = 6.8338;
     
     %right side view
-    az = 89.3695;
-    el = 0.0373;
+    az = 69.5695;
+    el = 17.3879;
     
     view(az,el)
     drawnow
@@ -502,6 +742,43 @@ for ii = 1:5:length(LHipCenter)
     
 end
 close(stepA)
+
+%% Lower Extremities tracer
+%Attempt to plot markers on top of each other
+if plot_LExtr == true
+    figure(10);
+    stepA = VideoWriter('Lower Extremities Motion Tracker.mp4');
+    open(stepA);
+    
+    for jj = 1:10:length(LHipCenter)
+        hold on
+        
+        %Tracer for the movement of lower extremities
+        plot3([LHipCenter(1,jj);LThigh(1,jj);LKnee(1,jj);LAnkle(1,jj);LFootCenter(1,jj);LToeTip(1,jj)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
+            [LHipCenter(2,jj);LThigh(2,jj);LKnee(2,jj);LAnkle(2,jj);LFootCenter(2,jj);LToeTip(2,jj)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
+            [LHipCenter(3,jj);LThigh(3,jj);LKnee(3,jj);LAnkle(3,jj);LFootCenter(3,jj);LToeTip(3,jj)],'-k','MarkerSize',15)
+        pause(0.5);
+        %Real-time movement of lower extremities
+        plot3([LHipCenter(1,jj);LThigh(1,jj);LKnee(1,jj);LAnkle(1,jj);LFootCenter(1,jj);LToeTip(1,jj)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
+            [LHipCenter(2,jj);LThigh(2,jj);LKnee(2,jj);LAnkle(2,jj);LFootCenter(2,jj);LToeTip(2,jj)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
+            [LHipCenter(3,jj);LThigh(3,jj);LKnee(3,jj);LAnkle(3,jj);LFootCenter(3,jj);LToeTip(3,jj)],'-b','MarkerSize',15)                          %;LAnkle(3,ii);LFoot(3,ii);LToeTip(3,ii)]
+        
+        axis equal
+        grid on
+        xlim([0 2e3])
+        ylim([-5e3 10e3])
+        zlim([0 3e3])
+        
+        %left side view
+        az = -88.5681;
+        el = 0.7189;
+        view(az,el)
+        drawnow
+        frame = getframe(gcf);
+        writeVideo(stepA,frame);
+    end
+    close(stepA)
+end
 
 %% Extra code
 %Acquire mean location of markers around hip joint
