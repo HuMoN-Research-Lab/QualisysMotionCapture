@@ -301,9 +301,12 @@ LShin =                         getMarker(marker_mar_dim_frame,markerLabels,'LSh
 LAnkleOut =                     getMarker(marker_mar_dim_frame,markerLabels,'LAnkleOut');
 
 for jj = 1:3 %ref num dim
-    LLegPos_raw{1,jj} =         cat(1,LLegCluster1(jj,:),LLegCluster2(jj,:),...
-        LLegCluster3(jj,:),LLegCluster4(jj,:),LKneeOut(jj,:),...
-        LShin(jj,:),LAnkleOut(jj,:));
+    LLegPos_raw{1,jj} =         cat(1,LKneeOut(jj,:),LShin(jj,:),...
+        LAnkleOut(jj,:));
+    
+%     LLegPos_raw{1,jj} =         cat(1,LLegCluster1(jj,:),LLegCluster2(jj,:),...
+%         LLegCluster3(jj,:),LLegCluster4(jj,:),LKneeOut(jj,:),...
+%         LShin(jj,:),LAnkleOut(jj,:));
     LLegPos(jj,:) =             mean(LLegPos_raw{1,jj},1);
 end
 
@@ -349,7 +352,7 @@ segCenter.LFootCenter =         LFootPos(:,trial_start_end);
 %Includes: RAnkleOut, RHeelBack, RForefootOut, RToeTip, RForefootIn
 RFoot_MarkerNames =             {'RAnkleOut' 'RHeelBack' 'RForefootOut' 'RToeTip' 'RForefootIn'};
 RHeelBack =                     getMarker(marker_mar_dim_frame,markerLabels,'RHeelBack');
-RForefootOut =                   getMarker(marker_mar_dim_frame,markerLabels,'RForefootOut');
+RForefootOut =                  getMarker(marker_mar_dim_frame,markerLabels,'RForefootOut');
 RToeTip =                       getMarker(marker_mar_dim_frame,markerLabels,'RToeTip');
 RForefootIn =                   getMarker(marker_mar_dim_frame,markerLabels,'RForefootIn');
 

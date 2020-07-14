@@ -70,11 +70,11 @@ RToeTip =           segCenter.RToeTip;
 
 %% Activation settings for optimizer of joint centers
 lookfor_LHipJointCenter =       false;
-lookfor_LKneeJointCenter =      true;
-lookfor_LAnkleJointCenter =     false;
+lookfor_LKneeJointCenter =      false;
+lookfor_LAnkleJointCenter =     true;
 lookfor_RHipJointCenter =       false;
 lookfor_RKneeJointCenter =      false;
-lookfor_RAnkleJointCenter =     false;
+lookfor_RAnkleJointCenter =     true;
 
 %% Activation settings for plotting markers and segCenters
 plot_segCenters =   true;
@@ -298,7 +298,7 @@ if lookfor_LAnkleJointCenter == true
     
     %RKneeCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
-    LAnkleJointCenterError = @(weights) JointCenterErrorFun(LAnkle,...
+    LAnkleJointCenterError = @(weights) JointCenterErrorFun(LFootCenter,...
         markers,figNum,weights,numOfWeights);
     
     %Optimizer for LKneeJointCenter weights
@@ -331,7 +331,7 @@ if lookfor_RAnkleJointCenter == true
     
     %RAnkleCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
-    RAnkleJointCenterError = @(weights) JointCenterErrorFun(RAnkle,...
+    RAnkleJointCenterError = @(weights) JointCenterErrorFun(RFootCenter,...
         markers,figNum,weights,numOfWeights);
     
     %Optimizer for LKneeJointCenter weights
@@ -450,7 +450,7 @@ for ii = 1:5:length(LHipCenter)
         plot3(RHipCenter(1,ii),RHipCenter(2,ii),RHipCenter(3,ii),'g.','MarkerSize',5)
         plot3(RThighCenter(1,ii),RThighCenter(2,ii),RThighCenter(3,ii),'g.','MarkerSize',5)
         plot3(RLegCenter(1,ii),RLegCenter(2,ii),RLegCenter(3,ii),'g.','MarkerSize',5);
-%         plot3(RFootCenter(1,ii),RFootCenter(2,ii),RFootCenter(3,ii),'g.','MarkerSize',5);
+        plot3(RFootCenter(1,ii),RFootCenter(2,ii),RFootCenter(3,ii),'g.','MarkerSize',5);
     end
     
     if plot_skeleton == true
