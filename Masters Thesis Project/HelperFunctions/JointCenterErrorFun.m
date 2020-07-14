@@ -1,4 +1,4 @@
-function [error] = JointCenterErrorFun(segCenter,markers,figNum,weights)
+function [error] = JointCenterErrorFun(segCenter,markers,figNum,weights,numOfWeights)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%Function ID's the errors of joint center loc given specific markers
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
