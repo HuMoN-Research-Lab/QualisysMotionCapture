@@ -75,15 +75,15 @@ lookfor_LShoulderJointCenter =  false;
 lookfor_RShoulderJointCenter =  false;
 lookfor_LElbowJointCenter =     false;
 lookfor_RElbowJointCenter =     false;
-lookfor_LWristJointCenter =     true;
-lookfor_RWristJointCenter =     true;
+lookfor_LWristJointCenter =     false;
+lookfor_RWristJointCenter =     false;
 
 lookfor_LHipJointCenter =       true;
 lookfor_RHipJointCenter =       true;
-lookfor_LKneeJointCenter =      false;
-lookfor_RKneeJointCenter =      false;
-lookfor_LAnkleJointCenter =     false;
-lookfor_RAnkleJointCenter =     false;
+lookfor_LKneeJointCenter =      true;
+lookfor_RKneeJointCenter =      true;
+lookfor_LAnkleJointCenter =     true;
+lookfor_RAnkleJointCenter =     fa;
 
 %% Activation settings for plotting markers and segCenters
 plot_segCenters =   true;
@@ -341,14 +341,15 @@ end
 if lookfor_LHipJointCenter
     %future code detects number of markers by how many markers are
     %referenced
-    marker1 = LHipFront;
-    marker2 = LHipBack;
-    marker3 = LThigh;
-    numOfWeights = 3;
-    %include RHipFront/RHipBack
-    markers = cat(numOfWeights,marker1,marker2,marker3);
-    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
-    initialWeightsGuess = weightVector*(1/numOfWeights);
+    marker1 =       LHipFront;
+    marker2 =       LHipBack;
+    marker3 =       LHipCenter;
+    marker4 =       LThigh;
+%     marker5 =       LKnee;
+    numOfWeights =  4;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4); %,marker5);
+    weightVector =          ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess =   weightVector*(1/numOfWeights);
     
     %Starting point of JointCenter guess that initiates optimizer
     figNum =                132435;
@@ -381,18 +382,19 @@ if lookfor_RHipJointCenter
     %Acquire mean location of markers around hip joint
     marker1 =       RHipFront;
     marker2 =       RHipBack;
-    marker3 =       RThigh;
-    marker4 =       R;
+    marker3 =       RHipCenter;
+    marker4 =       RThigh;
+%     marker5 =       RKnee;
     numOfWeights =  4;
-    lower_markers =         cat(numOfWeights,marker1,marker2,marker3);
-    weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4); %,marker5);
+    weightVector =          ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                29586;
     
 %     w = VideoWriter('RHip Segment Length Optimization.mp4');
 
-    RHipJointCenterError = @(weights) JointCenterErrorFun(LHipCenter,...
-        lower_markers,figNum,weights,numOfWeights);
+    RHipJointCenterError = @(weights) JointCenterErrorFun(RHipCenter,...
+        markers,figNum,weights,numOfWeights);
     
     %Optimizer for RHipJointCenter weights
     %jointCenter difference = Optimized joint center loc in x,y,z
@@ -400,7 +402,7 @@ if lookfor_RHipJointCenter
     
     %Calibrates results considering initialGuess
     for ii = 1:numOfWeights
-        weightedMarkers(:,:,ii)= lower_markers(:,:,ii)*RHipWeights(ii);
+        weightedMarkers(:,:,ii)= markers(:,:,ii)*RHipWeights(ii);
     end
     RHipJointCenter = mean(weightedMarkers,3); 
     
@@ -432,8 +434,9 @@ if lookfor_LKneeJointCenter
     marker1 =       LKnee;
     marker2 =       LLegCenter;
     marker3 =       LAnkle;
+%     marker4 =       LThighCenter;
     numOfWeights =  3;
-    markers =               cat(numOfWeights,marker1,marker2,marker3);
+    markers =               cat(numOfWeights,marker1,marker2,marker3); %,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                33496;
@@ -465,8 +468,9 @@ if lookfor_RKneeJointCenter
     marker1 =       RKnee;
     marker2 =       RLegCenter;
     marker3 =       RAnkle;
+%     marker4 =       RThighCenter;
     numOfWeights =  3;
-    markers =               cat(numOfWeights,marker1,marker2,marker3);
+    markers =               cat(numOfWeights,marker1,marker2,marker3); %,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                43496;
@@ -498,8 +502,9 @@ if lookfor_LAnkleJointCenter
     marker1 =       LAnkle;
     marker2 =       LFootCenter;
     marker3 =       LToeTip;
-    numOfWeights =  3;
-    markers =               cat(numOfWeights,marker1,marker2,marker3);
+    marker4 =       LLegCenter;
+    numOfWeights =  4;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                53496;
@@ -508,7 +513,7 @@ if lookfor_LAnkleJointCenter
     
     %RKneeCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
-    LAnkleJointCenterError = @(weights) JointCenterErrorFun(LFootCenter,...
+    LAnkleJointCenterError = @(weights) JointCenterErrorFun(LAnkle,...
         markers,figNum,weights,numOfWeights);
     
     %Optimizer for LKneeJointCenter weights
@@ -531,8 +536,9 @@ if lookfor_RAnkleJointCenter
     marker1 =       RAnkle;
     marker2 =       RFootCenter;
     marker3 =       RToeTip;
-    numOfWeights =  3;
-    markers =               cat(numOfWeights,marker1,marker2,marker3);
+    marker4 =       LLegCenter;
+    numOfWeights =  4;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                53496;
@@ -541,7 +547,7 @@ if lookfor_RAnkleJointCenter
     
     %RAnkleCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
-    RAnkleJointCenterError = @(weights) JointCenterErrorFun(RFootCenter,...
+    RAnkleJointCenterError = @(weights) JointCenterErrorFun(RAnkle,...
         markers,figNum,weights,numOfWeights);
     
     %Optimizer for LKneeJointCenter weights

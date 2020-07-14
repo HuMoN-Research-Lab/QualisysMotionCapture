@@ -71,19 +71,19 @@ LToeTip =           segCenter.LToeTip;
 RToeTip =           segCenter.RToeTip;
 
 %% Activation settings for optimizer of joint centers
-lookfor_LShoulderJointCenter =  true;
-lookfor_RShoulderJointCenter =  true;
-lookfor_LElbowJointCenter =     true;
-lookfor_RElbowJointCenter =     true;
-lookfor_LWristJointCenter =     true;
-lookfor_RWristJointCenter =     true;
+lookfor_LShoulderJointCenter =  false;
+lookfor_RShoulderJointCenter =  false;
+lookfor_LElbowJointCenter =     false;
+lookfor_RElbowJointCenter =     false;
+lookfor_LWristJointCenter =     false;
+lookfor_RWristJointCenter =     false;
 
-lookfor_LHipJointCenter =       true;
-lookfor_RHipJointCenter =       true;
+lookfor_LHipJointCenter =       false;
+lookfor_RHipJointCenter =       false;
 lookfor_LKneeJointCenter =      true;
 lookfor_RKneeJointCenter =      true;
-lookfor_LAnkleJointCenter =     true;
-lookfor_RAnkleJointCenter =     true;
+lookfor_LAnkleJointCenter =     false;
+lookfor_RAnkleJointCenter =     false;
 
 %% Activation settings for plotting markers and segCenters
 plot_segCenters =   true;
@@ -105,13 +105,13 @@ ub =    1;
 if lookfor_LShoulderJointCenter
     %future code detects number of markers by how many markers are
     %referenced
-    marker1 = LShoulderTop;
-    marker2 = LShoulderBack;
-    marker3 = LShoulderCenter;
-    numOfWeights = 3;
-    upper_markers = cat(numOfWeights,marker1,marker2,marker3);
-    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
-    initialWeightsGuess = weightVector*(1/numOfWeights);
+    marker1 =       LShoulderTop;
+    marker2 =       LShoulderBack;
+    marker3 =       LShoulderCenter;
+    numOfWeights =  3;
+    upper_markers =         cat(numOfWeights,marker1,marker2,marker3);
+    weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess =   weightVector*(1/numOfWeights);
     
     %Starting point of JointCenter guess that initiates optimizer
     figNum =                132435;
@@ -144,13 +144,13 @@ end
 if lookfor_RShoulderJointCenter
     %future code detects number of markers by how many markers are
     %referenced
-    marker1 = RShoulderTop;
-    marker2 = RShoulderBack;
-    marker3 = RShoulderCenter;
-    numOfWeights = 3;
-    markers = cat(numOfWeights,marker1,marker2,marker3);
-    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
-    initialWeightsGuess = weightVector*(1/numOfWeights);
+    marker1 =       RShoulderTop;
+    marker2 =       RShoulderBack;
+    marker3 =       RShoulderCenter;
+    numOfWeights =  3;
+    markers =               cat(numOfWeights,marker1,marker2,marker3);
+    weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess =   weightVector*(1/numOfWeights);
     
     %Starting point of JointCenter guess that initiates optimizer
     figNum =                132435;
@@ -183,13 +183,13 @@ end
 if lookfor_LElbowJointCenter
     %future code detects number of markers by how many markers are
     %referenced
-    marker1 = LArm;
-    marker2 = LElbow;
-    marker3 = LForearmCenter;
-    numOfWeights = 3;
-    markers = cat(numOfWeights,marker1,marker2,marker3);
-    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
-    initialWeightsGuess = weightVector*(1/numOfWeights);
+    marker1 =       LArm;
+    marker2 =       LElbow;
+    marker3 =       LForearmCenter;
+    numOfWeights =  3;
+    markers =               cat(numOfWeights,marker1,marker2,marker3);
+    weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess =   weightVector*(1/numOfWeights);
     
     %Starting point of JointCenter guess that initiates optimizer
     figNum =                132435;
@@ -222,13 +222,13 @@ end
 if lookfor_RElbowJointCenter
     %future code detects number of markers by how many markers are
     %referenced
-    marker1 = RArm;
-    marker2 = RElbow;
-    marker3 = RForearmCenter;
-    numOfWeights = 3;
-    markers = cat(numOfWeights,marker1,marker2,marker3);
-    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
-    initialWeightsGuess = weightVector*(1/numOfWeights);
+    marker1 =       RArm;
+    marker2 =       RElbow;
+    marker3 =       RForearmCenter;
+    numOfWeights =  3;
+    markers =               cat(numOfWeights,marker1,marker2,marker3);
+    weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess =   weightVector*(1/numOfWeights);
     
     %Starting point of JointCenter guess that initiates optimizer
     figNum =                132435;
@@ -261,14 +261,14 @@ end
 if lookfor_LWristJointCenter
     %future code detects number of markers by how many markers are
     %referenced
-    marker1 = LWristOut;
-    marker2 = LWristIn;
-    marker3 = LWristCenter;
-    marker4 = LHandOut;
-    numOfWeights = 4;
-    markers = cat(numOfWeights,marker1,marker2,marker3,marker4);
-    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
-    initialWeightsGuess = weightVector*(1/numOfWeights);
+    marker1 =       LWristOut;
+    marker2 =       LWristIn;
+    marker3 =       LWristCenter;
+    marker4 =       LHandOut;
+    numOfWeights =  4;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
+    weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess =   weightVector*(1/numOfWeights);
     
     %Starting point of JointCenter guess that initiates optimizer
     figNum =                132435;
@@ -301,14 +301,14 @@ end
 if lookfor_RWristJointCenter
     %future code detects number of markers by how many markers are
     %referenced
-    marker1 = RWristOut;
-    marker2 = RWristIn;
-    marker3 = RWristCenter;
-    marker4 = RHandOut;
-    numOfWeights = 4;
-    markers = cat(numOfWeights,marker1,marker2,marker3,marker4);
-    weightVector= ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
-    initialWeightsGuess = weightVector*(1/numOfWeights);
+    marker1 =       RWristOut;
+    marker2 =       RWristIn;
+    marker3 =       RWristCenter;
+    marker4 =       RHandOut;
+    numOfWeights =  4;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
+    weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    initialWeightsGuess =   weightVector*(1/numOfWeights);
     
     %Starting point of JointCenter guess that initiates optimizer
     figNum =                132435;
