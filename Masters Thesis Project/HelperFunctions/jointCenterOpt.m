@@ -10,6 +10,8 @@ HeadR =             segCenter.HeadR;
 HeadFront =         segCenter.HeadFront;
 HeadCenter =        segCenter.HeadCenter;
 SpineTop =          segCenter.SpineTop;
+BackL =             segCenter.BackL;
+BackR =             segCenter.BackR;
 ChestCenter =       segCenter.ChestCenter;
 LHipFront =         segCenter.LHipFront;
 LHipBack =          segCenter.LHipBack;
@@ -67,6 +69,8 @@ LAnkle =            segCenter.LAnkle;
 RAnkle =            segCenter.RAnkle;
 LFootCenter =       segCenter.LFootCenter;
 RFootCenter =       segCenter.RFootCenter;
+LHeel =             segCenter.LHeel;
+RHeel =             segCenter.RHeel;
 LToeTip =           segCenter.LToeTip;
 RToeTip =           segCenter.RToeTip;
 
@@ -78,12 +82,12 @@ lookfor_RElbowJointCenter =     false;
 lookfor_LWristJointCenter =     false;
 lookfor_RWristJointCenter =     false;
 
-lookfor_LHipJointCenter =       true;
-lookfor_RHipJointCenter =       true;
-lookfor_LKneeJointCenter =      true;
-lookfor_RKneeJointCenter =      true;
-lookfor_LAnkleJointCenter =     false;
-lookfor_RAnkleJointCenter =     false;
+lookfor_LHipJointCenter =       false;
+lookfor_RHipJointCenter =       false;
+lookfor_LKneeJointCenter =      false;
+lookfor_RKneeJointCenter =      false;
+lookfor_LAnkleJointCenter =     true;
+lookfor_RAnkleJointCenter =     true;
 
 %% Activation settings for plotting markers and segCenters
 plot_segCenters =   true;
@@ -346,8 +350,9 @@ if lookfor_LHipJointCenter
     marker3 =       LHipCenter;
     marker4 =       LThigh;
 %     marker5 =       LKnee;
-    numOfWeights =  4;
-    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4); %,marker5);
+    marker5 =       RWristOut;
+    numOfWeights =  5;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4,marker5);
     weightVector =          ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     
@@ -384,9 +389,10 @@ if lookfor_RHipJointCenter
     marker2 =       RHipBack;
     marker3 =       RHipCenter;
     marker4 =       RThigh;
+    marker5 =       LWristOut;
 %     marker5 =       RKnee;
-    numOfWeights =  4;
-    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4); %,marker5);
+    numOfWeights =  5;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4,marker5); %,marker5);
     weightVector =          ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                29586;
@@ -431,13 +437,13 @@ end
 %% Joint ref loc and initial guess for LKneeJointCenter
 if lookfor_LKneeJointCenter
     %Acquire mean location of markers around hip joint
-    marker1 =       LKnee;
+    marker1 =       LAnkle;
     marker2 =       LThighCenter;
-    marker3 =       LAnkle;
-    marker4 =       LLegCenter;
-    numOfWeights =  4;
-    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
-    weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
+    marker3 =       LKnee;
+%     marker4 =       LWristOut;
+    numOfWeights =  3;
+    markers =               cat(numOfWeights,marker1,marker2,marker3); %,marker4);
+    weightVector =          ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                33496;
     
@@ -465,12 +471,12 @@ end
 %% Joint ref loc and initial guess for RKneeJointCenter
 if lookfor_RKneeJointCenter
     %Acquire mean location of markers around hip joint
-    marker1 =       RKnee;
+    marker1 =       RAnkle;
     marker2 =       RThighCenter;
-    marker3 =       RAnkle;
-    marker4 =       RLegCenter; %instead of LegCenter
-    numOfWeights =  4;
-    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
+    marker3 =       RKnee;
+%     marker4 =       RWristOut; %instead of LegCenter
+    numOfWeights =  3;
+    markers =               cat(numOfWeights,marker1,marker2,marker3); %,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                43496;
@@ -532,11 +538,11 @@ end
 
 %% Joint ref loc and initial guess for LAnkleJointCenter
 if lookfor_RAnkleJointCenter
-    %Acquire mean location of markers around ankle
+    %Acquire mean location of markers around hip joint
     marker1 =       RAnkle;
     marker2 =       RFootCenter;
     marker3 =       RToeTip;
-    marker4 =       LLegCenter;
+    marker4 =       RLegCenter;
     numOfWeights =  4;
     markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
@@ -561,9 +567,8 @@ if lookfor_RAnkleJointCenter
     %Calibrates results considering initialGuess
     RAnkleJointCenter =                  mean(weightedMarkers,3); 
     jointCenters.RAnkleWeights =         RAnkleWeights;
-    jointCenters.RAnkleJointCenter =     RAnkleJointCenter;
+    jointCenters.RAnkleJointCenter =     RAnkleJointCenter;    
 end
-
 %% Visual representation of markers and segCenters w/ jointCenters
 figure(7447)
 stepA = VideoWriter('Skeleton Motion Capture with Joint Centers.mp4');
@@ -628,6 +633,9 @@ for ii = 1:5:length(LHipCenter)
         plot3(HeadTop(1,ii),HeadTop(2,ii),HeadTop(3,ii),'k.','MarkerSize',5)
         plot3(HeadR(1,ii),HeadR(2,ii),HeadR(3,ii),'k.','MarkerSize',5)
         plot3(HeadFront(1,ii),HeadFront(2,ii),HeadFront(3,ii),'k.','MarkerSize',5)
+        plot3(SpineTop(1,ii),SpineTop(2,ii),SpineTop(3,ii),'k.','MarkerSize',5)
+        plot3(BackL(1,ii),BackL(2,ii),BackL(3,ii),'k.','MarkerSize',5)
+        plot3(BackR(1,ii),BackR(2,ii),BackR(3,ii),'k.','MarkerSize',5)
         
         %LUpper Markers
         plot3(LShoulderTop(1,ii),LShoulderTop(2,ii),LShoulderTop(3,ii),'k.','MarkerSize',5)
@@ -643,6 +651,7 @@ for ii = 1:5:length(LHipCenter)
         plot3(LHipBack(1,ii),LHipBack(2,ii),LHipBack(3,ii),'k.','MarkerSize',5)
         plot3(LKnee(1,ii),LKnee(2,ii),LKnee(3,ii),'k.','MarkerSize',5);
         plot3(LAnkle(1,ii),LAnkle(2,ii),LAnkle(3,ii),'k.','MarkerSize',5);
+        plot3(LHeel(1,ii),LHeel(2,ii),LHeel(3,ii),'k.','MarkerSize',5);
         plot3(LToeTip(1,ii),LToeTip(2,ii),LToeTip(3,ii),'k.','MarkerSize',5);
     
         %RUpper Markers
@@ -659,6 +668,7 @@ for ii = 1:5:length(LHipCenter)
         plot3(RHipBack(1,ii),RHipBack(2,ii),RHipBack(3,ii),'k.','MarkerSize',5)
         plot3(RKnee(1,ii),RKnee(2,ii),RKnee(3,ii),'k.','MarkerSize',5);
         plot3(RAnkle(1,ii),RAnkle(2,ii),RAnkle(3,ii),'k.','MarkerSize',5);
+        plot3(RHeel(1,ii),RHeel(2,ii),RHeel(3,ii),'k.','MarkerSize',5);
         plot3(RToeTip(1,ii),RToeTip(2,ii),RToeTip(3,ii),'k.','MarkerSize',5);
     end
     
@@ -704,18 +714,18 @@ for ii = 1:5:length(LHipCenter)
             [LShoulderCenter(2,ii);LUpperArmCenter(2,ii);LElbow(2,ii);LForearmCenter(2,ii);LWristOut(2,ii)],...
             [LShoulderCenter(3,ii);LUpperArmCenter(3,ii);LElbow(3,ii);LForearmCenter(3,ii);LWristOut(3,ii)],'-b','MarkerSize',20)
         
-        plot3([LHipCenter(1,ii);LThigh(1,ii);LKnee(1,ii);LAnkle(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
-            [LHipCenter(2,ii);LThigh(2,ii);LKnee(2,ii);LAnkle(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
-            [LHipCenter(3,ii);LThigh(3,ii);LKnee(3,ii);LAnkle(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','MarkerSize',20)
+        plot3([LHipCenter(1,ii);LThigh(1,ii);LKnee(1,ii);LAnkle(1,ii);LHeel(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
+            [LHipCenter(2,ii);LThigh(2,ii);LKnee(2,ii);LAnkle(2,ii);LHeel(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
+            [LHipCenter(3,ii);LThigh(3,ii);LKnee(3,ii);LAnkle(3,ii);LHeel(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','MarkerSize',20)
         
         %Plot RExtremities
         plot3([RShoulderCenter(1,ii);RUpperArmCenter(1,ii);RElbow(1,ii);RForearmCenter(1,ii);RWristOut(1,ii)],...
             [RShoulderCenter(2,ii);RUpperArmCenter(2,ii);RElbow(2,ii);RForearmCenter(2,ii);RWristOut(2,ii)],...
             [RShoulderCenter(3,ii);RUpperArmCenter(3,ii);RElbow(3,ii);RForearmCenter(3,ii);RWristOut(3,ii)],'-r','MarkerSize',20)
         
-        plot3([RHipCenter(1,ii);RThigh(1,ii);RKnee(1,ii);RAnkle(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
-            [RHipCenter(2,ii);RThigh(2,ii);RKnee(2,ii);RAnkle(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
-            [RHipCenter(3,ii);RThigh(3,ii);RKnee(3,ii);RAnkle(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','MarkerSize',20)
+        plot3([RHipCenter(1,ii);RThigh(1,ii);RKnee(1,ii);RAnkle(1,ii);RHeel(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+            [RHipCenter(2,ii);RThigh(2,ii);RKnee(2,ii);RAnkle(2,ii);RHeel(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+            [RHipCenter(3,ii);RThigh(3,ii);RKnee(3,ii);RAnkle(3,ii);RHeel(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','MarkerSize',20)
     end
     
     %% Plotting settings

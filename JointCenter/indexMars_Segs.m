@@ -45,8 +45,31 @@ segCenter.LKnee =               getMarker(marker_mar_dim_frame(:,:,trial_start_e
 segCenter.RKnee =               getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RKneeOut');
 segCenter.LAnkle =              getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LAnkleOut');
 segCenter.RAnkle =              getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RAnkleOut');
+segCenter.LHeel =               getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LHeelBack');
+segCenter.RHeel =               getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RHeelBack');
+segCenter.LForefoot =           getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LForefootOut');
+segCenter.RForefoot =           getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RForefootOut');
 segCenter.LToeTip =             getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LToeTip');
 segCenter.RToeTip =             getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RToeTip');
+
+%% Lower marker clusters indexing
+segCenter.LUpLegCluster1 =      getMarker(marker_mar_dim_frame,markerLabels,'LeftUpLegCluster1');
+segCenter.LUpLegCluster2 =      getMarker(marker_mar_dim_frame,markerLabels,'LeftUpLegCluster2');
+segCenter.LUpLegCluster3 =      getMarker(marker_mar_dim_frame,markerLabels,'LeftUpLegCluster3');
+segCenter.LUpLegCluster4 =      getMarker(marker_mar_dim_frame,markerLabels,'LeftUpLegCluster4');
+segCenter.RUpLegCluster1 =      getMarker(marker_mar_dim_frame,markerLabels,'RightUpLegCluster1');
+segCenter.RUpLegCluster2 =      getMarker(marker_mar_dim_frame,markerLabels,'RightUpLegCluster2');
+segCenter.RUpLegCluster3 =      getMarker(marker_mar_dim_frame,markerLabels,'RightUpLegCluster3');
+segCenter.RUpLegCluster4 =      getMarker(marker_mar_dim_frame,markerLabels,'RightUpLegCluster4');
+
+segCenter.LLegCluster1 =        getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster1');
+segCenter.LLegCluster2 =        getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster2');
+segCenter.LLegCluster3 =        getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster3');
+segCenter.LLegCluster4 =        getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster4');
+segCenter.RLegCluster1 =        getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster1');
+segCenter.RLegCluster2 =        getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster2');
+segCenter.RLegCluster3 =        getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster3');
+segCenter.RLegCluster4 =        getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster4');
 
 %% Torso segCenter indexing
 %Includes: HeadL, HeadTop, HeadR, and HeadFront
