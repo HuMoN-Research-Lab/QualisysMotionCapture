@@ -78,8 +78,8 @@ lookfor_RElbowJointCenter =     false;
 lookfor_LWristJointCenter =     false;
 lookfor_RWristJointCenter =     false;
 
-lookfor_LHipJointCenter =       false;
-lookfor_RHipJointCenter =       false;
+lookfor_LHipJointCenter =       true;
+lookfor_RHipJointCenter =       true;
 lookfor_LKneeJointCenter =      true;
 lookfor_RKneeJointCenter =      true;
 lookfor_LAnkleJointCenter =     false;
@@ -432,11 +432,11 @@ end
 if lookfor_LKneeJointCenter
     %Acquire mean location of markers around hip joint
     marker1 =       LKnee;
-    marker2 =       LLegCenter;
+    marker2 =       LThighCenter;
     marker3 =       LAnkle;
-%     marker4 =       LThighCenter;
-    numOfWeights =  3;
-    markers =               cat(numOfWeights,marker1,marker2,marker3); %,marker4);
+    marker4 =       LLegCenter;
+    numOfWeights =  4;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                33496;
@@ -466,11 +466,11 @@ end
 if lookfor_RKneeJointCenter
     %Acquire mean location of markers around hip joint
     marker1 =       RKnee;
-    marker2 =       RLegCenter;
+    marker2 =       RThighCenter;
     marker3 =       RAnkle;
-%     marker4 =       RThighCenter;
-    numOfWeights =  3;
-    markers =               cat(numOfWeights,marker1,marker2,marker3); %,marker4);
+    marker4 =       RLegCenter; %instead of LegCenter
+    numOfWeights =  4;
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                43496;
