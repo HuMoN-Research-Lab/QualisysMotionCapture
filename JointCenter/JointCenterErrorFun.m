@@ -6,7 +6,7 @@ function [error] = JointCenterErrorFun(segCenter,markers,figNum,weights,numOfWei
 for ii = 1:numOfWeights
     weightedMarkers(:,:,ii)= markers(:,:,ii)*weights(ii);
 end
-weightedMarkerAverage = mean(weightedMarkers,3);
+weightedMarkerAverage = sum(weightedMarkers,3);
 
 %% Create variables for JointCenterGuess
 %Establish joint center as origin

@@ -353,9 +353,11 @@ if lookfor_LHipJointCenter
     marker2 =       LHipBack;
     marker3 =       LUpperLegCluster1;
 %     marker3 =       LThigh;
-    marker4 =       LUpperLegCluster2;
+    marker4 =       LWristOut;
     marker5 =       BackL;
     numOfWeights =  5;
+%     lb =    [];
+%     ub =    [];
     lb =            zeros(numOfWeights);
     ub =            ones(numOfWeights);
     markers =               cat(numOfWeights,marker1,marker2,marker3,marker4,marker5);
@@ -369,12 +371,12 @@ if lookfor_LHipJointCenter
     
     %LHipCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
-    LHipJointCenterError = @(weights) JointCenterErrorFun(LHipFront,...
+    LHipJointCenterError = @(weights) JointCenterErrorFun(LThighCenter,...
         markers,figNum,weights,numOfWeights);
     
     % close(v)
     
-    %Optimizer for LHipJointCenter weights
+    %Optimizer for LHipJointCenter weightsx
     %jointCenter difference = Optimized joint center loc in x,y,z
     [LHipWeights, LHipJointCenterError_final] = fmincon(LHipJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
     
@@ -382,7 +384,7 @@ if lookfor_LHipJointCenter
     for ii = 1:numOfWeights
         weightedMarkers(:,:,ii)= markers(:,:,ii)*LHipWeights(ii);
     end
-    LHipJointCenter = mean(weightedMarkers,3); 
+    LHipJointCenter = sum(weightedMarkers,3); 
     
     jointCenters.LHipWeights =      LHipWeights;
     jointCenters.LHipJointCenter =  LHipJointCenter;
@@ -393,10 +395,13 @@ if lookfor_RHipJointCenter
     %Acquire mean location of markers around hip joint
     marker1 =       RHipFront;
     marker2 =       RHipBack;
-    marker3 =       RThigh;
-    marker4 =       RUpperLegCluster2;
+    marker3 =       RUpperLegCluster1;
+%     marker3 =       RThigh;
+    marker4 =       RWristOut;
     marker5 =       BackR;
     numOfWeights =  5;
+%     lb =    [];
+%     ub =    [];
     lb =            zeros(numOfWeights);
     ub =            ones(numOfWeights);
     markers =               cat(numOfWeights,marker1,marker2,marker3,marker4,marker5);
@@ -406,7 +411,7 @@ if lookfor_RHipJointCenter
     
 %     w = VideoWriter('RHip Segment Length Optimization.mp4');
 
-    RHipJointCenterError = @(weights) JointCenterErrorFun(RHipFront,...
+    RHipJointCenterError = @(weights) JointCenterErrorFun(RThighCenter,...
         markers,figNum,weights,numOfWeights);
     
     %Optimizer for RHipJointCenter weights
@@ -417,7 +422,7 @@ if lookfor_RHipJointCenter
     for ii = 1:numOfWeights
         weightedMarkers(:,:,ii)= markers(:,:,ii)*RHipWeights(ii);
     end
-    RHipJointCenter = mean(weightedMarkers,3); 
+    RHipJointCenter = sum(weightedMarkers,3); 
     
     jointCenters.RHipWeights =      RHipWeights;
     jointCenters.RHipJointCenter =  RHipJointCenter;
@@ -562,7 +567,7 @@ figure(7447)
 stepA = VideoWriter('Skeleton Motion Capture with Joint Centers.mp4');
 open(stepA);
 
-for ii = 1:5:length(LHipCenter)
+for ii = 1:5:700
     clf
     hold on
     
@@ -720,9 +725,9 @@ for ii = 1:5:length(LHipCenter)
     axis equal
     grid on
     
-    xlim([-1e3 1.5e3])
-    ylim([0 4e3])
-    zlim([0 2.75e3])
+    xlim([-500  1.5e3])
+    ylim([750   3e3])
+    zlim([0     1.95e3])
     
 %     %left side view
 %     az = -30.8155;
