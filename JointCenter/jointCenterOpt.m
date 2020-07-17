@@ -57,6 +57,10 @@ LThigh =            segCenter.LThigh;
 LThighCenter =      segCenter.LThighCenter;
 RThigh =            segCenter.RThigh;
 RThighCenter =      segCenter.RThighCenter;
+LUpperLegCluster1 = segCenter.LUpLegCluster1;
+LUpperLegCluster2 = segCenter.LUpLegCluster2;
+RUpperLegCluster1 = segCenter.RUpLegCluster1;
+RUpperLegCluster2 = segCenter.RUpLegCluster2;
 
 %Tibia markers & segCenters
 LKnee =             segCenter.LKnee;
@@ -75,19 +79,19 @@ LToeTip =           segCenter.LToeTip;
 RToeTip =           segCenter.RToeTip;
 
 %% Activation settings for optimizer of joint centers
-lookfor_LShoulderJointCenter =  true;
-lookfor_RShoulderJointCenter =  true;
-lookfor_LElbowJointCenter =     true;
-lookfor_RElbowJointCenter =     true;
+lookfor_LShoulderJointCenter =  false;
+lookfor_RShoulderJointCenter =  false;
+lookfor_LElbowJointCenter =     false;
+lookfor_RElbowJointCenter =     false;
 lookfor_LWristJointCenter =     false;
-lookfor_RWristJointCenter =     true;
+lookfor_RWristJointCenter =     false;
 
-lookfor_LHipJointCenter =       false;
-lookfor_RHipJointCenter =       false;
-lookfor_LKneeJointCenter =      true;
-lookfor_RKneeJointCenter =      true;
-lookfor_LAnkleJointCenter =     true;
-lookfor_RAnkleJointCenter =     true;
+lookfor_LHipJointCenter =       true;
+lookfor_RHipJointCenter =       true;
+lookfor_LKneeJointCenter =      false;
+lookfor_RKneeJointCenter =      false;
+lookfor_LAnkleJointCenter =     false;
+lookfor_RAnkleJointCenter =     false;
 
 %% Activation settings for plotting markers and segCenters
 plot_segCenters =   true;
@@ -347,12 +351,14 @@ if lookfor_LHipJointCenter
     %referenced
     marker1 =       LHipFront;
     marker2 =       LHipBack;
-    marker3 =       LHipCenter;
-    marker4 =       LThigh;
-%     marker5 =       LKnee;
-%     marker5 =       RWristOut;
-    numOfWeights =  4;
-    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4); %;,marker5);
+    marker3 =       LUpperLegCluster1;
+%     marker3 =       LThigh;
+    marker4 =       LUpperLegCluster2;
+    marker5 =       BackL;
+    numOfWeights =  5;
+    lb =            zeros(numOfWeights);
+    ub =            ones(numOfWeights);
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4,marker5);
     weightVector =          ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     
@@ -363,7 +369,7 @@ if lookfor_LHipJointCenter
     
     %LHipCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
-    LHipJointCenterError = @(weights) JointCenterErrorFun(LHipCenter,...
+    LHipJointCenterError = @(weights) JointCenterErrorFun(LHipFront,...
         markers,figNum,weights,numOfWeights);
     
     % close(v)
@@ -387,19 +393,20 @@ if lookfor_RHipJointCenter
     %Acquire mean location of markers around hip joint
     marker1 =       RHipFront;
     marker2 =       RHipBack;
-    marker3 =       RHipCenter;
-    marker4 =       RThigh;
-%     marker5 =       LWristOut;
-%     marker5 =       RKnee;
-    numOfWeights =  4;
-    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4); %,marker5); %,marker5);
+    marker3 =       RThigh;
+    marker4 =       RUpperLegCluster2;
+    marker5 =       BackR;
+    numOfWeights =  5;
+    lb =            zeros(numOfWeights);
+    ub =            ones(numOfWeights);
+    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4,marker5);
     weightVector =          ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                29586;
     
 %     w = VideoWriter('RHip Segment Length Optimization.mp4');
 
-    RHipJointCenterError = @(weights) JointCenterErrorFun(RHipCenter,...
+    RHipJointCenterError = @(weights) JointCenterErrorFun(RHipFront,...
         markers,figNum,weights,numOfWeights);
     
     %Optimizer for RHipJointCenter weights
