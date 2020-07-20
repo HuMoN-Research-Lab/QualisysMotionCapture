@@ -109,6 +109,36 @@ end
 %Index ChestCenter data into struct
 segCenter.ChestCenter =         ChestPos(:,trial_start_end);
 
+%Index Torso Center
+%Includes: Chest, BackL, BackR
+Neck_MarkerNames =             {'SpineTop' 'Chest'};
+for jj = 1:3 %ref num dim
+    NeckPos_raw{1,jj} =        cat(1,Chest(jj,:),SpineTop(jj,:));
+    NeckPos(jj,:) =            mean(NeckPos_raw{1,jj},1);
+end
+
+segCenter.NeckCenter =         NeckPos(:,trial_start_end);
+
+%Index Torso Center
+%Includes: Chest, BackL, BackR
+Torso_MarkerNames =             {'Chest' 'BackL' 'BackR'};
+for jj = 1:3 %ref num dim
+    TorsoPos_raw{1,jj} =        cat(1,Chest(jj,:),BackL(jj,:),BackR(jj,:));
+    TorsoPos(jj,:) =            mean(TorsoPos_raw{1,jj},1);
+end
+
+segCenter.TorsoCenter =         TorsoPos(:,trial_start_end);
+
+%Index Back Center
+%Includes: BackL, BackR
+Back_MarkerNames =              {'BackL' 'BackR'};
+for jj = 1:3 %ref num dim
+    BackPos_raw{1,jj} =         cat(1,BackL(jj,:),BackR(jj,:));
+    BackPos(jj,:) =             mean(BackPos_raw{1,jj},1);
+end
+
+segCenter.BackCenter =          BackPos(:,trial_start_end);
+
 %Index HipCenter
 %Includes: WaistLFront, WaistLBack, WaistRFront, WaistRBack
 Hip_MarkerNames =               {'WaistLFront' 'WaistLBack' 'WaistRFront' 'WaistRBack'};

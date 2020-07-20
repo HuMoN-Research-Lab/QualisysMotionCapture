@@ -108,17 +108,19 @@ if visualize
         %     az = -30.8155;
         %     el = 6.8338;
         
-        %right side view
-        az = 50.9926;
-        el = 9.9634;
+%         %right side view
+%         az = 50.9926;
+%         el = 9.9634;
+
+        %Center side view
+        az = 87;
+        el = 0;
         
         view(az,el)
         drawnow
     end
 end
-%     
-%     frame = getframe(gcf);
-% 
+ 
 % plot(frame_to_frame_diff)
 % xlabel('Frame')
 % ylabel('Segment length difference (mm)')
