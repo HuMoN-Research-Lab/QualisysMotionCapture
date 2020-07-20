@@ -86,7 +86,7 @@ lookfor_RElbowJointCenter =     false;
 lookfor_LWristJointCenter =     false;
 lookfor_RWristJointCenter =     false;
 
-lookfor_LHipJointCenter =       false;
+lookfor_LHipJointCenter =       true;
 lookfor_RHipJointCenter =       true;
 lookfor_LKneeJointCenter =      false;
 lookfor_RKneeJointCenter =      false;
@@ -129,7 +129,7 @@ if lookfor_LShoulderJointCenter
     %LShoulderCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     LShoulderJointCenterError = @(weights) JointCenterErrorFun(LShoulderCenter,...
-        upper_markers,figNum,weights,numOfWeights);
+        upper_markers,figNum,weights,numOfWeights,segCenter);
     
     % close(v)
     
@@ -371,18 +371,18 @@ if lookfor_LHipJointCenter
     
     %LHipCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
-    visualize = true;
     [LHipJointCenterError] = @(weights) JointCenterErrorFun(LThighCenter,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize);
+        markers,figNum,weights,numOfWeights);
     
     % close(v)
+    
     %Optimizer for LHipJointCenter weightsx
     %jointCenter difference = Optimized joint center loc in x,y,z
     [LHipWeights, LHipJointCenterError_final] = fmincon(LHipJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
     
     %Calibrates results considering initialGuess
     for ii = 1:numOfWeights
-        weightedMarkers(:,:,ii)= markers(:,:,ii) * LHipWeights(ii);
+        weightedMarkers(:,:,ii)= markers(:,:,ii)*LHipWeights(ii);
     end
     LHipJointCenter = sum(weightedMarkers,3); 
     
@@ -409,9 +409,10 @@ if lookfor_RHipJointCenter
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                29586;
     
-    visualize = true;
+%     w = VideoWriter('RHip Segment Length Optimization.mp4');
+
     RHipJointCenterError = @(weights) JointCenterErrorFun(RThighCenter,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize);
+        markers,figNum,weights,numOfWeights);
     
     %Optimizer for RHipJointCenter weights
     %jointCenter difference = Optimized joint center loc in x,y,z
@@ -419,7 +420,7 @@ if lookfor_RHipJointCenter
     
     %Calibrates results considering initialGuess
     for ii = 1:numOfWeights
-        weightedMarkers(:,:,ii)= markers(:,:,ii) * RHipWeights(ii);
+        weightedMarkers(:,:,ii)= markers(:,:,ii)*RHipWeights(ii);
     end
     RHipJointCenter = sum(weightedMarkers,3); 
     
