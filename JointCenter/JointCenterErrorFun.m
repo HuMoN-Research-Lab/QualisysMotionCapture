@@ -1,4 +1,4 @@
-function [JointCenterError] = JointCenterErrorFun(segCenter,markers,figNum,weights,numOfWeights,segCenterVariable,visualize)
+function [JointCenterError] = JointCenterErrorFun(segCenter,markers,figNum,weights,numOfWeights,segCenterVariable,visualize);%,v)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%Function ID's the errors of joint center loc given specific markers
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -113,7 +113,7 @@ if visualize
 %         el = 9.9634;
 
         %Center side view
-        az = 87;
+        az = 90;
         el = 0;
         
         view(az,el)

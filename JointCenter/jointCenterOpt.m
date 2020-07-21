@@ -110,10 +110,10 @@ lookfor_RElbowJointCenter =     false;
 lookfor_LWristJointCenter =     false;
 lookfor_RWristJointCenter =     false;
 
-lookfor_LHipJointCenter =       true;
-lookfor_RHipJointCenter =       true;
-lookfor_LKneeJointCenter =      true;
-lookfor_RKneeJointCenter =      true;
+lookfor_LHipJointCenter =       false;
+lookfor_RHipJointCenter =       false;
+lookfor_LKneeJointCenter =      false;
+lookfor_RKneeJointCenter =      false;
 lookfor_LAnkleJointCenter =     true;
 lookfor_RAnkleJointCenter =     true;
 
@@ -396,15 +396,16 @@ if lookfor_LHipJointCenter
     %Starting point of JointCenter guess that initiates optimizer
     figNum =                132435;
     
-    % v = VideoWriter('LHip Segment Length Optimization.mp4');
+    v = VideoWriter('LHip Segment Length Optimization.mp4');
     
     %LHipCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     visualize = true;
     [LHipJointCenterError] = @(weights) JointCenterErrorFun(LThighCenter,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize);
+        markers,figNum,weights,numOfWeights,segCenter,visualize,v);
     
-    % close(v)
+    close(v)
+    
     %Optimizer for LHipJointCenter weightsx
     %jointCenter difference = Optimized joint center loc in x,y,z
     [LHipWeights, LHipJointCenterError_final] = fmincon(LHipJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
@@ -534,7 +535,7 @@ end
 %% Joint ref loc and initial guess for LAnkleJointCenter
 if lookfor_LAnkleJointCenter
     %Acquire mean location of markers around hip joint
-    marker1 =       LLegCluster4;
+    marker1 =       LHeel;
     marker2 =       LAnkle;
     marker3 =       LToeTip;
     marker4 =       LKnee;
@@ -569,7 +570,7 @@ end
 %% Joint ref loc and initial guess for LAnkleJointCenter
 if lookfor_RAnkleJointCenter
     %Acquire mean location of markers around hip joint
-    marker1 =       RLegCluster4;
+    marker1 =       RHeel;
     marker2 =       RAnkle;
     marker3 =       RToeTip;
     marker4 =       RKnee;
@@ -606,7 +607,7 @@ figure(7447)
 stepA = VideoWriter('Lower Extremities Joint Centers.mp4');
 open(stepA);
 
-for ii = 1:5:700
+for ii = 1:2:length(HipCenter)
     clf
     hold on
     
