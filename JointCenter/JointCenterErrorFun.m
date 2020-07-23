@@ -111,7 +111,8 @@ if visualize
         
         %Full Lab Settings
         xlim([0     1e3])
-        ylim([-3e3  -1.5e3])
+        ylim([-5e3  5e3])
+%         ylim([-3e3  -1.5e3])
         zlim([0     1.95e3])
 %         %Left Side
 %         az = 231.8574;

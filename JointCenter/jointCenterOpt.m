@@ -399,8 +399,8 @@ if lookfor_LHipJointCenter
 %     marker5 =       LUpperLegCluster2;
     marker3 =       LThigh;
     numOfWeights =  3;
-    lb =            zeros(numOfWeights);
-    ub =            ones(numOfWeights);
+    lb =            zeros(1,numOfWeights);
+    ub =            ones(1,numOfWeights);
     markers =               cat(numOfWeights,marker1,marker2,marker3);%,marker4);%,marker5);
     weightVector =          ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
@@ -444,8 +444,8 @@ if lookfor_RHipJointCenter
 %     marker4 =       RUpperLegCluster2;
     marker3 =       RThigh;
     numOfWeights =  3;
-    lb =            zeros(numOfWeights);
-    ub =            ones(numOfWeights);
+    lb =            zeros(1,numOfWeights);
+    ub =            ones(1,numOfWeights);
     markers =               cat(numOfWeights,marker1,marker2,marker3); %,marker4);%,marker5);
     weightVector =          ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
@@ -483,8 +483,8 @@ if lookfor_LKneeJointCenter
     end
     marker3 =       LLeg;
     numOfWeights =  3;
-    lb =            zeros(numOfWeights);
-    ub =            ones(numOfWeights);
+    lb =            zeros(1,numOfWeights);
+    ub =            ones(1,numOfWeights);
     markers =               cat(numOfWeights,marker1,marker2,marker3);%,marker4);
     weightVector =          ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
@@ -523,8 +523,8 @@ if lookfor_RKneeJointCenter
     end
     marker3 =       RLeg;
     numOfWeights =  3;
-    lb =            zeros(numOfWeights);
-    ub =            ones(numOfWeights);
+    lb =            zeros(1,numOfWeights);
+    ub =            ones(1,numOfWeights);
     markers =               cat(numOfWeights,marker1,marker2,marker3);%,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
@@ -560,6 +560,8 @@ if lookfor_LAnkleJointCenter
     marker2 =       LToeTip;
     marker3 =       LForefoot;
     numOfWeights =  3;
+    lb =            zeros(1,numOfWeights);
+    ub =            ones(1,numOfWeights);
     markers =               cat(numOfWeights,marker1,marker2,marker3);%,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
@@ -595,6 +597,8 @@ if lookfor_RAnkleJointCenter
     marker2 =       RToeTip;
     marker3 =       RForefoot;
     numOfWeights =  3;
+    lb =            zeros(1,numOfWeights);
+    ub =            ones(1,numOfWeights);
     markers =               cat(numOfWeights,marker1,marker2,marker3);%,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
