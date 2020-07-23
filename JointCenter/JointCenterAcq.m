@@ -7,7 +7,7 @@ if ispc %JSM PC
     dataPath = 'C:\Users\jonma\Google Drive\MotionCaptureProjects\Qualisys_MotionCapture\RevisedWalkingData';
 elseif ismac %MT Mac
     codePath = '/Users/MT/Documents/GitHub/QualisysMotionCapture';
-    dataPath = '/Users/MT/Google Drive File Stream/My Drive/MotionCaptureProjects/Qualisys_MotionCapture'; %/RevisedWalkingData';
+    dataPath = '/Users/MT/Google Drive File Stream/My Drive/MotionCaptureProjects/Qualisys_MotionCapture/RevisedWalkingData'; %/Qualisys_MotionCapture'
 end
 
 cd(codePath)
@@ -15,8 +15,8 @@ addpath(genpath(cd))
 addpath(dataPath)
 
 %% Load acquired Qualisys MoCap Data
-% fileName = '02_21_2020_Walking_Calibration';
-fileName = '2020-03-04_JSM_TPose';
+fileName = '02_21_2020_Walking_Calibration';
+% fileName = '2020-03-04_JSM_TPose';
 load('externalData.mat');
 [markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(fileName);
 

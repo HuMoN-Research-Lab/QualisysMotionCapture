@@ -4,6 +4,7 @@ function [segCenter] = indexMars_Segs(marker_mar_dim_frame,markerLabels,trial_st
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Define output
 segCenter = [];
+use_MarkerClusters = false;
 
 %% Head markers indexing
 %Index marker
@@ -53,23 +54,25 @@ segCenter.LToeTip =             getMarker(marker_mar_dim_frame(:,:,trial_start_e
 segCenter.RToeTip =             getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RToeTip');
 
 %% Lower marker clusters indexing
-segCenter.LUpLegCluster1 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftUpLegCluster1');
-segCenter.LUpLegCluster2 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftUpLegCluster2');
-segCenter.LUpLegCluster3 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftUpLegCluster3');
-segCenter.LUpLegCluster4 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftUpLegCluster4');
-segCenter.RUpLegCluster1 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightUpLegCluster1');
-segCenter.RUpLegCluster2 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightUpLegCluster2');
-segCenter.RUpLegCluster3 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightUpLegCluster3');
-segCenter.RUpLegCluster4 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightUpLegCluster4');
-
-segCenter.LLegCluster1 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftLegCluster1');
-segCenter.LLegCluster2 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftLegCluster2');
-segCenter.LLegCluster3 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftLegCluster3');
-segCenter.LLegCluster4 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftLegCluster4');
-segCenter.RLegCluster1 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightLegCluster1');
-segCenter.RLegCluster2 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightLegCluster2');
-segCenter.RLegCluster3 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightLegCluster3');
-segCenter.RLegCluster4 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightLegCluster4');
+if use_MarkerClusters
+    segCenter.LUpLegCluster1 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftUpLegCluster1');
+    segCenter.LUpLegCluster2 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftUpLegCluster2');
+    segCenter.LUpLegCluster3 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftUpLegCluster3');
+    segCenter.LUpLegCluster4 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftUpLegCluster4');
+    segCenter.RUpLegCluster1 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightUpLegCluster1');
+    segCenter.RUpLegCluster2 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightUpLegCluster2');
+    segCenter.RUpLegCluster3 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightUpLegCluster3');
+    segCenter.RUpLegCluster4 =      getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightUpLegCluster4');
+    
+    segCenter.LLegCluster1 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftLegCluster1');
+    segCenter.LLegCluster2 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftLegCluster2');
+    segCenter.LLegCluster3 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftLegCluster3');
+    segCenter.LLegCluster4 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LeftLegCluster4');
+    segCenter.RLegCluster1 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightLegCluster1');
+    segCenter.RLegCluster2 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightLegCluster2');
+    segCenter.RLegCluster3 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightLegCluster3');
+    segCenter.RLegCluster4 =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RightLegCluster4');
+end
 
 %% Torso segCenter indexing
 %Includes: HeadL, HeadTop, HeadR, and HeadFront
@@ -306,17 +309,24 @@ segCenter.RHandCenter =         RHandPos(:,trial_start_end);
 %Index LThighCenter
 %Includes: WaistLFront, WaistLBack, LThigh, LKneeOut
 LThigh_MarkerNames =            {'WaistLFront' 'WaistLBack' 'LThigh' 'LKneeOut'};
-LUpLegCluster1 =                getMarker(marker_mar_dim_frame,markerLabels,'LeftUpLegCluster1');
-LUpLegCluster2 =                getMarker(marker_mar_dim_frame,markerLabels,'LeftUpLegCluster2');
-LUpLegCluster3 =                getMarker(marker_mar_dim_frame,markerLabels,'LeftUpLegCluster3');
-LUpLegCluster4 =                getMarker(marker_mar_dim_frame,markerLabels,'LeftUpLegCluster4');
+if use_MarkerClusters
+    LUpLegCluster1 =            getMarker(marker_mar_dim_frame,markerLabels,'LeftUpLegCluster1');
+    LUpLegCluster2 =            getMarker(marker_mar_dim_frame,markerLabels,'LeftUpLegCluster2');
+    LUpLegCluster3 =            getMarker(marker_mar_dim_frame,markerLabels,'LeftUpLegCluster3');
+    LUpLegCluster4 =            getMarker(marker_mar_dim_frame,markerLabels,'LeftUpLegCluster4');
+end
 LThigh =                        getMarker(marker_mar_dim_frame,markerLabels,'LThigh');
 LKneeOut =                      getMarker(marker_mar_dim_frame,markerLabels,'LKneeOut');
 
 for jj = 1:3 %ref num dim
-    LThighPos_raw{1,jj} =       cat(1,LUpLegCluster1(jj,:),LUpLegCluster2(jj,:),...
-        LUpLegCluster3(jj,:),LUpLegCluster4(jj,:),WaistLFront(jj,:),...
-        WaistLBack(jj,:),LThigh(jj,:),LKneeOut(jj,:));
+    if use_MarkerClusters
+        LThighPos_raw{1,jj} = cat(1,LUpLegCluster1(jj,:),LUpLegCluster2(jj,:),...
+            LUpLegCluster3(jj,:),LUpLegCluster4(jj,:),WaistLFront(jj,:),...
+            WaistLBack(jj,:),LThigh(jj,:),LKneeOut(jj,:));
+    else
+        LThighPos_raw{1,jj} = cat(1,WaistLFront(jj,:),WaistLBack(jj,:),...
+            LThigh(jj,:),LKneeOut(jj,:));        
+    end
     LThighPos(jj,:) =           mean(LThighPos_raw{1,jj},1);
 end
 
@@ -325,17 +335,24 @@ segCenter.LThighCenter =        LThighPos(:,trial_start_end);
 %Index RThighCenter
 %Includes: WaistRFront, WaistRBack, RThigh, RKneeOut
 RThigh_MarkerNames =            {'WaistRFront' 'WaistRBack' 'RThigh' 'RKneeOut'};
-RUpLegCluster1 =                getMarker(marker_mar_dim_frame,markerLabels,'RightUpLegCluster1');
-RUpLegCluster2 =                getMarker(marker_mar_dim_frame,markerLabels,'RightUpLegCluster2');
-RUpLegCluster3 =                getMarker(marker_mar_dim_frame,markerLabels,'RightUpLegCluster3');
-RUpLegCluster4 =                getMarker(marker_mar_dim_frame,markerLabels,'RightUpLegCluster4');
+if use_MarkerClusters
+    RUpLegCluster1 =            getMarker(marker_mar_dim_frame,markerLabels,'RightUpLegCluster1');
+    RUpLegCluster2 =            getMarker(marker_mar_dim_frame,markerLabels,'RightUpLegCluster2');
+    RUpLegCluster3 =            getMarker(marker_mar_dim_frame,markerLabels,'RightUpLegCluster3');
+    RUpLegCluster4 =            getMarker(marker_mar_dim_frame,markerLabels,'RightUpLegCluster4');
+end
 RThigh =                        getMarker(marker_mar_dim_frame,markerLabels,'RThigh');
 RKneeOut =                      getMarker(marker_mar_dim_frame,markerLabels,'RKneeOut');
 
 for jj = 1:3 %ref num dim
-    RThighPos_raw{1,jj} =       cat(1,RUpLegCluster1(jj,:),RUpLegCluster2(jj,:),...
-        RUpLegCluster3(jj,:),RUpLegCluster4(jj,:),WaistRFront(jj,:),...
-        WaistRBack(jj,:),RThigh(jj,:),RKneeOut(jj,:));
+    if use_MarkerClusters
+        RThighPos_raw{1,jj} =   cat(1,RUpLegCluster1(jj,:),RUpLegCluster2(jj,:),...
+            RUpLegCluster3(jj,:),RUpLegCluster4(jj,:),WaistRFront(jj,:),...
+            WaistRBack(jj,:),RThigh(jj,:),RKneeOut(jj,:));
+    else
+        RThighPos_raw{1,jj} =   cat(1,WaistRFront(jj,:),WaistRBack(jj,:),...
+        RThigh(jj,:),RKneeOut(jj,:));
+    end
     RThighPos(jj,:) =           mean(RThighPos_raw{1,jj},1);
 end
 
@@ -345,21 +362,26 @@ segCenter.RThighCenter =        RThighPos(:,trial_start_end);
 %Index LLegCenter
 %Includes: LKneeOut, LShin, LAnkleOut, LeftLegCluster 1:4
 %Should marker plates be sure to add them
-LLeg_MarkerNames =              {'LeftLegCluster1' 'LeftLegCluster2' 'LeftLegCluster3' 'LeftLegCluster4' 'LKneeOut' 'LShin' 'LAnkleOut'};
-LLegCluster1 =                  getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster1');
-LLegCluster2 =                  getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster2');
-LLegCluster3 =                  getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster3');
-LLegCluster4 =                  getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster4');
+LLeg_MarkerNames =              {'LeftLegCluster1' 'LeftLegCluster2' 'LeftLegCluster3'...
+    'LeftLegCluster4' 'LKneeOut' 'LShin' 'LAnkleOut'};
+if use_MarkerClusters
+    LLegCluster1 =              getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster1');
+    LLegCluster2 =              getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster2');
+    LLegCluster3 =              getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster3');
+    LLegCluster4 =              getMarker(marker_mar_dim_frame,markerLabels,'LeftLegCluster4');
+end
 LShin =                         getMarker(marker_mar_dim_frame,markerLabels,'LShin');
 LAnkleOut =                     getMarker(marker_mar_dim_frame,markerLabels,'LAnkleOut');
 
 for jj = 1:3 %ref num dim
-    LLegPos_raw{1,jj} =         cat(1,LKneeOut(jj,:),LShin(jj,:),...
-        LAnkleOut(jj,:));
-    
-%     LLegPos_raw{1,jj} =         cat(1,LLegCluster1(jj,:),LLegCluster2(jj,:),...
-%         LLegCluster3(jj,:),LLegCluster4(jj,:),LKneeOut(jj,:),...
-%         LShin(jj,:),LAnkleOut(jj,:));
+    if use_MarkerClusters
+        LLegPos_raw{1,jj} =     cat(1,LLegCluster1(jj,:),LLegCluster2(jj,:),...
+            LLegCluster3(jj,:),LLegCluster4(jj,:),LKneeOut(jj,:),...
+            LShin(jj,:),LAnkleOut(jj,:));
+    else
+        LLegPos_raw{1,jj} =     cat(1,LKneeOut(jj,:),LShin(jj,:),...
+            LAnkleOut(jj,:));
+    end    
     LLegPos(jj,:) =             mean(LLegPos_raw{1,jj},1);
 end
 
@@ -367,19 +389,26 @@ segCenter.LLegCenter =          LLegPos(:,trial_start_end);
 
 %Index RLegCenter
 %Includes: RKneeOut, RShin, RAnkleOut
-%Should marker plates be sure to add them
-RLeg_MarkerNames =              {'RightLegCluster1' 'RightLegCluster2' 'RightLegCluster3' 'RightLegCluster4' 'RKneeOut' 'RShin' 'RAnkleOut'};
-RLegCluster1 =                  getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster1');
-RLegCluster2 =                  getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster2');
-RLegCluster3 =                  getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster3');
-RLegCluster4 =                  getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster4');
+RLeg_MarkerNames =              {'RightLegCluster1' 'RightLegCluster2' 'RightLegCluster3'...
+    'RightLegCluster4' 'RKneeOut' 'RShin' 'RAnkleOut'};
+if use_MarkerClusters
+    RLegCluster1 =              getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster1');
+    RLegCluster2 =              getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster2');
+    RLegCluster3 =              getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster3');
+    RLegCluster4 =              getMarker(marker_mar_dim_frame,markerLabels,'RightLegCluster4');
+end
 RShin =                         getMarker(marker_mar_dim_frame,markerLabels,'RShin');
 RAnkleOut =                     getMarker(marker_mar_dim_frame,markerLabels,'RAnkleOut');
 
 for jj = 1:3 %ref num dim
-    RLegPos_raw{1,jj} =         cat(1,RLegCluster1(jj,:),RLegCluster2(jj,:),...
-        RLegCluster3(jj,:),RLegCluster4(jj,:),RKneeOut(jj,:),...
-        RShin(jj,:),RAnkleOut(jj,:));
+    if use_MarkerClusters
+        RLegPos_raw{1,jj} =     cat(1,RLegCluster1(jj,:),RLegCluster2(jj,:),...
+            RLegCluster3(jj,:),RLegCluster4(jj,:),RKneeOut(jj,:),...
+            RShin(jj,:),RAnkleOut(jj,:));
+    else
+        RLegPos_raw{1,jj} =     cat(1,RKneeOut(jj,:),RShin(jj,:),...
+            RAnkleOut(jj,:));
+    end
     RLegPos(jj,:) =             mean(RLegPos_raw{1,jj},1);
 end
 

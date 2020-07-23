@@ -3,6 +3,7 @@ function [jointCenters] = jointCenterOpt(segCenter)
 %%Optimize all joint center location 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% IDs of markers in use
+use_MarkerClusters = false;
 %Torso markers & segCenters
 HeadL =             segCenter.HeadL;
 HeadTop =           segCenter.HeadTop;
@@ -61,33 +62,37 @@ LThighCenter =      segCenter.LThighCenter;
 RThigh =            segCenter.RThigh;
 RThighCenter =      segCenter.RThighCenter;
 
-%Left upper leg cluster
-LUpperLegCluster1 = segCenter.LUpLegCluster1;
-LUpperLegCluster2 = segCenter.LUpLegCluster2;
-LUpperLegCluster3 = segCenter.LUpLegCluster3;
-LUpperLegCluster4 = segCenter.LUpLegCluster4;
-
-%Right upper leg cluster
-RUpperLegCluster1 = segCenter.RUpLegCluster1;
-RUpperLegCluster2 = segCenter.RUpLegCluster2;
-RUpperLegCluster3 = segCenter.RUpLegCluster3;
-RUpperLegCluster4 = segCenter.RUpLegCluster4;
+if use_MarkerClusters
+    %Left upper leg cluster
+    LUpperLegCluster1 = segCenter.LUpLegCluster1;
+    LUpperLegCluster2 = segCenter.LUpLegCluster2;
+    LUpperLegCluster3 = segCenter.LUpLegCluster3;
+    LUpperLegCluster4 = segCenter.LUpLegCluster4;
+    
+    %Right upper leg cluster
+    RUpperLegCluster1 = segCenter.RUpLegCluster1;
+    RUpperLegCluster2 = segCenter.RUpLegCluster2;
+    RUpperLegCluster3 = segCenter.RUpLegCluster3;
+    RUpperLegCluster4 = segCenter.RUpLegCluster4;
+end
 
 %Tibia markers & segCenters
 LKnee =             segCenter.LKnee;
 RKnee =             segCenter.RKnee;
 
-%Left upper leg cluster
-LLegCluster1 =      segCenter.LLegCluster1;
-LLegCluster2 =      segCenter.LLegCluster2;
-LLegCluster3 =      segCenter.LLegCluster3;
-LLegCluster4 =      segCenter.LLegCluster4;
-
-%Right upper leg cluster
-RLegCluster1 =      segCenter.RLegCluster1;
-RLegCluster2 =      segCenter.RLegCluster2;
-RLegCluster3 =      segCenter.RLegCluster3;
-RLegCluster4 =      segCenter.RLegCluster4;
+if use_MarkerClusters
+    %Left upper leg cluster
+    LLegCluster1 =      segCenter.LLegCluster1;
+    LLegCluster2 =      segCenter.LLegCluster2;
+    LLegCluster3 =      segCenter.LLegCluster3;
+    LLegCluster4 =      segCenter.LLegCluster4;
+    
+    %Right upper leg cluster
+    RLegCluster1 =      segCenter.RLegCluster1;
+    RLegCluster2 =      segCenter.RLegCluster2;
+    RLegCluster3 =      segCenter.RLegCluster3;
+    RLegCluster4 =      segCenter.RLegCluster4;
+end
 
 LLegCenter =        segCenter.LLegCenter;
 RLegCenter =        segCenter.RLegCenter;
@@ -99,10 +104,13 @@ LFootCenter =       segCenter.LFootCenter;
 RFootCenter =       segCenter.RFootCenter;
 LHeel =             segCenter.LHeel;
 RHeel =             segCenter.RHeel;
+LForefoot =         segCenter.LForefoot;
+RForefoot =         segCenter.RForefoot;
 LToeTip =           segCenter.LToeTip;
 RToeTip =           segCenter.RToeTip;
 
 %% Activation settings for optimizer of joint centers
+%Upper extremities jointCenters
 lookfor_LShoulderJointCenter =  false;
 lookfor_RShoulderJointCenter =  false;
 lookfor_LElbowJointCenter =     false;
@@ -110,12 +118,13 @@ lookfor_RElbowJointCenter =     false;
 lookfor_LWristJointCenter =     false;
 lookfor_RWristJointCenter =     false;
 
+%Lower extremities jointCenters
 lookfor_LHipJointCenter =       false;
 lookfor_RHipJointCenter =       false;
 lookfor_LKneeJointCenter =      false;
 lookfor_RKneeJointCenter =      false;
-lookfor_LAnkleJointCenter =     true;
-lookfor_RAnkleJointCenter =     true;
+lookfor_LAnkleJointCenter =     false;
+lookfor_RAnkleJointCenter =     false;
 
 %% Activation settings for plotting markers and segCenters
 plot_segCenters =   true;
@@ -536,11 +545,11 @@ end
 if lookfor_LAnkleJointCenter
     %Acquire mean location of markers around hip joint
     marker1 =       LHeel;
-    marker2 =       LAnkle;
-    marker3 =       LToeTip;
-    marker4 =       LKnee;
-    numOfWeights =  4;
-    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
+%     marker2 =       LAnkle;
+    marker2 =       LToeTip;
+    marker3 =       LForefoot;
+    numOfWeights =  3;
+    markers =               cat(numOfWeights,marker1,marker2,marker3);%,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                53496;
@@ -550,7 +559,7 @@ if lookfor_LAnkleJointCenter
     %RKneeCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     visualize = true;
-    LAnkleJointCenterError = @(weights) JointCenterErrorFun(LFootCenter,...
+    LAnkleJointCenterError = @(weights) JointCenterErrorFun(LAnkle,...
         markers,figNum,weights,numOfWeights,segCenter,visualize);
     
     %Optimizer for LKneeJointCenter weights
@@ -571,11 +580,11 @@ end
 if lookfor_RAnkleJointCenter
     %Acquire mean location of markers around hip joint
     marker1 =       RHeel;
-    marker2 =       RAnkle;
-    marker3 =       RToeTip;
-    marker4 =       RKnee;
-    numOfWeights =  4;
-    markers =               cat(numOfWeights,marker1,marker2,marker3,marker4);
+%     marker2 =       RAnkle;
+    marker2 =       RToeTip;
+    marker3 =       RForefoot;
+    numOfWeights =  3;
+    markers =               cat(numOfWeights,marker1,marker2,marker3);%,marker4);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     figNum =                63496;
@@ -585,7 +594,7 @@ if lookfor_RAnkleJointCenter
     %RAnkleCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     visualize = true;
-    RAnkleJointCenterError = @(weights) JointCenterErrorFun(RFootCenter,...
+    RAnkleJointCenterError = @(weights) JointCenterErrorFun(RAnkle,...
         markers,figNum,weights,numOfWeights,segCenter,visualize);
     
     %Optimizer for LKneeJointCenter weights
@@ -682,15 +691,19 @@ for ii = 1:2:length(HipCenter)
         %LLower Markers
         plot3(LHipFront(1,ii),LHipFront(2,ii),LHipFront(3,ii),'k.','MarkerSize',5)
         plot3(LHipBack(1,ii),LHipBack(2,ii),LHipBack(3,ii),'k.','MarkerSize',5)
-        plot3(LUpperLegCluster1(1,ii),LUpperLegCluster1(2,ii),LUpperLegCluster1(3,ii),'k.','MarkerSize',5);
-        plot3(LUpperLegCluster2(1,ii),LUpperLegCluster2(2,ii),LUpperLegCluster2(3,ii),'k.','MarkerSize',5);
-        plot3(LUpperLegCluster3(1,ii),LUpperLegCluster3(2,ii),LUpperLegCluster3(3,ii),'k.','MarkerSize',5);
-        plot3(LUpperLegCluster4(1,ii),LUpperLegCluster4(2,ii),LUpperLegCluster4(3,ii),'k.','MarkerSize',5);
+        if use_MarkerClusters
+            plot3(LUpperLegCluster1(1,ii),LUpperLegCluster1(2,ii),LUpperLegCluster1(3,ii),'k.','MarkerSize',5);
+            plot3(LUpperLegCluster2(1,ii),LUpperLegCluster2(2,ii),LUpperLegCluster2(3,ii),'k.','MarkerSize',5);
+            plot3(LUpperLegCluster3(1,ii),LUpperLegCluster3(2,ii),LUpperLegCluster3(3,ii),'k.','MarkerSize',5);
+            plot3(LUpperLegCluster4(1,ii),LUpperLegCluster4(2,ii),LUpperLegCluster4(3,ii),'k.','MarkerSize',5);
+        end
         plot3(LKnee(1,ii),LKnee(2,ii),LKnee(3,ii),'k.','MarkerSize',5);
-        plot3(LLegCluster1(1,ii),LLegCluster1(2,ii),LLegCluster1(3,ii),'k.','MarkerSize',5);
-        plot3(LLegCluster2(1,ii),LLegCluster2(2,ii),LLegCluster2(3,ii),'k.','MarkerSize',5);
-        plot3(LLegCluster3(1,ii),LLegCluster3(2,ii),LLegCluster3(3,ii),'k.','MarkerSize',5);
-        plot3(LLegCluster4(1,ii),LLegCluster4(2,ii),LLegCluster4(3,ii),'k.','MarkerSize',5);
+        if use_MarkerClusters
+            plot3(LLegCluster1(1,ii),LLegCluster1(2,ii),LLegCluster1(3,ii),'k.','MarkerSize',5);
+            plot3(LLegCluster2(1,ii),LLegCluster2(2,ii),LLegCluster2(3,ii),'k.','MarkerSize',5);
+            plot3(LLegCluster3(1,ii),LLegCluster3(2,ii),LLegCluster3(3,ii),'k.','MarkerSize',5);
+            plot3(LLegCluster4(1,ii),LLegCluster4(2,ii),LLegCluster4(3,ii),'k.','MarkerSize',5);
+        end
         plot3(LAnkle(1,ii),LAnkle(2,ii),LAnkle(3,ii),'k.','MarkerSize',5);
         plot3(LHeel(1,ii),LHeel(2,ii),LHeel(3,ii),'k.','MarkerSize',5);
         plot3(LToeTip(1,ii),LToeTip(2,ii),LToeTip(3,ii),'k.','MarkerSize',5);
@@ -707,15 +720,19 @@ for ii = 1:2:length(HipCenter)
         %RLower Markers
         plot3(RHipFront(1,ii),RHipFront(2,ii),RHipFront(3,ii),'k.','MarkerSize',5)
         plot3(RHipBack(1,ii),RHipBack(2,ii),RHipBack(3,ii),'k.','MarkerSize',5)
-        plot3(RUpperLegCluster1(1,ii),RUpperLegCluster1(2,ii),RUpperLegCluster1(3,ii),'k.','MarkerSize',5);
-        plot3(RUpperLegCluster2(1,ii),RUpperLegCluster2(2,ii),RUpperLegCluster2(3,ii),'k.','MarkerSize',5);
-        plot3(RUpperLegCluster3(1,ii),RUpperLegCluster3(2,ii),RUpperLegCluster3(3,ii),'k.','MarkerSize',5);
-        plot3(RUpperLegCluster4(1,ii),RUpperLegCluster4(2,ii),RUpperLegCluster4(3,ii),'k.','MarkerSize',5);
+        if use_MarkerClusters
+            plot3(RUpperLegCluster1(1,ii),RUpperLegCluster1(2,ii),RUpperLegCluster1(3,ii),'k.','MarkerSize',5);
+            plot3(RUpperLegCluster2(1,ii),RUpperLegCluster2(2,ii),RUpperLegCluster2(3,ii),'k.','MarkerSize',5);
+            plot3(RUpperLegCluster3(1,ii),RUpperLegCluster3(2,ii),RUpperLegCluster3(3,ii),'k.','MarkerSize',5);
+            plot3(RUpperLegCluster4(1,ii),RUpperLegCluster4(2,ii),RUpperLegCluster4(3,ii),'k.','MarkerSize',5);
+        end
         plot3(RKnee(1,ii),RKnee(2,ii),RKnee(3,ii),'k.','MarkerSize',5);
-        plot3(RLegCluster1(1,ii),RLegCluster1(2,ii),RLegCluster1(3,ii),'k.','MarkerSize',5);
-        plot3(RLegCluster2(1,ii),RLegCluster2(2,ii),RLegCluster2(3,ii),'k.','MarkerSize',5);
-        plot3(RLegCluster3(1,ii),RLegCluster3(2,ii),RLegCluster3(3,ii),'k.','MarkerSize',5);
-        plot3(RLegCluster4(1,ii),RLegCluster4(2,ii),RLegCluster4(3,ii),'k.','MarkerSize',5);
+        if use_MarkerClusters
+            plot3(RLegCluster1(1,ii),RLegCluster1(2,ii),RLegCluster1(3,ii),'k.','MarkerSize',5);
+            plot3(RLegCluster2(1,ii),RLegCluster2(2,ii),RLegCluster2(3,ii),'k.','MarkerSize',5);
+            plot3(RLegCluster3(1,ii),RLegCluster3(2,ii),RLegCluster3(3,ii),'k.','MarkerSize',5);
+            plot3(RLegCluster4(1,ii),RLegCluster4(2,ii),RLegCluster4(3,ii),'k.','MarkerSize',5);
+        end
         plot3(RAnkle(1,ii),RAnkle(2,ii),RAnkle(3,ii),'k.','MarkerSize',5);
         plot3(RHeel(1,ii),RHeel(2,ii),RHeel(3,ii),'k.','MarkerSize',5);
         plot3(RToeTip(1,ii),RToeTip(2,ii),RToeTip(3,ii),'k.','MarkerSize',5);
@@ -784,18 +801,23 @@ for ii = 1:2:length(HipCenter)
     axis equal
     grid on
     
-    xlim([-500  1.5e3])
-    ylim([750   3e3])
-    zlim([0     1.95e3])
-    
+%     %TPose settings
+%     xlim([-500  1.5e3])
+%     ylim([750   3e3])
+%     zlim([0     1.95e3])
+%     %right side view
+%     az = 69.5695;
+%     el = 17.3879;
 %     %left side view
-%     az = -30.8155;
-%     el = 6.8338;
+% %     az = -30.8155;
+% %     el = 6.8338;
     
-    %right side view
-    az = 69.5695;
-    el = 17.3879;
-    
+    %Full Lab Settings
+    xlim([0     1e3])
+    ylim([-5e3  10e3])
+    zlim([0     1.95e3])
+    az = 151.5258;
+    el = 9.6664;     
     view(az,el)
     drawnow
     
@@ -804,47 +826,5 @@ for ii = 1:2:length(HipCenter)
     
 end
 close(stepA)
-
-%% Lower Extremities tracer
-%Attempt to plot markers on top of each other
-if plot_LExtr == true
-    figure(10);
-    stepA = VideoWriter('Lower Extremities Motion Tracker.mp4');
-    open(stepA);
-    
-    for jj = 1:10:length(LHipCenter)
-        hold on
-        
-        %Tracer for the movement of lower extremities
-        plot3([LHipCenter(1,jj);LThigh(1,jj);LKnee(1,jj);LAnkle(1,jj);LFootCenter(1,jj);LToeTip(1,jj)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
-            [LHipCenter(2,jj);LThigh(2,jj);LKnee(2,jj);LAnkle(2,jj);LFootCenter(2,jj);LToeTip(2,jj)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
-            [LHipCenter(3,jj);LThigh(3,jj);LKnee(3,jj);LAnkle(3,jj);LFootCenter(3,jj);LToeTip(3,jj)],'-k','MarkerSize',15)
-        pause(0.5);
-        %Real-time movement of lower extremities
-        plot3([LHipCenter(1,jj);LThigh(1,jj);LKnee(1,jj);LAnkle(1,jj);LFootCenter(1,jj);LToeTip(1,jj)],...                                           %;LAnkle(1,ii);LFoot(1,ii);LToeTip(1,ii)]
-            [LHipCenter(2,jj);LThigh(2,jj);LKnee(2,jj);LAnkle(2,jj);LFootCenter(2,jj);LToeTip(2,jj)],...                                            %;LAnkle(2,ii);LFoot(2,ii);LToeTip(2,ii)]
-            [LHipCenter(3,jj);LThigh(3,jj);LKnee(3,jj);LAnkle(3,jj);LFootCenter(3,jj);LToeTip(3,jj)],'-b','MarkerSize',15)                          %;LAnkle(3,ii);LFoot(3,ii);LToeTip(3,ii)]
-        
-        axis equal
-        grid on
-        xlim([0 2e3])
-        ylim([-5e3 10e3])
-        zlim([0 3e3])
-        
-        %left side view
-        az = -88.5681;
-        el = 0.7189;
-        view(az,el)
-        drawnow
-        frame = getframe(gcf);
-        writeVideo(stepA,frame);
-    end
-    close(stepA)
-end
-
-%% Extra code
-%Acquire mean location of markers around hip joint
-% [LHipJointMarkers_mean] = joint_ref_loc(LHipFront,LHipBack,LThigh);
-
 
 end
