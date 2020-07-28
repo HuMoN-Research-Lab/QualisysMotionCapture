@@ -15,14 +15,13 @@ addpath(genpath(cd))
 addpath(data_path)
 
 %% Load Qualisys skeleton data
-% skeleton_file = fullfile(data_path,'2020-03-04_JSM_TPose_s_Jon.tsv');
-% [skeleton] = import_tsv_file(skeleton_file);
-% save('TPose_skeleton_data.mat','skeleton');
-%Acquire data from walking calibration test
+% file_name = '2020-03-04_JSM_TPose_s_Jon.tsv';
+file_name = '02_21_2020_Walking_Calibration_s_JSM.tsv';
+skeleton_file = fullfile(data_path,file_name);
+[skeleton] = import_tsv_file(skeleton_file);
+save('Walking_skeleton_data.mat','skeleton');
 
 %% Load Qualisys MoCap Data
-% tsv_skeleton_file = '2020-03-04_JSM_TPose_s_Jon';
-file_name = '02_21_2020_Walking_Calibration';
 % fileName = '2020-03-04_JSM_TPose';
 load('externalData.mat');
 [markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(file_name);
