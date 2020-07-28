@@ -1,20 +1,20 @@
-function [markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(fileName)
+function [markerLabels,marker_mar_dim_frame,Force,moCap_frame_rate] = loadMoCapData(file_name)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %loadMoCapData outputs various variables from the file name 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Load acquired motion capture data
 %load file type of fileName and store into data variable
-data = load([fileName '.mat']);
+data = load([file_name '.mat']);
 
 %strrep replaces substring of fileName with consistent naming convention
-data = data.(['qtm_' strrep(fileName, '-', '_')]);
+data = data.(['qtm_' strrep(file_name, '-', '_')]);
 
 %% Initial conditions
-Force = [];
-order = 4;
-cutoff = 7;
+Force =     [];
+order =     4;
+cutoff =    7;
 numFrames = data.Frames;
-moCap_framerate = data.FrameRate;
+moCap_frame_rate = data.FrameRate;
 forceplate_framerate = data.Force.Frequency;
 
 %% Data restructuring
@@ -35,7 +35,7 @@ for ii = 1:numMarkers
     squeeze_marker =            squeeze(select_marker);
     for jj = 1:3
 %         select_dim =    select_marker(jj,:);
-        [select_dim] =          butterLowZero(order, cutoff, moCap_framerate, squeeze_marker(jj,:));
+        [select_dim] =          butterLowZero(order, cutoff, moCap_frame_rate, squeeze_marker(jj,:));
         filteredData(jj,:) =    select_dim;
     end
     marker_mar_dim_frame(ii,:,:) = filteredData;
