@@ -141,13 +141,6 @@ figure(10);
 for ii = 4:100
     clf
     hold on
-    az = 38.2094;
-    el = 24.6523;
-    view(az,el)
-    xlim([-1e3     1e3])
-    ylim([-2.5e3  7.5e3])
-    zlim([0     1.95e3])
-    
     plot3(Head_s(1,ii),Head_s(2,ii),Head_s(3,ii),'g.','MarkerSize',10)
     plot3(Neck_s(1,ii),Neck_s(2,ii),Neck_s(3,ii),'g.','MarkerSize',10)
     plot3(Spine_s(1,ii),Spine_s(2,ii),Spine_s(3,ii),'g.','MarkerSize',10)
@@ -172,6 +165,9 @@ for ii = 4:100
     plot3(RToeBase_s(1,ii),RToeBase_s(2,ii),RToeBase_s(3,ii),'g.','MarkerSize',10)
     axis equal
     grid on
+    az = 38.2094;
+    el = 24.6523;
+    view(az,el)
     drawnow
     
 end

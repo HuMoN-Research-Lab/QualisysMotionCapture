@@ -3,7 +3,6 @@ function [segCenter,skeleton] = indexMars_Segs(marker_mar_dim_frame,markerLabels
 %indexMars_Segs indexs mars and segs by start and end of trial
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Define output
-%Update code using getMarker function to find location of segs for skeleton
 segCenter = [];
 skeleton = [];
 use_MarkerClusters = false;
@@ -451,27 +450,32 @@ segCenter.RFootCenter =         RFootPos(:,trial_start_end);
 
 
 %% Skeleton Segments
-skeleton.Head =         squeeze(skeleton_mar_dim_frame(14,:,trial_start_end));
-skeleton.Neck =         squeeze(skeleton_mar_dim_frame(13,:,trial_start_end));
-skeleton.Spine =        squeeze(skeleton_mar_dim_frame(2,:,trial_start_end));
-skeleton.Spine1 =       squeeze(skeleton_mar_dim_frame(3,:,trial_start_end));
-skeleton.Spine2 =       squeeze(skeleton_mar_dim_frame(4,:,trial_start_end));
-skeleton.Hips =         squeeze(skeleton_mar_dim_frame(1,:,trial_start_end));
-skeleton.LShoulder =    squeeze(skeleton_mar_dim_frame(5,:,trial_start_end));
-skeleton.RShoulder =    squeeze(skeleton_mar_dim_frame(9,:,trial_start_end));
-skeleton.LUpperArm =    squeeze(skeleton_mar_dim_frame(6,:,trial_start_end));
-skeleton.RUpperArm =    squeeze(skeleton_mar_dim_frame(10,:,trial_start_end));
-skeleton.LForearm =     squeeze(skeleton_mar_dim_frame(7,:,trial_start_end));
-skeleton.RForearm =     squeeze(skeleton_mar_dim_frame(11,:,trial_start_end));
-skeleton.LHand =        squeeze(skeleton_mar_dim_frame(8,:,trial_start_end));
-skeleton.RHand =        squeeze(skeleton_mar_dim_frame(12,:,trial_start_end));
-skeleton.LThigh =       squeeze(skeleton_mar_dim_frame(15,:,trial_start_end));
-skeleton.RThigh =       squeeze(skeleton_mar_dim_frame(19,:,trial_start_end));
-skeleton.LLeg =         squeeze(skeleton_mar_dim_frame(16,:,trial_start_end));
-skeleton.RLeg =         squeeze(skeleton_mar_dim_frame(20,:,trial_start_end));
-skeleton.LFoot =        squeeze(skeleton_mar_dim_frame(17,:,trial_start_end));
-skeleton.RFoot =        squeeze(skeleton_mar_dim_frame(21,:,trial_start_end));
-skeleton.LToeBase =     squeeze(skeleton_mar_dim_frame(18,:,trial_start_end));
-skeleton.RToeBase =     squeeze(skeleton_mar_dim_frame(22,:,trial_start_end));
+skeleton.Head =         skeleton_mar_dim_frame(14,:,trial_start_end);
+skeleton.Neck =         skeleton_mar_dim_frame(13,:,trial_start_end);
+skeleton.Spine =        skeleton_mar_dim_frame(2,:,trial_start_end);
+skeleton.Spine1 =       skeleton_mar_dim_frame(3,:,trial_start_end);
+skeleton.Spine2 =       skeleton_mar_dim_frame(4,:,trial_start_end);
+skeleton.Hips =         skeleton_mar_dim_frame(1,:,trial_start_end);
+skeleton.LShoulder =    skeleton_mar_dim_frame(5,:,trial_start_end);
+skeleton.RShoulder =    skeleton_mar_dim_frame(9,:,trial_start_end);
+skeleton.LUpperArm =    skeleton_mar_dim_frame(6,:,trial_start_end);
+skeleton.RUpperArm =    skeleton_mar_dim_frame(10,:,trial_start_end);
+skeleton.LForearm =     skeleton_mar_dim_frame(7,:,trial_start_end);
+skeleton.RForearm =     skeleton_mar_dim_frame(11,:,trial_start_end);
+skeleton.LHand =        skeleton_mar_dim_frame(8,:,trial_start_end);
+skeleton.RHand =        skeleton_mar_dim_frame(12,:,trial_start_end);
+skeleton.LThigh =       skeleton_mar_dim_frame(15,:,trial_start_end);
+skeleton.RThigh =       skeleton_mar_dim_frame(19,:,trial_start_end);
+skeleton.LLeg =         skeleton_mar_dim_frame(16,:,trial_start_end);
+skeleton.RLeg =         skeleton_mar_dim_frame(20,:,trial_start_end);
+skeleton.LFoot =        skeleton_mar_dim_frame(17,:,trial_start_end);
+skeleton.RFoot =        skeleton_mar_dim_frame(21,:,trial_start_end);
+skeleton.LToeBase =     skeleton_mar_dim_frame(18,:,trial_start_end);
+skeleton.RToeBase =     skeleton_mar_dim_frame(22,:,trial_start_end);
+
+
+
+
+
 
 end

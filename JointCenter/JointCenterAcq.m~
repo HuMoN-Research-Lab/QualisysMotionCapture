@@ -35,4 +35,4 @@ tic
 [segCenter,skeleton] = indexMars_Segs(marker_mar_dim_frame,markerLabels,skeleton_mar_dim_frame,skeleton_seg_names,trial_start_end);
 toc
 %% Function optimizes joint center location
-[jointCenters] = jointCenterOpt(segCenter,skeleton);
+% [jointCenters] = jointCenterOpt(segCenter,skeleton);
