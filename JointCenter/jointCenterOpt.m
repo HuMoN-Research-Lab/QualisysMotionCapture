@@ -136,71 +136,6 @@ RFoot_s =       skeleton.RFoot;
 LToeBase_s =    skeleton.LToeBase;
 RToeBase_s =    skeleton.RToeBase;
 
-%% Plot Skeleton
-figure(10);
-for ii = 4:100
-    clf
-    hold on
-    az = 38.2094;
-    el = 24.6523;
-    view(az,el)
-    xlim([-1e3     1e3])
-    ylim([-2.5e3  7.5e3])
-    zlim([0     1.95e3])
-    
-    plot3(Head_s(1,ii),Head_s(2,ii),Head_s(3,ii),'g.','MarkerSize',10)
-    plot3(Neck_s(1,ii),Neck_s(2,ii),Neck_s(3,ii),'g.','MarkerSize',10)
-    plot3(Spine_s(1,ii),Spine_s(2,ii),Spine_s(3,ii),'g.','MarkerSize',10)
-    plot3(Spine1_s(1,ii),Spine1_s(2,ii),Spine1_s(3,ii),'g.','MarkerSize',10)
-    plot3(Spine2_s(1,ii),Spine2_s(2,ii),Spine2_s(3,ii),'g.','MarkerSize',10)
-    plot3(Hips_s(1,ii),Hips_s(2,ii),Hips_s(3,ii),'g.','MarkerSize',10)
-    plot3(LShoulder_s(1,ii),LShoulder_s(2,ii),LShoulder_s(3,ii),'g.','MarkerSize',10)
-    plot3(RShoulder_s(1,ii),RShoulder_s(2,ii),RShoulder_s(3,ii),'g.','MarkerSize',10)
-    plot3(LUpperArm_s(1,ii),LUpperArm_s(2,ii),LUpperArm_s(3,ii),'g.','MarkerSize',10)
-    plot3(RUpperArm_s(1,ii),RUpperArm_s(2,ii),RUpperArm_s(3,ii),'g.','MarkerSize',10)
-    plot3(LForearm_s(1,ii),LForearm_s(2,ii),LForearm_s(3,ii),'g.','MarkerSize',10)
-    plot3(RForearm_s(1,ii),RForearm_s(2,ii),RForearm_s(3,ii),'g.','MarkerSize',10)
-    plot3(LHand_s(1,ii),LHand_s(2,ii),LHand_s(3,ii),'g.','MarkerSize',10)
-    plot3(RHand_s(1,ii),RHand_s(2,ii),RHand_s(3,ii),'g.','MarkerSize',10)
-    plot3(LThigh_s(1,ii),LThigh_s(2,ii),LThigh_s(3,ii),'g.','MarkerSize',10)
-    plot3(RThigh_s(1,ii),RThigh_s(2,ii),RThigh_s(3,ii),'g.','MarkerSize',10)
-    plot3(LLeg_s(1,ii),LLeg_s(2,ii),LLeg_s(3,ii),'g.','MarkerSize',10)
-    plot3(RLeg_s(1,ii),RLeg_s(2,ii),RLeg_s(3,ii),'g.','MarkerSize',10)
-    plot3(LFoot_s(1,ii),LFoot_s(2,ii),LFoot_s(3,ii),'g.','MarkerSize',10)
-    plot3(RFoot_s(1,ii),RFoot_s(2,ii),RFoot_s(3,ii),'g.','MarkerSize',10)
-    plot3(LToeBase_s(1,ii),LToeBase_s(2,ii),LToeBase_s(3,ii),'g.','MarkerSize',10)
-    plot3(RToeBase_s(1,ii),RToeBase_s(2,ii),RToeBase_s(3,ii),'g.','MarkerSize',10)
-    axis equal
-    grid on
-    drawnow
-    
-end
-
-%%
-plot3([Head_s(1,ii);Neck_s(1,ii)],[Head_s(2,ii);Neck_s(2,ii)],[Head_s(3,ii);Neck_s(3,ii)],'-','color',[0.8500 0.3250 0.0980])
-
-plot3([Head_s(1,ii);Neck_s(1,ii);Spine_s(1,ii),Spine1_s(1,ii),Spine2_s(1,ii)],...
-    [Head_s(2,ii);Neck_s(2,ii);Spine_s(2,ii);Spine1_s(2,ii);Spine2_s(2,ii),],...
-    [Head_s(3,ii);Neck_s(3,ii);Spine_s(3,ii);Spine1_s(3,ii);Spine2_s(3,ii),],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
-
-%Plot LExtremities
-plot3([Neck_s(1,ii);LShoulder_s(1,ii);LUpperArm_s(1,ii);LUpperArm_s(1,ii);LForearm_s(1,ii);LHand_s(1,ii)],...
-    [Neck_s(2,ii);LShoulder_s(2,ii);LUpperArm_s(2,ii);LUpperArm_s(2,ii);LForearm_s(2,ii);LHand_s(2,ii)],...
-    [Neck_s(3,ii);LShoulder_s(3,ii);LUpperArm_s(3,ii);LUpperArm_s(3,ii);LForearm_s(3,ii);LHand_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
-hold on
-plot3([Neck_s(1,ii);RShoulder_s(1,ii);RUpperArm_s(1,ii);RForearm_s(1,ii);RHand_s(1,ii)],...
-    [Neck_s(2,ii);RShoulder_s(2,ii);RUpperArm_s(2,ii);RForearm_s(2,ii);RHand_s(2,ii)],...
-    [Neck_s(3,ii);RShoulder_s(3,ii);RUpperArm_s(3,ii);RForearm_s(3,ii);RHand_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
-
-plot3([LThigh_s(1,ii);LLeg_s(1,ii);LFoot_s(1,ii);LToeBase_s(1,ii)],...
-    [LThigh_s(2,ii);LLeg_s(2,ii);LFoot_s(2,ii);LToeBase_s(2,ii)],...
-    [LThigh_s(3,ii);LLeg_s(3,ii);LFoot_s(3,ii);LToeBase_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
-
-plot3([RThigh_s(1,ii);RLeg_s(1,ii);RFoot_s(1,ii);RToeBase_s(1,ii)],...
-    [RThigh_s(2,ii);RLeg_s(2,ii);RFoot_s(2,ii);RToeBase_s(2,ii)],...
-    [RThigh_s(3,ii);RLeg_s(3,ii);RFoot_s(3,ii);RToeBase_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
-
-
 %% Activation settings for optimizer of joint centers
 %Upper extremities jointCenters
 lookfor_LShoulderJointCenter =  false;
@@ -723,7 +658,6 @@ open(stepA);
 for ii = 1:2:length(HipCenter)
     clf
     hold on
-    
     if lookfor_LShoulderJointCenter
         plot3(LShoulderJointCenter(1,ii),LShoulderJointCenter(2,ii),...
             LShoulderJointCenter(3,ii),'b.','MarkerSize',12)
@@ -866,74 +800,109 @@ for ii = 1:2:length(HipCenter)
         plot3(RHandCenter(1,ii),RHandCenter(2,ii),RHandCenter(3,ii),'g.','MarkerSize',5)
         
         %RLower SegCenters
-        hold on
         plot3(RHipCenter(1,ii),RHipCenter(2,ii),RHipCenter(3,ii),'g.','MarkerSize',5)
         plot3(RThighCenter(1,ii),RThighCenter(2,ii),RThighCenter(3,ii),'g.','MarkerSize',5)
         plot3(RLegCenter(1,ii),RLegCenter(2,ii),RLegCenter(3,ii),'g.','MarkerSize',5);
         plot3(RFootCenter(1,ii),RFootCenter(2,ii),RFootCenter(3,ii),'g.','MarkerSize',5);
     end
     
-    if plot_skeleton == true
-        %Plot Head
-%         plot3([HeadTop(1,ii);HeadR(1,ii);HeadFront(1,ii);SpineTop(1,ii);ChestCenter(1,ii)],...
-%             [HeadTop(2,ii);HeadR(2,ii);HeadFront(2,ii);SpineTop(2,ii);ChestCenter(2,ii)],...
-%             [HeadTop(3,ii);HeadR(3,ii);HeadFront(3,ii);SpineTop(3,ii);ChestCenter(3,ii)],'-k','MarkerSize',20)
-        plot3([Head_s(1,ii);Neck_s(1,ii);Spine_s(1,ii),Spine1_s(1,ii),Spine2_s(1,ii)],...
-            [Head_s(2,ii);Neck_s(2,ii);Spine_s(2,ii);Spine1_s(2,ii);Spine2_s(2,ii),],...
-            [Head_s(3,ii);Neck_s(3,ii);Spine_s(3,ii);Spine1_s(3,ii);Spine2_s(3,ii),],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
+    %% Plot Skeleton
+    if plot_skeleton == true      
+        %Qualisys Skeleton
+        plot3([Head_s(1,ii);Neck_s(1,ii);Spine2_s(1,ii);Spine1_s(1,ii);Spine_s(1,ii);Hips_s(1,ii)],...
+            [Head_s(2,ii);Neck_s(2,ii);Spine2_s(2,ii);Spine1_s(2,ii);Spine_s(2,ii);Hips_s(2,ii)],...
+            [Head_s(3,ii);Neck_s(3,ii);Spine2_s(3,ii);Spine1_s(3,ii);Spine_s(3,ii);Hips_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
         
-        %Plot LExtremities
-        plot3([Neck_s(1,ii);LShoulder_s(1,ii);LUpperArm_s(1,ii);LUpperArm_s(1,ii);LForearm_s(1,ii);LHand_s(1,ii)],...
-            [Neck_s(2,ii);LShoulder_s(2,ii);LUpperArm_s(2,ii);LUpperArm_s(2,ii);LForearm_s(2,ii);LHand_s(2,ii)],...
-            [Neck_s(3,ii);LShoulder_s(3,ii);LUpperArm_s(3,ii);LUpperArm_s(3,ii);LForearm_s(3,ii);LHand_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
-        hold on
-        plot3([Neck_s(1,ii);RShoulder_s(1,ii);RUpperArm_s(1,ii);RUpperArm_s(1,ii);RForearm_s(1,ii);RHand_s(1,ii)],...
-            [Neck_s(2,ii);RShoulder_s(2,ii);RUpperArm_s(2,ii);RUpperArm_s(2,ii);RForearm_s(2,ii);RHand_s(2,ii)],...
-            [Neck_s(3,ii);RShoulder_s(3,ii);RUpperArm_s(3,ii);RUpperArm_s(3,ii);RForearm_s(3,ii);RHand_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
+        plot3([Spine2_s(1,ii);LShoulder_s(1,ii);LUpperArm_s(1,ii);LForearm_s(1,ii);LHand_s(1,ii)],...
+            [Spine2_s(2,ii);LShoulder_s(2,ii);LUpperArm_s(2,ii);LForearm_s(2,ii);LHand_s(2,ii)],...
+            [Spine2_s(3,ii);LShoulder_s(3,ii);LUpperArm_s(3,ii);LForearm_s(3,ii);LHand_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
         
-        plot3([LThigh_s(1,ii);LLeg_s(1,ii);LFoot_s(1,ii);LToeBase_s(1,ii)],...
-            [LThigh_s(2,ii);LLeg_s(2,ii);LFoot_s(2,ii);LToeBase_s(2,ii)],...
-            [LThigh_s(3,ii);LLeg_s(3,ii);LFoot_s(3,ii);LToeBase_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
+        plot3([Spine2_s(1,ii);RShoulder_s(1,ii);RUpperArm_s(1,ii);RForearm_s(1,ii);RHand_s(1,ii)],...
+            [Spine2_s(2,ii);RShoulder_s(2,ii);RUpperArm_s(2,ii);RForearm_s(2,ii);RHand_s(2,ii)],...
+            [Spine2_s(3,ii);RShoulder_s(3,ii);RUpperArm_s(3,ii);RForearm_s(3,ii);RHand_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
         
-        plot3([RThigh_s(1,ii);RLeg_s(1,ii);RFoot_s(1,ii);RToeBase_s(1,ii)],...
-            [RThigh_s(2,ii);RLeg_s(2,ii);RFoot_s(2,ii);RToeBase_s(2,ii)],...
-            [RThigh_s(3,ii);RLeg_s(3,ii);RFoot_s(3,ii);RToeBase_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
+        plot3([Hips_s(1,ii);LThigh_s(1,ii);LLeg_s(1,ii);LFoot_s(1,ii);LToeBase_s(1,ii)],...
+            [Hips_s(2,ii);LThigh_s(2,ii);LLeg_s(2,ii);LFoot_s(2,ii);LToeBase_s(2,ii)],...
+            [Hips_s(3,ii);LThigh_s(3,ii);LLeg_s(3,ii);LFoot_s(3,ii);LToeBase_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
         
-        %Plot RExtremities
+        plot3([Hips_s(1,ii);RThigh_s(1,ii);RLeg_s(1,ii);RFoot_s(1,ii);RToeBase_s(1,ii)],...
+            [Hips_s(2,ii);RThigh_s(2,ii);RLeg_s(2,ii);RFoot_s(2,ii);RToeBase_s(2,ii)],...
+            [Hips_s(3,ii);RThigh_s(3,ii);RLeg_s(3,ii);RFoot_s(3,ii);RToeBase_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
+        
+        %Calculated Skeleton
+        plot3([NeckCenter(1,ii);TorsoCenter(1,ii);HipCenter(1,ii)],...
+            [SpineTop(2,ii);TorsoCenter(2,ii);HipCenter(2,ii)],...
+            [SpineTop(3,ii);TorsoCenter(3,ii);HipCenter(3,ii)],'-k','LineWidth',2)
+        
+        %LExtremities
+        plot3([NeckCenter(1,ii);LShoulderCenter(1,ii);LUpperArmCenter(1,ii);LElbow(1,ii);LForearmCenter(1,ii);LWristOut(1,ii)],...
+            [NeckCenter(2,ii);LShoulderCenter(2,ii);LUpperArmCenter(2,ii);LElbow(2,ii);LForearmCenter(2,ii);LWristOut(2,ii)],...
+            [NeckCenter(3,ii);LShoulderCenter(3,ii);LUpperArmCenter(3,ii);LElbow(3,ii);LForearmCenter(3,ii);LWristOut(3,ii)],'-b','LineWidth',2)
+        
+        plot3([HipCenter(1,ii);LHipJointCenter(1,ii);LKneeJointCenter(1,ii);LAnkleJointCenter(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
+            [HipCenter(2,ii);LHipJointCenter(2,ii);LKneeJointCenter(2,ii);LAnkleJointCenter(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
+            [HipCenter(3,ii);LHipJointCenter(3,ii);LKneeJointCenter(3,ii);LAnkleJointCenter(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
+        
+        %RExtremities
         plot3([NeckCenter(1,ii);RShoulderCenter(1,ii);RUpperArmCenter(1,ii);RElbow(1,ii);RForearmCenter(1,ii);RWristOut(1,ii)],...
             [NeckCenter(2,ii);RShoulderCenter(2,ii);RUpperArmCenter(2,ii);RElbow(2,ii);RForearmCenter(2,ii);RWristOut(2,ii)],...
             [NeckCenter(3,ii);RShoulderCenter(3,ii);RUpperArmCenter(3,ii);RElbow(3,ii);RForearmCenter(3,ii);RWristOut(3,ii)],'-r','LineWidth',2)
         
-        plot3([BackCenter(1,ii);RHipJointCenter(1,ii);RKneeJointCenter(1,ii);RAnkleJointCenter(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
-            [BackCenter(2,ii);RHipJointCenter(2,ii);RKneeJointCenter(2,ii);RAnkleJointCenter(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
-            [BackCenter(3,ii);RHipJointCenter(3,ii);RKneeJointCenter(3,ii);RAnkleJointCenter(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+        plot3([HipCenter(1,ii);RHipJointCenter(1,ii);RKneeJointCenter(1,ii);RAnkleJointCenter(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+            [HipCenter(2,ii);RHipJointCenter(2,ii);RKneeJointCenter(2,ii);RAnkleJointCenter(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+            [HipCenter(3,ii);RHipJointCenter(3,ii);RKneeJointCenter(3,ii);RAnkleJointCenter(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
 
-%         plot3([NeckCenter(1,ii);TorsoCenter(1,ii);BackCenter(1,ii)],...
-%             [SpineTop(2,ii);TorsoCenter(2,ii);BackCenter(2,ii)],...
-%             [SpineTop(3,ii);TorsoCenter(3,ii);BackCenter(3,ii)],'-k','LineWidth',2)
-%         
-%         %Plot LExtremities
-%         plot3([NeckCenter(1,ii);LShoulderCenter(1,ii);LUpperArmCenter(1,ii);LElbow(1,ii);LForearmCenter(1,ii);LWristOut(1,ii)],...
-%             [NeckCenter(2,ii);LShoulderCenter(2,ii);LUpperArmCenter(2,ii);LElbow(2,ii);LForearmCenter(2,ii);LWristOut(2,ii)],...
-%             [NeckCenter(3,ii);LShoulderCenter(3,ii);LUpperArmCenter(3,ii);LElbow(3,ii);LForearmCenter(3,ii);LWristOut(3,ii)],'-b','LineWidth',2)
-%         
-%         plot3([BackCenter(1,ii);LHipJointCenter(1,ii);LKneeJointCenter(1,ii);LAnkleJointCenter(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
-%             [BackCenter(2,ii);LHipJointCenter(2,ii);LKneeJointCenter(2,ii);LAnkleJointCenter(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
-%             [BackCenter(3,ii);LHipJointCenter(3,ii);LKneeJointCenter(3,ii);LAnkleJointCenter(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
-%         
-%         %Plot RExtremities
-%         plot3([NeckCenter(1,ii);RShoulderCenter(1,ii);RUpperArmCenter(1,ii);RElbow(1,ii);RForearmCenter(1,ii);RWristOut(1,ii)],...
-%             [NeckCenter(2,ii);RShoulderCenter(2,ii);RUpperArmCenter(2,ii);RElbow(2,ii);RForearmCenter(2,ii);RWristOut(2,ii)],...
-%             [NeckCenter(3,ii);RShoulderCenter(3,ii);RUpperArmCenter(3,ii);RElbow(3,ii);RForearmCenter(3,ii);RWristOut(3,ii)],'-r','LineWidth',2)
-%         
-%         plot3([BackCenter(1,ii);RHipJointCenter(1,ii);RKneeJointCenter(1,ii);RAnkleJointCenter(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
-%             [BackCenter(2,ii);RHipJointCenter(2,ii);RKneeJointCenter(2,ii);RAnkleJointCenter(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
-%             [BackCenter(3,ii);RHipJointCenter(3,ii);RKneeJointCenter(3,ii);RAnkleJointCenter(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+        
+            plot3(Head_s(1,ii),Head_s(2,ii),Head_s(3,ii),'k.','MarkerSize',10)
+            plot3(Neck_s(1,ii),Neck_s(2,ii),Neck_s(3,ii),'k.','MarkerSize',10)
+            plot3(Spine_s(1,ii),Spine_s(2,ii),Spine_s(3,ii),'k.','MarkerSize',10)
+            plot3(Spine1_s(1,ii),Spine1_s(2,ii),Spine1_s(3,ii),'k.','MarkerSize',10)
+            plot3(Spine2_s(1,ii),Spine2_s(2,ii),Spine2_s(3,ii),'k.','MarkerSize',10)
+            plot3(Hips_s(1,ii),Hips_s(2,ii),Hips_s(3,ii),'k.','MarkerSize',10)
+            plot3(LShoulder_s(1,ii),LShoulder_s(2,ii),LShoulder_s(3,ii),'k.','MarkerSize',10)
+            plot3(RShoulder_s(1,ii),RShoulder_s(2,ii),RShoulder_s(3,ii),'k.','MarkerSize',10)
+            plot3(LUpperArm_s(1,ii),LUpperArm_s(2,ii),LUpperArm_s(3,ii),'k.','MarkerSize',10)
+            plot3(RUpperArm_s(1,ii),RUpperArm_s(2,ii),RUpperArm_s(3,ii),'k.','MarkerSize',10)
+            plot3(LForearm_s(1,ii),LForearm_s(2,ii),LForearm_s(3,ii),'k.','MarkerSize',10)
+            plot3(RForearm_s(1,ii),RForearm_s(2,ii),RForearm_s(3,ii),'k.','MarkerSize',10)
+            plot3(LHand_s(1,ii),LHand_s(2,ii),LHand_s(3,ii),'k.','MarkerSize',10)
+            plot3(RHand_s(1,ii),RHand_s(2,ii),RHand_s(3,ii),'k.','MarkerSize',10)
+            plot3(LThigh_s(1,ii),LThigh_s(2,ii),LThigh_s(3,ii),'k.','MarkerSize',10)
+            plot3(RThigh_s(1,ii),RThigh_s(2,ii),RThigh_s(3,ii),'k.','MarkerSize',10)
+            plot3(LLeg_s(1,ii),LLeg_s(2,ii),LLeg_s(3,ii),'k.','MarkerSize',10)
+            plot3(RLeg_s(1,ii),RLeg_s(2,ii),RLeg_s(3,ii),'k.','MarkerSize',10)
+            plot3(LFoot_s(1,ii),LFoot_s(2,ii),LFoot_s(3,ii),'k.','MarkerSize',10)
+            plot3(RFoot_s(1,ii),RFoot_s(2,ii),RFoot_s(3,ii),'k.','MarkerSize',10)
+            plot3(LToeBase_s(1,ii),LToeBase_s(2,ii),LToeBase_s(3,ii),'k.','MarkerSize',10)
+            plot3(RToeBase_s(1,ii),RToeBase_s(2,ii),RToeBase_s(3,ii),'k.','MarkerSize',10)
     end
     
-    %% Plotting settings
-    axis equal
+    %Full Lab Settings
+%     %Left Side
+%     az = 231.8574;
+%     el = 16.8769;
+    %Right Side
+    az = 123.4475;
+    el = 22.8856;
+    
+    %     az = 139.7338;
+    %     el = 17.4418;
+    view(az,el)
+    %Full Lab Settings
+    xlim([200   650])
+    ylim([-3e3  7.5e3])
+    %         ylim([-3e3  -1.5e3])
+    zlim([0     1.95e3])
     grid on
+    drawnow
+    frame = getframe(gcf);
+    writeVideo(stepA,frame);
+    
+end
+close(stepA)
+    %% Plotting settings
+%     axis equal
+%     grid on
     
 %     %TPose settings
 %     xlim([-500  1.5e3])
@@ -946,19 +915,4 @@ for ii = 1:2:length(HipCenter)
 % %     az = -30.8155;
 % %     el = 6.8338;
     
-    %Full Lab Settings
-    xlim([0     1e3])
-    ylim([-2.5e3  7.5e3])
-    zlim([0     1.95e3])
-    az = 151.5258;
-    el = 9.6664;     
-    view(az,el)
-    drawnow
-    
-    frame = getframe(gcf);
-    writeVideo(stepA,frame);
-    
-end
-close(stepA)
-
 end

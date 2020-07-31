@@ -8,12 +8,10 @@ cutoff = 7;
 skeleton_seg_names = {'Hips' 'Spine' 'Spine1' 'Spine2' 'LShoulder' 'LUpperArm'...
     'LForearm' 'LHand' 'RShoulder' 'RUpperArm' 'RForearm' 'RHand' 'Neck' 'Head'...
     'LUpperLeg' 'LLeg' 'LFoot' 'LToeBase' 'RUpperLeg' 'RLeg' 'RFoot' 'RToeBase'};    
-
 fid = fopen(skeleton_file);
 % C = ones(1,1:178);
 C = textscan(fid,['%s' repmat('%s',1,178)], 'HeaderLines', 5); %178
 fclose(fid);
-
 % %Misc data
 % skeleton_time =         C{1,1};
 % skeleton_frames =       C{1,2};
@@ -41,7 +39,7 @@ end
 skeleton_mar_dim_frame(seg_names_id,:,:) = filtered_data;
 
 %% Spine Coordinates and Quaternians
-ref = 7;
+ref = 10;
 seg_names_id = seg_names_id + 1;
 spine_raw = cell(7,length(C{1}));
 for ii = 1:6

@@ -16,23 +16,21 @@ addpath(data_path)
 
 %% Load Qualisys MoCap Data
 % file_name = '2020-03-04_JSM_TPose';
-tic
 file_name = '02_21_2020_Walking_Calibration';
 load('externalData.mat');
 % load('Walking_skeleton_data.mat');
 [markerLabels,marker_mar_dim_frame,Force,frame_rate] = loadMoCapData(file_name);
-toc
+
 %% Load Qualisys skeleton data
-% % file_name = '2020-03-04_JSM_TPose_s_Jon.tsv';
-tic
+% file_name = '2020-03-04_JSM_TPose_s_Jon.tsv';
 file_name = '02_21_2020_Walking_Calibration_s_JSM.tsv';
 skeleton_file = fullfile(data_path,file_name);
 [skeleton_mar_dim_frame,skeleton_seg_names] = import_tsv_file(skeleton_file,frame_rate);
-% save('Walking_skeleton_data.mat','skeleton');
-toc
+save('Walking_skeleton_data.mat','skeleton_mar_dim_frame');
+
 %% Index markers and segCenters using MoCap data
-tic
+% load('Walking_skeleton_data.mat')
 [segCenter,skeleton] = indexMars_Segs(marker_mar_dim_frame,markerLabels,skeleton_mar_dim_frame,skeleton_seg_names,trial_start_end);
-toc
+
 %% Function optimizes joint center location
 [jointCenters] = jointCenterOpt(segCenter,skeleton);
