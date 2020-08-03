@@ -30,8 +30,8 @@ RLegCenter =        segCenterVariable.RLegCenter;
 %Foot markers & segCenters
 LAnkle =            segCenterVariable.LAnkle;
 RAnkle =            segCenterVariable.RAnkle;
-LFootCenter =       segCenterVariable.LFootCenter;
-RFootCenter =       segCenterVariable.RFootCenter;
+LForefoot =         segCenterVariable.LForefoot;
+RForefoot =         segCenterVariable.RForefoot;
 LHeel =             segCenterVariable.LHeel;
 RHeel =             segCenterVariable.RHeel;
 LToeTip =           segCenterVariable.LToeTip;
@@ -76,14 +76,14 @@ end
 if visualize
     for ii = 5
         %Plot of right side of human skeleton
-        plot3([RHipCenter(1,ii);RKnee(1,ii);RAnkle(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
-            [RHipCenter(2,ii);RKnee(2,ii);RAnkle(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
-            [RHipCenter(3,ii);RKnee(3,ii);RAnkle(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+        plot3([RHipCenter(1,ii);RKnee(1,ii);RAnkle(1,ii);RForefoot(1,ii);RToeTip(1,ii)],...
+            [RHipCenter(2,ii);RKnee(2,ii);RAnkle(2,ii);RForefoot(2,ii);RToeTip(2,ii)],...
+            [RHipCenter(3,ii);RKnee(3,ii);RAnkle(3,ii);RForefoot(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
         hold on
         %Plot of left side of human skeleton
-        plot3([LHipCenter(1,ii);LKnee(1,ii);LAnkle(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
-            [LHipCenter(2,ii);LKnee(2,ii);LAnkle(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
-            [LHipCenter(3,ii);LKnee(3,ii);LAnkle(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
+        plot3([LHipCenter(1,ii);LKnee(1,ii);LAnkle(1,ii);LForefoot(1,ii);LToeTip(1,ii)],...
+            [LHipCenter(2,ii);LKnee(2,ii);LAnkle(2,ii);LForefoot(2,ii);LToeTip(2,ii)],...
+            [LHipCenter(3,ii);LKnee(3,ii);LAnkle(3,ii);LForefoot(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
         
         %LLower Markers
         plot3(LHipFront(1,ii),LHipFront(2,ii),LHipFront(3,ii),'k.','MarkerSize',5)
@@ -109,22 +109,38 @@ if visualize
         axis equal
         grid on
         
-        %Full Lab Settings
-        xlim([0     1e3])
-        ylim([-3e3  -1.5e3])
-%         ylim([-3e3  -1.5e3])
-        zlim([0     1.95e3])
-%         %Left Side
-%         az = 231.8574;
-%         el = 16.8769;
-        %Right Side
-        az = 123.4475;
-        el = 22.8856;
+        if use_MarkerClusters
+            %TPose Settings
+            xlim([-500  1.5e3])
+            ylim([-750   3e3])
+            zlim([0     1.95e3])
+            
+            %Right side view
+            az = 69.5695;
+            el = 17.3879;
+            
+%             %Left side view
+%             az = -30.8155;
+%             el = 6.8338;
+            
+        else
+            %Full Lab Settings
+            xlim([0     1e3])
+            ylim([-3e3  -1.5e3])
+            zlim([0     1.95e3])
+            
+            %Left Side
+            az = 231.8574;
+            el = 16.8769;
+            
+            %Right Side
+            az = 123.4475;
+            el = 22.8856;
+        end
+        
+        
+        
 
-%         %TPose Settings
-%         xlim([-500  1.5e3])
-%         ylim([-500   3e3])
-%         zlim([0     1.95e3])
 %         %Center side view
 %         az = 90;
 %         el = 0;

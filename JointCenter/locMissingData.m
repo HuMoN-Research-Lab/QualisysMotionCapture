@@ -28,13 +28,14 @@ for ii = 1:numMarkers %ref to numMarkers
 end
 for ii = 1:length(nans_loc_cell) %ref to each col cell
     for jj = 1:3 %ref to each row cell
-        if nans_loc_cell{jj,ii} == 1
+        if nans_loc_cell{jj,ii} > 0
             disp('Missing Data Found!')
             missingData = getMarker(pre_filter_marker_mar_dim_frame(:,:,:),markerLabels,'Jon_LeftLegCluster3');
             for kk = 1:3
                 new_data(kk,:) = fillmissing(missingData(kk,:),'movmean',5);
             end
             pre_filter_marker_mar_dim_frame(49,1:3,:) = new_data;% (1:3,1:2897);
+            data = pre_filter_marker_mar_dim_frame;
         else
             data = pre_filter_marker_mar_dim_frame;
         end

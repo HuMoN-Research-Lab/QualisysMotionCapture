@@ -1,4 +1,4 @@
-function [segCenter,skeleton] = indexMars_Segs(marker_mar_dim_frame,markerLabels,skeleton_mar_dim_frame,skeleton_seg_names,trial_start_end)
+function [segCenter,skeleton] = indexMars_Segs(marker_mar_dim_frame,markerLabels,skeleton_mar_dim_frame,skeleton_seg_names,trial_start_end,use_MarkerClusters)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %indexMars_Segs indexs mars and segs by start and end of trial
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -6,7 +6,6 @@ function [segCenter,skeleton] = indexMars_Segs(marker_mar_dim_frame,markerLabels
 %Update code using getMarker function to find location of segs for skeleton
 segCenter = [];
 skeleton = [];
-use_MarkerClusters = false;
 
 %% Head markers indexing
 %Index marker
