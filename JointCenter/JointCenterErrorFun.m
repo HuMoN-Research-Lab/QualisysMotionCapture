@@ -133,12 +133,10 @@ if visualize
             az = 231.8574;
             el = 16.8769;
             
-            %Right Side
-            az = 123.4475;
-            el = 22.8856;
-        end
-        
-        
+%             %Right Side
+%             az = 123.4475;
+%             el = 22.8856;
+        end        
         
 
 %         %Center side view

@@ -530,7 +530,7 @@ if lookfor_LKneeJointCenter
     %LKneeCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     visualize = true;
-    LKneeJointCenterError = @(weights) JointCenterErrorFun(LLegCenter,... %LThighCenter previously
+    LKneeJointCenterError = @(weights) JointCenterErrorFun(LThighCenter,... %LThighCenter previously
         markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);
     
     %Optimizer for LKneeJointCenter weights
@@ -574,7 +574,7 @@ if lookfor_RKneeJointCenter
     %RKneeCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     visualize = true;
-    RKneeJointCenterError = @(weights) JointCenterErrorFun(RLegCenter,...
+    RKneeJointCenterError = @(weights) JointCenterErrorFun(RThighCenter,...
         markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);
     
     %Optimizer for LKneeJointCenter weights
@@ -673,6 +673,47 @@ open(stepA);
 for ii = 1:2:length(HipCenter)
     clf
     hold on
+    
+    %% Plotting settings
+    if use_MarkerClusters
+        %TPose settings     
+        %Front view
+        az = 89.9695;
+        el = 8.3748;
+        
+%         %Right side view
+%         az = 69.5695;
+%         el = 17.3879;
+        
+%         %left side view
+%         az = -30.8155;
+%         el = 6.8338;
+
+        xlim([-500  1.5e3])
+        ylim([750   3e3])
+        zlim([0     1.95e3])
+        
+    else
+        %Full Lab Settings
+        %Left Side
+        az = 231.8574;
+        el = 16.8769;
+        
+%         %Right Side
+%         az = 123.4475;
+%         el = 22.8856;
+        
+        xlim([200   650])
+        ylim([-3e3  7.5e3])
+        zlim([0     1.95e3])
+        
+        %Unsure parameters
+        %     az = 139.7338;
+        %     el = 17.4418;
+    end
+    view(az,el)
+    
+    %% Plot individual jointCenter points
     if lookfor_LShoulderJointCenter
         plot3(LShoulderJointCenter(1,ii),LShoulderJointCenter(2,ii),...
             LShoulderJointCenter(3,ii),'b.','MarkerSize',12)
@@ -722,6 +763,7 @@ for ii = 1:2:length(HipCenter)
             RAnkleJointCenter(3,ii),'r.','MarkerSize',12)
     end
     
+    %% Plot markers and segCenters
     if plot_markers
         %Upper markers
         plot3(HeadL(1,ii),HeadL(2,ii),HeadL(3,ii),'k.','MarkerSize',5)
@@ -854,28 +896,99 @@ for ii = 1:2:length(HipCenter)
             [NeckCenter(2,ii);LShoulderCenter(2,ii);LUpperArmCenter(2,ii);LElbow(2,ii);LForearmCenter(2,ii);LWristOut(2,ii)],...
             [NeckCenter(3,ii);LShoulderCenter(3,ii);LUpperArmCenter(3,ii);LElbow(3,ii);LForearmCenter(3,ii);LWristOut(3,ii)],'-b','LineWidth',2)
         
-        %         plot3([HipCenter(1,ii);LHipCenter(1,ii);LKneeJointCenter(1,ii);LAnkle(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
-        %             [HipCenter(2,ii);LHipCenter(2,ii);LKneeJointCenter(2,ii);LAnkle(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
-        %             [HipCenter(3,ii);LHipCenter(3,ii);LKneeJointCenter(3,ii);LAnkle(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
-        
-        plot3([HipCenter(1,ii);LHipJointCenter(1,ii);LKneeJointCenter(1,ii);LAnkleJointCenter(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
-            [HipCenter(2,ii);LHipJointCenter(2,ii);LKneeJointCenter(2,ii);LAnkleJointCenter(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
-            [HipCenter(3,ii);LHipJointCenter(3,ii);LKneeJointCenter(3,ii);LAnkleJointCenter(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
-        
         %RExtremities
         plot3([NeckCenter(1,ii);RShoulderCenter(1,ii);RUpperArmCenter(1,ii);RElbow(1,ii);RForearmCenter(1,ii);RWristOut(1,ii)],...
             [NeckCenter(2,ii);RShoulderCenter(2,ii);RUpperArmCenter(2,ii);RElbow(2,ii);RForearmCenter(2,ii);RWristOut(2,ii)],...
             [NeckCenter(3,ii);RShoulderCenter(3,ii);RUpperArmCenter(3,ii);RElbow(3,ii);RForearmCenter(3,ii);RWristOut(3,ii)],'-r','LineWidth',2)
         
-        %         plot3([HipCenter(1,ii);RHipCenter(1,ii);RKneeJointCenter(1,ii);RAnkle(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
-        %             [HipCenter(2,ii);RHipCenter(2,ii);RKneeJointCenter(2,ii);RAnkle(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
-        %             [HipCenter(3,ii);RHipCenter(3,ii);RKneeJointCenter(3,ii);RAnkle(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+        %Activation of Plots for LJointCenters
+        if lookfor_LHipJointCenter && lookfor_LKneeJointCenter && lookfor_LAnkleJointCenter
+            plot3([HipCenter(1,ii);LHipJointCenter(1,ii);LKneeJointCenter(1,ii);LAnkleJointCenter(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
+                [HipCenter(2,ii);LHipJointCenter(2,ii);LKneeJointCenter(2,ii);LAnkleJointCenter(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
+                [HipCenter(3,ii);LHipJointCenter(3,ii);LKneeJointCenter(3,ii);LAnkleJointCenter(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
+        elseif lookfor_LHipJointCenter && lookfor_LKneeJointCenter
+            plot3([HipCenter(1,ii);LHipJointCenter(1,ii);LKneeJointCenter(1,ii);LAnkle(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
+                [HipCenter(2,ii);LHipJointCenter(2,ii);LKneeJointCenter(2,ii);LAnkle(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
+                [HipCenter(3,ii);LHipJointCenter(3,ii);LKneeJointCenter(3,ii);LAnkle(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
+        elseif lookfor_LHipJointCenter && lookfor_LAnkleJointCenter
+            plot3([HipCenter(1,ii);LHipJointCenter(1,ii);LKnee(1,ii);LAnkleJointCenter(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
+                [HipCenter(2,ii);LHipJointCenter(2,ii);LKnee(2,ii);LAnkleJointCenter(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
+                [HipCenter(3,ii);LHipJointCenter(3,ii);LKnee(3,ii);LAnkleJointCenter(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
+        elseif lookfor_LKneeJointCenter && lookfor_LAnkleJointCenter
+            plot3([HipCenter(1,ii);LHipCenter(1,ii);LKneeJointCenter(1,ii);LAnkleJointCenter(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
+                [HipCenter(2,ii);LHipCenter(2,ii);LKneeJointCenter(2,ii);LAnkleJointCenter(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
+                [HipCenter(3,ii);LHipCenter(3,ii);LKneeJointCenter(3,ii);LAnkleJointCenter(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
+        elseif lookfor_LHipJointCenter
+            plot3([HipCenter(1,ii);LHipJointCenter(1,ii);LKnee(1,ii);LAnkle(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
+                [HipCenter(2,ii);LHipJointCenter(2,ii);LKnee(2,ii);LAnkle(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
+                [HipCenter(3,ii);LHipJointCenter(3,ii);LKnee(3,ii);LAnkle(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
+        elseif lookfor_LKneeJointCenter
+            plot3([HipCenter(1,ii);LHipCenter(1,ii);LKneeJointCenter(1,ii);LAnkle(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
+                [HipCenter(2,ii);LHipCenter(2,ii);LKneeJointCenter(2,ii);LAnkle(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
+                [HipCenter(3,ii);LHipCenter(3,ii);LKneeJointCenter(3,ii);LAnkle(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
+        elseif lookfor_LAnkleJointCenter
+            plot3([HipCenter(1,ii);LHipCenter(1,ii);LKnee(1,ii);LAnkleJointCenter(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
+                [HipCenter(2,ii);LHipCenter(2,ii);LKnee(2,ii);LAnkleJointCenter(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
+                [HipCenter(3,ii);LHipCenter(3,ii);LKnee(3,ii);LAnkleJointCenter(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
+        else
+            continue
+        end
         
-        plot3([HipCenter(1,ii);RHipJointCenter(1,ii);RKneeJointCenter(1,ii);RAnkleJointCenter(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
-            [HipCenter(2,ii);RHipJointCenter(2,ii);RKneeJointCenter(2,ii);RAnkleJointCenter(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
-            [HipCenter(3,ii);RHipJointCenter(3,ii);RKneeJointCenter(3,ii);RAnkleJointCenter(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+        %Activation of Plots for RJointCenters
+        if lookfor_RHipJointCenter && lookfor_RKneeJointCenter && lookfor_RAnkleJointCenter
+            plot3([HipCenter(1,ii);RHipJointCenter(1,ii);RKneeJointCenter(1,ii);RAnkleJointCenter(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+                [HipCenter(2,ii);RHipJointCenter(2,ii);RKneeJointCenter(2,ii);RAnkleJointCenter(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+                [HipCenter(3,ii);RHipJointCenter(3,ii);RKneeJointCenter(3,ii);RAnkleJointCenter(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+        elseif lookfor_RHipJointCenter && lookfor_RKneeJointCenter
+            plot3([HipCenter(1,ii);RHipJointCenter(1,ii);RKneeJointCenter(1,ii);RAnkle(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+                [HipCenter(2,ii);RHipJointCenter(2,ii);RKneeJointCenter(2,ii);RAnkle(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+                [HipCenter(3,ii);RHipJointCenter(3,ii);RKneeJointCenter(3,ii);RAnkle(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+        elseif lookfor_RHipJointCenter && lookfor_RAnkleJointCenter
+            plot3([HipCenter(1,ii);RHipJointCenter(1,ii);RKnee(1,ii);RAnkleJointCenter(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+                [HipCenter(2,ii);RHipJointCenter(2,ii);RKnee(2,ii);RAnkleJointCenter(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+                [HipCenter(3,ii);RHipJointCenter(3,ii);RKnee(3,ii);RAnkleJointCenter(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+        elseif lookfor_RKneeJointCenter && lookfor_RAnkleJointCenter
+            plot3([HipCenter(1,ii);RHipCenter(1,ii);RKneeJointCenter(1,ii);RAnkleJointCenter(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+                [HipCenter(2,ii);RHipCenter(2,ii);RKneeJointCenter(2,ii);RAnkleJointCenter(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+                [HipCenter(3,ii);RHipCenter(3,ii);RKneeJointCenter(3,ii);RAnkleJointCenter(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+        elseif lookfor_RHipJointCenter
+            plot3([HipCenter(1,ii);RHipJointCenter(1,ii);RKnee(1,ii);RAnkle(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+                [HipCenter(2,ii);RHipJointCenter(2,ii);RKnee(2,ii);RAnkle(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+                [HipCenter(3,ii);RHipJointCenter(3,ii);RKnee(3,ii);RAnkle(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+        elseif lookfor_RKneeJointCenter
+            plot3([HipCenter(1,ii);RHipCenter(1,ii);RKneeJointCenter(1,ii);RAnkle(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+                [HipCenter(2,ii);RHipCenter(2,ii);RKneeJointCenter(2,ii);RAnkle(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+                [HipCenter(3,ii);RHipCenter(3,ii);RKneeJointCenter(3,ii);RAnkle(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+        elseif lookfor_RAnkleJointCenter
+            plot3([HipCenter(1,ii);RHipCenter(1,ii);RKnee(1,ii);RAnkleJointCenter(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+                [HipCenter(2,ii);RHipCenter(2,ii);RKnee(2,ii);RAnkleJointCenter(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+                [HipCenter(3,ii);RHipCenter(3,ii);RKnee(3,ii);RAnkleJointCenter(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+        else
+            continue
+        end
         
+%         
+%         if lookfor_RHipJointCenter
+%             plot3([HipCenter(1,ii);RHipJointCenter(1,ii);RKnee(1,ii);RAnkle(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+%                 [HipCenter(2,ii);RHipJointCenter(2,ii);RKnee(2,ii);RAnkle(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+%                 [HipCenter(3,ii);RHipJointCenter(3,ii);RKnee(3,ii);RAnkle(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+%         elseif lookfor_RKneeJointCenter
+%             plot3([HipCenter(1,ii);RHipCenter(1,ii);RKneeJointCenter(1,ii);RAnkle(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+%                 [HipCenter(2,ii);RHipCenter(2,ii);RKneeJointCenter(2,ii);RAnkle(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+%                 [HipCenter(3,ii);RHipCenter(3,ii);RKneeJointCenter(3,ii);RAnkle(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+%         elseif lookfor_RAnkleJointCenter
+%             plot3([HipCenter(1,ii);RHipCenter(1,ii);RKnee(1,ii);RAnkleJointCenter(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+%                 [HipCenter(2,ii);RHipCenter(2,ii);RKnee(2,ii);RAnkleJointCenter(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+%                 [HipCenter(3,ii);RHipCenter(3,ii);RKnee(3,ii);RAnkleJointCenter(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+%         elseif lookfor_RHipJointCenter && lookfor_RKneeJointCenter && lookfor_RAnkleJointCenter
+%             plot3([HipCenter(1,ii);RHipJointCenter(1,ii);RKneeJointCenter(1,ii);RAnkleJointCenter(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+%                 [HipCenter(2,ii);RHipJointCenter(2,ii);RKneeJointCenter(2,ii);RAnkleJointCenter(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+%                 [HipCenter(3,ii);RHipJointCenter(3,ii);RKneeJointCenter(3,ii);RAnkleJointCenter(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
+%         else
+%             continue
+%         end
         
+        %Plot individual skeleton markers
         plot3(Head_s(1,ii),Head_s(2,ii),Head_s(3,ii),'k.','MarkerSize',10)
         plot3(Neck_s(1,ii),Neck_s(2,ii),Neck_s(3,ii),'k.','MarkerSize',10)
         plot3(Spine_s(1,ii),Spine_s(2,ii),Spine_s(3,ii),'k.','MarkerSize',10)
@@ -900,41 +1013,8 @@ for ii = 1:2:length(HipCenter)
         plot3(RToeBase_s(1,ii),RToeBase_s(2,ii),RToeBase_s(3,ii),'k.','MarkerSize',10)
     end
     
-    if use_MarkerClusters
-        %TPose settings     
-        %Right side view
-        az = 69.5695;
-        el = 17.3879;
-        
-%         %left side view
-%         az = -30.8155;
-%         el = 6.8338;
-
-        xlim([-500  1.5e3])
-        ylim([750   3e3])
-        zlim([0     1.95e3])
-    else
-        %Full Lab Settings
-        %Left Side
-        az = 231.8574;
-        el = 16.8769;
-        
-%         %Right Side
-%         az = 123.4475;
-%         el = 22.8856;
-        
-        xlim([200   650])
-        ylim([-3e3  7.5e3])
-        zlim([0     1.95e3])
-        
-        %Unsure parameters
-        %     az = 139.7338;
-        %     el = 17.4418;
-    end
-    
     grid on
     drawnow
-    view(az,el)
     frame = getframe(gcf);
     writeVideo(stepA,frame);
     
