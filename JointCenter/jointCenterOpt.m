@@ -137,26 +137,28 @@ RToeBase_s =    skeleton.RToeBase;
 
 %% Activation settings for optimizer of joint centers
 %Upper extremities jointCenters
-lookfor_LShoulderJointCenter =  false;
-lookfor_RShoulderJointCenter =  false;
+lookfor_LShoulderJointCenter =  true;
+lookfor_RShoulderJointCenter =  true;
 lookfor_LElbowJointCenter =     false;
 lookfor_RElbowJointCenter =     false;
 lookfor_LWristJointCenter =     false;
 lookfor_RWristJointCenter =     false;
 
 %Lower extremities jointCenters
-lookfor_LHipJointCenter =       true;
-lookfor_RHipJointCenter =       true;
-lookfor_LKneeJointCenter =      true;
-lookfor_RKneeJointCenter =      true;
-lookfor_LAnkleJointCenter =     true;
-lookfor_RAnkleJointCenter =     true;
+lookfor_LHipJointCenter =       false;
+lookfor_RHipJointCenter =       false;
+lookfor_LKneeJointCenter =      false;
+lookfor_RKneeJointCenter =      false;
+lookfor_LAnkleJointCenter =     false;
+lookfor_RAnkleJointCenter =     false;
 
 %% Activation settings for plotting markers and segCenters
 plot_segCenters =   true;
 plot_markers =      true;
 plot_LExtr =        false;
 plot_skeleton =     true;
+upper_extremities = true;
+lower_extremities = true;
 
 %% Settings for optimizer
 opts = optimset('Display', 'iter','MaxFunEvals',50000, 'PlotFcns',{@optimplotx, @optimplotfval,@optimplotfirstorderopt});
@@ -174,9 +176,9 @@ if lookfor_LShoulderJointCenter
     %referenced
     marker1 =       LShoulderTop;
     marker2 =       LShoulderBack;
-    marker3 =       LShoulderCenter;
+    marker3 =       LArm;
     numOfWeights =  3;
-    upper_markers =         cat(numOfWeights,marker1,marker2,marker3);
+    markers =         cat(numOfWeights,marker1,marker2,marker3);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     
@@ -187,8 +189,14 @@ if lookfor_LShoulderJointCenter
     
     %LShoulderCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
-    LShoulderJointCenterError = @(weights) JointCenterErrorFun(LShoulderCenter,...
-        upper_markers,figNum,weights,numOfWeights);
+    visualize = true;
+    if upper_extremities && use_MarkerClusters
+        LShoulderJointCenterError = @(weights) JointCenterErrorFun(LUpperArmCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities,use_MarkerClusters);%,v);
+    elseif upper_extremities
+        LShoulderJointCenterError = @(weights) JointCenterErrorFun(LUpperArmCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities);%,v);
+    end
     
     % close(v)
     
@@ -198,7 +206,7 @@ if lookfor_LShoulderJointCenter
     
     %Calibrates results considering initialGuess
     for ii = 1:numOfWeights
-        weightedMarkers(:,:,ii)= upper_markers(:,:,ii)*LShoulderWeights(ii);
+        weightedMarkers(:,:,ii)= markers(:,:,ii)*LShoulderWeights(ii);
     end
     LShoulderJointCenter =                  sum(weightedMarkers,3); 
     
@@ -214,7 +222,7 @@ if lookfor_RShoulderJointCenter
     %referenced
     marker1 =       RShoulderTop;
     marker2 =       RShoulderBack;
-    marker3 =       RShoulderCenter;
+    marker3 =       RArm;
     numOfWeights =  3;
     markers =               cat(numOfWeights,marker1,marker2,marker3);
     weightVector=           ones(1,numOfWeights);%Initial Guess of how much the JointGuess vector is wrong
@@ -223,12 +231,18 @@ if lookfor_RShoulderJointCenter
     %Starting point of JointCenter guess that initiates optimizer
     figNum =                132435;
     
-    % v = VideoWriter('LHip Segment Length Optimization.mp4');
+    % v = VideoWriter('RShoulder Segment Length Optimization.mp4');
     
-    %LShoulderCenter marker (input1), markers around joint(input 2,3,4),
+    %RShoulderCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
-    RShoulderJointCenterError = @(weights) JointCenterErrorFun(RShoulderCenter,...
-        markers,figNum,weights,numOfWeights);
+    visualize = true;
+    if upper_extremities && use_MarkerClusters
+        RShoulderJointCenterError = @(weights) JointCenterErrorFun(RUpperArmCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities,use_MarkerClusters);%,v);
+    elseif upper_extremities
+        RShoulderJointCenterError = @(weights) JointCenterErrorFun(RUpperArmCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities);%,v);
+    end
     
     % close(v)
     
@@ -267,8 +281,14 @@ if lookfor_LElbowJointCenter
     
     %LElbowCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
-    LElbowJointCenterError = @(weights) JointCenterErrorFun(LElbow,...
-        markers,figNum,weights,numOfWeights);
+    visualize = true;
+    if upper_extremities && use_MarkerClusters
+        LElbowJointCenterError = @(weights) JointCenterErrorFun(LElbow,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities,use_MarkerClusters);%,v);
+    elseif upper_extremities
+        LElbowJointCenterError = @(weights) JointCenterErrorFun(LElbow,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities);%,v);
+    end
     
     % close(v)
     
@@ -307,8 +327,14 @@ if lookfor_RElbowJointCenter
     
     %RElbowCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
-    RElbowJointCenterError = @(weights) JointCenterErrorFun(RElbow,...
-        markers,figNum,weights,numOfWeights);
+    visualize = true;
+    if upper_extremities && use_MarkerClusters
+        RElbowJointCenterError = @(weights) JointCenterErrorFun(RElbow,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities,use_MarkerClusters);%,v);
+    elseif upper_extremities
+        RElbowJointCenterError = @(weights) JointCenterErrorFun(RElbow,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities);%,v);
+    end
     
     % close(v)
     
@@ -348,8 +374,14 @@ if lookfor_LWristJointCenter
     
     %LWristCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
-    LWristJointCenterError = @(weights) JointCenterErrorFun(LWristCenter,...
-        markers,figNum,weights,numOfWeights);
+    visualize = true;
+    if upper_extremities && use_MarkerClusters
+        LWristJointCenterError = @(weights) JointCenterErrorFun(LWristCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities,use_MarkerClusters);%,v);
+    elseif upper_extremities
+        LWristJointCenterError = @(weights) JointCenterErrorFun(LWristCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities);%,v);
+    end
     
     % close(v)
     
@@ -389,14 +421,20 @@ if lookfor_RWristJointCenter
     
     %RWristCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
-    RWristJointCenterError = @(weights) JointCenterErrorFun(RWristCenter,...
-        markers,figNum,weights,numOfWeights);
-    
+    visualize = true;
+    if upper_extremities && use_MarkerClusters
+        RWristJointCenterError = @(weights) JointCenterErrorFun(RWristCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities,use_MarkerClusters);%,v);
+    elseif upper_extremities
+        RWristJointCenterError = @(weights) JointCenterErrorFun(RWristCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities);%,v);
+    end
+
     % close(v)
     
     %Optimizer for RWristJointCenter weights
     %jointCenter difference = Optimized joint center loc in x,y,z
-    [RWristWeights,RWristJointCenterError_final] = fmincon(RWristJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
+    [RWristWeights,RWristJointCenterError_final] = fmincon(RWristJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);        
     
     %Calibrates results considering initialGuess
     for ii = 1:numOfWeights
@@ -530,7 +568,8 @@ if lookfor_LKneeJointCenter
     %LKneeCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     visualize = true;
-    LKneeJointCenterError = @(weights) JointCenterErrorFun(LThighCenter,... %LThighCenter previously
+    if upper_extremities
+    LKneeJointCenterError = @(weights) JointCenterErrorFun(LThighCenter,...
         markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);
     
     %Optimizer for LKneeJointCenter weights
@@ -677,17 +716,17 @@ for ii = 1:2:length(HipCenter)
     %% Plotting settings
     if use_MarkerClusters
         %TPose settings     
-        %Front view
-        az = 89.9695;
-        el = 8.3748;
+%         %Front view
+%         az = 89.9695;
+%         el = 8.3748;
         
 %         %Right side view
 %         az = 69.5695;
 %         el = 17.3879;
         
-%         %left side view
-%         az = -30.8155;
-%         el = 6.8338;
+        %left side view
+        az = 117.6845;
+        el = 9.8382;
 
         xlim([-500  1.5e3])
         ylim([750   3e3])
@@ -890,18 +929,80 @@ for ii = 1:2:length(HipCenter)
         plot3([NeckCenter(1,ii);TorsoCenter(1,ii);HipCenter(1,ii)],...
             [SpineTop(2,ii);TorsoCenter(2,ii);HipCenter(2,ii)],...
             [SpineTop(3,ii);TorsoCenter(3,ii);HipCenter(3,ii)],'-k','LineWidth',2)
+
+        %Activation of Plots for LUpper Extremities JointCenters
+        if lookfor_LShoulderJointCenter && lookfor_LElbowJointCenter && lookfor_LWristJointCenter
+            plot3([NeckCenter(1,ii);LShoulderJointCenter(1,ii);LElbowJointCenter(1,ii);LWristJointCenter(1,ii)],...
+                [NeckCenter(2,ii);LShoulderJointCenter(2,ii);LElbowJointCenter(2,ii);LWristJointCenter(2,ii)],...
+                [NeckCenter(3,ii);LShoulderJointCenter(3,ii);LElbowJointCenter(3,ii);LWristJointCenter(3,ii)],'-b','LineWidth',2)
+        elseif lookfor_LShoulderJointCenter && lookfor_LElbowJointCenter
+            plot3([NeckCenter(1,ii);LShoulderJointCenter(1,ii);LElbowJointCenter(1,ii);LWristOut(1,ii)],...
+                [NeckCenter(2,ii);LShoulderJointCenter(2,ii);LElbowJointCenter(2,ii);LWristOut(2,ii)],...
+                [NeckCenter(3,ii);LShoulderJointCenter(3,ii);LElbowJointCenter(3,ii);LWristOut(3,ii)],'-b','LineWidth',2)
+        elseif lookfor_LShoulderJointCenter && lookfor_LWristJointCenter
+            plot3([NeckCenter(1,ii);LShoulderJointCenter(1,ii);LElbow(1,ii);LWristJointCenter(1,ii)],...
+                [NeckCenter(2,ii);LShoulderJointCenter(2,ii);LElbow(2,ii);LWristJointCenter(2,ii)],...
+                [NeckCenter(3,ii);LShoulderJointCenter(3,ii);LElbow(3,ii);LWristJointCenter(3,ii)],'-b','LineWidth',2)
+        elseif lookfor_LElbowJointCenter && lookfor_LWristJointCenter
+            plot3([NeckCenter(1,ii);LShoulderCenter(1,ii);LElbowJointCenter(1,ii);LWristJointCenter(1,ii)],...
+                [NeckCenter(2,ii);LShoulderCenter(2,ii);LElbowJointCenter(2,ii);LWristJointCenter(2,ii)],...
+                [NeckCenter(3,ii);LShoulderCenter(3,ii);LElbowJointCenter(3,ii);LWristJointCenter(3,ii)],'-b','LineWidth',2)
+        elseif lookfor_LShoulderJointCenter
+            plot3([NeckCenter(1,ii);LShoulderJointCenter(1,ii);LElbow(1,ii);LWristOut(1,ii)],...
+                [NeckCenter(2,ii);LShoulderJointCenter(2,ii);LElbow(2,ii);LWristOut(2,ii)],...
+                [NeckCenter(3,ii);LShoulderJointCenter(3,ii);LElbow(3,ii);LWristOut(3,ii)],'-b','LineWidth',2)
+        elseif lookfor_LElbowJointCenter
+            plot3([NeckCenter(1,ii);LShoulderCenter(1,ii);LElbowJointCenter(1,ii);LWristOut(1,ii)],...
+                [NeckCenter(2,ii);LShoulderCenter(2,ii);LElbowJointCenter(2,ii);LWristOut(2,ii)],...
+                [NeckCenter(3,ii);LShoulderCenter(3,ii);LElbowJointCenter(3,ii);LWristOut(3,ii)],'-b','LineWidth',2)
+        elseif lookfor_LWristJointCenter
+            plot3([NeckCenter(1,ii);LShoulderCenter(1,ii);LElbow(1,ii);LWristJointCenter(1,ii)],...
+                [NeckCenter(2,ii);LShoulderCenter(2,ii);LElbow(2,ii);LWristJointCenter(2,ii)],...
+                [NeckCenter(3,ii);LShoulderCenter(3,ii);LElbow(3,ii);LWristJointCenter(3,ii)],'-b','LineWidth',2)
+        else
+            %Plotting w/out JointCenters
+            plot3([NeckCenter(1,ii);LShoulderCenter(1,ii);LUpperArmCenter(1,ii);LElbow(1,ii);LForearmCenter(1,ii);LWristOut(1,ii)],...
+                [NeckCenter(2,ii);LShoulderCenter(2,ii);LUpperArmCenter(2,ii);LElbow(2,ii);LForearmCenter(2,ii);LWristOut(2,ii)],...
+                [NeckCenter(3,ii);LShoulderCenter(3,ii);LUpperArmCenter(3,ii);LElbow(3,ii);LForearmCenter(3,ii);LWristOut(3,ii)],'-b','LineWidth',2)
+        end
         
-        %LExtremities
-        plot3([NeckCenter(1,ii);LShoulderCenter(1,ii);LUpperArmCenter(1,ii);LElbow(1,ii);LForearmCenter(1,ii);LWristOut(1,ii)],...
-            [NeckCenter(2,ii);LShoulderCenter(2,ii);LUpperArmCenter(2,ii);LElbow(2,ii);LForearmCenter(2,ii);LWristOut(2,ii)],...
-            [NeckCenter(3,ii);LShoulderCenter(3,ii);LUpperArmCenter(3,ii);LElbow(3,ii);LForearmCenter(3,ii);LWristOut(3,ii)],'-b','LineWidth',2)
+        %Activation of Plots for RUpper Extremities JointCenters
+        if lookfor_RShoulderJointCenter && lookfor_RElbowJointCenter && lookfor_RWristJointCenter
+            plot3([NeckCenter(1,ii);RShoulderJointCenter(1,ii);RElbowJointCenter(1,ii);RWristJointCenter(1,ii)],...
+                [NeckCenter(2,ii);RShoulderJointCenter(2,ii);RElbowJointCenter(2,ii);RWristJointCenter(2,ii)],...
+                [NeckCenter(3,ii);RShoulderJointCenter(3,ii);RElbowJointCenter(3,ii);RWristJointCenter(3,ii)],'-r','LineWidth',2)
+        elseif lookfor_RShoulderJointCenter && lookfor_RElbowJointCenter
+            plot3([NeckCenter(1,ii);RShoulderJointCenter(1,ii);RElbowJointCenter(1,ii);RWristOut(1,ii)],...
+                [NeckCenter(2,ii);RShoulderJointCenter(2,ii);RElbowJointCenter(2,ii);RWristOut(2,ii)],...
+                [NeckCenter(3,ii);RShoulderJointCenter(3,ii);RElbowJointCenter(3,ii);RWristOut(3,ii)],'-r','LineWidth',2)
+        elseif lookfor_RShoulderJointCenter && lookfor_RWristJointCenter
+            plot3([NeckCenter(1,ii);RShoulderJointCenter(1,ii);RElbow(1,ii);RWristJointCenter(1,ii)],...
+                [NeckCenter(2,ii);RShoulderJointCenter(2,ii);RElbow(2,ii);RWristJointCenter(2,ii)],...
+                [NeckCenter(3,ii);RShoulderJointCenter(3,ii);RElbow(3,ii);RWristJointCenter(3,ii)],'-r','LineWidth',2)
+        elseif lookfor_RElbowJointCenter && lookfor_RWristJointCenter
+            plot3([NeckCenter(1,ii);RShoulderCenter(1,ii);RElbowJointCenter(1,ii);RWristJointCenter(1,ii)],...
+                [NeckCenter(2,ii);RShoulderCenter(2,ii);RElbowJointCenter(2,ii);RWristJointCenter(2,ii)],...
+                [NeckCenter(3,ii);RShoulderCenter(3,ii);RElbowJointCenter(3,ii);RWristJointCenter(3,ii)],'-r','LineWidth',2)
+        elseif lookfor_RShoulderJointCenter
+            plot3([NeckCenter(1,ii);RShoulderJointCenter(1,ii);RElbow(1,ii);RWristOut(1,ii)],...
+                [NeckCenter(2,ii);RShoulderJointCenter(2,ii);RElbow(2,ii);RWristOut(2,ii)],...
+                [NeckCenter(3,ii);RShoulderJointCenter(3,ii);RElbow(3,ii);RWristOut(3,ii)],'-r','LineWidth',2)
+        elseif lookfor_RElbowJointCenter
+            plot3([NeckCenter(1,ii);RShoulderCenter(1,ii);RElbowJointCenter(1,ii);RWristOut(1,ii)],...
+                [NeckCenter(2,ii);RShoulderCenter(2,ii);RElbowJointCenter(2,ii);RWristOut(2,ii)],...
+                [NeckCenter(3,ii);RShoulderCenter(3,ii);RElbowJointCenter(3,ii);RWristOut(3,ii)],'-r','LineWidth',2)
+        elseif lookfor_RWristJointCenter
+            plot3([NeckCenter(1,ii);RShoulderCenter(1,ii);RElbow(1,ii);RWristJointCenter(1,ii)],...
+                [NeckCenter(2,ii);RShoulderCenter(2,ii);RElbow(2,ii);RWristJointCenter(2,ii)],...
+                [NeckCenter(3,ii);RShoulderCenter(3,ii);RElbow(3,ii);RWristJointCenter(3,ii)],'-r','LineWidth',2)
+        else
+            %Plotting w/out JointCenters
+            plot3([NeckCenter(1,ii);RShoulderCenter(1,ii);RUpperArmCenter(1,ii);RElbow(1,ii);RForearmCenter(1,ii);RWristOut(1,ii)],...
+                [NeckCenter(2,ii);RShoulderCenter(2,ii);RUpperArmCenter(2,ii);RElbow(2,ii);RForearmCenter(2,ii);RWristOut(2,ii)],...
+                [NeckCenter(3,ii);RShoulderCenter(3,ii);RUpperArmCenter(3,ii);RElbow(3,ii);RForearmCenter(3,ii);RWristOut(3,ii)],'-r','LineWidth',2)
+        end
         
-        %RExtremities
-        plot3([NeckCenter(1,ii);RShoulderCenter(1,ii);RUpperArmCenter(1,ii);RElbow(1,ii);RForearmCenter(1,ii);RWristOut(1,ii)],...
-            [NeckCenter(2,ii);RShoulderCenter(2,ii);RUpperArmCenter(2,ii);RElbow(2,ii);RForearmCenter(2,ii);RWristOut(2,ii)],...
-            [NeckCenter(3,ii);RShoulderCenter(3,ii);RUpperArmCenter(3,ii);RElbow(3,ii);RForearmCenter(3,ii);RWristOut(3,ii)],'-r','LineWidth',2)
-        
-        %Activation of Plots for LJointCenters
+        %Activation of Plots for Lower Extremities JointCenters
         if lookfor_LHipJointCenter && lookfor_LKneeJointCenter && lookfor_LAnkleJointCenter
             plot3([HipCenter(1,ii);LHipJointCenter(1,ii);LKneeJointCenter(1,ii);LAnkleJointCenter(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
                 [HipCenter(2,ii);LHipJointCenter(2,ii);LKneeJointCenter(2,ii);LAnkleJointCenter(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
@@ -931,7 +1032,10 @@ for ii = 1:2:length(HipCenter)
                 [HipCenter(2,ii);LHipCenter(2,ii);LKnee(2,ii);LAnkleJointCenter(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
                 [HipCenter(3,ii);LHipCenter(3,ii);LKnee(3,ii);LAnkleJointCenter(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
         else
-            continue
+            %Plotting w/out JointCenters
+            plot3([HipCenter(1,ii);LHipCenter(1,ii);LKnee(1,ii);LAnkle(1,ii);LFootCenter(1,ii);LToeTip(1,ii)],...
+                [HipCenter(2,ii);LHipCenter(2,ii);LKnee(2,ii);LAnkle(2,ii);LFootCenter(2,ii);LToeTip(2,ii)],...
+                [HipCenter(3,ii);LHipCenter(3,ii);LKnee(3,ii);LAnkle(3,ii);LFootCenter(3,ii);LToeTip(3,ii)],'-b','LineWidth',2)
         end
         
         %Activation of Plots for RJointCenters
@@ -964,10 +1068,12 @@ for ii = 1:2:length(HipCenter)
                 [HipCenter(2,ii);RHipCenter(2,ii);RKnee(2,ii);RAnkleJointCenter(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
                 [HipCenter(3,ii);RHipCenter(3,ii);RKnee(3,ii);RAnkleJointCenter(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
         else
-            continue
+            %Plotting w/out JointCenters
+            plot3([HipCenter(1,ii);RHipCenter(1,ii);RKnee(1,ii);RAnkle(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
+                [HipCenter(2,ii);RHipCenter(2,ii);RKnee(2,ii);RAnkle(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
+                [HipCenter(3,ii);RHipCenter(3,ii);RKnee(3,ii);RAnkle(3,ii);RFootCenter(3,ii);RToeTip(3,ii)],'-r','LineWidth',2)
         end
-        
-%         
+                
 %         if lookfor_RHipJointCenter
 %             plot3([HipCenter(1,ii);RHipJointCenter(1,ii);RKnee(1,ii);RAnkle(1,ii);RFootCenter(1,ii);RToeTip(1,ii)],...
 %                 [HipCenter(2,ii);RHipJointCenter(2,ii);RKnee(2,ii);RAnkle(2,ii);RFootCenter(2,ii);RToeTip(2,ii)],...
