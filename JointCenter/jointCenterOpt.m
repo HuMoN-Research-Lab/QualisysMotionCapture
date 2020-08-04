@@ -26,10 +26,10 @@ RHipCenter =        segCenter.RHipCenter;
 
 %Shoulder markers & segCenters
 LShoulderTop =      segCenter.LShoulderTop;
-LShoulderBack =     segCenter.LShoulderBack;
-LShoulderCenter =   segCenter.LShoulderCenter;
 RShoulderTop =      segCenter.RShoulderTop;
+LShoulderBack =     segCenter.LShoulderBack;
 RShoulderBack =     segCenter.RShoulderBack;
+LShoulderCenter =   segCenter.LShoulderCenter;
 RShoulderCenter =   segCenter.RShoulderCenter;
 
 %UpperArm markers & segCenters
@@ -185,17 +185,17 @@ if lookfor_LShoulderJointCenter
     %Starting point of JointCenter guess that initiates optimizer
     figNum =                132435;
     
-    % v = VideoWriter('LHip Segment Length Optimization.mp4');
+    % v = VideoWriter('LShoulder Segment Length Optimization.mp4');
     
     %LShoulderCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     visualize = true;
     if upper_extremities && use_MarkerClusters
-        LShoulderJointCenterError = @(weights) JointCenterErrorFun(LUpperArmCenter,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities,use_MarkerClusters);%,v);
+        LShoulderJointCenterError = @(weights) JointCenterErrorFun_Upper(LUpperArmCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);%,v);
     elseif upper_extremities
-        LShoulderJointCenterError = @(weights) JointCenterErrorFun(LUpperArmCenter,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities);%,v);
+        LShoulderJointCenterError = @(weights) JointCenterErrorFun_Upper(LUpperArmCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize);%,v);
     end
     
     % close(v)
@@ -229,7 +229,7 @@ if lookfor_RShoulderJointCenter
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     
     %Starting point of JointCenter guess that initiates optimizer
-    figNum =                132435;
+    figNum =                232435;
     
     % v = VideoWriter('RShoulder Segment Length Optimization.mp4');
     
@@ -237,11 +237,11 @@ if lookfor_RShoulderJointCenter
     %unknown that equation is solving for (weights)
     visualize = true;
     if upper_extremities && use_MarkerClusters
-        RShoulderJointCenterError = @(weights) JointCenterErrorFun(RUpperArmCenter,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities,use_MarkerClusters);%,v);
+        RShoulderJointCenterError = @(weights) JointCenterErrorFun_Upper(RUpperArmCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);%,v);
     elseif upper_extremities
-        RShoulderJointCenterError = @(weights) JointCenterErrorFun(RUpperArmCenter,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities);%,v);
+        RShoulderJointCenterError = @(weights) JointCenterErrorFun_Upper(RUpperArmCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize);%,v);
     end
     
     % close(v)
@@ -275,7 +275,7 @@ if lookfor_LElbowJointCenter
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     
     %Starting point of JointCenter guess that initiates optimizer
-    figNum =                132435;
+    figNum =                332435;
     
     % v = VideoWriter('LElbow Segment Length Optimization.mp4');
     
@@ -283,11 +283,11 @@ if lookfor_LElbowJointCenter
     %unknown that equation is solving for (weights)
     visualize = true;
     if upper_extremities && use_MarkerClusters
-        LElbowJointCenterError = @(weights) JointCenterErrorFun(LElbow,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities,use_MarkerClusters);%,v);
+        LElbowJointCenterError = @(weights) JointCenterErrorFun_Upper(LElbow,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);%,v);
     elseif upper_extremities
-        LElbowJointCenterError = @(weights) JointCenterErrorFun(LElbow,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities);%,v);
+        LElbowJointCenterError = @(weights) JointCenterErrorFun_Upper(LElbow,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize);%,v);
     end
     
     % close(v)
@@ -321,7 +321,7 @@ if lookfor_RElbowJointCenter
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     
     %Starting point of JointCenter guess that initiates optimizer
-    figNum =                132435;
+    figNum =                432435;
     
     % v = VideoWriter('RElbow Segment Length Optimization.mp4');
     
@@ -329,11 +329,11 @@ if lookfor_RElbowJointCenter
     %unknown that equation is solving for (weights)
     visualize = true;
     if upper_extremities && use_MarkerClusters
-        RElbowJointCenterError = @(weights) JointCenterErrorFun(RElbow,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities,use_MarkerClusters);%,v);
+        RElbowJointCenterError = @(weights) JointCenterErrorFun_Upper(RElbow,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);%,v);
     elseif upper_extremities
-        RElbowJointCenterError = @(weights) JointCenterErrorFun(RElbow,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities);%,v);
+        RElbowJointCenterError = @(weights) JointCenterErrorFun_Upper(RElbow,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize);%,v);
     end
     
     % close(v)
@@ -368,7 +368,7 @@ if lookfor_LWristJointCenter
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     
     %Starting point of JointCenter guess that initiates optimizer
-    figNum =                132435;
+    figNum =                532435;
     
     % v = VideoWriter('LWrist Segment Length Optimization.mp4');
     
@@ -376,11 +376,11 @@ if lookfor_LWristJointCenter
     %unknown that equation is solving for (weights)
     visualize = true;
     if upper_extremities && use_MarkerClusters
-        LWristJointCenterError = @(weights) JointCenterErrorFun(LWristCenter,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities,use_MarkerClusters);%,v);
+        LWristJointCenterError = @(weights) JointCenterErrorFun_Upper(LWristCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);%,v);
     elseif upper_extremities
-        LWristJointCenterError = @(weights) JointCenterErrorFun(LWristCenter,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities);%,v);
+        LWristJointCenterError = @(weights) JointCenterErrorFun_Upper(LWristCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize);%,v);
     end
     
     % close(v)
@@ -415,7 +415,7 @@ if lookfor_RWristJointCenter
     initialWeightsGuess =   weightVector*(1/numOfWeights);
     
     %Starting point of JointCenter guess that initiates optimizer
-    figNum =                132435;
+    figNum =                632435;
     
     % v = VideoWriter('RWrist Segment Length Optimization.mp4');
     
@@ -423,11 +423,11 @@ if lookfor_RWristJointCenter
     %unknown that equation is solving for (weights)
     visualize = true;
     if upper_extremities && use_MarkerClusters
-        RWristJointCenterError = @(weights) JointCenterErrorFun(RWristCenter,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities,use_MarkerClusters);%,v);
+        RWristJointCenterError = @(weights) JointCenterErrorFun_Upper(RWristCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);%,v);
     elseif upper_extremities
-        RWristJointCenterError = @(weights) JointCenterErrorFun(RWristCenter,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,upper_extremities);%,v);
+        RWristJointCenterError = @(weights) JointCenterErrorFun_Upper(RWristCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize);%,v);
     end
 
     % close(v)
@@ -478,8 +478,13 @@ if lookfor_LHipJointCenter
     %LHipCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     visualize = true;
-    [LHipJointCenterError] = @(weights) JointCenterErrorFun(LThighCenter,...
+    if lower_extremities && use_MarkerClusters
+        [LHipJointCenterError] = @(weights) JointCenterErrorFun_Lower(LThighCenter,...
         markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);%,v);
+    elseif lower_extremities
+        [LHipJointCenterError] = @(weights) JointCenterErrorFun_Lower(LThighCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize);%,v);
+    end
     
 %     close(v)
     
@@ -523,8 +528,13 @@ if lookfor_RHipJointCenter
 %     v = VideoWriter('RHip Segment Length Optimization.mp4');
     
     visualize = true;
-    RHipJointCenterError = @(weights) JointCenterErrorFun(RThighCenter,...
+    if lower_extremities && use_MarkerClusters
+        [RHipJointCenterError] = @(weights) JointCenterErrorFun_Lower(RThighCenter,...
         markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);%,v);
+    elseif lower_extremities
+        [RHipJointCenterError] = @(weights) JointCenterErrorFun_Lower(RThighCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize);%,v);
+    end
     
     %Optimizer for RHipJointCenter weights
     %jointCenter difference = Optimized joint center loc in x,y,z
@@ -568,9 +578,13 @@ if lookfor_LKneeJointCenter
     %LKneeCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     visualize = true;
-    if upper_extremities
-    LKneeJointCenterError = @(weights) JointCenterErrorFun(LThighCenter,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);
+    if lower_extremities && use_MarkerClusters
+        [LKneeJointCenterError] = @(weights) JointCenterErrorFun_Lower(LThighCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);%,v);
+    elseif lower_extremities
+        [LKneeJointCenterError] = @(weights) JointCenterErrorFun_Lower(LThighCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize);%,v);
+    end
     
     %Optimizer for LKneeJointCenter weights
     %jointCenter difference = Optimized joint center loc in x,y,z
@@ -613,10 +627,15 @@ if lookfor_RKneeJointCenter
     %RKneeCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     visualize = true;
-    RKneeJointCenterError = @(weights) JointCenterErrorFun(RThighCenter,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);
+    if lower_extremities && use_MarkerClusters
+        [RKneeJointCenterError] = @(weights) JointCenterErrorFun_Lower(RThighCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);%,v);
+    elseif lower_extremities
+        [RKneeJointCenterError] = @(weights) JointCenterErrorFun_Lower(RThighCenter,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize);%,v);
+    end
     
-    %Optimizer for LKneeJointCenter weights
+    %Optimizer for RKneeJointCenter weights
     %jointCenter difference = Optimized joint center loc in x,y,z
     [RKneeWeights, RKneeJointCenterError_final] = fmincon(RKneeJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
     
@@ -647,13 +666,18 @@ if lookfor_LAnkleJointCenter
 
     % y = VideoWriter('RKnee Segment Length Optimization.mp4');
     
-    %RKneeCenter marker (input1), markers around joint(input 2,3,4),
+    %LAnkleCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     visualize = true;
-    LAnkleJointCenterError = @(weights) JointCenterErrorFun(LAnkle,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);
+    if lower_extremities && use_MarkerClusters
+        [LAnkleJointCenterError] = @(weights) JointCenterErrorFun_Lower(LAnkle,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);%,v);
+    elseif lower_extremities
+        [LAnkleJointCenterError] = @(weights) JointCenterErrorFun_Lower(LAnkle,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize);%,v);
+    end
     
-    %Optimizer for LKneeJointCenter weights
+    %Optimizer for LAnkleJointCenter weights
     %jointCenter difference = Optimized joint center loc in x,y,z
     [LAnkleWeights, LAnkleJointCenterError_final] = fmincon(LAnkleJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
     
@@ -687,10 +711,15 @@ if lookfor_RAnkleJointCenter
     %RAnkleCenter marker (input1), markers around joint(input 2,3,4),
     %unknown that equation is solving for (weights)
     visualize = true;
-    RAnkleJointCenterError = @(weights) JointCenterErrorFun(RAnkle,...
-        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);
+    if lower_extremities && use_MarkerClusters
+        [RAnkleJointCenterError] = @(weights) JointCenterErrorFun_Lower(RAnkle,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize,use_MarkerClusters);%,v);
+    elseif lower_extremities
+        [RAnkleJointCenterError] = @(weights) JointCenterErrorFun_Lower(RAnkle,...
+        markers,figNum,weights,numOfWeights,segCenter,visualize);%,v);
+    end
     
-    %Optimizer for LKneeJointCenter weights
+    %Optimizer for RAnkleJointCenter weights
     %jointCenter difference = Optimized joint center loc in x,y,z
     [RAnkleWeights, RAnkleJointCenterError_final] = fmincon(RAnkleJointCenterError,initialWeightsGuess,A,b,Aeq,beq,lb,ub,[],opts);
     
@@ -732,6 +761,23 @@ for ii = 1:2:length(HipCenter)
         ylim([750   3e3])
         zlim([0     1.95e3])
         
+    elseif upper_extremities
+        %TPose settings     
+%         %Front view
+%         az = 89.9695;
+%         el = 8.3748;
+        
+%         %Right side view
+%         az = 69.5695;
+%         el = 17.3879;
+        
+        %left side view
+        az = 117.6845;
+        el = 9.8382;
+
+        xlim([-500  1.5e3])
+        ylim([750   3e3])
+        zlim([0     1.95e3])
     else
         %Full Lab Settings
         %Left Side
@@ -926,9 +972,9 @@ for ii = 1:2:length(HipCenter)
             [Hips_s(3,ii);RThigh_s(3,ii);RLeg_s(3,ii);RFoot_s(3,ii);RToeBase_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
         
         %Calculated Skeleton
-        plot3([NeckCenter(1,ii);TorsoCenter(1,ii);HipCenter(1,ii)],...
-            [SpineTop(2,ii);TorsoCenter(2,ii);HipCenter(2,ii)],...
-            [SpineTop(3,ii);TorsoCenter(3,ii);HipCenter(3,ii)],'-k','LineWidth',2)
+        plot3([HeadCenter(1,ii);NeckCenter(1,ii);TorsoCenter(1,ii);HipCenter(1,ii)],...
+            [HeadCenter(2,ii);NeckCenter(2,ii);TorsoCenter(2,ii);HipCenter(2,ii)],...
+            [HeadCenter(3,ii);NeckCenter(3,ii);TorsoCenter(3,ii);HipCenter(3,ii)],'-k','LineWidth',2)
 
         %Activation of Plots for LUpper Extremities JointCenters
         if lookfor_LShoulderJointCenter && lookfor_LElbowJointCenter && lookfor_LWristJointCenter

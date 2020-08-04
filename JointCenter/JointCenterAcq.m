@@ -17,7 +17,7 @@ addpath(data_path)
 %% Load Qualisys MoCap Data
 file_name = '2020-03-04_JSM_TPose';
 % file_name = '02_21_2020_Walking_Calibration';
-use_MarkerClusters = true;
+use_MarkerClusters = false;
 % if file_name == '2020-03-04_JSM_TPose'
 %     use_MarkerClusters = true;
 % end
