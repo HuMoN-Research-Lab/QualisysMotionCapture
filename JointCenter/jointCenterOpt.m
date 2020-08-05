@@ -112,28 +112,28 @@ LToeTip =           segCenter.LToeTip;
 RToeTip =           segCenter.RToeTip;
 
 %% Skeleton segments
-Head_s =        skeleton.Head;
-Neck_s =        skeleton.Neck;
-Spine_s =       skeleton.Spine;
-Spine1_s =      skeleton.Spine1;
-Spine2_s =      skeleton.Spine2;
-Hips_s =        skeleton.Hips;
-LShoulder_s =   skeleton.LShoulder;
-RShoulder_s =   skeleton.RShoulder;
-LUpperArm_s =   skeleton.LUpperArm;
-RUpperArm_s =   skeleton.RUpperArm;
-LForearm_s =    skeleton.LForearm;
-RForearm_s =    skeleton.RForearm;
-LHand_s =       skeleton.LHand;
-RHand_s =       skeleton.RHand;
-LThigh_s =      skeleton.LThigh;
-RThigh_s =      skeleton.RThigh;
-LLeg_s =        skeleton.LLeg;
-RLeg_s =        skeleton.RLeg;
-LFoot_s =       skeleton.LFoot;
-RFoot_s =       skeleton.RFoot;
-LToeBase_s =    skeleton.LToeBase;
-RToeBase_s =    skeleton.RToeBase;
+Head_s =            skeleton.Head;
+Neck_s =            skeleton.Neck;
+LowerSpine_s =      skeleton.LowerSpine;
+MiddleSpine_s =     skeleton.MiddleSpine;
+UpperSpine_s =      skeleton.UpperSpine;
+HipCenter_s =       skeleton.HipCenter;
+LShoulder_s =       skeleton.LShoulder;
+RShoulder_s =       skeleton.RShoulder;
+LElbow_s =          skeleton.LElbow;
+RElbow_s =          skeleton.RElbow;
+LWrist_s =          skeleton.LWrist;
+RWrist_s =          skeleton.RWrist;
+LHandTip_s =        skeleton.LHandTip;
+RHandTip_s =        skeleton.RHandTip;
+LHipCenter_s =      skeleton.LHipCenter;
+RHipCenter_s =      skeleton.RHipCenter;
+LKnee_s =           skeleton.LKnee;
+RKnee_s =           skeleton.RKnee;
+LAnkle_s =          skeleton.LAnkle;
+RAnkle_s =          skeleton.RAnkle;
+LToeBase_s =        skeleton.LToeBase;
+RToeBase_s =        skeleton.RToeBase;
 
 %% Activation settings for optimizer of joint centers
 %Upper extremities jointCenters
@@ -951,25 +951,25 @@ for ii = 1:2:length(HipCenter)
     %% Plot Skeleton
     if plot_skeleton == true
         %Qualisys Skeleton
-        plot3([Head_s(1,ii);Neck_s(1,ii);Spine2_s(1,ii);Spine1_s(1,ii);Spine_s(1,ii);Hips_s(1,ii)],...
-            [Head_s(2,ii);Neck_s(2,ii);Spine2_s(2,ii);Spine1_s(2,ii);Spine_s(2,ii);Hips_s(2,ii)],...
-            [Head_s(3,ii);Neck_s(3,ii);Spine2_s(3,ii);Spine1_s(3,ii);Spine_s(3,ii);Hips_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
+        plot3([Head_s(1,ii);Neck_s(1,ii);UpperSpine_s(1,ii);MiddleSpine_s(1,ii);LowerSpine_s(1,ii);HipCenter_s(1,ii)],...
+            [Head_s(2,ii);Neck_s(2,ii);UpperSpine_s(2,ii);MiddleSpine_s(2,ii);LowerSpine_s(2,ii);HipCenter_s(2,ii)],...
+            [Head_s(3,ii);Neck_s(3,ii);UpperSpine_s(3,ii);MiddleSpine_s(3,ii);LowerSpine_s(3,ii);HipCenter_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
         
-        plot3([Spine2_s(1,ii);LShoulder_s(1,ii);LUpperArm_s(1,ii);LForearm_s(1,ii);LHand_s(1,ii)],...
-            [Spine2_s(2,ii);LShoulder_s(2,ii);LUpperArm_s(2,ii);LForearm_s(2,ii);LHand_s(2,ii)],...
-            [Spine2_s(3,ii);LShoulder_s(3,ii);LUpperArm_s(3,ii);LForearm_s(3,ii);LHand_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
+        plot3([UpperSpine_s(1,ii);LShoulder_s(1,ii);LElbow_s(1,ii);LWrist_s(1,ii);LHandTip_s(1,ii)],...
+            [UpperSpine_s(2,ii);LShoulder_s(2,ii);LElbow_s(2,ii);LWrist_s(2,ii);LHandTip_s(2,ii)],...
+            [UpperSpine_s(3,ii);LShoulder_s(3,ii);LElbow_s(3,ii);LWrist_s(3,ii);LHandTip_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
         
-        plot3([Spine2_s(1,ii);RShoulder_s(1,ii);RUpperArm_s(1,ii);RForearm_s(1,ii);RHand_s(1,ii)],...
-            [Spine2_s(2,ii);RShoulder_s(2,ii);RUpperArm_s(2,ii);RForearm_s(2,ii);RHand_s(2,ii)],...
-            [Spine2_s(3,ii);RShoulder_s(3,ii);RUpperArm_s(3,ii);RForearm_s(3,ii);RHand_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
+        plot3([UpperSpine_s(1,ii);RShoulder_s(1,ii);RElbow_s(1,ii);RWrist_s(1,ii);RHandTip_s(1,ii)],...
+            [UpperSpine_s(2,ii);RShoulder_s(2,ii);RElbow_s(2,ii);RWrist_s(2,ii);RHandTip_s(2,ii)],...
+            [UpperSpine_s(3,ii);RShoulder_s(3,ii);RElbow_s(3,ii);RWrist_s(3,ii);RHandTip_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
         
-        plot3([Hips_s(1,ii);LThigh_s(1,ii);LLeg_s(1,ii);LFoot_s(1,ii);LToeBase_s(1,ii)],...
-            [Hips_s(2,ii);LThigh_s(2,ii);LLeg_s(2,ii);LFoot_s(2,ii);LToeBase_s(2,ii)],...
-            [Hips_s(3,ii);LThigh_s(3,ii);LLeg_s(3,ii);LFoot_s(3,ii);LToeBase_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
+        plot3([HipCenter_s(1,ii);LHipCenter_s(1,ii);LKnee_s(1,ii);LAnkle_s(1,ii);LToeBase_s(1,ii)],...
+            [HipCenter_s(2,ii);LHipCenter_s(2,ii);LKnee_s(2,ii);LAnkle_s(2,ii);LToeBase_s(2,ii)],...
+            [HipCenter_s(3,ii);LHipCenter_s(3,ii);LKnee_s(3,ii);LAnkle_s(3,ii);LToeBase_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
         
-        plot3([Hips_s(1,ii);RThigh_s(1,ii);RLeg_s(1,ii);RFoot_s(1,ii);RToeBase_s(1,ii)],...
-            [Hips_s(2,ii);RThigh_s(2,ii);RLeg_s(2,ii);RFoot_s(2,ii);RToeBase_s(2,ii)],...
-            [Hips_s(3,ii);RThigh_s(3,ii);RLeg_s(3,ii);RFoot_s(3,ii);RToeBase_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
+        plot3([HipCenter_s(1,ii);RHipCenter_s(1,ii);RKnee_s(1,ii);RAnkle_s(1,ii);RToeBase_s(1,ii)],...
+            [HipCenter_s(2,ii);RHipCenter_s(2,ii);RKnee_s(2,ii);RAnkle_s(2,ii);RToeBase_s(2,ii)],...
+            [HipCenter_s(3,ii);RHipCenter_s(3,ii);RKnee_s(3,ii);RAnkle_s(3,ii);RToeBase_s(3,ii)],'-','color',[0.8500 0.3250 0.0980],'LineWidth',2,'MarkerFaceColor','k')
         
         %Calculated Skeleton
         plot3([HeadCenter(1,ii);NeckCenter(1,ii);TorsoCenter(1,ii);HipCenter(1,ii)],...
@@ -1143,24 +1143,24 @@ for ii = 1:2:length(HipCenter)
         %Plot individual skeleton markers
         plot3(Head_s(1,ii),Head_s(2,ii),Head_s(3,ii),'k.','MarkerSize',10)
         plot3(Neck_s(1,ii),Neck_s(2,ii),Neck_s(3,ii),'k.','MarkerSize',10)
-        plot3(Spine_s(1,ii),Spine_s(2,ii),Spine_s(3,ii),'k.','MarkerSize',10)
-        plot3(Spine1_s(1,ii),Spine1_s(2,ii),Spine1_s(3,ii),'k.','MarkerSize',10)
-        plot3(Spine2_s(1,ii),Spine2_s(2,ii),Spine2_s(3,ii),'k.','MarkerSize',10)
-        plot3(Hips_s(1,ii),Hips_s(2,ii),Hips_s(3,ii),'k.','MarkerSize',10)
+        plot3(LowerSpine_s(1,ii),LowerSpine_s(2,ii),LowerSpine_s(3,ii),'k.','MarkerSize',10)
+        plot3(MiddleSpine_s(1,ii),MiddleSpine_s(2,ii),MiddleSpine_s(3,ii),'k.','MarkerSize',10)
+        plot3(UpperSpine_s(1,ii),UpperSpine_s(2,ii),UpperSpine_s(3,ii),'k.','MarkerSize',10)
+        plot3(HipCenter_s(1,ii),HipCenter_s(2,ii),HipCenter_s(3,ii),'k.','MarkerSize',10)
         plot3(LShoulder_s(1,ii),LShoulder_s(2,ii),LShoulder_s(3,ii),'k.','MarkerSize',10)
         plot3(RShoulder_s(1,ii),RShoulder_s(2,ii),RShoulder_s(3,ii),'k.','MarkerSize',10)
-        plot3(LUpperArm_s(1,ii),LUpperArm_s(2,ii),LUpperArm_s(3,ii),'k.','MarkerSize',10)
-        plot3(RUpperArm_s(1,ii),RUpperArm_s(2,ii),RUpperArm_s(3,ii),'k.','MarkerSize',10)
-        plot3(LForearm_s(1,ii),LForearm_s(2,ii),LForearm_s(3,ii),'k.','MarkerSize',10)
-        plot3(RForearm_s(1,ii),RForearm_s(2,ii),RForearm_s(3,ii),'k.','MarkerSize',10)
-        plot3(LHand_s(1,ii),LHand_s(2,ii),LHand_s(3,ii),'k.','MarkerSize',10)
-        plot3(RHand_s(1,ii),RHand_s(2,ii),RHand_s(3,ii),'k.','MarkerSize',10)
-        plot3(LThigh_s(1,ii),LThigh_s(2,ii),LThigh_s(3,ii),'k.','MarkerSize',10)
-        plot3(RThigh_s(1,ii),RThigh_s(2,ii),RThigh_s(3,ii),'k.','MarkerSize',10)
-        plot3(LLeg_s(1,ii),LLeg_s(2,ii),LLeg_s(3,ii),'k.','MarkerSize',10)
-        plot3(RLeg_s(1,ii),RLeg_s(2,ii),RLeg_s(3,ii),'k.','MarkerSize',10)
-        plot3(LFoot_s(1,ii),LFoot_s(2,ii),LFoot_s(3,ii),'k.','MarkerSize',10)
-        plot3(RFoot_s(1,ii),RFoot_s(2,ii),RFoot_s(3,ii),'k.','MarkerSize',10)
+        plot3(LElbow_s(1,ii),LElbow_s(2,ii),LElbow_s(3,ii),'k.','MarkerSize',10)
+        plot3(RElbow_s(1,ii),RElbow_s(2,ii),RElbow_s(3,ii),'k.','MarkerSize',10)
+        plot3(LWrist_s(1,ii),LWrist_s(2,ii),LWrist_s(3,ii),'k.','MarkerSize',10)
+        plot3(RWrist_s(1,ii),RWrist_s(2,ii),RWrist_s(3,ii),'k.','MarkerSize',10)
+        plot3(LHandTip_s(1,ii),LHandTip_s(2,ii),LHandTip_s(3,ii),'k.','MarkerSize',10)
+        plot3(RHandTip_s(1,ii),RHandTip_s(2,ii),RHandTip_s(3,ii),'k.','MarkerSize',10)
+        plot3(LHipCenter_s(1,ii),LHipCenter_s(2,ii),LHipCenter_s(3,ii),'k.','MarkerSize',10)
+        plot3(RHipCenter_s(1,ii),RHipCenter_s(2,ii),RHipCenter_s(3,ii),'k.','MarkerSize',10)
+        plot3(LKnee_s(1,ii),LKnee_s(2,ii),LKnee_s(3,ii),'k.','MarkerSize',10)
+        plot3(RKnee_s(1,ii),RKnee_s(2,ii),RKnee_s(3,ii),'k.','MarkerSize',10)
+        plot3(LAnkle_s(1,ii),LAnkle_s(2,ii),LAnkle_s(3,ii),'k.','MarkerSize',10)
+        plot3(RAnkle_s(1,ii),RAnkle_s(2,ii),RAnkle_s(3,ii),'k.','MarkerSize',10)
         plot3(LToeBase_s(1,ii),LToeBase_s(2,ii),LToeBase_s(3,ii),'k.','MarkerSize',10)
         plot3(RToeBase_s(1,ii),RToeBase_s(2,ii),RToeBase_s(3,ii),'k.','MarkerSize',10)
     end
