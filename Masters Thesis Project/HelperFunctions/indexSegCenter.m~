@@ -12,7 +12,7 @@ segCenter_cal.HeadTop =             getMarker(marker_mar_dim_frame(:,:,trial_sta
 segCenter_cal.HeadR =               getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'HeadR');
 segCenter_cal.HeadFront =           getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'HeadFront');
 
-%% Marker upper extremities calibration
+%% Marker LUpper extremities calibration
 segCenter_cal.LShoulderTop =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LShoulderTop');
 segCenter_cal.RShoulderTop =        getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RShoulderTop');
 segCenter_cal.LShoulderBack =       getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LShoulderBack');
@@ -33,36 +33,67 @@ segCenter_cal.HeadCenter =          segCenter.headCenter_mar_dim_frame(:,trial_s
 segCenter_cal.SpineTop =            getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'SpineTop');
 segCenter_cal.ChestCenter =         segCenter.chestCenter_mar_dim_frame(:,trial_start_end);
 
-%% SegCenter upper extremities calibration
+%% SegCenter LUpper extremities calibration
 segCenter_cal.LShoulderCenter =     segCenter.LShoulderCenter_mar_dim_frame(:,trial_start_end);
 segCenter_cal.RShoulderCenter =     segCenter.RShoulderCenter_mar_dim_frame(:,trial_start_end);
 segCenter_cal.LUpperArmCenter =     segCenter.LUpperArmCenter_mar_dim_frame(:,trial_start_end);
 segCenter_cal.RUpperArmCenter =     segCenter.RUpperArmCenter_mar_dim_frame(:,trial_start_end);
 segCenter_cal.LForearmCenter =      segCenter.LForearmCenter_mar_dim_frame(:,trial_start_end);
-segCenter_cal.RForearmCenter =      segCenter.RForearmCenter_mar_dim_frame(:,trial_start_end);
-segCenter_cal.LHandCenter =         segCenter.LHandCenter_mar_dim_frame(:,trial_start_end);
+segCenter_cal.RForearmCenter =      segCenter.RForearmCenter_mar_dim_frame(:,trial_start_end);segCenter_cal.LHandCenter =         segCenter.LHandCenter_mar_dim_frame(:,trial_start_end);
+
+%% SegCenter RUpper extremities calibration
+
+
+
 segCenter_cal.RHandCenter =         segCenter.RHandCenter_mar_dim_frame(:,trial_start_end);
 
-%% Marker lower extremities calibration
+%% Marker LLower extremities calibration
 segCenter_cal.LHipFront =           getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistLFront');
-segCenter_cal.RHipFront =           getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistRFront');
 segCenter_cal.LHipBack =            getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistLBack');
-segCenter_cal.RHipBack =            getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistRBack');
 segCenter_cal.LKnee =               getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LKneeOut');
-segCenter_cal.RKnee =               getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RKneeOut');
 segCenter_cal.LAnkle =              getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LAnkleOut');
-segCenter_cal.RAnkle =              getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RAnkleOut');
 segCenter_cal.LToeTip =             getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'LToeTip');
+
+%% SegCenter LLower extremities calibration
+%Identify the market/segment
+segCenter_cal.LHipCenter =          segCenter.LHipCenter_mar_dim_frame(:,trial_start_end);
+
+%Identify the market/segment
+segCenter_cal.LThigh =              segCenter.LThighCenter_mar_dim_frame(:,trial_start_end);
+
+%Identify the market/segment
+segCenter_cal.LLeg =                segCenter.LLegCenter_mar_dim_frame(:,trial_start_end);
+
+%Identify the market/segment
+segCenter_cal.LFoot =               segCenter.LFootCenter_mar_dim_frame(:,trial_start_end);
+
+%% Marker RLower extremities calibration
+%Identify the market/segment
+segCenter_cal.RHipFront =           getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistRFront');
+
+%Identify the market/segment
+segCenter_cal.RHipBack =            getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'WaistRBack');
+
+%Identify the market/segment
+segCenter_cal.RKnee =               getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RKneeOut');
+
+%Identify the market/segment
+segCenter_cal.RAnkle =              getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RAnkleOut');
+
+%Identify the market/segment
 segCenter_cal.RToeTip =             getMarker(marker_mar_dim_frame(:,:,trial_start_end),markerLabels,'RToeTip');
 
-%% SegCenter lower extremities calibration
-segCenter_cal.LHipCenter =          segCenter.LHipCenter_mar_dim_frame(:,trial_start_end);
+%% Reformat RLower extremities data
+%Identify the market/segment
 segCenter_cal.RHipCenter =          segCenter.RHipCenter_mar_dim_frame(:,trial_start_end);
-segCenter_cal.LThigh =              segCenter.LThighCenter_mar_dim_frame(:,trial_start_end);
+
+%Identify the market/segment
 segCenter_cal.RThigh =              segCenter.RThighCenter_mar_dim_frame(:,trial_start_end);
-segCenter_cal.LLeg =                segCenter.LLegCenter_mar_dim_frame(:,trial_start_end);
+
+%Identify the market/segment
 segCenter_cal.RLeg =                segCenter.RLegCenter_mar_dim_frame(:,trial_start_end);
-segCenter_cal.LFoot =               segCenter.LFootCenter_mar_dim_frame(:,trial_start_end);
+
+%Identify the market/segment
 segCenter_cal.RFoot =               segCenter.RFootCenter_mar_dim_frame(:,trial_start_end);
 
 end
