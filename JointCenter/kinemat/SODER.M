@@ -22,8 +22,9 @@ function [T,res]=soder(data)
 % Last Changes: December 09, 1996
 % Version:      3.1
 
-if (size(data,2)/3)~=fix(size(data,2)/3), 
-   disp('ERROR: input has to be multiple of 3 (XYZ coordinates)'); return
+if (size(data,2)/3)~=fix(size(data,2)/3)
+    disp('ERROR: input has to be multiple of 3 (XYZ coordinates)'); 
+    return
 end
 
 

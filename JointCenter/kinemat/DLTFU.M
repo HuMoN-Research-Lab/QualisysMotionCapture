@@ -25,10 +25,12 @@ function [A,avgres] = dltfu(F,L,Cut)
 %               Biomechanics of Human Movement (Edited by Berme and
 %               Cappozzo). pp. 108-127.
 
-if nargin==2; Cut=[]; end;
+if nargin==2; Cut=[]; 
+end
 
 if size(F,1) ~= size(L,1)
-disp('# of calibration points entered and seen in camera do not agree'), break
+disp('# of calibration points entered and seen in camera do not agree'), 
+return
 end
 
 m=size(F,1); Lt=L'; C=Lt(:);

@@ -19,13 +19,13 @@ function[angles,helicang]=cardan(s1neut,s2neut,s1mov,s2mov,sequence)
 % Date:		November, 1995
 % Last Changes: November 28, 1996
 % Version:	1.0
-% References:	
-%       (1) Grood, E.W., and Suntay, W.J. (1983) A joint coordinate 
+% References:	(1) Grood, E.W., and Suntay, W.J. (1983) A joint coordinate 
 %		    system for the clinical description of three-dimensional 
 %		    motions: applications to the knee. 
 %		    J. biomech. Engng 105, 136-144.
 %		(2) Woltring, H.J. (1994) 3-D attitude representation of 
-%           human joints: A standardization proposal, J. Biomechanics 27, 1399-1414.
+%                   human joints: A standardization proposal. 
+%                   J. Biomechanics 27, 1399-1414.
 
 [a1,b1]=size(s1mov);
 [a2,b2]=size(s2mov);

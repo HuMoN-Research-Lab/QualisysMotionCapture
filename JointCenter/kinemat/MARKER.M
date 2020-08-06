@@ -19,7 +19,7 @@ function [cols]=marker(in)
 
 cols=[];
 for i=1:size(in,2)
-cols=[cols, in(1,i)*5-4 : in(1,i)*5-2];
+    cols = [cols, in(1,i)*5-4 : in(1,i)*5-2];
 end
 
 

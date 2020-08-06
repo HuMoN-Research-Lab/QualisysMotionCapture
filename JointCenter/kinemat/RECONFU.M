@@ -15,8 +15,10 @@ function [H] = reconfu(A,L)
 
 n=size(A,2);
 % check whether the numbers of cameras agree for A and L
-if 2*n~=size(L,2); disp('the # of cameras given in A and L do not agree')
-                   disp('hit any key and then "try" again'); pause; break
+if 2*n~=size(L,2) 
+    disp('the # of cameras given in A and L do not agree')
+    disp('hit any key and then "try" again'); pause; 
+    return
 end
 
 

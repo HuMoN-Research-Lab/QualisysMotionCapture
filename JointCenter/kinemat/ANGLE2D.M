@@ -10,10 +10,11 @@ function [alpha]=angle2d(data)
 % Date:         October, 1994
 % Last Changes: November 28, 1996
 % Version:	1.0
+data = data.RKnee(1,1:8);
 
 if ~(size(data,2)==8)
    disp('Error: # of rows of input matrix has to be 8!')
-   break;
+   return
 end
 
 % "assigning" zero to the z-coordinates 
@@ -26,8 +27,9 @@ v1=r2-r1; v2=r4-r3;
 % Preassigning alpha to speed up program
 alpha=zeros(size(v1,1),1);
 
-for i=1:size(v1,1);
-  vect1=[v1(i,:)]'; vect2=[v2(i,:)]';
+for i=1:size(v1,1)
+  vect1 = [v1(i,:)]'; 
+  vect2 = [v2(i,:)]';
   x=cross(vect1,vect2);
   alphacos=rad2deg(acos(sum(vect1.*vect2)/(norm(vect1)*norm(vect2))));
   y=x(3,1);

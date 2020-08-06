@@ -1,4 +1,4 @@
-function [n,point,phi,t]=screw(T,intersect);
+function [n,point,phi,t]=screw(T,intersect)
 % Calculation of the screw axis
 % function [n,point,phi,t]=screw(T)
 % Input:    T   matrix containing the rotation matrix and transl. vector
@@ -25,7 +25,9 @@ function [n,point,phi,t]=screw(T,intersect);
 % Date:          Oct. 03, 1994
 % Last Changes:  Nov-20-96
 
-if nargin==1, intersect=[3]; end
+if nargin == 1
+    intersect = [3]; 
+end
 
 R=T(1:3,1:3);
 
