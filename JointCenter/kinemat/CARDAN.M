@@ -1,4 +1,4 @@
-function[angles,helicang]=cardan(s1neut,s2neut,s1mov,s2mov,sequence)
+function[angles,helicang] = cardan(s1neut,s2neut,s1mov,s2mov,sequence)
 % function[angles,helicang]=cardan(s1neut,s2neut,s1mov,s2mov,sequence)
 % Description:	This program calculates the intersegmental motion expressed 
 %               in terms of Cardan angles (joint coordinate system) and helical
@@ -33,14 +33,21 @@ function[angles,helicang]=cardan(s1neut,s2neut,s1mov,s2mov,sequence)
 [c2,d2]=size(s2neut);
 
 %Are the matrices of interest the same size?
-if ~((a1==a2) & (b1==d1) | (b2==d2))
+if ~((a1==a2) && (b1==d1) || (b2 == d2))
  disp('The matrices of the segments do not agree! Try again!'); return
 end
 
-%for i = 1:length(s1mov) %perform task for all frames
-for i=1:size(s1mov,1)
+for i = 1:length(s1mov) %perform task for all frames
   % Calculating the Cardan angles
   %Combine neut and mov matrix together, * against other marker and A/b (')
+  pI =      [s2neut;s2mov(i,:)];
+  pIa =     soder(pI);
+  
+  pII =     [s1neut;s1mov(i,:)];
+  pIIa =    soder(pII);
+  
+  
+  
   T1a = (soder([s2neut;s2mov(i,:)])) * soder([s1neut;s1mov(i,:)]);
   T1 = inv(T1a);
   

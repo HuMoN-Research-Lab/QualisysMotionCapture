@@ -2,8 +2,8 @@
 % chr, December 09, 1996
 
 
-clc
-clear all
+% clc
+% clear all
 close all
 disp(' ______________________________')
 disp('| CALCULATION OF CARDAN ANGLES |')
@@ -13,7 +13,7 @@ disp(' ');
 disp('Loading of 3d coordinates of a running trial and of a trial where the')
 disp('coordinates are in anatomical coordinate system (neutral/standing trial).')
 load result;
-disp('Press any key to continue')
+% disp('Press any key to continue')
 % pause
 
 disp(' ');

@@ -5,6 +5,9 @@ clc
 clear all
 close all
 
+data_path = '/Users/MT/Documents/GitHub/QualisysMotionCapture/JointCenter/kinemat';
+addpath(data_path)
+
 disp(' ')
 disp('3D RECONSTRUCTION')
 disp('This program is a demonstration of the 3d reconstruction programs.')

@@ -44,5 +44,5 @@ load('skeleton_seg_names.mat');
 
 %% Identify jointAngles for lower extremities
 clc
-[alpha] = angle2d(skeleton);
+[angles] = calc_joint_angle(segCenter);
 % [jointAngles] = calc_lower_extr_joint_angles(skeleton);

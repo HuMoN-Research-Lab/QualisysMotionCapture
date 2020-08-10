@@ -26,10 +26,10 @@ function [n,point,phi,t]=screw(T,intersect)
 % Last Changes:  Nov-20-96
 
 if nargin == 1
-    intersect = [3]; 
+    intersect = [3] 
 end
 
-R=T(1:3,1:3);
+R=T(1:3,1:3)
 
 % tmp is matrix in equ. 31 (Spoor and Veldpaus, 1980)
 tmp=[R(3,2)-R(2,3);R(1,3)-R(3,1);R(2,1)-R(1,2)];
