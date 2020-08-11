@@ -13,10 +13,10 @@ function [out] = rzxysolv(T)
 % Last changes: February 14, 1995
 % Version:	1.0
 
-if size(T)~=[4,4] 
-   disp('Error: transformation matrix has to be a 4x4 matrix')
-   return;
-end;
+if size(T)~=[4,4]
+    disp('Error: transformation matrix has to be a 4x4 matrix')
+    return;
+end
 
 if sum(isnan(T(:)))~=0, out=[NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN]; return; end
 
@@ -26,25 +26,25 @@ alpha = asin(-T(2,3));    %'assumption' that cos(alpha)>0
 betasin = asin(T(1,3)/cos(alpha));
 betacos = acos(T(3,3)/cos(alpha));
 
-if (betacos>pi/2 && betasin>0) 
+if (betacos>pi/2 && betasin>0)
     beta=pi-betasin;
 end
-if (betacos>pi/2 && betasin<0) 
-    beta=-pi-betasin; 
+if (betacos>pi/2 && betasin<0)
+    beta=-pi-betasin;
 end
-if (betacos<=pi/2) 
-    beta=betasin; 
+if (betacos<=pi/2)
+    beta=betasin;
 end
 
 gamasin= asin(T(2,1)/cos(alpha));
 gamacos= acos(T(2,2)/cos(alpha));
 
 if (gamacos>pi/2 && gamasin>0)
-    gama=pi-gamasin;  
+    gama=pi-gamasin;
 end
-if (gamacos>pi/2 && gamasin<0) 
-    gama=-pi-gamasin; 
-end 
+if (gamacos>pi/2 && gamasin<0)
+    gama=-pi-gamasin;
+end
 if (gamacos<=pi/2)
     gama=gamasin;
 end
@@ -52,9 +52,10 @@ end
 % Calculation of Hx,Hy,Hz
 
 A=[cos(beta),0,cos(alpha)*sin(beta);...
-   0,1,-sin(alpha);...
-   -sin(beta),0,cos(alpha)*cos(beta)];
-H=A\T(1:3,4); H=H';
+    0,1,-sin(alpha);...
+    -sin(beta),0,cos(alpha)*cos(beta)];
+H=A\T(1:3,4); 
+H=H';
 
 %This is specifically for the knee:
 %Hy,Hz have to be corrected with respect to the floating axis to obtain

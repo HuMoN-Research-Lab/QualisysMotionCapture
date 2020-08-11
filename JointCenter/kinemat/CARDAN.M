@@ -40,14 +40,7 @@ end
 for i = 1:length(s1mov) %perform task for all frames
   % Calculating the Cardan angles
   %Combine neut and mov matrix together, * against other marker and A/b (')
-  pI =      [s2neut;s2mov(i,:)];
-  pIa =     soder(pI);
-  
-  pII =     [s1neut;s1mov(i,:)];
-  pIIa =    soder(pII);
-  
-  
-  
+
   T1a = (soder([s2neut;s2mov(i,:)])) * soder([s1neut;s1mov(i,:)]);
   T1 = inv(T1a);
   

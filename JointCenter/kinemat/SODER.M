@@ -1,4 +1,4 @@
-function [T,res]=soder(data)
+function [T,res] = soder(data)
 % function [T,res]=soder(data)
 %
 % Description:	Program calculates the transformation matrix T containing

@@ -1,4 +1,4 @@
-function [T,res]=soder(data)
+function [T,res] = rev_soder(data)
 % function [T,res]=soder(data)
 %
 % Description:	Program calculates the transformation matrix T containing
@@ -52,29 +52,35 @@ end
 %% Calculations for transforming matrix
 %ideally A_mean = mean(A,2);
 %ideally B_mean = mean(B,2);
-Amean = mean(A)';
-Bmean = mean(B)';
+A_mean = mean(A)';
+B_mean = mean(B)';
 
 
 for i = 1:size(A,1) - size(cut,2)
-    Ai(:,i) = [A(i,:)-Amean']';
-    Bi(:,i) = [B(i,:)-Bmean']';
+    Ai(:,i) = [A(i,:)-A_mean']';
+    Bi(:,i) = [B(i,:)-B_mean']';
 end
 
 
-C=Bi*Ai';
-[P,T,Q]=svd(C);
-R=P*diag([1 1 det(P*Q')])*Q';
-d=Bmean-R*(Amean);
+C = Bi*Ai';
+[P,T,Q] = svd(C);
+R = P*diag([1 1 det(P*Q')])*Q';
+d = B_mean-R*(A_mean);
 
-T=[R,d;0 0 0 1];
+T = [R,d;0 0 0 1];
 
 % Calculating the norm of residuals
-A=A'; A(4,:)=ones(1,size(A,2));
-B=B';
-Bcalc=T*A; Bcalc(4,:)=[]; Diff=B-Bcalc; Diffsquare=Diff.^2;
+A = A'; 
+A(4,:) = ones(1,size(A,2));
+
+B = B';
+Bcalc = T*A; 
+Bcalc(4,:) = []; 
+
+Diff = B-Bcalc; 
+Diffsquare = Diff.^2;
 %DOF=3*(number of points)-6 unknowns (Hx,Hy,Hz,alpha,beta,gamma):
-DOF=size(B,1)*size(B,2)-6;
-res=[sum(Diffsquare(:))/DOF].^0.5;
+DOF = size(B,1)*size(B,2)-6;
+res = (sum(Diffsquare(:))/DOF).^0.5;
 
 
