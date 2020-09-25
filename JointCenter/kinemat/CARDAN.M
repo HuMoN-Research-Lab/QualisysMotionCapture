@@ -27,27 +27,28 @@ function[angles,helicang] = cardan(s1neut,s2neut,s1mov,s2mov,sequence)
 %		(2) Woltring, H.J. (1994) 3-D attitude representation of 
 %           human joints: A standardization proposal, J. Biomechanics 27, 1399-1414.
 
-[a1,b1]=size(s1mov);
-[a2,b2]=size(s2mov);
-[c1,d1]=size(s1neut);
-[c2,d2]=size(s2neut);
+[a1,b1] = size(s1mov);
+[a2,b2] = size(s2mov);
+[c1,d1] = size(s1neut);
+[c2,d2] = size(s2neut);
 
 %Are the matrices of interest the same size?
 if ~((a1==a2) && (b1==d1) || (b2 == d2))
  disp('The matrices of the segments do not agree! Try again!'); return
 end
 
-for i = 1:length(s1mov) %perform task for all frames
-  % Calculating the Cardan angles
-  %Combine neut and mov matrix together, * against other marker and A/b (')
-
-  T1a = (soder([s2neut;s2mov(i,:)])) * soder([s1neut;s1mov(i,:)]);
-  T1 = inv(T1a);
+% i = 1:length(s1mov)
+for i = 1:size(s1mov,1) %perform task for all frames
+    % Calculating the Cardan angles
+    %Combine neut and mov matrix together, * against other marker and A/b (')
+    T1 = inv(soder([s2neut;s2mov(i,:)])) * soder([s1neut;s1mov(i,:)]);
+%     T1a = (soder([s2neut;s2mov(i,:)])) * soder([s1neut;s1mov(i,:)]);
+%     T1 = inv(T1a);
   
-  eval(['angles(i,:)=r' sequence 'solv(T1);']);
+    eval(['angles(i,:)=r' sequence 'solv(T1);']);
   
-  % Woltring's (1994) helical convention (helical angles)
-  [n1,point1,phi1,t1] = screw(T1); 
+    % Woltring's (1994) helical convention (helical angles)
+    [n1,point1,phi1,t1] = screw(T1);
   
-  helicang(i,1:3) = n1(1:3,1)'.*phi1;
+    helicang(i,1:3) = n1(1:3,1)'.*phi1;
 end

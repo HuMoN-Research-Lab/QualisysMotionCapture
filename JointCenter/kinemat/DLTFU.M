@@ -25,40 +25,44 @@ function [A,avgres] = dltfu(F,L,Cut)
 %               Biomechanics of Human Movement (Edited by Berme and
 %               Cappozzo). pp. 108-127.
 
-if nargin==2; Cut=[]; 
+if nargin==2
+    Cut=[];
 end
 
 if size(F,1) ~= size(L,1)
-disp('# of calibration points entered and seen in camera do not agree'), 
-return
+    disp('# of calibration points entered and seen in camera do not agree'),
+    return
 end
 
-m=size(F,1); Lt=L'; C=Lt(:);
+m = size(F,1);
+Lt = L';
+C = Lt(:);
 
 for i=1:m
-  B(2*i-1,1)  = F(i,1); 
-  B(2*i-1,2)  = F(i,2); 
-  B(2*i-1,3)  = F(i,3);
-  B(2*i-1,4)  = 1;
-  B(2*i-1,9)  =-F(i,1)*L(i,1);
-  B(2*i-1,10) =-F(i,2)*L(i,1);
-  B(2*i-1,11) =-F(i,3)*L(i,1);
-  B(2*i,5)    = F(i,1);
-  B(2*i,6)    = F(i,2);
-  B(2*i,7)    = F(i,3);
-  B(2*i,8)    = 1;
-  B(2*i,9)  =-F(i,1)*L(i,2);
-  B(2*i,10) =-F(i,2)*L(i,2);
-  B(2*i,11) =-F(i,3)*L(i,2);
+    B(2*i-1,1)  = F(i,1);
+    B(2*i-1,2)  = F(i,2);
+    B(2*i-1,3)  = F(i,3);
+    B(2*i-1,4)  = 1;
+    B(2*i-1,9)  =-F(i,1)*L(i,1);
+    B(2*i-1,10) =-F(i,2)*L(i,1);
+    B(2*i-1,11) =-F(i,3)*L(i,1);
+    B(2*i,5)    = F(i,1);
+    B(2*i,6)    = F(i,2);
+    B(2*i,7)    = F(i,3);
+    B(2*i,8)    = 1;
+    B(2*i,9)    =-F(i,1)*L(i,2);
+    B(2*i,10)   =-F(i,2)*L(i,2);
+    B(2*i,11)   =-F(i,3)*L(i,2);
 end
 
 % Cut the lines out of B and C including the control points to be discarded
-Cutlines=[Cut.*2-1, Cut.*2];
-B([Cutlines],:)=[];
-C([Cutlines],:)=[];
+Cutlines = [Cut.*2-1, Cut.*2];
+B([Cutlines],:) = [];
+C([Cutlines],:) = [];
 
 % Solution for the coefficients
-A=B\C;
-D=B*A;
-R=C-D;
-res=norm(R); avgres=res/size(R,1)^0.5;
+A = B\C;
+D = B*A;
+R = C-D;
+res = norm(R);
+avgres = res/size(R,1)^0.5;

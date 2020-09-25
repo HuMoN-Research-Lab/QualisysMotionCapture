@@ -28,6 +28,7 @@ if (size(data,1)/3)~=fix(size(data,1)/3)
     return
 end
 
+%Create 3x3 matrix of the s1neut and s1mov positions
 % ideally: A = (reshape(data(:,1),3,size(data,1)/3));
 % ideally: B = (reshape(data(:,2),3,size(data,1)/3));
 A = (reshape(data(:,1),3,size(data,1)/3))';  
@@ -50,12 +51,14 @@ if size(A,1)<3
 end
 
 %% Calculations for transforming matrix
+%Calcu mean x, y, z position for markers
+
 %ideally A_mean = mean(A,2);
 %ideally B_mean = mean(B,2);
 A_mean = mean(A)';
 B_mean = mean(B)';
 
-
+%Normalize the points for s1neut and s1mov
 for i = 1:size(A,1) - size(cut,2)
     Ai(:,i) = [A(i,:)-A_mean']';
     Bi(:,i) = [B(i,:)-B_mean']';

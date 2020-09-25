@@ -12,6 +12,7 @@ disp(' ______________________________')
 disp(' ');
 disp('Loading of 3d coordinates of a running trial and of a trial where the')
 disp('coordinates are in anatomical coordinate system (neutral/standing trial).')
+% load ('result.mat')
 load result;
 % disp('Press any key to continue')
 % pause

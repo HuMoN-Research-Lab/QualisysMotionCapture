@@ -1,4 +1,4 @@
-function [out]=rad2deg(in)
+function [out] = rad2deg(in)
 
 % function [out]=rad2deg(in)
 % Description:	Conversion of radians to degrees applied to the entire matrix
@@ -9,6 +9,6 @@ function [out]=rad2deg(in)
 % Last Changes:	November 29, 1996
 % Version:	1.0
 
-out=in.*(180/pi);
+out = in.*(180/pi);
 
 
