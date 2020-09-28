@@ -1,4 +1,4 @@
-marker_dict = {'Time', 'HeadL', 'HeadTop', 'HeadR', 'HeadFront',
+markers_dict = {'Time', 'HeadL', 'HeadTop', 'HeadR', 'HeadFront',
                 'LShoulderTop', 'LShoulderBack', 'LArm', 
                 'LElbowOut', 'LWristOut', 'LWristIn', 'LHandOut',
                 'RShoulderTop', 'RShoulderBack', 'RArm',
