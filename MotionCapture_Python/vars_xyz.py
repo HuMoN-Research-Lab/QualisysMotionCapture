@@ -1,4 +1,4 @@
-vars_xyz = {'Time', 'HeadLx', 'HeadLy', 'HeadLz',
+vars_list = {'Time', 'HeadLx', 'HeadLy', 'HeadLz',
                 'HeadTopx', 'HeadTopy', 'HeadTopz',
                 'HeadRx', 'HeadRy', 'HeadRz', 
                 'HeadFrontx', 'HeadFronty', 'HeadFrontz',
@@ -56,3 +56,5 @@ vars_xyz = {'Time', 'HeadLx', 'HeadLy', 'HeadLz',
                 'LeftUpLegCuster2x', 'LeftUpLegCuster2y', 'LeftUpLegCuster2z',
                 'LeftUpLegCuster3x', 'LeftUpLegCuster3y', 'LeftUpLegCuster3z',
                 'LeftUpLegCuster4x', 'LeftUpLegCuster4y', 'LeftUpLegCuster4z'}
+
+another_list = {1, 2, 3, 4, 5}
