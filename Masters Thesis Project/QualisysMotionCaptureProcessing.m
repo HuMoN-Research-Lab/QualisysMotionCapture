@@ -29,7 +29,7 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 [bodySegWeight,propSegWeight] = calcBodySegMass(kgMass);
 
 %% calcSegCOM function
-% Function outputs totalCOM considering marker location 
+% Function outputs segCenter considering marker location 
 [segCenter] = calcSegCOM(marker_mar_dim_frame,markerLabels);
 
 %% calcSegWeightCOM function
