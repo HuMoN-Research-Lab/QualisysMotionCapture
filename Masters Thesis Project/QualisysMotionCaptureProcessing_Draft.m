@@ -16,11 +16,11 @@ cd(codePath)
 addpath(genpath(cd))
 addpath(dataPath)
 
-%% Load acquired Qualisys MoCap Data
-%fileName = '02_21_2020_Walking_Calibration';
-trial_num = 1;
-file_name = 'Matheus_ThesisFW0011_Trial1';
-[markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(file_name, trial_num);
+% %% Load acquired Qualisys MoCap Data
+% %fileName = '02_21_2020_Walking_Calibration';
+% trial_num = 1;
+% % file_name = 'Matheus_ThesisFW0011_Trial1';
+% [markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(file_name,dataPath);
 
 %% findUser function
 %function locates relevant information based on user name
@@ -35,8 +35,9 @@ trial_cond =     1;      %req for formatting trial results
 for trial_num = 1:total_trials
     %% Load acquired Qualisys MoCap Data
     %fileName = '02_21_2020_Walking_Calibration';
-    file_name = 'Matheus_ThesisFW0011_Trial1';
-    [markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(file_name);
+    
+    file_name = strcat('Matheus_ThesisFW0011_Trial',num2str(trial_num),'.mat');
+    [markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(file_name,trial_num);
     
     %% calcBodySegMass function
     % Function outputs mass for individual body segs
