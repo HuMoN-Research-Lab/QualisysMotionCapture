@@ -10,7 +10,7 @@ ytrialVel_uppertrunkMax = max(hip.marVely);
 ytrialVel_uppertrunkMin = 0;
 
 %Plot all velocities of subject
-plot_velocity = false;
+plot_velocity = true;
 if plot_velocity == true
     %head marker coordinates
     subplot(3,2,1)

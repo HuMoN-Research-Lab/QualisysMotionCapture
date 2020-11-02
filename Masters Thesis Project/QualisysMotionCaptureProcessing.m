@@ -6,8 +6,10 @@ if ispc %JSM PC
     codePath = 'C:\Users\jonma\Dropbox\ResearchProjects\GithubDesktop_DontEdit\COMPhaseSpacePlanning';
     dataPath = 'C:\Users\jonma\Google Drive\MotionCaptureProjects\Qualisys_MotionCapture\RevisedWalkingData';
 elseif ismac %MT Mac
-    codePath = '/Users/MT/Documents/GitHub/QualisysMotionCapture';
-    dataPath = '/Users/MT/Google Drive File Stream/My Drive/MotionCaptureProjects/Qualisys_MotionCapture/RevisedWalkingData';
+    %codePath = '/Users/MT/Documents/GitHub/QualisysMotionCapture';
+    codePath = '/Users/MT/Documents/GitHub/QualisysMotionCapture/Masters Thesis Project';
+    %dataPath = '/Users/MT/Google Drive File Stream/My Drive/MotionCaptureProjects/Qualisys_MotionCapture/RevisedWalkingData';
+    dataPath = '/Users/MT/Google Drive File Stream/My Drive/MotionCaptureProjects/Matheus_Qualisys_Walking_Trials/Thesis_Trials/mat_files';
 end
 
 cd(codePath)
@@ -15,14 +17,19 @@ addpath(genpath(cd))
 addpath(dataPath)
 
 %% Load acquired Qualisys MoCap Data
-fileName = '02_21_2020_Walking_Calibration';
-[markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(fileName);
+%fileName = '02_21_2020_Walking_Calibration';
+file_name = 'Matheus_ThesisFW0011_Trial#1';
+[markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(file_name);
 
 %% findUser function
 %function locates relevant information based on user name
 %bodyMass should be in kg and height in metric units (mm)
 userProfile = readtable('userProfile.xlsx','readrownames',true);
 [mmHeight,kgMass] = findUser(userProfile,'Jon Matthis');
+
+%% Experiment Info 
+totalTrials =   24;
+totalCond =     1;      %req for formatting trial results
 
 %% calcBodySegMass function
 % Function outputs mass for individual body segs
@@ -77,9 +84,9 @@ userProfile = readtable('userProfile.xlsx','readrownames',true);
 plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
 
 %% Plot force plate data
-plotForces(Force_cal,segCenter_cal)
+%plotForces(Force_cal,segCenter_cal)
  
-b=3;
+%b=3; %Unknown use
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
 % Currently not optimized yet for plotting purposes
