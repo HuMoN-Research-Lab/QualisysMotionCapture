@@ -16,23 +16,18 @@ cd(codePath)
 addpath(genpath(cd))
 addpath(dataPath)
 
-% %% Load acquired Qualisys MoCap Data
-% %fileName = '02_21_2020_Walking_Calibration';
-% trial_num = 1;
-% % file_name = 'Matheus_ThesisFW0011_Trial1';
-% [markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(file_name,dataPath);
-
-%% findUser function
-%function locates relevant information based on user name
-%bodyMass should be in kg and height in metric units (mm)
-userProfile = readtable('userProfile.xlsx','readrownames',true);
-[mmHeight,kgMass] = findUser(userProfile,'Jon Matthis');
-
 %% Experiment Info 
-total_trials =   24;
+%total_trials =   5;
+total_trials =  linspace(1,5,3);
 trial_cond =     1;      %req for formatting trial results
 
 for trial_num = 1:total_trials
+    %% Initial conditions of data set
+    %function locates relevant information based on user name
+    %bodyMass should be in kg and height in metric units (mm)
+    userProfile = readtable('userProfile.xlsx','readrownames',true);
+    [mmHeight,kgMass] = findUser(userProfile,'Jon Matthis');
+
     %% Load acquired Qualisys MoCap Data
     %fileName = '02_21_2020_Walking_Calibration';
     
@@ -66,30 +61,33 @@ for trial_num = 1:total_trials
     [Force_cal] = indexForce(Force,trial_start_end);
     
     %% Calculates marker vel,acc,and jerk for trials
+    %trail_start_end are empty values. Need to troubleshoot issue (NEXT)
     [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
     
-    %% Calculates the inst. angle for lower extremity joint
-    % [segTheta] = calcSegAngle(marker_mar_dim_frame,markerLabels,segCenter);
+    %% Plot head, chest, hip, and feet
+    %Create function that plots marker in x,y,z
+    plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,trial_num);
     
     %% Calculates lower extremity seg length
     % units converted from mm to m
     [bodySegLength] = calcBodySegLength(marker_mar_dim_frame,markerLabels,segCenter);
     
-    %% calcRadiusOfGyration function
-    % Function outputs radius of gyration for body segs
-    % units in m
-    [radGyra] = calcRadiusOfGyration(bodySegLength);
+%% Code to be developed
+%     %% Calculates the inst. angle for lower extremity joint
+      % [segTheta] = calcSegAngle(marker_mar_dim_frame,markerLabels,segCenter);
     
-    %% calcRadiusOfGyration function
-    % Function outputs radius of gyration for body segs in units of kg/m^2
-    [momInertia] = calcMomentOfInertia(bodySegWeight,bodySegLength,radGyra);
+%     %% calcRadiusOfGyration function
+%     % Function outputs radius of gyration for body segs
+%     % units in m
+%     [radGyra] = calcRadiusOfGyration(bodySegLength);
     
-    %% Calculates the inst. angular velocity of the lower extremity
-    % [segOmega,segAlpha] = calcThetaVel(segTheta);
+%     %% calcRadiusOfGyration function
+%     % Function outputs radius of gyration for body segs in units of kg/m^2
+%     [momInertia] = calcMomentOfInertia(bodySegWeight,bodySegLength,radGyra);
+%     
+%     %% Calculates the inst. angular velocity of the lower extremity
+%     % [segOmega,segAlpha] = calcThetaVel(segTheta);
     
-    %% Plot head, chest, hip, and feet
-    %Create function that plots marker in x,y,z
-    plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
 
 end
 %% Plot force plate data

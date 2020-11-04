@@ -63,7 +63,7 @@ if length(data.Force(2).Force) ~= length(filteredData)
 end
 
 if length(data.Force(3).Force) ~= length(filteredData)
-    raw_force3 = data.Matheus_ThesisFW0011_Trial_1.Force(3).Force;
+    raw_force3 = data.Force(3).Force;
     Force.force_plate3(1,:) = raw_force3(1,1:4:end);
     Force.force_plate3(2,:) = raw_force3(2,1:4:end);
     Force.force_plate3(3,:) = raw_force3(3,1:4:end);

@@ -1,9 +1,9 @@
-function plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot) %,rev_step_TO_HS)
+function plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,trial_num) %,rev_step_TO_HS)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function plots the x y z vel, acc, and jerk
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Set preliminary conditions and parameters
-figure(100)
+figure(trial_num + 100)
 
 %% Upper trunk kinematic chain visualization normalization
 ytrialVel_uppertrunkMax = max(hip.marVely);
@@ -14,7 +14,8 @@ plot_velocity = true;
 if plot_velocity == true
     %head marker coordinates
     subplot(3,2,1)
-    plot(head.marVely,'k')
+    plot(head.marVely,'k') %timestamp addition before head. give time in seconds
+    %time = 1:length(markerVely)/framerate
     hold on
     % head_ylim = ylim;
     % %toe strike
@@ -136,7 +137,7 @@ if plot_velocity == true
 end
 
 %% Acceleration for markers in the x coordinate frames
-figure(1232)
+figure(trial_num + 1000)
 plot_acc = true;
 
 %Set ymin and ymax for upper extremities acc plots
