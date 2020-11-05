@@ -16,27 +16,23 @@ cd(codePath)
 addpath(genpath(cd))
 addpath(dataPath)
 
-%% Load acquired Qualisys MoCap Data
-%fileName = '02_21_2020_Walking_Calibration';
-trial_num = 1;
-file_name = 'Matheus_ThesisFW0011_Trial1';
-[markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(file_name, trial_num);
-
-%% findUser function
-%function locates relevant information based on user name
-%bodyMass should be in kg and height in metric units (mm)
-userProfile = readtable('userProfile.xlsx','readrownames',true);
-[mmHeight,kgMass] = findUser(userProfile,'Jon Matthis');
-
 %% Experiment Info 
-total_trials =   24;
+total_trials =   3;
+%total_trials =  linspace(1,5,3);
 trial_cond =     1;      %req for formatting trial results
 
 for trial_num = 1:total_trials
+    %% Initial conditions of data set
+    %function locates relevant information based on user name
+    %bodyMass should be in kg and height in metric units (mm)
+    userProfile = readtable('userProfile.xlsx','readrownames',true);
+    [mmHeight,kgMass] = findUser(userProfile,'Jon Matthis');
+    
     %% Load acquired Qualisys MoCap Data
     %fileName = '02_21_2020_Walking_Calibration';
-    file_name = 'Matheus_ThesisFW0011_Trial1';
-    [markerLabels,marker_mar_dim_frame,Force] = loadMoCapData(file_name);
+    
+    file_name = strcat('Matheus_ThesisFW0011_Trial',num2str(trial_num),'.mat');
+    [markerLabels,marker_mar_dim_frame,Force,num_frames] = loadMoCapData(file_name,trial_num);
     
     %% calcBodySegMass function
     % Function outputs mass for individual body segs
@@ -56,7 +52,7 @@ for trial_num = 1:total_trials
     
     %% calcCOMXYZ_Vel_Acc_Jerk function
     %function outputs vel,acc, and jerk values for totalCOM
-    [totalCOM_metrics,trial_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ);
+    [totalCOM_metrics,trial_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ,num_frames);
     
     %% Calibrates segCenter data using trial start and end frames
     [segCenter_cal] = indexSegCenter(segCenter,trial_start_end,marker_mar_dim_frame,markerLabels);
@@ -67,30 +63,31 @@ for trial_num = 1:total_trials
     %% Calculates marker vel,acc,and jerk for trials
     [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
     
-    %% Calculates the inst. angle for lower extremity joint
-    % [segTheta] = calcSegAngle(marker_mar_dim_frame,markerLabels,segCenter);
-    
-    %% Calculates lower extremity seg length
-    % units converted from mm to m
-    [bodySegLength] = calcBodySegLength(marker_mar_dim_frame,markerLabels,segCenter);
-    
-    %% calcRadiusOfGyration function
-    % Function outputs radius of gyration for body segs
-    % units in m
-    [radGyra] = calcRadiusOfGyration(bodySegLength);
-    
-    %% calcRadiusOfGyration function
-    % Function outputs radius of gyration for body segs in units of kg/m^2
-    [momInertia] = calcMomentOfInertia(bodySegWeight,bodySegLength,radGyra);
-    
-    %% Calculates the inst. angular velocity of the lower extremity
-    % [segOmega,segAlpha] = calcThetaVel(segTheta);
-    
     %% Plot head, chest, hip, and feet
     %Create function that plots marker in x,y,z
-    plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot);
-
+    plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,trial_num);
+    
 end
+% %% Calculates lower extremity seg length
+% % units converted from mm to m
+% [bodySegLength] = calcBodySegLength(marker_mar_dim_frame,markerLabels,segCenter);
+
+%% Code to be developed
+%     %% Calculates the inst. angle for lower extremity joint
+% [segTheta] = calcSegAngle(marker_mar_dim_frame,markerLabels,segCenter);
+
+%     %% calcRadiusOfGyration function
+%     % Function outputs radius of gyration for body segs
+%     % units in m
+%     [radGyra] = calcRadiusOfGyration(bodySegLength);
+
+%     %% calcRadiusOfGyration function
+%     % Function outputs radius of gyration for body segs in units of kg/m^2
+%     [momInertia] = calcMomentOfInertia(bodySegWeight,bodySegLength,radGyra);
+%
+%     %% Calculates the inst. angular velocity of the lower extremity
+%     % [segOmega,segAlpha] = calcThetaVel(segTheta);
+
 %% Plot force plate data
 %plotForces(Force_cal,segCenter_cal)
  
@@ -105,7 +102,7 @@ end
 
 % optimizer(segCenter,marker_mar_dim_frame,markerLabels);
 
-%% Motion capture data plot
+% %% Motion capture data plot
 % %Miscellaneous numbering of figures important for future reference
 % f = figure(45000);
 % %facilitates output of figures across multiple mediums
@@ -117,7 +114,7 @@ end
 % % open(stepA);
 % 
 % %for frames 1:numFrames at interval of 10
-% for fr = 1:10:numFrames
+% for fr = 1:10:num_frames
 %     %Clear current frame
 %     clf
 % 

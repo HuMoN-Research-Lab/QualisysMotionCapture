@@ -1,4 +1,4 @@
-function [totalCOM_metrics,trial_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ,num_frames)
+function [totalCOM_metrics,trial_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function calculates vel,acc,and jerk using segCenter of respective foot
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -8,28 +8,21 @@ function [totalCOM_metrics,trial_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXY
 
 %% Define output structure
 totalCOM_metrics = [];
-vel_frames = (num_frames-1);
-accl_frames = (num_frames-2);
 
 %% COM vel, acc, and jerk calculations
 %movement of totalCOM used to ID start of trial
 marVelx =                       diff(totalCOMXYZ(1,:));
-marVely_calc =                  diff(totalCOMXYZ(2,:));
-marVelz =                       diff(totalCOMXYZ(3,:));
+marVely =                       diff(totalCOMXYZ(2,:));
 
-for ii = 1:vel_frames
-    if mean(marVely_calc) <= 0
-        marVely(1,ii) = -marVely_calc(1,ii);
-    else
-        marVely = marVely_calc;
-    end
+for ii = 1:numFrames
+    
 end
-
+marVelz =                       diff(totalCOMXYZ(3,:));
 calc_totalmarVel =              plus(marVelx,marVely);
 trial_start_end =               find(calc_totalmarVel > 2);
 
-% figure(1)
-% plot(calc_totalmarVel)
+figure(1)
+plot(calc_totalmarVel)
 
 %velx, accx, and jerkx
 totalCOM_metrics.marVelx =         marVelx(trial_start_end);
