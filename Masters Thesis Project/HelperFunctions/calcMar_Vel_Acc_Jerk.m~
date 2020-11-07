@@ -26,8 +26,8 @@ head_marPosz =              head_marPos(3,:);
 head.marPos =               head_marPos(trial_start_end);
 
 %head individual (x y z)velocity
-head.marVelx =              (diff(head_marPosx(trial_start_end))*10^(-3))*frame_rate;
-head_marVely_calc =         (diff(head_marPosy(trial_start_end))*10^(-3))*frame_rate;
+head.marVelx =              (diff(head_marPosx(trial_start_end))*10^(3))/frame_rate;
+head_marVely_calc =         (diff(head_marPosy(trial_start_end))*10^(3))/frame_rate;
 
 for ii = 1:vel_frames
     if mean(head_marVely_calc) <= 0
@@ -37,7 +37,7 @@ for ii = 1:vel_frames
     end
 end
 
-head.marVelz =              (diff(head_marPosz(trial_start_end))*10^(-3))*frame_rate;
+head.marVelz =              (diff(head_marPosz(trial_start_end))*10^(3))/frame_rate;
 
 %head individual (x y z) acceleration
 head.marAccx =              diff(head.marVelx);
@@ -64,8 +64,8 @@ chest_marPosz =             chest_marPos(3,:);
 chest.marPos =              chest_marPos(trial_start_end);
 
 %chest individual (x y z) velocity
-chest.marVelx =             (diff(chest_marPosx(trial_start_end))*10^(-3))*frame_rate;
-chest_marVely_calc =        (diff(chest_marPosy(trial_start_end))*10^(-3))*frame_rate;
+chest.marVelx =             (diff(chest_marPosx(trial_start_end))*10^(3))/frame_rate;
+chest_marVely_calc =        (diff(chest_marPosy(trial_start_end))*10^(3))/frame_rate;
 
 for ii = 1:vel_frames
     if mean(chest_marVely_calc) <= 0
@@ -75,7 +75,7 @@ for ii = 1:vel_frames
     end
 end
 
-chest.marVelz =             (diff(chest_marPosz(trial_start_end))*10^(-3))*frame_rate;
+chest.marVelz =             (diff(chest_marPosz(trial_start_end))*10^(3))/frame_rate;
 
 %chest individual (x y z) acceleration
 chest.marAccx =             diff(chest.marVelx);
@@ -102,8 +102,8 @@ hip_marPosz =             hip_marPos(3,:);
 hip.marPos =              hip_marPos(trial_start_end);
 
 %hip individual (x y z) velocity
-hip.marVelx =             (diff(hip_marPosx(trial_start_end))*10^(-3))*frame_rate;
-hip_marVely_calc =        (diff(hip_marPosy(trial_start_end))*10^(-3))*frame_rate;
+hip.marVelx =             (diff(hip_marPosx(trial_start_end))*10^(3))/frame_rate;
+hip_marVely_calc =        (diff(hip_marPosy(trial_start_end))*10^(3))/frame_rate;
 
 for ii = 1:vel_frames
     if mean(hip_marVely_calc) <= 0
@@ -113,7 +113,7 @@ for ii = 1:vel_frames
     end
 end
 
-hip.marVelz =             diff(hip_marPosz(trial_start_end))*10^(-3)*frame_rate;
+hip.marVelz =             diff(hip_marPosz(trial_start_end))*10^(3);
 
 %hip individual (x y z) acceleration
 hip.marAccx =             diff(hip.marVelx);
@@ -140,8 +140,8 @@ LThigh_marPosz =             LThigh_marPos(3,:);
 LThigh.marPos =              LThigh_marPos(trial_start_end);
 
 %LThigh individual (x y z) velocity
-LThigh.marVelx =             diff(LThigh_marPosx(trial_start_end))*10^(-3)*frame_rate;
-LThigh_marVely_calc =        diff(LThigh_marPosy(trial_start_end))*10^(-3)*frame_rate;
+LThigh.marVelx =             (diff(LThigh_marPosx(trial_start_end))*10^(3);
+LThigh_marVely_calc =        diff(LThigh_marPosy(trial_start_end))*10^(3);
 
 for ii = 1:vel_frames
     if mean(LThigh_marVely_calc) <= 0
@@ -151,7 +151,7 @@ for ii = 1:vel_frames
     end
 end
 
-LThigh.marVelz =             diff(LThigh_marPosz(trial_start_end))*10^(-3)*frame_rate;
+LThigh.marVelz =             diff(LThigh_marPosz(trial_start_end))*10^(3);
 
 %LThigh individual (x y z) acceleration
 LThigh.marAccx =             diff(LThigh.marVelx);
@@ -177,8 +177,8 @@ RThigh_marPosz =             RThigh_marPos(3,:);
 RThigh.marPos =              RThigh_marPos(trial_start_end);
 
 %RThigh individual (x y z)velocity
-RThigh.marVelx =             diff(RThigh_marPosx(trial_start_end))*10^(-3)*frame_rate;
-RThigh_marVely_calc =        diff(RThigh_marPosy(trial_start_end))*10^(-3)*frame_rate;
+RThigh.marVelx =             diff(RThigh_marPosx(trial_start_end))*10^(3);
+RThigh_marVely_calc =        diff(RThigh_marPosy(trial_start_end))*10^(3);
 
 for ii = 1:vel_frames
     if mean(RThigh_marVely_calc) <= 0
@@ -188,7 +188,7 @@ for ii = 1:vel_frames
     end
 end
 
-RThigh.marVelz =             diff(RThigh_marPosz(trial_start_end))*10^(-3)*frame_rate;
+RThigh.marVelz =             diff(RThigh_marPosz(trial_start_end))*10^(3);
 
 %RThigh individual (x y z) acceleration
 RThigh.marAccx =             diff(RThigh.marVelx);
@@ -215,8 +215,8 @@ LLeg_marPosz =             LLeg_marPos(3,:);
 LLeg.marPos =              LLeg_marPos(trial_start_end);
 
 %LLeg individual (x y z) velocity
-LLeg.marVelx =             diff(LLeg_marPosx(trial_start_end))*10^(-3)*frame_rate;
-LLeg_marVely_calc =        diff(LLeg_marPosy(trial_start_end))*10^(-3)*frame_rate;
+LLeg.marVelx =             diff(LLeg_marPosx(trial_start_end))*10^(3);
+LLeg_marVely_calc =        diff(LLeg_marPosy(trial_start_end))*10^(3);
 
 for ii = 1:vel_frames
     if mean(LLeg_marVely_calc) <= 0
@@ -226,7 +226,7 @@ for ii = 1:vel_frames
     end
 end
 
-LLeg.marVelz =             diff(LLeg_marPosz(trial_start_end))*10^(-3)*frame_rate;
+LLeg.marVelz =             diff(LLeg_marPosz(trial_start_end))*10^(3);
 
 %LLeg individual (x y z) acceleration
 LLeg.marAccx =             diff(LLeg.marVelx);
@@ -252,8 +252,8 @@ RLeg_marPosz =             RLeg_marPos(3,:);
 RLeg.marPos =              RLeg_marPos(trial_start_end);
 
 %RLeg individual (x y z)velocity
-RLeg.marVelx =             diff(RLeg_marPosx(trial_start_end))*10^(-3)*frame_rate;
-RLeg_marVely_calc =        diff(RLeg_marPosy(trial_start_end))*10^(-3)*frame_rate;
+RLeg.marVelx =             diff(RLeg_marPosx(trial_start_end))*10^(3);
+RLeg_marVely_calc =        diff(RLeg_marPosy(trial_start_end))*10^(3);
 
 for ii = 1:vel_frames
     if mean(RLeg_marVely_calc) <= 0
@@ -263,7 +263,7 @@ for ii = 1:vel_frames
     end
 end
 
-RLeg.marVelz =             diff(RLeg_marPosz(trial_start_end))*10^(-3)*frame_rate;
+RLeg.marVelz =             diff(RLeg_marPosz(trial_start_end))*10^(3);
 
 %RLeg individual (x y z) acceleration
 RLeg.marAccx =             diff(RLeg.marVelx);
@@ -290,8 +290,8 @@ LFoot_marPosz =             LFoot_marPos(3,:);
 LFoot.marPos =              LFoot_marPos(trial_start_end);
 
 %LFoot individual (x y z) velocity
-LFoot.marVelx =             diff(LFoot_marPosx(trial_start_end))*10^(-3)*frame_rate;
-LFoot_marVely_calc =        diff(LFoot_marPosy(trial_start_end))*10^(-3)*frame_rate;
+LFoot.marVelx =             diff(LFoot_marPosx(trial_start_end))*10^(3);
+LFoot_marVely_calc =        diff(LFoot_marPosy(trial_start_end))*10^(3);
 
 for ii = 1:vel_frames
     if mean(LFoot_marVely_calc) <= 0
@@ -301,7 +301,7 @@ for ii = 1:vel_frames
     end
 end
 
-LFoot.marVelz =             diff(LFoot_marPosz(trial_start_end))*10^(-3)*frame_rate;
+LFoot.marVelz =             diff(LFoot_marPosz(trial_start_end))*10^(3);
 
 %LFoot individual (x y z) acceleration
 LFoot.marAccx =             diff(LFoot.marVelx);
@@ -327,8 +327,8 @@ RFoot_marPosz =             RFoot_marPos(3,:);
 RFoot.marPos =              RFoot_marPos(trial_start_end);
 
 %RFoot individual (x y z)velocity
-RFoot.marVelx =             diff(RFoot_marPosx(trial_start_end))*10^(-3)*frame_rate;
-RFoot_marVely_calc =        diff(RFoot_marPosy(trial_start_end))*10^(-3)*frame_rate;
+RFoot.marVelx =             diff(RFoot_marPosx(trial_start_end))*10^(3);
+RFoot_marVely_calc =        diff(RFoot_marPosy(trial_start_end))*10^(3);
 
 for ii = 1:vel_frames
     if mean(RFoot_marVely_calc) <= 0
@@ -338,15 +338,7 @@ for ii = 1:vel_frames
     end
 end
 
-for ii = 1:vel_frames
-    if mean(RFoot_marVely_calc) >= 0.5
-        RFoot.step(1,ii) = -RFoot_marVely_calc(1,ii);
-    else
-        RFoot.marVely = RFoot_marVely_calc;
-    end
-end
-
-RFoot.marVelz =             diff(RFoot_marPosz(trial_start_end))*10^(-3)*frame_rate;
+RFoot.marVelz =             diff(RFoot_marPosz(trial_start_end))*10^(3);
 
 %RFoot individual (x y z) acceleration
 RFoot.marAccx =             diff(RFoot.marVelx);

@@ -52,7 +52,7 @@ for trial_num = 1:total_trials
     
     %% calcCOMXYZ_Vel_Acc_Jerk function
     %function outputs vel,acc, and jerk values for totalCOM
-    [totalCOM_metrics,trial_start_end,vel_start_end,acc_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ,num_frames);
+    [totalCOM_metrics,trial_start_end,time_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ,num_frames);
     
     %% Calibrates segCenter data using trial start and end frames
     [segCenter_cal] = indexSegCenter(segCenter,trial_start_end,marker_mar_dim_frame,markerLabels);
@@ -63,16 +63,13 @@ for trial_num = 1:total_trials
     %% Calculates marker vel,acc,and jerk for trials
     [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
     
-    %% Plot head, chest, hip, and feet
-    %Create function that plots marker in x,y,z
-    plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,trial_num,vel_start_end,acc_start_end);
     
     %% Identify heel strike and toe off in gait cycle
-    [LFoot_gait,RFoot_gait] = index_gait(LFoot,RFoot);
+    
     
     %% Plot head, chest, hip, and feet
     %Create function that plots marker in x,y,z
-    plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,trial_num,vel_start_end,acc_start_end);
+    plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,trial_num,time_start_end);
     
 end
 % %% Calculates lower extremity seg length

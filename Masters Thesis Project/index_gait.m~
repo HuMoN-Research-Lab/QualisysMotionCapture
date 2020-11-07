@@ -1,0 +1,10 @@
+function [LFoot_gait,RFoot_gait] = index_gait(LFoot,RFoot)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Index start and end of gait cycle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Initial Conditions
+LFoot_vely = LFoot.marVely;
+RFoot_vely = RFoot.marVely;
+
+%% 
+
