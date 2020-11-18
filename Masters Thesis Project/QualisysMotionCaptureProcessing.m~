@@ -1,4 +1,8 @@
 %% MATLAB Motion Capture Data Acquisition
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Index start and end of gait cycle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 clc
 clear all
 close all
@@ -9,7 +13,8 @@ elseif ismac %MT Mac
     %codePath = '/Users/MT/Documents/GitHub/QualisysMotionCapture';
     codePath = '/Users/MT/Documents/GitHub/QualisysMotionCapture/Masters Thesis Project';
     %dataPath = '/Users/MT/Google Drive File Stream/My Drive/MotionCaptureProjects/Qualisys_MotionCapture/RevisedWalkingData';
-    dataPath = '/Users/MT/Google Drive File Stream/My Drive/MotionCaptureProjects/Matheus_Qualisys_Walking_Trials/Thesis_Trials/mat_files';
+    dataPath = '/Users/MT/Documents/GitHub/QualisysMotionCapture/Masters Thesis Project/mat_trials';
+    %dataPath = '/Users/MT/Google Drive File Stream/My Drive/MotionCaptureProjects/Matheus_Qualisys_Walking_Trials/Thesis_Trials/mat_files';
 end
 
 cd(codePath)
@@ -17,68 +22,83 @@ addpath(genpath(cd))
 addpath(dataPath)
 
 %% Experiment Info 
+%What is a trial?
 total_trials =   3;
-%total_trials =  linspace(1,5,3);
+
+%What is a cond
 trial_cond =     1;      %req for formatting trial results
 
-for trial_num = 1:total_trials
+for trial_num = 2:total_trials
     %% Initial conditions of data set
     %function locates relevant information based on user name
     %bodyMass should be in kg and height in metric units (mm)
-    userProfile = readtable('userProfile.xlsx','readrownames',true);
-    [mmHeight,kgMass] = findUser(userProfile,'Jon Matthis');
+    user_profile = readtable('userProfile.xlsx','readrownames',true);
+    [mm_height,kg_mass] = find_user(user_profile,'MFBT'); %Change to initials
     
     %% Load acquired Qualisys MoCap Data
     %fileName = '02_21_2020_Walking_Calibration';
-    
     file_name = strcat('Matheus_ThesisFW0011_Trial',num2str(trial_num),'.mat');
-    [markerLabels,marker_mar_dim_frame,Force,num_frames] = loadMoCapData(file_name,trial_num);
+    [marker_labels,marker_mar_dim_frame,Force,num_frames] = load_mo_cap_data(file_name,trial_num);
     
     %% calcBodySegMass function
     % Function outputs mass for individual body segs
-    [bodySegWeight,propSegWeight] = calcBodySegMass(kgMass);
+    [body_seg_weight,prop_seg_weight] = calc_body_seg_mass(kg_mass);
     
     %% calcSegCOM function
-    % Function outputs segCenter considering marker location
-    [segCenter] = calcSegCOM(marker_mar_dim_frame,markerLabels);
+    % Function outputs seg_center considering marker location
+    [seg_center] = calc_seg_COM(marker_mar_dim_frame,marker_labels);
     
     %% calcSegWeightCOM function
     % Function outputs totalCOM depending on seg weight
-    [totalCOMXYZ] = calcSegWeightCOM(segCenter,propSegWeight);
+    [total_body_COMXYZ] = calc_seg_weight_COM(seg_center,prop_seg_weight);
     
     %% locEmptySegFrames function
     % Function outputs marker frames evaluation
-    [emptyFrames] = locEmptySegFrames(segCenter,totalCOMXYZ);
+    [empty_frames] = loc_empty_seg_frames(seg_center,total_body_COMXYZ);
     
     %% calcCOMXYZ_Vel_Acc_Jerk function
     %function outputs vel,acc, and jerk values for totalCOM
-    [totalCOM_metrics,trial_start_end,time_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ,num_frames);
+    [totalCOM_metrics,trial_start_end,vel_start_end,acc_start_end] = calc_COMXYZ_vel_acc_jerk(total_body_COMXYZ,num_frames);
     
-    %% Calibrates segCenter data using trial start and end frames
-    [segCenter_cal] = indexSegCenter(segCenter,trial_start_end,marker_mar_dim_frame,markerLabels);
+    %% Calibrates seg_center data using trial start and end frames
+    [seg_center_cal] = index_seg_center(seg_center,trial_start_end,marker_mar_dim_frame,marker_labels);
     
     %% Calibrates force data using trial start and end frames
-    [Force_cal] = indexForce(Force,trial_start_end);
+    [Force_cal] = index_force(Force,trial_start_end);
     
     %% Calculates marker vel,acc,and jerk for trials
-    [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end);
-    
-    
-    %% Identify heel strike and toe off in gait cycle
-    
+    [head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calc_mar_vel_acc_jerk(seg_center,trial_start_end);
     
     %% Plot head, chest, hip, and feet
     %Create function that plots marker in x,y,z
-    plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,trial_num,time_start_end);
+    plot_mar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,trial_num,vel_start_end,acc_start_end);
+    
+    %% Identify heel strike and toe off in gait cycle
+    [LFoot_HS,LFoot_TO,RFoot_HS,RFoot_TO] = locate_TO_HS(LFoot,RFoot);
+    
+    %% Index steps through kinematic chain
+    [head_steps, chest_steps, hip_steps, LThigh steps, 
+    all_HS = sort([LFoot_HS RFoot_HS]);
+    
+    time_between_steps = diff(all_HS)/300;
+    for stepNum = 1:length(all_HS)-1
+        comX_per_step{stepNum} = comX(all_HS(stepNum):all_HS(stepNum+1)-1);
+    end
+    mean_step_comX = cellfun(@mean, comX_per_step);
+    std_step_comX = cellfun(@std, comX_per_step);
+    
+%     %% Plot head, chest, hip, and feet
+%     %Create function that plots marker in x,y,z
+%     plotMar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,trial_num,vel_start_end,acc_start_end);
     
 end
 % %% Calculates lower extremity seg length
 % % units converted from mm to m
-% [bodySegLength] = calcBodySegLength(marker_mar_dim_frame,markerLabels,segCenter);
+% [bodySegLength] = calcBodySegLength(marker_mar_dim_frame,markerLabels,seg_center);
 
 %% Code to be developed
 %     %% Calculates the inst. angle for lower extremity joint
-% [segTheta] = calcSegAngle(marker_mar_dim_frame,markerLabels,segCenter);
+% [segTheta] = calcSegAngle(marker_mar_dim_frame,markerLabels,seg_center);
 
 %     %% calcRadiusOfGyration function
 %     % Function outputs radius of gyration for body segs
@@ -87,24 +107,24 @@ end
 
 %     %% calcRadiusOfGyration function
 %     % Function outputs radius of gyration for body segs in units of kg/m^2
-%     [momInertia] = calcMomentOfInertia(bodySegWeight,bodySegLength,radGyra);
+%     [momInertia] = calcMomentOfInertia(body_seg_weight,bodySegLength,radGyra);
 %
 %     %% Calculates the inst. angular velocity of the lower extremity
 %     % [segOmega,segAlpha] = calcThetaVel(segTheta);
 
 %% Plot force plate data
-%plotForces(Force_cal,segCenter_cal)
+%plotForces(Force_cal,seg_center_cal)
  
 %b=3; %Unknown use
 %% calcMarVel function
 % Function outputs relative velocity of each body seg
 % Currently not optimized yet for plotting purposes
-%[segCenterVel] = calcMarVel(segCenter);
+%[seg_centerVel] = calcMarVel(seg_center);
 
 %% Optimizer finds location of jont center
-% [error] = JointCenterError(segCenter);
+% [error] = JointCenterError(seg_center);
 
-% optimizer(segCenter,marker_mar_dim_frame,markerLabels);
+% optimizer(seg_center,marker_mar_dim_frame,markerLabels);
 
 % %% Motion capture data plot
 % %Miscellaneous numbering of figures important for future reference
@@ -138,8 +158,8 @@ end
 %     hold on
 % 
 %     %% PlotMoCapTracer function
-%     %segCenter is plotted along with the anatomical markers of the subject
-% %     plotMoCapTracer(segCenter)
+%     %seg_center is plotted along with the anatomical markers of the subject
+% %     plotMoCapTracer(seg_center)
 %     
 %     %% Plotting parameters
 %     axis equal

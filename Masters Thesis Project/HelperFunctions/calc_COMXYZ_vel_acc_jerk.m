@@ -1,4 +1,4 @@
-function [totalCOM_metrics,trial_start_end,vel_start_end,acc_start_end] = calcCOMXYZ_Vel_Acc_Jerk(totalCOMXYZ,num_frames)
+function [totalCOM_metrics,trial_start_end,vel_start_end,acc_start_end] = calc_COMXYZ_vel_acc_jerk(totalCOMXYZ,num_frames)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function calculates vel,acc,and jerk using segCenter of respective foot
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

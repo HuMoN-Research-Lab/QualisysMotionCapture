@@ -1,4 +1,4 @@
-function [bodySegWeight,propSegWeight] = calcBodySegMass(kgMass)
+function [bodySegWeight,propSegWeight] = calc_body_seg_mass(kgMass)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Calculates total weight of body segment based on subject overall kgMass
 %Prepared based on Miller & Nelson and Lea & Febiger

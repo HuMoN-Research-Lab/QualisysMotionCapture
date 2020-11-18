@@ -1,4 +1,4 @@
-function [Force_cal] = indexForce(Force,trial_start_end)
+function [Force_cal] = index_force(Force,trial_start_end)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function calibrates COP data to its respective location on force plates
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

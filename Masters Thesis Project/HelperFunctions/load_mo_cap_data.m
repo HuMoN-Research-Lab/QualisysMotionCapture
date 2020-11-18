@@ -1,4 +1,4 @@
-function [markerLabels,marker_mar_dim_frame,Force,numFrames] = loadMoCapData(file_name,trial_num)
+function [marker_labels,marker_mar_dim_frame,Force,num_frames] = load_mo_cap_data(file_name,trial_num)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %loadMoCapData outputs various variables from the file name 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -16,21 +16,21 @@ data = eval(strcat('Matheus_ThesisFW0011_Trial_',num2str(trial_num)));
 Force =     [];
 order =     4;
 cutoff =    7;
-numFrames = data.Frames;
+num_frames = data.Frames;
 moCap_frame_rate = data.FrameRate;
-forceplate_framerate = data.Force.Frequency;
+%forceplate_framerate = data.Force.Frequency;
 
 %% Data restructuring
 pre_filter_marker_mar_dim_frame = data.Trajectories.Labeled.Data(:,1:3,:);
 % [marker_mar_dim_frame] = butterLowZero(order, cutoff, forceplate_framerate, marker_mar_dim_frameRAW);
-markerLabels = data.Trajectories.Labeled.Labels;
-numMarkers = length(markerLabels);
+marker_labels = data.Trajectories.Labeled.Labels;
+numMarkers = length(marker_labels);
 
 %Function here should ID which marker has a discrepancy in it. Upon doing
 %so the markers data would be filled with the fillmissing function
 
 %% Identify missing data in trial data
-[pre_filter_marker_mar_dim_frame] = locMissingData(pre_filter_marker_mar_dim_frame,markerLabels,numMarkers);
+[pre_filter_marker_mar_dim_frame] = locMissingData(pre_filter_marker_mar_dim_frame,marker_labels,numMarkers);
 
 %% Data filtering
 for ii = 1:numMarkers

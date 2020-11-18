@@ -1,9 +1,9 @@
-function [segCenter] = calcSegCOM(marker_mar_dim_frame,markerLabels) %,markerID)
+function [seg_center] = calc_seg_COM(marker_mar_dim_frame,markerLabels) %,markerID)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %calcSegCOM find the center position for each anatomical segment
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Establish output conditions
-segCenter = [];
+seg_center = [];
 
 %% Head Markers
 %Includes: HeadL, HeadTop, HeadR, and HeadFront
@@ -26,7 +26,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output headCenter data into struct
-segCenter.headCenter_mar_dim_frame = headPos;
+seg_center.headCenter_mar_dim_frame = headPos;
 
 %% LShoulder Markers
 %Includes: LShoulderTop and LShoulderBack
@@ -40,7 +40,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output LShoulderCenter data into struct
-segCenter.LShoulderCenter_mar_dim_frame = LShoulderPos;
+seg_center.LShoulderCenter_mar_dim_frame = LShoulderPos;
 
 %% RShoulder Markers
 %Includes RShoulderTop and RShoulderBack
@@ -54,7 +54,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output RShoulderCenter data into struct
-segCenter.RShoulderCenter_mar_dim_frame = RShoulderPos;
+seg_center.RShoulderCenter_mar_dim_frame = RShoulderPos;
 
 %% Chest Markers
 %Includes: Chest, SpineTop, BackL, and BackR
@@ -70,7 +70,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output ChestCenter data into struct
-segCenter.chestCenter_mar_dim_frame = ChestPos;
+seg_center.chestCenter_mar_dim_frame = ChestPos;
 
 %% LUpperArm Markers
 %Includes: LUpperArm Mean, LArm, and LElbowOut
@@ -84,7 +84,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output LUpperArmCenter data into struct
-segCenter.LUpperArmCenter_mar_dim_frame = LUpperArmPos;
+seg_center.LUpperArmCenter_mar_dim_frame = LUpperArmPos;
 
 %% RUpperArm Markers
 %Includes: RShoulder Mean, RArm, and RElbowOut
@@ -98,7 +98,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output RUpperArmCenter data into struct
-segCenter.RUpperArmCenter_mar_dim_frame = RUpperArmPos;
+seg_center.RUpperArmCenter_mar_dim_frame = RUpperArmPos;
 
 %% LForearm Markers
 %Includes: LElbowOut, LWristOut, LWristIn
@@ -112,7 +112,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output LForearmCenter data into struct
-segCenter.LForearmCenter_mar_dim_frame = LForearmPos;
+seg_center.LForearmCenter_mar_dim_frame = LForearmPos;
 
 %% RForearm Markers
 %Includes: RElbowOut, RWristOut, RWristIn
@@ -126,7 +126,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output RForearmCenter data into struct
-segCenter.RForearmCenter_mar_dim_frame = RForearmPos;
+seg_center.RForearmCenter_mar_dim_frame = RForearmPos;
 
 %% LWrist Markers
 %Includes: LWristOut, LWristIn
@@ -138,7 +138,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output LWristCenter data into struct
-segCenter.LWristCenter_mar_dim_frame = LWristPos;
+seg_center.LWristCenter_mar_dim_frame = LWristPos;
 
 %% RWrist Markers
 %Includes: LWristOut, LWristIn
@@ -150,7 +150,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output RWristCenter data into struct
-segCenter.RWristCenter_mar_dim_frame = RWristPos;
+seg_center.RWristCenter_mar_dim_frame = RWristPos;
 
 %% LHand Markers
 %Includes: LWristOut, LWristIn, LHandOut
@@ -163,7 +163,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output LHandCenter data into struct
-segCenter.LHandCenter_mar_dim_frame = LHandPos;
+seg_center.LHandCenter_mar_dim_frame = LHandPos;
 
 %% RHand Markers
 %Includes: RWristOut, RWristIn, RHandOut
@@ -176,7 +176,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output RHandCenter data into struct
-segCenter.RHandCenter_mar_dim_frame = RHandPos;
+seg_center.RHandCenter_mar_dim_frame = RHandPos;
 
 %% Hip Markers
 %Includes: WaistLFront, WaistLBack, WaistRFront, WaistRBack
@@ -192,7 +192,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output HipCenter data into struct
-segCenter.hipCenter_mar_dim_frame = HipPos;
+seg_center.hipCenter_mar_dim_frame = HipPos;
 
 for jj = 1:3 %ref num dim
     LHipPos_raw{1,jj} = cat(1,WaistLFront(jj,:),WaistLBack(jj,:));
@@ -200,7 +200,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output LHipCenter data into struct
-segCenter.LHipCenter_mar_dim_frame = LHipPos;
+seg_center.LHipCenter_mar_dim_frame = LHipPos;
 
 for jj = 1:3 %ref num dim
     RHipPos_raw{1,jj} = cat(1,WaistRFront(jj,:),WaistRBack(jj,:));
@@ -208,7 +208,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output RHipCenter data into struct
-segCenter.RHipCenter_mar_dim_frame = RHipPos;
+seg_center.RHipCenter_mar_dim_frame = RHipPos;
 
 %% LThigh Markers
 %Includes: WaistLFront, WaistLBack, LThigh, LKneeOut
@@ -222,7 +222,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output LThighCenter data into struct
-segCenter.LThighCenter_mar_dim_frame = LThighPos;
+seg_center.LThighCenter_mar_dim_frame = LThighPos;
 
 %% RThigh Markers
 %Includes: WaistRFront, WaistRBack, RThigh, RKneeOut
@@ -236,7 +236,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output RThighCenter data into struct
-segCenter.RThighCenter_mar_dim_frame = RThighPos;
+seg_center.RThighCenter_mar_dim_frame = RThighPos;
 
 %% LLeg Markers
 %Includes: LKneeOut, LShin, LAnkleOut
@@ -251,7 +251,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output LLegCenter data into struct
-segCenter.LLegCenter_mar_dim_frame = LLegPos;
+seg_center.LLegCenter_mar_dim_frame = LLegPos;
 
 %% RLeg Markers
 %Includes: RKneeOut, RShin, RAnkleOut
@@ -266,7 +266,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output RLegCenter data into struct
-segCenter.RLegCenter_mar_dim_frame = RLegPos;
+seg_center.RLegCenter_mar_dim_frame = RLegPos;
 
 %% LFoot Markers
 %Includes: LAnkleOut, LHeelBack, LForefootOut, LToeTip, LForefootIn
@@ -282,7 +282,7 @@ for jj = 1:3 %ref num dim
 end
 
 %Output LFootCenter data into struct
-segCenter.LFootCenter_mar_dim_frame = LFootPos;
+seg_center.LFootCenter_mar_dim_frame = LFootPos;
 
 %% RFoot Markers
 %Includes: RAnkleOut, RHeelBack, RForefootOut, RToeTip, RForefootIn
@@ -298,6 +298,6 @@ for jj = 1:3 %ref num dim
 end
 
 %Output RFootCenter data into struct
-segCenter.RFootCenter_mar_dim_frame = RFootPos;
+seg_center.RFootCenter_mar_dim_frame = RFootPos;
 
 end

@@ -17,15 +17,6 @@ if plot_velocity == true
     plot(vel_start_end,head.marVely,'k') %timestamp addition before head. give time in seconds
     %time = 1:length(markerVely)/framerate
     hold on
-    % head_ylim = ylim;
-    % %toe strike
-    % for ii = 1:length(rev_step_TO_HS)
-    %     plot([rev_step_TO_HS(ii,1) rev_step_TO_HS(ii,1)],[head_ylim(1) head_ylim(2)],'Color','b')
-    % end
-    % %heel strike
-    % for ii = 1:length(rev_step_TO_HS)
-    %     plot([rev_step_TO_HS(ii,2) rev_step_TO_HS(ii,2)],[head_ylim(1) head_ylim(2)],'Color',[0.78 0.18 0.74])
-    % end
     ylim ([ytrialVel_uppertrunkMin ytrialVel_uppertrunkMax]); %get foot_vel lim - max = 1.1*ymax of foot
     title('Head Vely')
     xlabel('Time (s)')
@@ -36,15 +27,6 @@ if plot_velocity == true
     subplot(3,2,3)
     plot(vel_start_end,chest.marVely,'k')
     hold on
-    % chest_ylim = ylim;
-    % %toe strike
-    % for ii = 1:length(rev_step_TO_HS)
-    %     plot([rev_step_TO_HS(ii,1) rev_step_TO_HS(ii,1)],[chest_ylim(1) chest_ylim(2)],'b')
-    % end
-    % %heel strike
-    % for ii = 1:length(rev_step_TO_HS)
-    %     plot([rev_step_TO_HS(ii,2) rev_step_TO_HS(ii,2)],[chest_ylim(1) chest_ylim(2)],'Color',[0.78 0.18 0.74])
-    % end
     ylim ([ytrialVel_uppertrunkMin ytrialVel_uppertrunkMax]);
     title('Chest Vely')
     xlabel('Time (s)')
@@ -54,15 +36,6 @@ if plot_velocity == true
     subplot(3,2,5)
     plot(vel_start_end,hip.marVely,'k')
     hold on
-    % hip_ylim = ylim;
-    % %toe strike
-    % for ii = 1:length(rev_step_TO_HS)
-    %     plot([rev_step_TO_HS(ii,1) rev_step_TO_HS(ii,1)],[hip_ylim(1) hip_ylim(2)],'b')
-    % end
-    % %heel strike
-    % for ii = 1:length(rev_step_TO_HS)
-    %     plot([rev_step_TO_HS(ii,2) rev_step_TO_HS(ii,2)],[hip_ylim(1) hip_ylim(2)],'Color',[0.78 0.18  0.74])
-    % end
     ylim ([ytrialVel_uppertrunkMin ytrialVel_uppertrunkMax]);
     title('Hip Vely')
     xlabel('Time (s)')
@@ -83,15 +56,6 @@ if plot_velocity == true
     plot(vel_start_end,LThigh.marVely,'b')
     hold on
     plot(vel_start_end,RThigh.marVely,'r')
-    % thigh_ylim = ylim;
-    % %toe strike
-    % for ii = 1:length(rev_step_TO_HS)
-    %     plot([rev_step_TO_HS(ii,1) rev_step_TO_HS(ii,1)],[thigh_ylim(1) thigh_ylim(2)],'k')
-    % end
-    % %heel strike
-    % for ii = 1:length(rev_step_TO_HS)
-    %     plot([rev_step_TO_HS(ii,2) rev_step_TO_HS(ii,2)],[thigh_ylim(1) thigh_ylim(2)],'Color',[0.78 0.18 0.74])
-    % end
     ylim ([ytrialvel_min ytrialvel_max]);
     title('LThigh & RThigh Velx')
     xlabel('Time (s)')
@@ -102,15 +66,6 @@ if plot_velocity == true
     plot(vel_start_end,LLeg.marVely,'b')
     hold on
     plot(vel_start_end,RLeg.marVely,'r')
-    % leg_ylim = ylim;
-    % %toe strike
-    % for ii = 1:length(rev_step_TO_HS)
-    %     plot([rev_step_TO_HS(ii,1) rev_step_TO_HS(ii,1)],[leg_ylim(1) leg_ylim(2)],'k')
-    % end
-    % %heel strike
-    % for ii = 1:length(rev_step_TO_HS)
-    %     plot([rev_step_TO_HS(ii,2) rev_step_TO_HS(ii,2)],[leg_ylim(1) leg_ylim(2)],'Color',[0.78 0.18 0.74])
-    % end
     ylim ([ytrialvel_min ytrialvel_max]);
     title('LShank & RShank Velx')
     xlabel('Time (s)')
@@ -122,13 +77,6 @@ if plot_velocity == true
     hold on
     plot(vel_start_end,RFoot.marVely,'r')
     foot_ylim = ylim;
-    % for ii = 1:length(rev_step_TO_HS)
-    %     plot([rev_step_TO_HS(ii,1) rev_step_TO_HS(ii,1)],[foot_ylim(1) foot_ylim(2)],'k')
-    % end
-    % %heel strike
-    % for ii = 1:length(rev_step_TO_HS)
-    %     plot([rev_step_TO_HS(ii,2) rev_step_TO_HS(ii,2)],[foot_ylim(1) foot_ylim(2)],'Color',[0.78 0.18 0.74])
-    % end
     ylim ([ytrialvel_min ytrialvel_max]);
     title('LFoot & RFoot Velx')
     xlabel('Time (s)')
@@ -142,7 +90,7 @@ plot_acc = true;
 
 %Set ymin and ymax for upper extremities acc plots
 ytrialAcc_uppertrunkMax = max(hip.marAccy);
-ytrialAcc_uppertrunkMin = 0;
+ytrialAcc_uppertrunkMin = min(hip.marAccy);
 
 %Set ymin and ymax for lower extremities acc plots
 if max(LFoot.marAccy) > max(RFoot.marAccy)
@@ -151,7 +99,12 @@ elseif max(LFoot.marAccy) < max(RFoot.marAccy)
     ytrialacc_max = max(RFoot.marAccy);
 end
 
-ytrialacc_min = 0;
+% ytrialacc_min = 0;
+if min(LFoot.marAccy) < min(RFoot.marAccy)
+    ytrialacc_min = min(LFoot.marAccy);
+elseif min(LFoot.marAccy) > min(RFoot.marAccy)
+    ytrialacc_min = min(RFoot.marAccy);
+end
     
 if plot_acc == true
     %head marker coordinates

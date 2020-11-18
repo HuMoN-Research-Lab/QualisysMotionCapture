@@ -1,4 +1,4 @@
-function[head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calcMar_Vel_Acc_Jerk(segCenter,trial_start_end)
+function[head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calc_mar_vel_acc_jerk(segCenter,trial_start_end)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Calc vel, acc, jerk for specified segCenters
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -333,14 +333,6 @@ RFoot_marVely_calc =        diff(RFoot_marPosy(trial_start_end))*10^(-3)*frame_r
 for ii = 1:vel_frames
     if mean(RFoot_marVely_calc) <= 0
         RFoot.marVely(1,ii) = -RFoot_marVely_calc(1,ii);
-    else
-        RFoot.marVely = RFoot_marVely_calc;
-    end
-end
-
-for ii = 1:vel_frames
-    if mean(RFoot_marVely_calc) >= 0.5
-        RFoot.step(1,ii) = -RFoot_marVely_calc(1,ii);
     else
         RFoot.marVely = RFoot_marVely_calc;
     end
