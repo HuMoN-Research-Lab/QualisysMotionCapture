@@ -212,25 +212,26 @@ RFoot_steps.steps_acc_std =      cellfun(@std,RFoot_steps_acc);
 %     mean_step_comX = cellfun(@mean, comX_per_step);
 %     std_step_comX = cellfun(@std, comX_per_step);
     
-%% Figures for troubleshooting
+%% Vel figures for troubleshooting
 % Figure conditions/parameters
 plot_step_vel = true;
 num_steps = length(head_steps.steps_vel); %x_values = num_steps
 
 %Max limits for figures
-ytorso_max = max(cellfun(@max,hip_steps.steps_vel));
-yLFeet_max = max(cellfun(@max,LFoot_steps.steps_vel));
-yRFeet_max = max(cellfun(@max,RFoot_steps.steps_vel));
+ytorso_vel_max = max(cellfun(@max,hip_steps.steps_vel));
+yLFeet_vel_max = max(cellfun(@max,LFoot_steps.steps_vel));
+yRFeet_vel_max = max(cellfun(@max,RFoot_steps.steps_vel));
 
-if yLFeet_max > yRFeet_max
-    yFeet_max = yLFeet_max;
-elseif yLFeet_max < yRFeet_max
-    yFeet_max = yRFeet_max;
+if yLFeet_vel_max > yRFeet_vel_max
+    yFeet_max = yLFeet_vel_max;
+elseif yLFeet_vel_max < yRFeet_vel_max
+    yFeet_max = yRFeet_vel_max;
 end
 
 %Min limits for figures
-ytorso_min =    0;
-yFeet_min =     0;
+ytorso_vel_min =    0;
+yFeet_vel_min =     0;
+
 % ytorso_min = min(cellfun(@min,hip_steps.steps_vel));
 % yLFeet_min = min(cellfun(@min,LFoot_steps.steps_vel));
 % yRFeet_min = min(cellfun(@min,RFoot_steps.steps_vel));
@@ -248,7 +249,7 @@ if plot_step_vel == true
     bar(1:num_steps,head_steps.steps_vel_mean,'c') %timestamp addition before head. give time in seconds
     hold on
     errorbar(1:num_steps,head_steps.steps_vel_mean,head_steps.steps_vel_std,'p')
-    ylim([ytorso_min ytorso_max]); %get foot_vel lim - max = 1.1*ymax of foot
+    ylim([ytorso_vel_min ytorso_vel_max]); %get foot_vel lim - max = 1.1*ymax of foot
     title('Head')
     xlabel('Steps')
     ylabel('Velocity (m/s)')
@@ -258,7 +259,7 @@ if plot_step_vel == true
     bar(1:num_steps,chest_steps.steps_vel_mean,'c')
     hold on
     errorbar(1:num_steps,chest_steps.steps_vel_mean,chest_steps.steps_vel_std,'p')
-    ylim([ytorso_min ytorso_max]);
+    ylim([ytorso_vel_min ytorso_vel_max]);
     title('Chest')
     xlabel('Steps')
     ylabel('Velocity (m/s)')
@@ -268,7 +269,7 @@ if plot_step_vel == true
     bar(1:num_steps,hip_steps.steps_vel_mean,'c')
     hold on
     errorbar(1:num_steps,hip_steps.steps_vel_mean,hip_steps.steps_vel_std,'p')
-    ylim([ytorso_min ytorso_max]);
+    ylim([ytorso_vel_min ytorso_vel_max]);
     title('Hip')
     xlabel('Steps')
     ylabel('Velocity (m/s)')
@@ -280,7 +281,7 @@ if plot_step_vel == true
     errorbar(1:num_steps,LThigh_steps.steps_vel_mean,LThigh_steps.steps_vel_std,'p')
     bar(1:num_steps,RThigh_steps.steps_vel_mean,'r')
     errorbar(1:num_steps,RThigh_steps.steps_vel_mean,RThigh_steps.steps_vel_std,'p')
-    ylim ([yFeet_min yFeet_max]);
+    ylim ([yFeet_vel_min yFeet_max]);
     title('LThigh & RThigh')
     xlabel('Steps')
     ylabel('Velocity (m/s)')
@@ -292,7 +293,7 @@ if plot_step_vel == true
     errorbar(1:num_steps,LLeg_steps.steps_vel_mean,LLeg_steps.steps_vel_std,'p')
     bar(1:num_steps,RLeg_steps.steps_vel_mean,'r')
     errorbar(1:num_steps,RLeg_steps.steps_vel_mean,RLeg_steps.steps_vel_std,'p')
-    ylim ([yFeet_min yFeet_max]);
+    ylim ([yFeet_vel_min yFeet_max]);
     title('LShank & RShank')
     xlabel('Steps')
     ylabel('Velocity (m/s)')
@@ -304,10 +305,105 @@ if plot_step_vel == true
     errorbar(1:num_steps,LFoot_steps.steps_vel_mean,LFoot_steps.steps_vel_std,'p')
     bar(1:num_steps,RFoot_steps.steps_vel_mean,'r')
     errorbar(1:num_steps,RFoot_steps.steps_vel_mean,RFoot_steps.steps_vel_std,'p')
-    ylim ([yFeet_min yFeet_max]);
+    ylim ([yFeet_vel_min yFeet_max]);
     title('LFoot & RFoot')
     xlabel('Steps')
     ylabel('Velocity (m/s)')
 end
 
+%% Acc figures for troubleshooting
+% Figure conditions/parameters
+plot_step_acc = true;
+num_steps = length(head_steps.steps_acc); %x_values = num_steps
+
+%Max limits for figures
+ytorso_acc_max = max(cellfun(@max,hip_steps.steps_acc));
+yLFeet_acc_max = max(cellfun(@max,LFoot_steps.steps_acc));
+yRFeet_acc_max = max(cellfun(@max,RFoot_steps.steps_acc));
+
+if yLFeet_acc_max > yRFeet_acc_max
+    yFeet_acc_max = yLFeet_acc_max;
+elseif yLFeet_acc_max < yRFeet_acc_max
+    yFeet_acc_max = yRFeet_acc_max;
+end
+
+%Min limits for figures
+ytorso_acc_min = min(hip_steps.steps_acc_mean);
+yLFeet_acc_min = min(LFoot_steps.steps_acc_mean);
+yRFeet_acc_min = min(RFoot_steps.steps_acc_mean);
+
+if yLFeet_acc_min < yRFeet_acc_min
+    yFeet_acc_min = yLFeet_acc_min;
+elseif yLFeet_acc_min > yRFeet_acc_min
+    yFeet_acc_min = yRFeet_acc_min;
+end
+
+if plot_step_acc == true
+    %head marker coordinates
+    figure(2)
+    subplot(3,2,1)
+    bar(1:num_steps,head_steps.steps_acc_mean,'c') %timestamp addition before head. give time in seconds
+    hold on
+    errorbar(1:num_steps,head_steps.steps_acc_mean,head_steps.steps_acc_std,'p')
+    ylim([ytorso_acc_min ytorso_acc_max]); %get foot_vel lim - max = 1.1*ymax of foot
+    title('Head')
+    xlabel('Steps')
+    ylabel('Acc (m/s^2)')
+    
+    %chest marker coordinates
+    subplot(3,2,3)
+    bar(1:num_steps,chest_steps.steps_acc_mean,'c')
+    hold on
+    errorbar(1:num_steps,chest_steps.steps_acc_mean,chest_steps.steps_acc_std,'p')
+    ylim([ytorso_acc_min ytorso_acc_max]);
+    title('Chest')
+    xlabel('Steps')
+    ylabel('Acc (m/s^2)')
+    
+    %hip marker coordinates
+    subplot(3,2,5)
+    bar(1:num_steps,hip_steps.steps_acc_mean,'c')
+    hold on
+    errorbar(1:num_steps,hip_steps.steps_acc_mean,hip_steps.steps_acc_std,'p')
+    ylim([ytorso_acc_min ytorso_acc_max]);
+    title('Hip')
+    xlabel('Steps')
+    ylabel('Acc (m/s^2)')
+    
+    %LThigh & RThigh marker overlayed
+    subplot(3,2,2)
+    bar(1:num_steps,LThigh_steps.steps_acc_mean,'b')
+    hold on
+    errorbar(1:num_steps,LThigh_steps.steps_acc_mean,LThigh_steps.steps_acc_std,'p')
+    bar(1:num_steps,RThigh_steps.steps_acc_mean,'r')
+    errorbar(1:num_steps,RThigh_steps.steps_acc_mean,RThigh_steps.steps_acc_std,'p')
+    ylim ([yFeet_acc_min yFeet_acc_max]);
+    title('LThigh & RThigh')
+    xlabel('Steps')
+    ylabel('Acc (m/s^2)')
+    
+    %LLeg & RLeg marker overlayed
+    subplot(3,2,4)
+    bar(1:num_steps,LLeg_steps.steps_acc_mean,'b')
+    hold on
+    errorbar(1:num_steps,LLeg_steps.steps_acc_mean,LLeg_steps.steps_acc_std,'p')
+    bar(1:num_steps,RLeg_steps.steps_acc_mean,'r')
+    errorbar(1:num_steps,RLeg_steps.steps_acc_mean,RLeg_steps.steps_acc_std,'p')
+    ylim ([yFeet_acc_min yFeet_acc_max]);
+    title('LShank & RShank')
+    xlabel('Steps')
+    ylabel('Acc (m/s^2)')
+    
+    %LFoot & RFoot marker overlayed
+    subplot(3,2,6)
+    bar(1:num_steps,LFoot_steps.steps_acc_mean,'b')
+    hold on
+    errorbar(1:num_steps,LFoot_steps.steps_acc_mean,LFoot_steps.steps_acc_std,'p')
+    bar(1:num_steps,RFoot_steps.steps_acc_mean,'r')
+    errorbar(1:num_steps,RFoot_steps.steps_acc_mean,RFoot_steps.steps_acc_std,'p')
+    ylim ([yFeet_acc_min yFeet_acc_max]);
+    title('LFoot & RFoot')
+    xlabel('Steps')
+    ylabel('Acc (m/s^2)')
+end
 end
