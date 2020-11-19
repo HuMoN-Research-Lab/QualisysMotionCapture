@@ -12,8 +12,8 @@ if ispc %JSM PC
 elseif ismac %MT Mac
     %codePath = '/Users/MT/Documents/GitHub/QualisysMotionCapture';
     codePath = '/Users/MT/Documents/GitHub/QualisysMotionCapture/Masters Thesis Project';
-    %dataPath = '/Users/MT/Google Drive File Stream/My Drive/MotionCaptureProjects/Qualisys_MotionCapture/RevisedWalkingData';
-    dataPath = '/Users/MT/Documents/GitHub/QualisysMotionCapture/Masters Thesis Project/mat_trials';
+    dataPath = '/Users/MT/Google Drive File Stream/My Drive/MotionCaptureProjects/Matheus_Qualisys_Walking_Trials/Thesis_Trials/mat_files';
+    %dataPath = '/Users/MT/Documents/GitHub/QualisysMotionCapture/Masters Thesis Project/mat_trials';
     %dataPath = '/Users/MT/Google Drive File Stream/My Drive/MotionCaptureProjects/Matheus_Qualisys_Walking_Trials/Thesis_Trials/mat_files';
 end
 
@@ -37,7 +37,7 @@ for trial_num = 2:total_trials
     
     %% Load acquired Qualisys MoCap Data
     %fileName = '02_21_2020_Walking_Calibration';
-    file_name = strcat('Matheus_ThesisFW0011_Trial',num2str(trial_num),'.mat');
+    file_name = strcat('Matheus_ThesisFW001_Trial',num2str(trial_num),'.mat');
     [marker_labels,marker_mar_dim_frame,Force,num_frames] = load_mo_cap_data(file_name,trial_num);
     
     %% calcBodySegMass function

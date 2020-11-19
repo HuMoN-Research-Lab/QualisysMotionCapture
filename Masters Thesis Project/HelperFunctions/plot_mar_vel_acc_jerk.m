@@ -81,7 +81,6 @@ if plot_velocity == true
     title('LFoot & RFoot Velx')
     xlabel('Time (s)')
     ylabel('Velocity (m/s)')
-
 end
 
 %% Acceleration for markers in the x coordinate frames
