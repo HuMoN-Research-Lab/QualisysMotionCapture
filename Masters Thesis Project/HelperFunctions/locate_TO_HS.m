@@ -1,4 +1,4 @@
-function [LFoot_HS,LFoot_TO,RFoot_HS,RFoot_TO] = locate_TO_HS(LFoot,RFoot)
+function [LFoot_HS,LFoot_TO,RFoot_HS,RFoot_TO] = locate_TO_HS(LFoot,RFoot,trial_num)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Index start and end of gait cycle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -17,7 +17,7 @@ LFoot_TO = find(LFoot_gait_diff == 1);
 LFoot_HS = find(LFoot_gait_diff == -1);
 
 %% Debug Plot Output
-figure(1)
+figure(trial_num)
 hold on
 plot(LFoot_vely,'b');
 %plot(RFoot_vely,'r');

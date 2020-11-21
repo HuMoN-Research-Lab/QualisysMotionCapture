@@ -1,4 +1,4 @@
-function [avg_num_steps,head_steps,chest_steps,hip_steps,LThigh_steps,RThigh_steps,LLeg_steps,RLeg_steps,LFoot_steps,RFoot_steps] = kin_chain_steps(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,all_HS,trial_num)
+function [head_steps,chest_steps,hip_steps,LThigh_steps,RThigh_steps,LLeg_steps,RLeg_steps,LFoot_steps,RFoot_steps] = kin_chain_steps(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,all_HS,trial_num)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Function calcs vel and acc per step along kinematic chain
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -43,6 +43,8 @@ RFoot_acc =     RFoot.marAccy;
 RFoot_acc_sq =  (RFoot_acc).^2;
 RFoot_steps =   [];
 
+
+
 %% Head vel and acc per step
 %Vel values per step
 for step_num = 2:length(all_HS)-2
@@ -55,7 +57,8 @@ for step_num = 2:length(all_HS)-2
 end
 
 [r,c] = cellfun(@size,head_steps_vel);
-max_trial_duration = max([r,c]);
+max_trial_durati = max([r,c]);
+
 
 %Steps analysis
 head_steps_vel_mean =   cellfun(@mean,head_steps_vel);
@@ -66,7 +69,6 @@ head_steps_acc_std =    cellfun(@std,head_steps_acc);
 head_steps_acc_maxs =   head_steps_acc_mean + head_steps_acc_std;
 head_steps(1) =         mean(head_steps_vel_mean);
 head_steps(2) =         mean(head_steps_acc_mean);
-avg_num_steps =         length(head_steps_acc);
 
 %% Chest vel and acc per step
 %Vel values per step

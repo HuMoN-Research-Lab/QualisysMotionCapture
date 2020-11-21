@@ -6,7 +6,7 @@ function [marker_labels,marker_mar_dim_frame,Force,num_frames] = load_mo_cap_dat
 %load file type of fileName and store into data variable
 load(file_name);
 %data = Matheus_ThesisFW0011_Trial_1;
-data = eval(strcat('Matheus_ThesisFW0011_Trial_',num2str(trial_num)));
+data = eval(strcat('Matheus_ThesisFW001_Trial',num2str(trial_num)));
 %data_dir.file_name= sprintf('Matheus_ThesisFW0011_Trial_%d', trial_num);
 
 %strrep replaces substring of fileName with consistent naming convention

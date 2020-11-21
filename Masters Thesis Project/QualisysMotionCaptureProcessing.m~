@@ -179,7 +179,7 @@ for jj = 1:9
     hold on;
     xlabel('Kinematic Chain');
     ylabel('Acc(m/s^2)');
-    title('Average Acceleration for ' + string(trial_num)+ ' Trials Along Kinematic Chain')
+    title('Average Acceleration for' + string(trial_num)+ 'Trials Along Kinematic Chain')
 end
 
 
