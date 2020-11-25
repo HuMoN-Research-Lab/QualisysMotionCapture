@@ -17,14 +17,14 @@ LFoot_TO = find(LFoot_gait_diff == 1);
 LFoot_HS = find(LFoot_gait_diff == -1);
 
 %% Debug Plot Output
-figure(trial_num)
-hold on
-plot(LFoot_vely,'b');
-%plot(RFoot_vely,'r');
-refline(0,threshold)
-plot(LFoot_TO,LFoot_vely(LFoot_TO),'bo')
-plot(LFoot_HS,LFoot_vely(LFoot_HS),'bx')
-title('Step Finder Debug Plot');
+% figure(trial_num)
+% hold on
+% plot(LFoot_vely,'b');
+% %plot(RFoot_vely,'r');
+% refline(0,threshold)
+% plot(LFoot_TO,LFoot_vely(LFoot_TO),'bo')
+% plot(LFoot_HS,LFoot_vely(LFoot_HS),'bx')
+% title('Step Finder Debug Plot');
 
 %% RFoot Gait Breakdown
 % Index RFoot in motion
@@ -35,10 +35,10 @@ RFoot_TO = find(RFoot_stance_diff == 1);
 RFoot_HS = find(RFoot_stance_diff == -1);
 
 %% Debug Plot Output
-hold on
-plot(RFoot_vely,'r');
-plot(RFoot_TO,RFoot_vely(RFoot_TO),'ro')
-plot(RFoot_HS,RFoot_vely(RFoot_HS),'rx')
+% hold on
+% plot(RFoot_vely,'r');
+% plot(RFoot_TO,RFoot_vely(RFoot_TO),'ro')
+% plot(RFoot_HS,RFoot_vely(RFoot_HS),'rx')
 
 %head_traj_per_step{1} = 0; 
 

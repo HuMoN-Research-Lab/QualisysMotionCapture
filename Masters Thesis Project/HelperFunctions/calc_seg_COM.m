@@ -72,6 +72,26 @@ end
 %Output ChestCenter data into struct
 seg_center.chestCenter_mar_dim_frame = ChestPos;
 
+%Index Torso Center
+%Includes: Chest, BackL, BackR
+Neck_MarkerNames =             {'SpineTop' 'Chest'};
+for jj = 1:3 %ref num dim
+    NeckPos_raw{1,jj} =        cat(1,Chest(jj,:),SpineTop(jj,:));
+    NeckPos(jj,:) =            mean(NeckPos_raw{1,jj},1);
+end
+
+seg_center.neckCenter_mar_dim_frame = NeckPos;
+
+%Index Torso Center
+%Includes: Chest, BackL, BackR
+Torso_MarkerNames =             {'Chest' 'BackL' 'BackR'};
+for jj = 1:3 %ref num dim
+    TorsoPos_raw{1,jj} =        cat(1,Chest(jj,:),BackL(jj,:),BackR(jj,:));
+    TorsoPos(jj,:) =            mean(TorsoPos_raw{1,jj},1);
+end
+
+seg_center.torsoCenter_mar_dim_frame = TorsoPos;
+
 %% LUpperArm Markers
 %Includes: LUpperArm Mean, LArm, and LElbowOut
 LUpperArm_MarkerNames = {'LShoulderPos' 'LArm' 'LElbowOut'};

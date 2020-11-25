@@ -6,7 +6,7 @@ function plot_mar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoo
 figure(trial_num + 100)
 
 %% Upper trunk kinematic chain visualization normalization
-ytrialVel_uppertrunkMax = max(hip.marVely);
+ytrialVel_uppertrunkMax = max(hip.marVely) + max(hip.marVely)*0.10;
 ytrialVel_uppertrunkMin = 0;
 
 %Plot all velocities of subject
@@ -18,7 +18,7 @@ if plot_velocity == true
     %time = 1:length(markerVely)/framerate
     hold on
     ylim ([ytrialVel_uppertrunkMin ytrialVel_uppertrunkMax]); %get foot_vel lim - max = 1.1*ymax of foot
-    title('Head Vely')
+    title('Head Velocities')
     xlabel('Time (s)')
     ylabel('Velocity (m/s)')
     
@@ -28,7 +28,7 @@ if plot_velocity == true
     plot(vel_start_end,chest.marVely,'k')
     hold on
     ylim ([ytrialVel_uppertrunkMin ytrialVel_uppertrunkMax]);
-    title('Chest Vely')
+    title('Chest Velocities')
     xlabel('Time (s)')
     ylabel('Velocity (m/s)')
     
@@ -37,16 +37,16 @@ if plot_velocity == true
     plot(vel_start_end,hip.marVely,'k')
     hold on
     ylim ([ytrialVel_uppertrunkMin ytrialVel_uppertrunkMax]);
-    title('Hip Vely')
+    title('Hip Velocities')
     xlabel('Time (s)')
     ylabel('Velocity (m/s)')
 
     %Initial conditions for lower trunk kinematic chain normalization
     %Set ymin and ymax for vel plots
     if max(LFoot.marVely) > max(RFoot.marVely)
-        ytrialvel_max = max(LFoot.marVely);
+        ytrialvel_max = max(LFoot.marVely) + max(LFoot.marVely)*0.10;
     elseif max(LFoot.marVely) < max(RFoot.marVely)
-        ytrialvel_max = max(RFoot.marVely);
+        ytrialvel_max = max(RFoot.marVely) + max(RFoot.marVely)*0.10;
     end
     
     ytrialvel_min = 0;
@@ -57,7 +57,7 @@ if plot_velocity == true
     hold on
     plot(vel_start_end,RThigh.marVely,'r')
     ylim ([ytrialvel_min ytrialvel_max]);
-    title('LThigh & RThigh Velx')
+    title('LThigh & RThigh Velocities')
     xlabel('Time (s)')
     ylabel('Velocity (m/s)')
     
@@ -67,7 +67,7 @@ if plot_velocity == true
     hold on
     plot(vel_start_end,RLeg.marVely,'r')
     ylim ([ytrialvel_min ytrialvel_max]);
-    title('LShank & RShank Velx')
+    title('LShank & RShank Velocities')
     xlabel('Time (s)')
     ylabel('Velocity (m/s)')
     
@@ -78,7 +78,7 @@ if plot_velocity == true
     plot(vel_start_end,RFoot.marVely,'r')
     foot_ylim = ylim;
     ylim ([ytrialvel_min ytrialvel_max]);
-    title('LFoot & RFoot Velx')
+    title('LFoot & RFoot Velocities')
     xlabel('Time (s)')
     ylabel('Velocity (m/s)')
 end
@@ -88,21 +88,21 @@ figure(trial_num + 1000)
 plot_acc = true;
 
 %Set ymin and ymax for upper extremities acc plots
-ytrialAcc_uppertrunkMax = max(hip.marAccy);
+ytrialAcc_uppertrunkMax = max(hip.marAccy) + max(hip.marAccy)*0.10;
 ytrialAcc_uppertrunkMin = min(hip.marAccy);
 
 %Set ymin and ymax for lower extremities acc plots
 if max(LFoot.marAccy) > max(RFoot.marAccy)
-    ytrialacc_max = max(LFoot.marAccy);
+    ytrialacc_max = max(LFoot.marAccy) + max(LFoot.marAccy)*0.10;
 elseif max(LFoot.marAccy) < max(RFoot.marAccy)
-    ytrialacc_max = max(RFoot.marAccy);
+    ytrialacc_max = max(RFoot.marAccy) + max(RFoot.marAccy)*0.10;
 end
 
 % ytrialacc_min = 0;
 if min(LFoot.marAccy) < min(RFoot.marAccy)
-    ytrialacc_min = min(LFoot.marAccy);
+    ytrialacc_min = min(LFoot.marAccy) + min(LFoot.marAccy)*0.10;
 elseif min(LFoot.marAccy) > min(RFoot.marAccy)
-    ytrialacc_min = min(RFoot.marAccy);
+    ytrialacc_min = min(RFoot.marAccy) + min(RFoot.marAccy)*0.10;
 end
     
 if plot_acc == true
@@ -121,8 +121,8 @@ if plot_acc == true
     % end
     ylim ([ytrialAcc_uppertrunkMin ytrialAcc_uppertrunkMax]);
     xlabel('Time (s)')
-    ylabel('Acc (m/s^2)')
-    title('Head Accy')
+    ylabel('Acceleration (m/s^2)')
+    title('Head Accelerations')
     
     %chest marker coordinates
     subplot(3,2,3)
@@ -139,8 +139,8 @@ if plot_acc == true
     % end
     ylim ([ytrialAcc_uppertrunkMin ytrialAcc_uppertrunkMax]);
     xlabel('Time (s)')
-    ylabel('Acc (m/s^2)')
-    title('Chest Accy')
+    ylabel('Acceleration (m/s^2)')
+    title('Chest Accelerations')
     
     %hip marker coordinates
     subplot(3,2,5)
@@ -157,8 +157,8 @@ if plot_acc == true
     % end
     ylim ([ytrialAcc_uppertrunkMin ytrialAcc_uppertrunkMax]);
     xlabel('Time (s)')
-    ylabel('Acc (m/s^2)')
-    title('Hip Accy')
+    ylabel('Acceleration (m/s^2)')
+    title('Hip Accelerations')
     
     %LThigh & RThigh marker overlayed
     subplot(3,2,2)
@@ -176,8 +176,8 @@ if plot_acc == true
     % end
     ylim ([ytrialacc_min ytrialacc_max]);
     xlabel('Time (s)')
-    ylabel('Acc (m/s^2)')
-    title('LThigh & RThigh Accy')
+    ylabel('Acceleration (m/s^2)')
+    title('LThigh & RThigh Accelerations')
     
     %LLeg & RLeg marker overlayed
     subplot(3,2,4)
@@ -195,8 +195,8 @@ if plot_acc == true
     % end
     ylim ([ytrialacc_min ytrialacc_max]);
     xlabel('Time (s)')
-    ylabel('Acc (m/s^2)')
-    title('LLeg & RLeg Accy')
+    ylabel('Acceleration (m/s^2)')
+    title('LLeg & RLeg Accelerations')
     
     %LFoot & RFoot marker overlayed
     subplot(3,2,6)
@@ -213,7 +213,7 @@ if plot_acc == true
     % end
     ylim ([ytrialacc_min ytrialacc_max]);
     xlabel('Time (s)')
-    ylabel('Acc (m/s^2)')
-    title('LFoot & RFoot Accy')
+    ylabel('Acceleration (m/s^2)')
+    title('LFoot & RFoot Accelerations')
 end
 end

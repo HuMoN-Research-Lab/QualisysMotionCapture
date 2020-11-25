@@ -1,4 +1,4 @@
-function plotMoCapTracer(segCenter)
+function plotMoCapTracer(segCenter,fr)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %plotMoCapTracer outputs plot of segCenters for subject
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

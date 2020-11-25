@@ -23,7 +23,7 @@ addpath(dataPath)
 
 %% Experiment Info 
 %What is a trial?
-total_trials =   24;
+total_trials =   1;
 
 %What is a cond
 trial_cond =     1;      %req for formatting trial results
@@ -112,20 +112,192 @@ for trial_num = 1:total_trials
     
 end
 
-%% Experiment Data Processing
-%plot_trial_steps_acc(head_trials_steps_acc,chest_trials_steps_acc,hip_trials_steps_acc,LThigh_trials_steps_acc,RThigh_trials_steps_acc,LLeg_trials_steps_acc,RLeg_trials_steps_acc,LFoot_trials_steps_acc,RFoot_trials_steps_acc,trial_num);
+% %% Experiment Data Processing
+% %plot_trial_steps_acc(head_trials_steps_acc,chest_trials_steps_acc,hip_trials_steps_acc,LThigh_trials_steps_acc,RThigh_trials_steps_acc,LLeg_trials_steps_acc,RLeg_trials_steps_acc,LFoot_trials_steps_acc,RFoot_trials_steps_acc,trial_num);
 
-%% Experiment Qualifications
-[head_stats,chest_stats,hip_stats,Thigh_stats,Leg_stats,Foot_stats] = stat_eval_exp(head_trials_steps_acc,chest_trials_steps_acc,hip_trials_steps_acc,LThigh_trials_steps_acc,RThigh_trials_steps_acc,LLeg_trials_steps_acc,RLeg_trials_steps_acc,LFoot_trials_steps_acc,RFoot_trials_steps_acc,trial_num);
+% %% Experiment Qualifications
+% [head_stats,chest_stats,hip_stats,Thigh_stats,Leg_stats,Foot_stats] = stat_eval_exp(head_trials_steps_acc,chest_trials_steps_acc,hip_trials_steps_acc,LThigh_trials_steps_acc,RThigh_trials_steps_acc,LLeg_trials_steps_acc,RLeg_trials_steps_acc,LFoot_trials_steps_acc,RFoot_trials_steps_acc,trial_num);
+% 
+% % Analysis of overall experiment
+% all_trials_steps =      sum(trial_avg_num_steps);
+% avg_all_trials_steps =  mean(trial_avg_num_steps);
+% std_all_trials_steps =  std(trial_avg_num_steps);
 
-% Analysis of overall experiment
-all_trials_steps =      sum(trial_avg_num_steps);
-avg_all_trials_steps =  mean(trial_avg_num_steps);
-std_all_trials_steps =  std(trial_avg_num_steps);
+%% Motion capture data plot
+%Miscellaneous numbering of figures important for future reference
+f = figure(45000);
+%facilitates output of figures across multiple mediums
+f.Units = 'normalized';
+f.Position = [-0.0042 0.4306 0.9401 0.4741];
 
-%Take the y position of seg_centers and put them into funcs
-[dataByStepNorm,dataByStepRaw] = splitBySteps(data,steps);
+%Create video with frames
+% stepA = VideoWriter('TotalCOM_MotionCapture.mp4');
+% open(stepA);
 
-%Use this function to plot the trajectories
-[patchHandle, lineHandle] = shadedErrorBar(xvals, yvals, err);
-%  example: [patchHandle, lineHandle] = shadedErrorBar(mean(norm),std(norm))
+%for frames 1:numFrames at interval of 10
+for fr = 1:10:num_frames
+    %Clear current frame
+    clf
+
+    %Plot all markers in x,y, and z
+    plot3(marker_mar_dim_frame(:, 1, fr),...
+        marker_mar_dim_frame(:, 2, fr),...
+        marker_mar_dim_frame(:, 3, fr),'k.','MarkerFaceColor','k')
+    
+    %Hold on for next set of plotting instructions
+    hold on
+    
+    %% Total Body COM in 3D
+    %plot of total anatomical COM
+    plot3(total_body_COMXYZ(1,fr),...
+        total_body_COMXYZ(2,fr),...
+        total_body_COMXYZ(3,fr),'p','DisplayName','TotalXYZ');
+    hold on
+
+    %% COM for the all body segments in 3D
+    %Plot of middle of human skeleton
+        plot3([seg_center.headCenter_mar_dim_frame(1,ii);seg_center.chestCenter_mar_dim_frame(1,ii);seg_center.hipCenter_mar_dim_frame(1,ii)],...
+            [seg_center.headCenter_mar_dim_frame(2,ii);seg_center.chestCenter_mar_dim_frame(2,ii);seg_center.hipCenter_mar_dim_frame(2,ii)],...
+            [seg_center.headCenter_mar_dim_frame(3,ii);seg_center.chestCenter_mar_dim_frame(3,ii);seg_center.hipCenter_mar_dim_frame(3,ii)],...
+        HeadCenter(1,ii);NeckCenter(1,ii);TorsoCenter(1,ii);HipCenter(1,ii)],...
+            [HeadCenter(2,ii);NeckCenter(2,ii);TorsoCenter(2,ii);HipCenter(2,ii)],...
+            [HeadCenter(3,ii);NeckCenter(3,ii);TorsoCenter(3,ii);HipCenter(3,ii)],'-k','LineWidth',2)        
+        
+        %Upper markers
+        plot3(HeadL(1,ii),HeadL(2,ii),HeadL(3,ii),'k.','MarkerSize',5)
+        plot3(HeadTop(1,ii),HeadTop(2,ii),HeadTop(3,ii),'k.','MarkerSize',5)
+        plot3(HeadR(1,ii),HeadR(2,ii),HeadR(3,ii),'k.','MarkerSize',5)
+        plot3(HeadFront(1,ii),HeadFront(2,ii),HeadFront(3,ii),'k.','MarkerSize',5)
+        plot3(SpineTop(1,ii),SpineTop(2,ii),SpineTop(3,ii),'k.','MarkerSize',5)
+%         plot3(BackL(1,ii),BackL(2,ii),BackL(3,ii),'k.','MarkerSize',5)
+%         plot3(BackR(1,ii),BackR(2,ii),BackR(3,ii),'k.','MarkerSize',5)
+        
+        %LUpper Markers
+        plot3(LShoulderTop(1,ii),LShoulderTop(2,ii),LShoulderTop(3,ii),'k.','MarkerSize',5)
+        plot3(LShoulderBack(1,ii),LShoulderBack(2,ii),LShoulderBack(3,ii),'k.','MarkerSize',5)
+        plot3(LArm(1,ii),LArm(2,ii),LArm(3,ii),'k.','MarkerSize',5)
+        plot3(LElbow(1,ii),LElbow(2,ii),LElbow(3,ii),'k.','MarkerSize',5)
+        plot3(LWristOut(1,ii),LWristOut(2,ii),LWristOut(3,ii),'k.','MarkerSize',5)
+        plot3(LWristIn(1,ii),LWristIn(2,ii),LWristIn(3,ii),'k.','MarkerSize',5)
+        plot3(LHandOut(1,ii),LHandOut(2,ii),LHandOut(3,ii),'k.','MarkerSize',5)
+        
+        %RUpper Markers
+        plot3(RShoulderTop(1,ii),RShoulderTop(2,ii),RShoulderTop(3,ii),'k.','MarkerSize',5)
+        plot3(RShoulderBack(1,ii),RShoulderBack(2,ii),RShoulderBack(3,ii),'k.','MarkerSize',5)
+        plot3(RArm(1,ii),RArm(2,ii),RArm(3,ii),'k.','MarkerSize',5)
+        plot3(RElbow(1,ii),RElbow(2,ii),RElbow(3,ii),'k.','MarkerSize',5)
+        plot3(RWristOut(1,ii),RWristOut(2,ii),RWristOut(3,ii),'k.','MarkerSize',5)
+        plot3(RWristIn(1,ii),RWristIn(2,ii),RWristIn(3,ii),'k.','MarkerSize',5)
+        plot3(RHandOut(1,ii),RHandOut(2,ii),RHandOut(3,ii),'k.','MarkerSize',5)
+    
+    %Head and Neck Markers
+    plot3(seg_center.headCenter_mar_dim_frame(1,fr),...
+        seg_center.headCenter_mar_dim_frame(2,fr),...
+        seg_center.headCenter_mar_dim_frame(3,fr),'g.') %,'DisplayName','HeadXYZ');
+%      
+    %Shoulder Markers
+    plot3(seg_center.LShoulderCenter_mar_dim_frame(1,fr),...
+        seg_center.LShoulderCenter_mar_dim_frame(2,fr),...
+        seg_center.LShoulderCenter_mar_dim_frame(3,fr),'g.') %'p','MarkerFaceColor','k') %,'DisplayName','LShoulderXYZ'); %,'kp','MarkerFaceColor','m', 'MarkerSize',12)    
+    plot3(seg_center.RShoulderCenter_mar_dim_frame(1,fr),...
+        seg_center.RShoulderCenter_mar_dim_frame(2,fr),...
+        seg_center.RShoulderCenter_mar_dim_frame(3,fr),'g.') %'p','MarkerFaceColor','k')%,'DisplayName','RShoulderXYZ');
+    
+    %Chest Markers
+    plot3(seg_center.chestCenter_mar_dim_frame(1,fr),...
+        seg_center.chestCenter_mar_dim_frame(2,fr),...
+        seg_center.chestCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','ChestXYZ');
+    
+    %Arm Markers
+    plot3(seg_center.LUpperArmCenter_mar_dim_frame(1,fr),...
+        seg_center.LUpperArmCenter_mar_dim_frame(2,fr),...
+        seg_center.LUpperArmCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','LUpperArmXYZ'); %,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    plot3(seg_center.RUpperArmCenter_mar_dim_frame(1,fr),...
+        seg_center.RUpperArmCenter_mar_dim_frame(2,fr),...
+        seg_center.RUpperArmCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','RUpperArmXYZ');
+     
+    %Forearm Markers
+    plot3(seg_center.LForearmCenter_mar_dim_frame(1,fr),...
+        seg_center.LForearmCenter_mar_dim_frame(2,fr),...
+        seg_center.LForearmCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','LForearmXYZ'); %,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    plot3(seg_center.RForearmCenter_mar_dim_frame(1,fr),...
+        seg_center.RForearmCenter_mar_dim_frame(2,fr),...
+        seg_center.RForearmCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','RForearmXYZ');
+
+    %Hand Markers
+    plot3(seg_center.LHandCenter_mar_dim_frame(1,fr),...
+        seg_center.LHandCenter_mar_dim_frame(2,fr),...
+        seg_center.LHandCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','LHandXYZ'); %,'kp','MarkerFaceColor','m', 'MarkerSize',12)
+    plot3(seg_center.RHandCenter_mar_dim_frame(1,fr),...
+        seg_center.RHandCenter_mar_dim_frame(2,fr),...
+        seg_center.RHandCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','RHandXYZ');
+    
+    %Hip Markers
+    plot3(seg_center.hipCenter_mar_dim_frame(1,fr),...
+        seg_center.hipCenter_mar_dim_frame(2,fr),...
+        seg_center.hipCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','HipXYZ');
+    
+    %Thigh Markers
+    plot3(seg_center.LThighCenter_mar_dim_frame(1,fr),...
+        seg_center.LThighCenter_mar_dim_frame(2,fr),...
+        seg_center.LThighCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','LThighXYZ');
+    plot3(seg_center.RThighCenter_mar_dim_frame(1,fr),...
+        seg_center.RThighCenter_mar_dim_frame(2,fr),...
+        seg_center.RThighCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','RThighXYZ');
+    
+    %Leg Markers
+    plot3(seg_center.LLegCenter_mar_dim_frame(1,fr),...
+        seg_center.LLegCenter_mar_dim_frame(2,fr),...
+        seg_center.LLegCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','LLegXYZ');
+    plot3(seg_center.RLegCenter_mar_dim_frame(1,fr),...
+        seg_center.RLegCenter_mar_dim_frame(2,fr),...
+        seg_center.RLegCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','RLegXYZ');
+     
+    %Foot Markers
+    plot3(seg_center.LFootCenter_mar_dim_frame(1,fr),...
+        seg_center.LFootCenter_mar_dim_frame(2,fr),...
+        seg_center.LFootCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','LFootXYZ');
+    plot3(seg_center.RFootCenter_mar_dim_frame(1,fr),...
+        seg_center.RFootCenter_mar_dim_frame(2,fr),...
+        seg_center.RFootCenter_mar_dim_frame(3,fr),'g.') %'p','DisplayName','RFootXYZ');      
+    
+%     %% PlotMoCapTracer function
+%     %segCenter is plotted along with the anatomical markers of the subject
+%     plotMoCapTracer(seg_center,fr)
+
+    %% Plotting parameters
+    axis equal
+    grid on
+    legend
+    
+    %optimal x y z graph limits 
+    xlim([0 2e3])
+    ylim([-500 500])
+%     ylim([-5e3 10e3]) %full lab
+%    ylim([1e3 3e3]) %smaller space
+    zlim([0 3e3])
+    
+    %unsure of what this section XYZs
+    az = -131.9770;
+    el =  12.4620;
+    view(az,el)
+    
+    drawnow
+    
+    %Middle of video acquisition code
+%     frame = getframe(gcf);
+%     writeVideo(stepA,frame);
+    
+end
+
+
+% %Take the y position of seg_centers and put them into funcs
+% [dataByStepNorm,dataByStepRaw] = splitBySteps(data,steps);
+% 
+% %Use this function to plot the trajectories
+% [patchHandle, lineHandle] = shadedErrorBar(xvals, yvals, err);
+% % Ploting swooshes without gradient: figure; plot(norm')
+% %  example: [patchHandle, lineHandle] = shadedErrorBar(mean(dataByStepNorm),std(dataByStepNorm))
+% % change plots characteristics: patchHandle.FaceColor = 'b' , lineHandle.Color = 'k'
+% % separate avg acceleration for different segments into quarters
+
