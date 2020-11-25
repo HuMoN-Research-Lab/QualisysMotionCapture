@@ -71,7 +71,7 @@ for trial_num = 1:total_trials
     
     %% Plot head, chest, hip, and feet
     %Create function that plots marker in x,y,z
-    %plot_mar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,trial_num,vel_start_end,acc_start_end);
+    plot_mar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,trial_num,vel_start_end,acc_start_end);
     
     %% Identify heel strike and toe off in gait cycle
     [LFoot_HS,LFoot_TO,RFoot_HS,RFoot_TO] = locate_TO_HS(LFoot,RFoot,trial_num);
@@ -113,81 +113,19 @@ for trial_num = 1:total_trials
 end
 
 %% Experiment Data Processing
-plot_trial_steps_acc(head_trials_steps_acc,chest_trials_steps_acc,hip_trials_steps_acc,LThigh_trials_steps_acc,RThigh_trials_steps_acc,LLeg_trials_steps_acc,RLeg_trials_steps_acc,LFoot_trials_steps_acc,RFoot_trials_steps_acc,trial_num)
+%plot_trial_steps_acc(head_trials_steps_acc,chest_trials_steps_acc,hip_trials_steps_acc,LThigh_trials_steps_acc,RThigh_trials_steps_acc,LLeg_trials_steps_acc,RLeg_trials_steps_acc,LFoot_trials_steps_acc,RFoot_trials_steps_acc,trial_num);
 
 %% Experiment Qualifications
-% [head_stats,chest_stats,hip_stats,Thigh_stats,Leg_stats,Foot_stats = stat_eval_exp(
+[head_stats,chest_stats,hip_stats,Thigh_stats,Leg_stats,Foot_stats] = stat_eval_exp(head_trials_steps_acc,chest_trials_steps_acc,hip_trials_steps_acc,LThigh_trials_steps_acc,RThigh_trials_steps_acc,LLeg_trials_steps_acc,RLeg_trials_steps_acc,LFoot_trials_steps_acc,RFoot_trials_steps_acc,trial_num);
 
 % Analysis of overall experiment
 all_trials_steps =      sum(trial_avg_num_steps);
 avg_all_trials_steps =  mean(trial_avg_num_steps);
 std_all_trials_steps =  std(trial_avg_num_steps);
 
-% Stats on head trials
-avg_head_acc = mean(head_trials_steps_acc);
-std_head_acc = std(head_trials_steps_acc);
+%Take the y position of seg_centers and put them into funcs
+[dataByStepNorm,dataByStepRaw] = splitBySteps(data,steps);
 
-% Stats on chest trials
-avg_chest_acc = mean(chest_trials_steps_acc);
-std_chest_acc = std(chest_trials_steps_acc);
-
-% Stats on hip trials
-avg_hip_acc = mean(hip_trials_steps_acc);
-std_hip_acc = std(hip_trials_steps_acc);
-
-% Stats on thigh trials
-avg_LThigh_acc = mean(LThigh_trials_steps_acc);
-std_LThigh_acc = std(LThigh_trials_steps_acc);
-avg_RThigh_acc = mean(RThigh_trials_steps_acc);
-std_RThigh_acc = std(RThigh_trials_steps_acc);
-
-% Stats on leg trials
-avg_LLeg_acc = mean(LLeg_trials_steps_acc);
-std_LLeg_acc = std(LLeg_trials_steps_acc);
-avg_RLeg_acc = mean(RLeg_trials_steps_acc);
-std_RLeg_acc = std(RLeg_trials_steps_acc);
-
-% Stats on foot trials
-avg_LFoot_acc = mean(LFoot_trials_steps_acc);
-std_LFoot_acc = std(LFoot_trials_steps_acc);
-avg_RFoot_acc = mean(RFoot_trials_steps_acc);
-std_RFoot_acc = std(RFoot_trials_steps_acc);
-
-for jj = 1:9
-    figure(21223);
-    
-    % Set y values
-    kin_exp_acc = [avg_head_acc avg_chest_acc avg_hip_acc avg_LThigh_acc avg_RThigh_acc avg_LLeg_acc avg_RLeg_acc avg_LFoot_acc avg_RFoot_acc];
-    kin_exp_acc(jj) = kin_exp_acc(jj);
-    
-    kin_labels = ["head","chest","hip","LThigh","RThigh","LLeg","RLeg","LFoot","RFoot"];
-    
-    % Set color of bar graphs
-    bar_color_map(1,:) = [.2 .71 .3];  % Green Color for segment 1.
-    bar_color_map(2,:) = [.25 .55 .79];  % Blue Color for segment 2.
-    bar_color_map(3,:) = [.9 .1 .14];  % Red Color for segment 3.
-    bar_color_map(4,:) = [.9 .9 .14];  % Yellow color
-    bar_color_map(5,:) = [.3 .71 .3];
-    bar_color_map(6,:) = [.35 .44 .79];
-    bar_color_map(7,:) = [.6 .15 .49];
-    bar_color_map(8,:) = [.8 .12 .54];
-    
-    %Plot bar graph
-    acc_mean_bar_series(jj) = bar(jj,kin_exp_acc(jj));
-%     bar(kin_exp_acc,'FaceColor', bar_color_map(jj,:));
-    legend(kin_labels,'Location','northwest')
-    hold on;
-    xlabel('Kinematic Chain');
-    ylabel('Acc(m/s^2)');
-    title('Average Acceleration for' + string(trial_num)+ 'Trials Along Kinematic Chain')
-end
-
-
-
-
-
-
-
-
-
-
+%Use this function to plot the trajectories
+[patchHandle, lineHandle] = shadedErrorBar(xvals, yvals, err);
+%  example: [patchHandle, lineHandle] = shadedErrorBar(mean(norm),std(norm))
