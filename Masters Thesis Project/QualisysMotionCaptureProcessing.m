@@ -23,13 +23,13 @@ addpath(dataPath)
 
 %% Experiment Info 
 %What is a trial?
-trial = 1;
+trial = 24;
 total_trials =   trial;
 
 %What is a cond
 trial_cond =     1;      %req for formatting trial results
 
-for trial_num = trial:total_trials
+for trial_num = 1:total_trials
     %% Initial conditions of data set
     %function locates relevant information based on user name
     %bodyMass should be in kg and height in metric units (mm)
@@ -39,7 +39,7 @@ for trial_num = trial:total_trials
     %% Load acquired Qualisys MoCap Data
     %fileName = '02_21_2020_Walking_Calibration';
     file_name = strcat('Matheus_ThesisFW001_Trial',num2str(trial_num),'.mat');
-    [marker_labels,marker_mar_dim_frame,Force,num_frames] = load_mo_cap_data(file_name,trial_num);
+    [marker_labels,marker_mar_dim_frame,num_frames] = load_mo_cap_data(file_name,trial_num);
     
     %% calcBodySegMass function
     % Function outputs mass for individual body segs
@@ -72,7 +72,7 @@ for trial_num = trial:total_trials
     
     %% Plot head, chest, hip, and feet
     %Create function that plots marker in x,y,z
-    plot_mar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,trial_num,vel_start_end,acc_start_end);
+%     plot_mar_vel_acc_jerk(head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot,trial_num,vel_start_end,acc_start_end);
     
     %% Identify heel strike and toe off in gait cycle
     [LFoot_HS,LFoot_TO,RFoot_HS,RFoot_TO] = locate_TO_HS(LFoot,RFoot,trial_num);

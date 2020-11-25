@@ -1,6 +1,6 @@
-function [marker_labels,marker_mar_dim_frame,Force,num_frames] = load_mo_cap_data(file_name,trial_num)
+function [marker_labels,marker_mar_dim_frame,num_frames] = load_mo_cap_data(file_name,trial_num)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%loadMoCapData outputs various variables from the file name 
+% Loads data from Qualisys motion capture .mat file
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Load acquired motion capture data
 %load file type of fileName and store into data variable
