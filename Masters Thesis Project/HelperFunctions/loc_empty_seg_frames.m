@@ -1,6 +1,6 @@
 function [empty_frames] = loc_empty_seg_frames(seg_center,total_body_COMXYZ)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%evalSegFrames find the location of the empty cells in a cell array
+% Identifies and locates empty cells in 3D marker position array
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% headCenter cell array evals
 [row,col] = find(isnan(seg_center.headCenter_mar_dim_frame));

@@ -1,6 +1,6 @@
-function [totalCOM_metrics,trial_start_end,vel_start_end,acc_start_end,all_markers] = calc_COMXYZ_vel_acc_jerk(totalCOMXYZ,num_frames,marker_mar_dim_frame,marker_labels)
+function [trial_start_end,vel_start_end,acc_start_end,all_markers] = calc_COMXYZ_vel_acc_jerk(totalCOMXYZ,num_frames,marker_mar_dim_frame,marker_labels)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Function calculates vel,acc,and jerk using all_markers of respective foot
+%Identifies and indexes the start and end of a trial
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %differences might be magnified in diff dimensions
 %free walking people walk faster

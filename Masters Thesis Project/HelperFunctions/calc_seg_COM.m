@@ -1,6 +1,6 @@
 function [seg_center] = calc_seg_COM(marker_mar_dim_frame,markerLabels) %,markerID)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%calcSegCOM find the center position for each anatomical segment
+% Estimates the center location for each anatomical segment frame-by-frame
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Establish output conditions
 seg_center = [];

@@ -66,7 +66,8 @@ for ii = 1:2
     ylabel('Acceleration(m/s^2)');
     ylim([0 Thigh_stat_eval_max])
     legend(["LThigh","LThigh std","RThigh","RThigh std"]);
-    title('Average Acceleration for ' + string(trial_num)+ ' Trials Along Thigh')
+    title('Average Acceleration for ' + string(trial_num)+ ' Trials Along Thighs')
+%     title('Average Acceleration for Trials 48 - ' + string(trial_num)+ ' Along the Thigh')
 end
 
 %Stats eval of LLeg & RLeg
@@ -96,7 +97,8 @@ for ii = 1:2
     ylabel('Acceleration(m/s^2)');
     ylim([0 Leg_stat_eval_max])
     legend(["LLeg","LLeg std","RLeg","RLeg std"]);
-    title('Average Acceleration for ' + string(trial_num)+ ' Trials Along Leg')
+    title('Average Acceleration for ' + string(trial_num)+ ' Trials Along Legs')
+%     title('Average Acceleration for Trials 48 - ' + string(trial_num)+ ' Along the Legs')
 end
 
 %Stats eval of LFoot & RFoot
@@ -128,10 +130,11 @@ for ii = 1:2
     ylim([0 Foot_stat_eval_max])
     legend(["LFoot","LFoot std","RFoot","RFoot std"]);
     title('Average Acceleration for ' + string(trial_num)+ ' Trials Along Feet')
+%     title('Average Acceleration for Trials 48 - ' + string(trial_num)+ ' Along the Feet')
 end
 
 %% Total Body Overview of Experiments Statistical Analysis
-num_fullbody_seg = 3;
+num_fullbody_seg = 6;
 for jj = 1:num_fullbody_seg
     figure(21223+trial_num);
     % Set y values
@@ -159,12 +162,12 @@ for jj = 1:num_fullbody_seg
     %     legend(kin_labels,'Location','northeast')
     %     xticklabels(kin_labels(jj));
     ylabel('Acceleration(m/s^2)');
-    title('Average Acceleration for ' + string(trial_num)+ ' Trials Along Kinematic Chain')
+    title('Average Acceleration for ' + string(trial_num)+ ' Trials Along Complete Kinematic Chain')
+%     title('Average Acceleration for Trials 48 - ' + string(trial_num)+ ' Along Complete Kinematic Chain')
 end
 set(gca,'xtick',1:6,'XTickLabels', kin_labels);
 
 %% Torso Overview of Experiments Statistical Analysis
-
 num_torso_seg = 3;
 for jj = 1:num_torso_seg
     figure(31265+trial_num);
@@ -189,6 +192,7 @@ for jj = 1:num_torso_seg
     %     xticklabels(kin_labels(jj));
     ylabel('Acceleration(m/s^2)');
     title('Average Acceleration for ' + string(trial_num)+ ' Trials Along Torso')
+%     title('Average Acceleration for Trials 48 - ' + string(trial_num)+ ' Along the Torso')
 end
 %     xticklabels({'Feet','Legs','Thighs','Hip','Chest','Head'});
 set(gca,'xtick',1:3,'XTickLabels', kin_labels_torso);

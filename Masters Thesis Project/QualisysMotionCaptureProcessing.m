@@ -22,14 +22,12 @@ addpath(genpath(cd))
 addpath(dataPath)
 
 %% Experiment Info 
-%What is a trial?
-trial = 24;
-total_trials =   trial;
+cond1 = 47; % Trials 1-48 were free walking (FW) trials
+cond2 = 100; % Trials 48-100 were landmark (LM) trials
+trial_cond = cond1;      %req for formatting trial results
 
-%What is a cond
-trial_cond =     1;      %req for formatting trial results
-
-for trial_num = 1:total_trials
+% trial_num = cond2;
+for trial_num = 1:trial_cond
     %% Initial conditions of data set
     %function locates relevant information based on user name
     %bodyMass should be in kg and height in metric units (mm)
@@ -38,7 +36,12 @@ for trial_num = 1:total_trials
     
     %% Load acquired Qualisys MoCap Data
     %fileName = '02_21_2020_Walking_Calibration';
-    file_name = strcat('Matheus_ThesisFW001_Trial',num2str(trial_num),'.mat');
+    if trial_cond == cond1
+        file_name = strcat('Matheus_ThesisFW001_Trial',num2str(trial_num),'.mat');
+    elseif trial_cond == cond2
+        file_name = strcat('Matheus_Thesis_LM001_Trial',num2str(trial_num),'.mat');
+    end
+    %file_name = strcat('Matheus_ThesisFW001_Trial',num2str(trial_num),'.mat');
     [marker_labels,marker_mar_dim_frame,num_frames] = load_mo_cap_data(file_name,trial_num);
     
     %% calcBodySegMass function
@@ -59,7 +62,7 @@ for trial_num = 1:total_trials
     
     %% calcCOMXYZ_Vel_Acc_Jerk function
     %function outputs vel,acc, and jerk values for totalCOM
-    [totalCOM_metrics,trial_start_end,vel_start_end,acc_start_end,all_markers] = calc_COMXYZ_vel_acc_jerk(total_body_COMXYZ,num_frames,marker_mar_dim_frame,marker_labels);
+    [trial_start_end,vel_start_end,acc_start_end,all_markers] = calc_COMXYZ_vel_acc_jerk(total_body_COMXYZ,num_frames,marker_mar_dim_frame,marker_labels);
     
 %     %% Calibrates seg_center data using trial start and end frames
 %     [seg_center_cal] = index_seg_center(seg_center,trial_start_end,marker_mar_dim_frame,marker_labels);
