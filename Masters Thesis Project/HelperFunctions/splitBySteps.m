@@ -5,7 +5,7 @@ function [dataByStepNorm,dataByStepRaw] = splitBySteps(data,steps)
 
 dataByStepRaw= [];
 
-hs = steps(:,1); %heelstrike frames
+hs = steps(1,:); %heelstrike frames
 
 for ss = 1:length(hs)-1
     

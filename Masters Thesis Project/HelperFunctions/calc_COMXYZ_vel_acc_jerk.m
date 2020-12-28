@@ -1,4 +1,4 @@
-function [trial_start_end,vel_start_end,acc_start_end,all_markers] = calc_COMXYZ_vel_acc_jerk(totalCOMXYZ,num_frames,marker_mar_dim_frame,marker_labels)
+function [trial_start_end,vel_start_end,acc_start_end,jerk_start_end,all_markers] = calc_COMXYZ_vel_acc_jerk(totalCOMXYZ,num_frames,marker_mar_dim_frame,marker_labels)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Identifies and indexes the start and end of a trial
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -34,6 +34,7 @@ end
 
 vel_start_end = resample(time_start_end,length(time_start_end)-1,length(time_start_end));
 acc_start_end = resample(vel_start_end,length(vel_start_end)-1,length(vel_start_end));
+jerk_start_end = resample(acc_start_end,length(acc_start_end)-1,length(acc_start_end));
 % figure(1)
 % plot(calc_totalmarVel)
 

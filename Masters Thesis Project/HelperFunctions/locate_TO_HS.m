@@ -16,16 +16,6 @@ LFoot_gait_diff = diff(LFoot_gait_bool);
 LFoot_TO = find(LFoot_gait_diff == 1);
 LFoot_HS = find(LFoot_gait_diff == -1);
 
-%% Debug Plot Output
-% figure(trial_num)
-% hold on
-% plot(LFoot_vely,'b');
-% %plot(RFoot_vely,'r');
-% refline(0,threshold)
-% plot(LFoot_TO,LFoot_vely(LFoot_TO),'bo')
-% plot(LFoot_HS,LFoot_vely(LFoot_HS),'bx')
-% title('Step Finder Debug Plot');
-
 %% RFoot Gait Breakdown
 % Index RFoot in motion
 RFoot_gait_index = RFoot_vely >= threshold;
@@ -33,14 +23,6 @@ RFoot_gait_index = RFoot_vely >= threshold;
 RFoot_stance_diff = diff(RFoot_gait_index);
 RFoot_TO = find(RFoot_stance_diff == 1);
 RFoot_HS = find(RFoot_stance_diff == -1);
-
-%% Debug Plot Output
-% hold on
-% plot(RFoot_vely,'r');
-% plot(RFoot_TO,RFoot_vely(RFoot_TO),'ro')
-% plot(RFoot_HS,RFoot_vely(RFoot_HS),'rx')
-
-%head_traj_per_step{1} = 0; 
 
 %% Step Index
 %Left foot calc
@@ -92,6 +74,36 @@ elseif RFoot_HS(end) < RFoot_TO(end)
     RFoot_HS_step(2) = length(RFoot_HS);
     RFoot_TO_step(2) = length(RFoot_TO);
 end
+
+%% Plotting heel strikes and toe-offs for Left and Right Feet
+% all_HS = sort([LFoot_HS RFoot_HS]);
+% time = all_HS./300;
+% LFoot_TO_time = LFoot_TO./300;
+% LFoot_HS_time = LFoot_HS./300;
+% RFoot_TO_time = RFoot_TO./300;
+% RFoot_HS_time = RFoot_HS./300;
+% 
+% figure(trial_num)
+% hold on
+% plot(LFoot_vely,'b');
+% %plot(RFoot_vely,'r');
+% refline(0,threshold)
+% plot(LFoot_TO,LFoot_vely(LFoot_TO),'bo')
+% plot(LFoot_HS,LFoot_vely(LFoot_HS),'bx')
+% xlabel('Frames');
+% ylabel('Velocity (m/s)');
+% title('Heel Strike and Toe-Off Step Finder');
+% hold on
+% plot(RFoot_vely,'r');
+% plot(RFoot_TO,RFoot_vely(RFoot_TO),'ro')
+% plot(RFoot_HS,RFoot_vely(RFoot_HS),'rx')
+
+% for jj = 1:length(trial_start_end)
+%     time_start_end(1,jj) = (trial_start_end(1,jj))/300;
+% end
+
+%head_traj_per_step{1} = 0; 
+
 
 % %% Identify individual step frames
 % if LFoot_HS(end) > LFoot_TO(end)
