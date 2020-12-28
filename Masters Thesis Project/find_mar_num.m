@@ -1,4 +1,4 @@
-function [markerNum] = findMarNum(markerLabels,markerNames)
+function [markerNum] = find_mar_num(markerLabels,markerNames)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % findMarNum identifies the cell number of a marker of interest
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
