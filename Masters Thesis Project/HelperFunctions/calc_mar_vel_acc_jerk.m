@@ -2,8 +2,6 @@ function[head,chest,hip,LThigh,RThigh,LLeg,RLeg,LFoot,RFoot] = calc_mar_vel_acc_
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Calc vel, acc, jerk for specified segCenters
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%question: how does the acc and jerk in x,y,z jerk differ for markers?
-
 %% Initial structuring of markers of interest
 head =      [];
 chest =     [];
